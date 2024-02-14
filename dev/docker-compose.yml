@@ -1,13 +1,13 @@
 version: '3'
 services:
-  node:
+  frontend:
     build:
-      context: ./react
-    tty: true
-    environment:
-      - NODE_ENV=development
-    volumes:
-    - ./:/usr/src/app
-    command: sh -c "cd reactapp && npm start"
+      context: ./frontend
     ports:
-    - "3000:3000"
+      - "3000:3000"
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"

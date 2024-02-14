@@ -1,0 +1,10 @@
+FROM node:21.6.1-alpine3.18
+
+WORKDIR /app
+COPY ./reactapp/package*.json ./
+RUN npm install
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
