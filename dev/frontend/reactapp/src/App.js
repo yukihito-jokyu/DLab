@@ -6,9 +6,9 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log('test1');
+      console.log('test2');
       try {
-        const response = await fetch('http://172.18.0.2:5000');  // Flaskアプリのエンドポイントに合わせてURLを設定
+        const response = await fetch('http://172.18.0.1:5000');  // Flaskアプリのエンドポイントに合わせてURLを設定
         const result = await response.json();
         console.log(result);
         setData(result);

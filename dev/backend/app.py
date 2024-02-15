@@ -3,8 +3,9 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-@app.route('/api/data', methods=['GET'])
+@app.route('/', methods=['GET'])
 def get_data():
+    # print('a')
     data = ['Item 1', 'Item 2', 'Item 3']
     return jsonify(data)
 
