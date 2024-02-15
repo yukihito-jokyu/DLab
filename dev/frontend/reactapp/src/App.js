@@ -6,9 +6,15 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://localhost:5000/api/data');
-      const result = await response.json();
-      setData(result);
+      console.log('test1');
+      try {
+        const response = await fetch('http://172.18.0.2:5000');  // Flaskアプリのエンドポイントに合わせてURLを設定
+        const result = await response.json();
+        console.log(result);
+        setData(result);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
 
     fetchData();

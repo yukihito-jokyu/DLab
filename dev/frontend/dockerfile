@@ -3,7 +3,7 @@ FROM node:21.6.1-alpine3.18
 WORKDIR /app
 COPY ./reactapp/package*.json ./
 RUN npm install
-COPY . .
+COPY ./reactapp/ ./
 
 EXPOSE 3000
 
