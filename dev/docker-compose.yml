@@ -6,6 +6,8 @@ services:
       context: ./backend
     ports:
       - "5000:5000"
+    networks:
+      - your_network
 
   frontend:
     container_name: frontend
@@ -13,3 +15,8 @@ services:
       context: ./frontend
     ports:
       - "3000:3000"
+    networks:
+      - your_network
+
+networks:
+  your_network:
