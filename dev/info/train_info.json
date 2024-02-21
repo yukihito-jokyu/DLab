@@ -1,0 +1,24 @@
+{
+    "pre": {
+        "Label_Encoding": "True",
+        "Standardization": "True",
+        "Test_Split": 0.2
+    },
+    "structure": [
+        {
+            "Neuron_num": 30,
+            "Activ_func": "ReLU"
+        },
+        {
+            "Neuron_num": 30,
+            "Activ_func": "None"
+        }
+    ],
+    "train_info": {
+        "Loss": "CroseEntropyLoss",
+        "Optimizer": "Adam",
+        "Learning_rate": 0.001,
+        "Batch_num": 16,
+        "Epoch": 1000
+    }
+}
