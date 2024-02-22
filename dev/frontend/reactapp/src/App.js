@@ -5,66 +5,77 @@ import Layer from "./components/Layer";
 import TrainInfo from './components/TrainInfo';
 import CSVUploader from './components/CSVUploader';
 
+// 関数
+import Getdata from './utils/Getdata';
+
 function App() {
   // ソケット通信
-  // const socket = Socket('ws://127.0.0.1:5000');
-  // console.log(socket);
+  const socket = Socket('ws://127.0.0.1:5000');
+  socket.on('end', (data) => {
+    console.log(data);
+  })
+
+  const handleTrain = () => {
+    const AllData = Getdata();
+    console.log(AllData);
+    socket.emit('CartPole', AllData);
+  };
   // csvファイル読み込み
   const handleCSVUpload = (csvData) => {
     console.log('CSVデータ：', csvData);
   };
   // test
-  const [progress, setprogress] = useState(0);
-  const [data, setdata] = useState('');
-  const [socket, setSocket] = useState(null);
+  // const [progress, setprogress] = useState(0);
+  // const [data, setdata] = useState('');
+  // const [socket, setSocket] = useState(null);
 
-  useEffect(() => {
-    console.log('socketの立ち上げ');
-    const newsocket = Socket('ws://127.0.0.1:5000');
-    // newsocket.disconnect();
-    setSocket(newsocket);
+  // useEffect(() => {
+  //   console.log('socketの立ち上げ');
+  //   const newsocket = Socket('ws://127.0.0.1:5000');
+  //   // newsocket.disconnect();
+  //   setSocket(newsocket);
   
-    // サーバーからのメッセージを受信
-    newsocket.on('update', (data) => {
-      setprogress(data.progress);
-      setdata(data.data);
-    });
+  //   // サーバーからのメッセージを受信
+  //   newsocket.on('update', (data) => {
+  //     setprogress(data.progress);
+  //     setdata(data.data);
+  //   });
   
-    // 処理が完了したらソケットを閉じる
-    const handleComplete = (data) => {
-      console.log(data.message);
-      console.log(newsocket.connected)
-      // newsocket.disconnect();
+  //   // 処理が完了したらソケットを閉じる
+  //   const handleComplete = (data) => {
+  //     console.log(data.message);
+  //     console.log(newsocket.connected)
+  //     // newsocket.disconnect();
       
-      // newsocket.close(); // 強制的にクローズ
-      console.log(newsocket.connected)
-    };
+  //     // newsocket.close(); // 強制的にクローズ
+  //     console.log(newsocket.connected)
+  //   };
   
-    newsocket.on('complete', handleComplete);
+  //   newsocket.on('complete', handleComplete);
   
-    return () => {
-    };
-  }, []);
+  //   return () => {
+  //   };
+  // }, []);
 
-  const handleSocket = () => {
-    // サーバーにデータ処理の開始リクエストを送信
-    // このリクエストに対する途中結果や最終結果がWebSocketを通じて受信される
-    if (socket) {
-      console.log('起動');
-      socket.connect();
-      console.log(socket.connected)
+  // const handleSocket = () => {
+  //   // サーバーにデータ処理の開始リクエストを送信
+  //   // このリクエストに対する途中結果や最終結果がWebSocketを通じて受信される
+  //   if (socket) {
+  //     console.log('起動');
+  //     socket.connect();
+  //     console.log(socket.connected)
       
-      socket.emit('start_process', {});
-    } else {
-      console.error('Socketが初期化されません');
-    }
-  };
+  //     socket.emit('start_process', {});
+  //   } else {
+  //     console.error('Socketが初期化されません');
+  //   }
+  // };
 
-  const handldisconnect = () => {
-    console.log('ソケットを閉じる')
-    socket.disconnect();
-    console.log(socket.connected)
-  };
+  // const handldisconnect = () => {
+  //   console.log('ソケットを閉じる')
+  //   socket.disconnect();
+  //   console.log(socket.connected)
+  // };
 
   // const [data, setData] = useState([]);
 
@@ -112,42 +123,7 @@ function App() {
   }, [count]);
 
   const getStructure = async (e) => {
-    console.log('要素取得')
-    // ニューラルネットワークの構造を取得
-    const structureList = [];
-    const StructureElement = document.getElementById('structure');
-    Array.from(StructureElement.children).forEach((element) => {
-      const neuronNumElement = element.querySelector('.neuron_num');
-      const neuronActivElement = element.querySelector('.neuron_activ');
-      console.log(neuronNumElement.textContent);
-      console.log(neuronActivElement.textContent);
-      const structureData = {
-        Neuron_num: neuronNumElement.textContent,
-        Activ_func: neuronActivElement.textContent
-      };
-      structureList.push(structureData);
-    });
-
-    // 学習手段の取得
-    const TrainInfoElement = document.getElementById('TrainInfo-wrapper');
-    const LossElement = TrainInfoElement.querySelector('.Loss-name');
-    const OptimizerElement = TrainInfoElement.querySelector('.Optimizer-name');
-    const lrElement = TrainInfoElement.querySelector('.lr-num');
-    const BatchElement = TrainInfoElement.querySelector('.batch-num');
-    const EpochElement = TrainInfoElement.querySelector('.epoch-num');
-    const TrainInfoData = {
-      Loss: LossElement.textContent,
-      Optimizer: OptimizerElement.textContent,
-      Learning_rate: lrElement.textContent,
-      Batch_num: BatchElement.textContent,
-      Epoch: EpochElement.textContent
-    };
-
-    const AllData = {
-      structure: structureList,
-      train_info: TrainInfoData
-    };
-    console.log(AllData);
+    const AllData = Getdata();
     const response = await fetch('http://127.0.0.1:5000/train', {
       method: 'POST',
       headers: {
@@ -184,14 +160,15 @@ function App() {
       <Layer />
       <h1>学習の手段</h1>
       <TrainInfo />
-      <div>
+      {/* <div>
         <button onClick={handleSocket}>データ処理を開始</button>
         <p>進歩：{progress}</p>
         <p>受信データ：{data}</p>
       </div>
       <div>
         <button onClick={handldisconnect}>Socket切断</button>
-      </div>
+      </div> */}
+      <button onClick={handleTrain}>学習開始</button>
     </div>
   );
 }

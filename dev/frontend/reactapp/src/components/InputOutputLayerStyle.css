@@ -1,0 +1,39 @@
+/* スタイリングの追加 */
+.layer-wrapper {
+  /* display: flex; */
+  align-items: center;
+  gap: 10px;
+  font-family: 'Arial', sans-serif;
+  border: 0.5px solid #1c0909;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.neuron {
+  /* display: flex; */
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+select {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+select:hover,
+select:focus {
+  border-color: #007bff; /* フォーカスやホバー時のボーダーカラー */
+}
+
+

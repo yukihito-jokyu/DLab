@@ -6,6 +6,9 @@ function TrainInfo() {
   const [selectedOptimizer, setSelectedOptimizer] = useState('SGD');
   const [lr, setlr] = useState('0');
   const [batch, setbatch] = useState('0');
+  const [buffer, setbuffer] = useState('10000');
+  const [action, setaction] = useState('0');
+  const [epsilon, setepsilon] = useState('0,01');
   const [epoch, setepoch] = useState('0');
   // const lr_ref = useRef(0);
   // let lr = lr_ref.current
@@ -25,11 +28,23 @@ function TrainInfo() {
 
   const handlbatchChange = (e) => {
     setbatch(e.target.value);
-  }
+  };
+
+  const handlbufferChange = (e) => {
+    setbuffer(e.target.value);
+  };
+
+  const handlactionChange = (e) => {
+    setaction(e.target.value);
+  };
+
+  const handlepsilonChange = (e) => {
+    setepsilon(e.target.value);
+  };
 
   const handlepochChange = (e) => {
     setepoch(e.target.value);
-  }
+  };
 
   return (
     <div id='TrainInfo-wrapper'>
@@ -65,6 +80,21 @@ function TrainInfo() {
         <label>バッチサイズ：</label>
         <input type='number' min='0' onChange={handlbatchChange} step='1' />
         <p className='batch-num'>{batch}</p>
+      </div>
+      <div className='Buffer-size'>
+        <label>バッファサイズ：</label>
+        <input type='number' min='0' onChange={handlbufferChange} />
+        <p className='buffer-size'>{buffer}</p>
+      </div>
+      <div className='Action-size'>
+        <label>行動の種類：</label>
+        <input type='number' min='0' onChange={handlactionChange} step='1' />
+        <p className='action-size'>{action}</p>
+      </div>
+      <div className='Epsilon'>
+        <label>ランダムに行動する割合：</label>
+        <input type='number' min='0' onChange={handlepsilonChange} step='0.01' />
+        <p className='epsilon-num'>{epsilon}</p>
       </div>
       <div className='Epoch'>
         <label>学習回数：</label>

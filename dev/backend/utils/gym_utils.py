@@ -5,18 +5,18 @@ from utils.select_activate import get_activation
 class QNet_model(nn.Module):
     def __init__(self, structures, other_structure):
         super().__init__()
-        input_size = other_structure.get('input_size')
-        output_size = other_structure.get('output_size')
+        input_size = other_structure.get('Input_size')
+        output_size = other_structure.get('Output_size')
         self.layer_list = []
         for structure in structures:
             neuron_num = structure.get('Neuron_num')
             activ_func = structure.get('Activ_func')
-            layer_n = nn.Linear(input_size, neuron_num)
+            layer_n = nn.Linear(int(input_size), int(neuron_num))
             layer_a = get_activation(activ_func)
             self.layer_list.append(layer_n)
             self.layer_list.append(layer_a)
             input_size = neuron_num
-        layer_n = nn.Linear(input_size, output_size)
+        layer_n = nn.Linear(int(input_size), int(output_size))
         self.layer_list.append(layer_n)
     
     def forward(self, x):

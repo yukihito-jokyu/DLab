@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './LayerStyle.css';
+import './MiddleLayerStyle.css';
 
 function LayerStyle() {
   const [selectedNeuron, setSelectedNeuron] = useState(1);

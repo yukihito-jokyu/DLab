@@ -1,6 +1,7 @@
 // Layer.jsx
 import React, { useState } from 'react';
-import LayerStyle from './LayerStyle';
+import LayerStyle from './MiddleLayerStyle';
+import InputOutputLayerStyle from './InputOutputLayerStyle';
 
 const Layer = () => {
   const [elements, setElements] = useState([]);
@@ -24,6 +25,11 @@ const Layer = () => {
 
   return (
     <div>
+      <h1>入力層</h1>
+      <div id='input'>
+        <InputOutputLayerStyle />
+      </div>
+      <h1>中間層</h1>
       <button onClick={increaseElements}>+</button>
       <button onClick={decreaseElements}>-</button>
       
@@ -31,6 +37,10 @@ const Layer = () => {
         {elements.map((element, index) => (
           <div key={index}>{element}</div>
         ))}
+      </div>
+      <h1>出力層</h1>
+      <div id='output'>
+        <InputOutputLayerStyle />
       </div>
     </div>
   );
