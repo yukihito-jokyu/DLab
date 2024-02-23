@@ -1,4 +1,4 @@
-# backend/app/app.py
+# Flask
 from flask import Flask, jsonify, request, stream_with_context
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
@@ -6,6 +6,10 @@ from flask_socketio import SocketIO, emit
 # gym
 from gyms.CartPole.train import cartpole
 
+# test
+from utils.test import test_env
+
+# ライブラリ
 import time
 
 app = Flask(__name__)
@@ -38,8 +42,13 @@ def train_CartPole(data):
     structures = data.get('structures')
     other_structure = data.get('other_structure')
     train_info = data.get('train_info')
-    cartpole(structures, other_structure)
+    cartpole(structures, other_structure, train_info)
     pass
+
+@socketio.on('test_CartPole')
+def test(data):
+    test_env()
+    emit('end_CartPole', {'message': 'Processing complete!'})
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

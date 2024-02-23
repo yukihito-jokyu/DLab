@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import './InputOutputLayerStyle.css';
 
 function InputOutputLayerStyle() {
   const [selectedNeuron, setSelectedNeuron] = useState(1);

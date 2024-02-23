@@ -1,0 +1,56 @@
+.frame {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 700px;
+  height: 500px;
+  border: 1px solid #1c0909;
+  margin-bottom: 50px;
+}
+
+.pulley {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100px;
+  height: 200px;
+  border: 1px solid #1c0909;
+  margin-bottom: 50px;
+  transition: transform 0.3s ease;
+  z-index: 2;
+}
+
+.stand {
+  position: absolute;
+  width: 80px;
+  height: 50px;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  border: 1px solid #6706e7;
+}
+
+.stick {
+  position: absolute;
+  margin-top: 10px;
+  width: 15px;
+  height: 150px;
+  border: 1px solid #e70606;
+}
+
+.rotatable {
+  transition: transform 0.3s ease;
+  transform-origin: center bottom;
+}
+
+.movetable {
+  transition: transform 0.3s ease;
+}
+
+.field {
+  position: absolute;
+  width: 100%;
+  bottom: 15%;
+  border: 1px solid #1c0909;
+}

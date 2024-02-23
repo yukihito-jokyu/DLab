@@ -1,19 +1,18 @@
 // Reactアプリのコード (frontend/src/App.jsなど)
-import React, { useEffect, useState, useRef } from 'react';
-import Socket from 'socket.io-client';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import Layer from "./components/Layer";
 import TrainInfo from './components/TrainInfo';
 import CSVUploader from './components/CSVUploader';
+import CartPole from './components/CartPole';
 
 // 関数
 import Getdata from './utils/Getdata';
+import SocketContext from '.';
+
 
 function App() {
   // ソケット通信
-  const socket = Socket('ws://127.0.0.1:5000');
-  socket.on('end', (data) => {
-    console.log(data);
-  })
+  const socket = useContext(SocketContext);
 
   const handleTrain = () => {
     const AllData = Getdata();
@@ -169,6 +168,7 @@ function App() {
         <button onClick={handldisconnect}>Socket切断</button>
       </div> */}
       <button onClick={handleTrain}>学習開始</button>
+      <CartPole />
     </div>
   );
 }

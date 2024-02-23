@@ -19,7 +19,7 @@ function LayerStyle() {
       <div className='neuron'>
         <label htmlFor="LayerStyle">ニューロン数：</label>
         <select id="LayerStyle" value={selectedNeuron} onChange={handleNeuronChange}>
-          {Array.from({ length: 100 }, (_, index) => index + 1).map((number) => (
+          {Array.from({ length: 200 }, (_, index) => index + 1).map((number) => (
             <option key={number} value={number}>{number}</option>
           ))}
         </select>
