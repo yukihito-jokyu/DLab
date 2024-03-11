@@ -1,0 +1,26 @@
+.home-wrapper {
+  width: 100%;
+  height: 340px;
+  border: 0.5px solid #1c0909;
+  display: flex;
+}
+
+.home-button-style {
+  display: flex;
+  width: 40%;
+  border: 0.5px solid #1c0909;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.Reinforcement-button {
+  margin-left: 8%;
+  margin-right: 2%;
+}
+
+.ImageRecognition-button {
+  margin-left: 2%;
+  margin-right: 8%;
+}

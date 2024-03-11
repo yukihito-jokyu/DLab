@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './MiddleLayerStyle.css';
 
-function LayerStyle() {
+function LayerStyle(props) {
   const [selectedNeuron, setSelectedNeuron] = useState(1);
   const [selectedActivation, setSelectedActivation] = useState('ReLU');
 
@@ -13,9 +13,14 @@ function LayerStyle() {
     setSelectedActivation(e.target.value);
   };
 
+  // クリックされたら要素を消す
+  const handledelet = () => {
+    props.DeletIvent();
+  };
 
   return (
     <div className='layer-wrapper'>
+      <button onClick={handledelet}>-</button>
       <div className='neuron'>
         <label htmlFor="LayerStyle">ニューロン数：</label>
         <select id="LayerStyle" value={selectedNeuron} onChange={handleNeuronChange}>

@@ -35,7 +35,7 @@ class ReplayBuffer:
         return state, action, reward, next_state, done
 
 
-class QNet_model(nn.Module):
+class Simple_Network(nn.Module):
     def __init__(self, structures, other_structure):
         super().__init__()
         input_size = other_structure.get('Input_size')
@@ -56,8 +56,75 @@ class QNet_model(nn.Module):
     def forward(self, x):
         return self.model(x)
 
+
+class CNN_Network(nn.Module):
+    def __init__(self, structures, other_structure):
+        super().__init__()
+        self.input_size_list = other_structure.get('Input_size')
+        output_size = int(other_structure.get('Output_size'))
+        cnn_layer_list = []
+        Conv_Layer = structures.get('Conv_Layer')
+        for CL_structure in Conv_Layer:
+            layer_name = CL_structure.get('Layer_name')
+            if layer_name == 'Conv2d':
+                in_channel = int(CL_structure.get('In_channel'))
+                out_channel = int(CL_structure.get('Out_channel'))
+                kernel_size = int(CL_structure.get('Kernel_size'))
+                stride = int(CL_structure.get('Stride'))
+                padding = int(CL_structure.get('Padding'))
+                active_func = CL_structure.get('Active_func')
+                conv_layer = nn.Conv2d(in_channels=in_channel, out_channels=out_channel, kernel_size=kernel_size, stride=stride, padding=padding)
+                activ_layer = get_activation(active_func)
+                cnn_layer_list.append(conv_layer)
+                cnn_layer_list.append(activ_layer)
+            elif layer_name == 'MaxPool2d':
+                kernel_size = int(CL_structure.get('Kernel_size'))
+                stride = int(CL_structure.get('Stride'))
+                padding = int(CL_structure.get('Padding'))
+                pool_layer = nn.MaxPool2d(kernel_size=kernel_size, stride=stride, padding=padding)
+                cnn_layer_list.append(pool_layer)
+        self.features = nn.Sequential(*cnn_layer_list)
+
+        conv_output_size = self._calculate_conv_output_size()
+
+        Connected_Layer = structures.get('Fully_Connected_Layer')
+        connected_layer_list = []
+        if len(Connected_Layer) > 0:
+            input_size = conv_output_size
+            for C_layer in Connected_Layer:
+                neuron_num = int(C_layer.get('Neuron_num'))
+                activ_func = C_layer.get('Activ_func')
+                l_layer = nn.Linear(input_size, neuron_num)
+                a_layer = get_activation(activation_name=activ_func)
+                connected_layer_list.append(l_layer)
+                connected_layer_list.append(a_layer)
+                input_size = neuron_num
+            l_layer = nn.Linear(input_size, output_size)
+            connected_layer_list.append(l_layer)
+        else:
+            input_size = conv_output_size
+            l_layer = nn.Linear(input_size, output_size)
+            connected_layer_list.append(l_layer)
+        self.fc = nn.Sequential(*connected_layer_list)
+    
+    def _calculate_conv_output_size(self):
+        H = int(self.input_size_list[0])
+        W = int(self.input_size_list[1])
+        C = int(self.input_size_list[2])
+        with torch.no_grad():
+            dummy_input = torch.zeros(1, C, H, W)  # Batch size of 1, 4 channels, 80x80 image
+            conv_output = self.features(dummy_input)
+            flattened_size = conv_output.view(1, -1).size(1)
+        return flattened_size
+    
+    def forward(self, x):
+        x = self.features(x)
+        x = x.view(x.size(0), -1)
+        x = self.fc(x)
+        return x
+
 class DQNAgent:
-    def __init__(self, train_info, structures, other_structure, device='cpu'):
+    def __init__(self, train_info, structures, other_structure, QNet_model, device='cpu'):
         # デバイスの設定(引数が無ければ自動でCPUになる)
         self.device = device
 
@@ -144,3 +211,8 @@ class DQNAgent:
         #     print(f'targets{targets}')
 
         return loss
+
+
+if __name__ == '__main__':
+    li = []
+    print(len(li))

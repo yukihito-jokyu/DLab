@@ -3,3 +3,4 @@ Flask-Cors
 Flask-SocketIO
 gym
 pygame
+opencv-python

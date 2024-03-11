@@ -1,12 +1,13 @@
 import React, { useContext, useState } from 'react';
-import './CartPole.css';
-import stick from '../img/CartPole/stick.png'
-import stand from '../img/CartPole/stand.png'
-import SocketContext from '..';
-import RadianToDegree from '../utils/RadianToDegree';
-import ToPx from '../utils/ToPx';
+import './CartPoleFrame.css';
+import stick from '../../img/CartPole/stick.png'
+import stand from '../../img/CartPole/stand.png'
+import SocketContext from '../..';
+import RadianToDegree from '../../utils/RadianToDegree';
+import ToPx from '../../utils/ToPx';
+import Getdata from '../../utils/Getdata';
 
-function CartPole() {
+function CartPoleFrame() {
   // ソケット通信用
   const socket = useContext(SocketContext);
   // 回転
@@ -17,14 +18,12 @@ function CartPole() {
   const [episode, setEpisode] = useState(0);
   // transition
   const [disableTransition, setDisableTransition] = useState(false);
-  // test
-  const handleRotate = () => {
-    setRotation(rotation + 45);
-  };
-  const handleMove = () => {
-    setMove(move + 10);
-  };
   // ソケット通信
+  const handleTrain = () => {
+    const AllData = Getdata();
+    console.log('AllData', AllData);
+    socket.emit('CartPole', AllData);
+  };
   socket.on('CartPole_data', (data) => {
     const newrotation = RadianToDegree(data.radian);
     const newmove = ToPx(data.location);
@@ -51,9 +50,6 @@ function CartPole() {
     setRotation(0);
     setMove(0);
   })
-  const handleSocket = () => {
-    socket.emit('test_CartPole', {});
-  };
   // スタイル
   const QulleyStyle = {
     transition: disableTransition ? 'none' : 'transform 0.3s ease',
@@ -65,10 +61,8 @@ function CartPole() {
   }
   return (
     <div>
-      <button onClick={handleSocket}>Socket通信</button>
-      <button onClick={handleRotate}>回転</button>
-      <button onClick={handleMove}>移動</button>
-      <h1>CartPole</h1>
+      <button onClick={handleTrain}>学習開始</button>
+      <h1>CartPoleFrame</h1>
       <div>Episode:{episode}</div>
       <div className='frame'>
         <div className='pulley' style={QulleyStyle}>
@@ -94,4 +88,4 @@ function CartPole() {
   );
 };
 
-export default CartPole;
+export default CartPoleFrame;

@@ -1,6 +1,6 @@
 import gym
 import torch
-from utils.gym_utils import DQNAgent
+from utils.gym_utils import DQNAgent, Simple_Network
 from flask_socketio import emit
 
 import numpy as np
@@ -10,7 +10,7 @@ def cartpole(structures, other_structure, train_info):
     # モデルの作成
     # 学習の詳細情報
     env = gym.make('CartPole-v1', render_mode='human')
-    agent = DQNAgent(train_info, structures, other_structure)
+    agent = DQNAgent(train_info, structures, other_structure, Simple_Network)
     epoch = int(train_info.get('Epoch'))
     sync_interval = 20
     max_reward = 0
@@ -53,6 +53,7 @@ def cartpole(structures, other_structure, train_info):
         
         if max_reward < total_reward:
             max_reward = total_reward
+            torch.save(agent.qnet.state_dict(), "./weights/best_CartPole.pth")
         
         print(f'loss_average:{total_loss/cnt} reward_average:{total_reward/cnt} total_reward:{total_reward}')
     

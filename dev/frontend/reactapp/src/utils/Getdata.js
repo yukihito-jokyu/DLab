@@ -11,11 +11,11 @@ function Getdata() {
     Input_size: InputSize.textContent,
     Output_size: OutputSize.textContent
   };
-  console.log(otherstructureData)
 
   // 中間層のニューラルネットワークの構造を取得
   const structureList = [];
-  const MiddleStructureElement = document.getElementById('structure');
+  const MiddleStructureElement = document.getElementById('structure').querySelector('.nuron-data');
+  console.log(MiddleStructureElement);
   Array.from(MiddleStructureElement.children).forEach((element) => {
     const neuronNumElement = element.querySelector('.neuron_num');
     const neuronActivElement = element.querySelector('.neuron_activ');
@@ -24,8 +24,8 @@ function Getdata() {
       Activ_func: neuronActivElement.textContent
     };
     structureList.push(structureData);
+    
   });
-
   // 学習手段の取得
   const TrainInfoElement = document.getElementById('TrainInfo-wrapper');
   const LossElement = TrainInfoElement.querySelector('.Loss-name');
@@ -52,8 +52,7 @@ function Getdata() {
     other_structure: otherstructureData,
     train_info: TrainInfoData
   };
-  console.log(AllData);
   return AllData
 }
 
-export default Getdata
+export default Getdata;

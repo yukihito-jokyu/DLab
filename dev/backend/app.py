@@ -1,10 +1,14 @@
 # Flask
-from flask import Flask, jsonify, request, stream_with_context
+from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
 # gym
 from gyms.CartPole.train import cartpole
+from gyms.FlappyBird.train import flappybird
+
+# utils
+from utils.resize_image import get_resize_image
 
 # test
 from utils.test import test_env
@@ -28,6 +32,12 @@ def get_train_data():
     print(data)
     return jsonify({'message': 'Data received successfully'})
 
+@app.route('/Reinforcement/Cartpole/download_pth')
+def cortpole_download_pth():
+    print('ダウンロード開始')
+    pth_file_path = './weights/best_CartPole.pth'
+    return send_file(pth_file_path, as_attachment=True)
+
 @socketio.on('start_process')
 def socket_process(data):
     print('開始')
@@ -43,7 +53,19 @@ def train_CartPole(data):
     other_structure = data.get('other_structure')
     train_info = data.get('train_info')
     cartpole(structures, other_structure, train_info)
-    pass
+
+@socketio.on('FlappyBird')
+def train_FlappyBird(data):
+    structures = data.get('Structure')
+    other_structure = data.get('other_structure')
+    train_info = data.get('train_info')
+    flappybird(structures, other_structure, train_info)
+
+
+@socketio.on('InputImage')
+def resize_Flappy_image(data):
+    get_resize_image(data)
+
 
 @socketio.on('test_CartPole')
 def test(data):

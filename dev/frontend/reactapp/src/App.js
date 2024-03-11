@@ -1,28 +1,37 @@
 // Reactアプリのコード (frontend/src/App.jsなど)
-import React, { useEffect, useState, useRef, useContext } from 'react';
-import Layer from "./components/Layer";
-import TrainInfo from './components/TrainInfo';
-import CSVUploader from './components/CSVUploader';
-import CartPole from './components/CartPole';
+import React from 'react';
+// import Layer from "./components/CartPole/CartPoleLayer";
+// import DQNTrainInfo from './components/utils/DQNTrainInfo';
+// import CSVUploader from './components/CSVUploader';
+// import CartPoleFrame from './components/CartPole/CartPoleFrame';
+// ページ遷移用
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import './App.css'
+
 
 // 関数
-import Getdata from './utils/Getdata';
-import SocketContext from '.';
+// import Getdata from './utils/Getdata';
+// import SocketContext from '.';
 
+import Test from './page/Test';
+// import FlappyBird from './components/FlappyBird';
+// import Dnd from './components/Dnd';
+import Home from './page/Home';
+import Reinforcement from './page/Reinforcement'
+import ImageRecognition from './page/ImageRecognition';
+import Flappybird from './page/Flappybird';
+import CartPole from './page/Cartpole';
 
 function App() {
   // ソケット通信
-  const socket = useContext(SocketContext);
+  // const socket = useContext(SocketContext);
 
-  const handleTrain = () => {
-    const AllData = Getdata();
-    console.log(AllData);
-    socket.emit('CartPole', AllData);
-  };
+  
   // csvファイル読み込み
-  const handleCSVUpload = (csvData) => {
-    console.log('CSVデータ：', csvData);
-  };
+  // const handleCSVUpload = (csvData) => {
+  //   console.log('CSVデータ：', csvData);
+  // };
   // test
   // const [progress, setprogress] = useState(0);
   // const [data, setdata] = useState('');
@@ -93,59 +102,67 @@ function App() {
   //   };
   //   fetchData();
   // }, []);
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
   
-  const ref = useRef();
-  const handlClick = async () => {
-    const startTime = new Date();
-    const data = {'count': count};
-    const response = await fetch('http://127.0.0.1:5000/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-    const responseData = await response.json();
-    console.log('Flaskからの応答:', responseData.count);
-    setCount(responseData.count);
+  // const ref = useRef();
+  // const handlClick = async () => {
+  //   const startTime = new Date();
+  //   const data = {'count': count};
+  //   const response = await fetch('http://127.0.0.1:5000/', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(data),
+  //   });
+  //   const responseData = await response.json();
+  //   console.log('Flaskからの応答:', responseData.count);
+  //   setCount(responseData.count);
     
-    // setCount(count + 1);
-    const endTime = new Date();
-    const elapsedTime = endTime - startTime;
-    console.log("処理にかかった時間: " + elapsedTime + "ミリ秒");
-    console.log(count);
-  };
+  //   // setCount(count + 1);
+  //   const endTime = new Date();
+  //   const elapsedTime = endTime - startTime;
+  //   console.log("処理にかかった時間: " + elapsedTime + "ミリ秒");
+  //   console.log(count);
+  // };
 
-  useEffect(() => {
-    console.log('Hello Hooks');
-  }, [count]);
+  // useEffect(() => {
+  //   console.log('Hello Hooks');
+  // }, [count]);
 
-  const getStructure = async (e) => {
-    const AllData = Getdata();
-    const response = await fetch('http://127.0.0.1:5000/train', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(AllData),
-    });
-    console.log('受信')
-    console.log(response)
-  };
+  // const getStructure = async (e) => {
+  //   const AllData = Getdata();
+  //   const response = await fetch('http://127.0.0.1:5000/train', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(AllData),
+  //   });
+  //   console.log('受信')
+  //   console.log(response)
+  // };
 
-  const handlRef = () => {
-    console.log(ref.current.value);
-  };
+  // const handlRef = () => {
+  //   console.log(ref.current.value);
+  // };
+
+  
 
   return (
     <div>
-      <h1>Data from Flask:</h1>
-      {/* <ul>
-        {data.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul> */}
+      <Router>
+        <h1>ページ遷移</h1>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/test" element={<Test />} />
+          <Route path='/Reinforcement' element={<Reinforcement />} />
+          <Route path='/ImageRecognition' element={<ImageRecognition />} />
+          <Route path='/Reinforcement/Cartpole' element={<CartPole />} />
+          <Route path='/Reinforcement/Flappybird' element={<Flappybird />} />
+        </Routes>
+      </Router>
+      {/* <div>-</div>
       <button onClick={handlClick}>+</button>
       <p>{count}</p>
       <h1>useContext</h1>
@@ -153,12 +170,12 @@ function App() {
       <input type='text' ref={ref} />
       <button onClick={handlRef}>sent</button>
       <h1>CSVファイル読み込み</h1>
-      <CSVUploader onCSVUpload={handleCSVUpload} />
-      <h1>クリックと同時に要素追加</h1>
+      <CSVUploader onCSVUpload={handleCSVUpload} /> */}
+      {/* <h1>クリックと同時に要素追加</h1>
       <button onClick={getStructure}>要素を取得</button>
       <Layer />
       <h1>学習の手段</h1>
-      <TrainInfo />
+      <DQNTrainInfo /> */}
       {/* <div>
         <button onClick={handleSocket}>データ処理を開始</button>
         <p>進歩：{progress}</p>
@@ -167,8 +184,9 @@ function App() {
       <div>
         <button onClick={handldisconnect}>Socket切断</button>
       </div> */}
-      <button onClick={handleTrain}>学習開始</button>
-      <CartPole />
+      {/* <CartPoleFrame />
+      <FlappyBird />
+      <Dnd /> */}
     </div>
   );
 }
