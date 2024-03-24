@@ -1,0 +1,118 @@
+{
+    "user_id": {
+        "Image_Classification": [
+            {
+                "project_id": "uuid",
+                "project_name": "mnist",
+                "models": [
+                    {
+                        "model_id": "uuid",
+                        "model_name": "model_name",
+                        "structure": {
+                            "InputLayer": [28, 28, 1],
+                            "ConvLayer": [
+                                {
+                                    "layer_type": "conv2d"
+                                },
+                                {
+                                    "layer_type": "pooling"
+                                }
+                            ],
+                            "Flatten_way": "Flatten",
+                            "MiddleLayer": [
+                                {
+                                    "input_size": 100,
+                                    "activ_func": "ReLU"
+                                }
+                            ],
+                            "OutputLayer": 10
+                        },
+                        "train_info": {
+                            "loss": "mse_loss",
+                            "optimizer": "Adam",
+                            "learning_rate": "0.01",
+                            "batch": 32,
+                            "epoch": 100
+                        }
+                    }
+                ]
+            }
+        ],
+        "Reinforcement_Learning": {
+            "CortPole": {
+                "models": [
+                    {
+                        "model_id": "uuid",
+                        "model_name": "model_name",
+                        "structure": {
+                            "InputLayer": 4,
+                            "ConvLayer": [
+                                {
+                                    "layer_type": "conv2d"
+                                },
+                                {
+                                    "layer_type": "pooling"
+                                }
+                            ],
+                            "Flatten_way": "Flatten",
+                            "MiddleLayer": [
+                                {
+                                    "input_size": 100,
+                                    "activ_func": "ReLU"
+                                }
+                            ],
+                            "OutputLayer": 10
+                        },
+                        "train_info": {
+                            "loss": "mse_loss",
+                            "optimizer": "Adam",
+                            "learning_rate": "0.01",
+                            "batch": 32,
+                            "epoch": 100,
+                            "buffer": 10000,
+                            "spsilon": "0.01",
+                            "syns": 20
+                        }
+                    }
+                ]
+            },
+            "FlappyBird": {
+                "models": [
+                    {
+                        "model_id": "uuid",
+                        "model_name": "model_name",
+                        "structure": {
+                            "InputLayer": [28, 28, 1],
+                            "ConvLayer": [
+                                {
+                                    "layer_type": "conv2d"
+                                },
+                                {
+                                    "layer_type": "pooling"
+                                }
+                            ],
+                            "Flatten_way": "Flatten",
+                            "MiddleLayer": [
+                                {
+                                    "input_size": 100,
+                                    "activ_func": "ReLU"
+                                }
+                            ],
+                            "OutputLayer": 10
+                        },
+                        "train_info": {
+                            "loss": "mse_loss",
+                            "optimizer": "Adam",
+                            "learning_rate": "0.01",
+                            "batch": 32,
+                            "epoch": 100,
+                            "buffer": 10000,
+                            "spsilon": "0.01",
+                            "syns": 20
+                        }
+                    }
+                ]
+            }
+        }
+    } 
+}

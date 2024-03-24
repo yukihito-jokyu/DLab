@@ -6,8 +6,14 @@ import SocketContext from '../..';
 import RadianToDegree from '../../utils/RadianToDegree';
 import ToPx from '../../utils/ToPx';
 import Getdata from '../../utils/Getdata';
+import { InputContext } from '../../page/Cartpole';
+import FileUpload from '../utils/FileUpload';
 
-function CartPoleFrame() {
+function CartPoleFrame(props) {
+  // 引数の取得
+  const id = props.id;
+  // データの取得
+  const { structures } = useContext(InputContext);
   // ソケット通信用
   const socket = useContext(SocketContext);
   // 回転
@@ -20,11 +26,14 @@ function CartPoleFrame() {
   const [disableTransition, setDisableTransition] = useState(false);
   // ソケット通信
   const handleTrain = () => {
-    const AllData = Getdata();
-    console.log('AllData', AllData);
-    socket.emit('CartPole', AllData);
+    const AllData = Getdata(structures);
+    const SentData = {
+      CartPole: AllData,
+      id: id
+    };
+    socket.emit('CartPole', SentData);
   };
-  socket.on('CartPole_data', (data) => {
+  socket.on('CartPole_data'+id, (data) => {
     const newrotation = RadianToDegree(data.radian);
     const newmove = ToPx(data.location);
     setDisableTransition(false);
@@ -35,7 +44,7 @@ function CartPoleFrame() {
     setRotation(0);
     setMove(0);
   });
-  socket.on('episode_start', (data) => {
+  socket.on('episode_start'+String(id), (data) => {
     const newrotation = RadianToDegree(data.radian);
     const newmove = ToPx(data.location);
     const newepisode = data.episode;
@@ -49,7 +58,7 @@ function CartPoleFrame() {
     setDisableTransition(true);
     setRotation(0);
     setMove(0);
-  })
+  });
   // スタイル
   const QulleyStyle = {
     transition: disableTransition ? 'none' : 'transform 0.3s ease',
@@ -58,10 +67,54 @@ function CartPoleFrame() {
   const Rotatable = {
     transition: disableTransition ? 'none' : 'transform 0.3s ease',
     transform: `rotate(${rotation}deg)`
-  }
+  };
+
+  // データの取得
+  const handleMakeConfig = async () => {
+    const AllData = Getdata(structures);
+    const response = await fetch('http://127.0.0.1:5000/CartPole/make/config', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(AllData),
+    });
+    const result = await response.json();
+    console.log(result);
+  };
+  const handleTry = () => {
+    socket.emit('CartPoleTry', {});
+  };
+
+  // pth,pyファイルの読み込み
+  const handlePthUpload = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await fetch('http://127.0.0.1:5000/CartPole/pth/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    const result = await response.json();
+    console.log(result);
+  };
+  const handlePyUpload = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await fetch('http://127.0.0.1:5000/CartPole/py/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    const result = await response.json();
+    console.log(result);
+  };
+
   return (
     <div>
+      <button onClick={handleMakeConfig}>Config作成</button>
       <button onClick={handleTrain}>学習開始</button>
+      <FileUpload onFileChange={handlePthUpload} />
+      <FileUpload onFileChange={handlePyUpload} />
+      <button onClick={handleTry}>お試し</button>
       <h1>CartPoleFrame</h1>
       <div>Episode:{episode}</div>
       <div className='frame'>

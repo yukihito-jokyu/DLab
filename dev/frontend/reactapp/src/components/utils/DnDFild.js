@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { v4 as uuidv4 } from 'uuid';
 
@@ -6,7 +6,9 @@ import { v4 as uuidv4 } from 'uuid';
 import './DnDFild.css'
 
 function DnDFild(props) {
-  const [data, setData] = useState([]);
+  // コンポーネートの受け取り
+  const MiddleLayerStyle = props.middleLayer;
+  const [middleList, setMiddleList] = props.middleData;
 
   const onDragEnd = (result) => {
     if (!result.source || !result.destination) {
@@ -15,33 +17,30 @@ function DnDFild(props) {
     }
     
     const { source, destination } = result;
-    
 
-    console.log(data);
-    const sourceNuron = [...data];
+    const sourceNuron = [...middleList];
     // タスクの削除
     const [removed] = sourceNuron.splice(source.index, 1);
     // タスクの追加
     sourceNuron.splice(destination.index, 0, removed);
 
     const newdata = sourceNuron;
-    setData(newdata);
+    setMiddleList(newdata);
   };
 
   // 要素の追加
   const handleAdd = () => {
     const newNuron = {
       id: uuidv4(),
+      number: 1,
+      activation: 'ReLU'
     };
-    setData(prevData => [...prevData, newNuron]);
+    setMiddleList(prevData => [...prevData, newNuron]);
   };
   // 要素の削除
   const handleDeletion = (idToDelete) => {
-    setData(prevData => prevData.filter(nuron => nuron.id !== idToDelete));
+    setMiddleList(prevData => prevData.filter(nuron => nuron.id !== idToDelete));
   };
-
-  // コンポーネートの受け取り
-  const { middleLayer: MiddleLayerStyle } = props;
   return (
     <div className='dnd-fild'>
       <button onClick={handleAdd}>+</button>
@@ -55,7 +54,7 @@ function DnDFild(props) {
                 {...provided.droppableProps}
               >
                 <div className='nuron-data'>
-                  {data.map((nuron_data, index) => (
+                  {middleList.map((nuron_data, index) => (
                     <Draggable
                       draggableId={nuron_data.id}
                       index={index}
@@ -71,7 +70,7 @@ function DnDFild(props) {
                             border: snapshot.isDragging ? "2px solid red" : "0.5px solid #1c0909"
                           }}
                         >
-                          <MiddleLayerStyle DeletIvent={() => handleDeletion(nuron_data.id)} />
+                          <MiddleLayerStyle DeletIvent={() => handleDeletion(nuron_data.id)} setData={setMiddleList} neuronData={nuron_data} index={index} />
                         </div>
                       )}
                     </Draggable>

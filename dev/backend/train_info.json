@@ -1,0 +1,26 @@
+{
+    "structures": [
+        {
+            "Neuron_num": 100,
+            "Activ_func": "ReLU"
+        },
+        {
+            "Neuron_num": 50,
+            "Activ_func": "ReLU"
+        }
+    ],
+    "other_structure": {
+        "Input_size": 4,
+        "Output_size": 2
+    },
+    "train_info": {
+        "Loss": "mse_loss",
+        "Optimizer": "Adam",
+        "Learning_rate": "0.0001",
+        "Batch_num": "64",
+        "Buffer_size": "10000",
+        "Action_size": "2",
+        "Epsilon": "0.1",
+        "Epoch": "10"
+    }
+}

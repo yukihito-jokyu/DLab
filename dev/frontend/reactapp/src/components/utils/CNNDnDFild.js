@@ -6,6 +6,10 @@ import { v4 as uuidv4 } from 'uuid';
 import './DnDFild.css'
 
 function CNNDnDFild(props) {
+  // コンポーネートの受け取り
+  const MiddleLayerStyle = props.middleLayer;
+  const [convList, setConvList] = props.middleData;
+
   const [data, setData] = useState([]);
 
   // test
@@ -45,8 +49,7 @@ function CNNDnDFild(props) {
     setData(prevData => prevData.filter(nuron => nuron.id !== idToDelete));
   };
 
-  // コンポーネートの受け取り
-  const { middleLayer: MiddleLayerStyle } = props;
+  
 
   // html追加
   const handleMakeHTML = (id, index) => {

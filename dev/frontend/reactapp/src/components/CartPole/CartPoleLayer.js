@@ -1,7 +1,8 @@
 // Layer.jsx
 import React from 'react';
 // import MiddleLayerStyle from './MiddleLayerStyle';
-import InputOutputLayerStyle from './InputOutputLayerStyle';
+import InputLayerStyle from './InputLayerStyle';
+import OutputLayerStyle from './OutputLayerStyle';
 import MiddleLayer from './MiddleLayer';
 
 const CartPoleLayer = () => {
@@ -28,7 +29,7 @@ const CartPoleLayer = () => {
     <div>
       <h1>入力層</h1>
       <div id='input'>
-        <InputOutputLayerStyle />
+        <InputLayerStyle />
       </div>
       {/* <h1>中間層</h1> */}
       {/* <button onClick={increaseElements}>+</button>
@@ -42,7 +43,7 @@ const CartPoleLayer = () => {
       <MiddleLayer />
       <h1>出力層</h1>
       <div id='output'>
-        <InputOutputLayerStyle />
+        <OutputLayerStyle />
       </div>
     </div>
   );

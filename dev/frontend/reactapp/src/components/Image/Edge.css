@@ -1,0 +1,14 @@
+
+
+.element {
+  margin-left: 20px;
+  border: solid 1px black;
+  width: 100px;
+}
+
+.edge {
+  margin-left: 70px;
+  width: 2px; /* 線の幅 */
+  height: 50px; /* 線の高さ */
+  background-color: black; /* 線の色 */
+}

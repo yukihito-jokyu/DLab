@@ -1,5 +1,5 @@
 // Reactアプリのコード (frontend/src/App.jsなど)
-import React from 'react';
+import React, { useState } from 'react';
 // import Layer from "./components/CartPole/CartPoleLayer";
 // import DQNTrainInfo from './components/utils/DQNTrainInfo';
 // import CSVUploader from './components/CSVUploader';
@@ -147,7 +147,13 @@ function App() {
   //   console.log(ref.current.value);
   // };
 
-  
+  // idをリストで管理する。
+  const [elementId, setElementId] = useState(['0']);
+
+  // クリックしたときにリストを追加する。
+  const handleMakeId = () => {
+    setElementId(prev => [...prev, `${prev.length+1}`]);
+  };
 
   return (
     <div>
@@ -156,9 +162,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/test" element={<Test />} />
-          <Route path='/Reinforcement' element={<Reinforcement />} />
+          <Route path='/Reinforcement' element={<Reinforcement handlemakeid={handleMakeId} elementid={elementId} />} />
           <Route path='/ImageRecognition' element={<ImageRecognition />} />
-          <Route path='/Reinforcement/Cartpole' element={<CartPole />} />
+          {elementId.map((id, index) => (
+            <Route key={index} path={'/Reinforcement/Cartpole'+id} element={<CartPole id={id} />} />
+          ))}
           <Route path='/Reinforcement/Flappybird' element={<Flappybird />} />
         </Routes>
       </Router>

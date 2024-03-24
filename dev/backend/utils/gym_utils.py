@@ -139,8 +139,8 @@ class DQNAgent:
         self.loss_func = get_loss(train_info.get('Loss'))
 
         self.replay_buffer = ReplayBuffer(self.buffer_size, self.batch_size)
-        self.qnet = QNet_model(structures, other_structure).to(device=self.device)
-        self.qnet_target = QNet_model(structures, other_structure).to(device=self.device)
+        self.qnet = QNet_model().to(device=self.device)
+        self.qnet_target = QNet_model().to(device=self.device)
         self.optimizer = get_optimizer(train_info.get('Optimizer'), self.qnet.parameters(), self.lr)
         # 勾配を0で初期化する(学習時は毎回行う)
         self.optimizer.zero_grad()
@@ -211,6 +211,20 @@ class DQNAgent:
         #     print(f'targets{targets}')
 
         return loss
+
+
+class TryAgent:
+    def __init__(self, QNet_model):
+        self.qnet = QNet_model().to(device='cpu')
+        self.qnet.load_state_dict(torch.load('./save/best_model.pth'))
+    
+    def get_action(self, state):
+        state = state[np.newaxis, :]
+        state = torch.tensor(state, dtype=torch.float32).to(device='cpu')
+        # qs = self.qnet_target.forward(state)
+        qs = self.qnet.forward(state)
+        # print(f'qs:{qs}, action:{int(torch.argmax(qs))}')
+        return int(torch.argmax(qs))
 
 
 if __name__ == '__main__':

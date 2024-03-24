@@ -1,16 +1,17 @@
 import gym
 import torch
-from utils.gym_utils import DQNAgent, Simple_Network
+from utils.gym_utils import DQNAgent
+from python.model_config import Simple_NN
 from flask_socketio import emit
 
 import numpy as np
 
 
-def cartpole(structures, other_structure, train_info):
+def cartpole(structures, other_structure, train_info, id):
     # モデルの作成
     # 学習の詳細情報
     env = gym.make('CartPole-v1', render_mode='human')
-    agent = DQNAgent(train_info, structures, other_structure, Simple_Network)
+    agent = DQNAgent(train_info, structures, other_structure, Simple_NN)
     epoch = int(train_info.get('Epoch'))
     sync_interval = 20
     max_reward = 0
@@ -19,7 +20,7 @@ def cartpole(structures, other_structure, train_info):
         state = env.reset()[0]
         location = state[0]
         radian = state[2]
-        emit('episode_start', {'episode': episode+1, 'location': float(location), 'radian': float(radian)})
+        emit('episode_start'+id, {'episode': episode+1, 'location': float(location), 'radian': float(radian)})
         done = False
         total_reward = 0
         total_loss = 0
@@ -31,8 +32,8 @@ def cartpole(structures, other_structure, train_info):
             next_state = env.step(int(action))[0]
             # ソケット通信
             location = next_state[0]
-            radian = next_state[2]
-            emit('CartPole_data', {'location': float(location), 'radian': float(radian)})
+            radian = next_state[2] 
+            emit('CartPole_data'+id, {'location': float(location), 'radian': float(radian)})
 
             reward = env.step(int(action))[1]
             done = env.step(int(action))[2]

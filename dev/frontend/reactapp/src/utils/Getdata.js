@@ -1,31 +1,25 @@
 
 
-function Getdata() {
-  console.log('要素取得')
+function Getdata(structures) {
+  console.log('要素取得', structures);
+  const { inputneuron: [inputNeuron] } = structures;
+  const { middleneuron: [middleList] } = structures;
+  const { outputneuron: [outputNeuron] } = structures;
   // 入力層,出力層のニューラルネットワークの構造を取得
-  const InputStructureElement = document.getElementById('input');
-  const InputSize = InputStructureElement.querySelector('.neuron_num');
-  const OutputStructureElement = document.getElementById('output');
-  const OutputSize = OutputStructureElement.querySelector('.neuron_num');
   const otherstructureData = {
-    Input_size: InputSize.textContent,
-    Output_size: OutputSize.textContent
+    Input_size: inputNeuron,
+    Output_size: outputNeuron
   };
 
-  // 中間層のニューラルネットワークの構造を取得
+  // // 中間層のニューラルネットワークの構造を取得
   const structureList = [];
-  const MiddleStructureElement = document.getElementById('structure').querySelector('.nuron-data');
-  console.log(MiddleStructureElement);
-  Array.from(MiddleStructureElement.children).forEach((element) => {
-    const neuronNumElement = element.querySelector('.neuron_num');
-    const neuronActivElement = element.querySelector('.neuron_activ');
+  middleList.forEach((middle, index) => {
     const structureData = {
-      Neuron_num: neuronNumElement.textContent,
-      Activ_func: neuronActivElement.textContent
+      Neuron_num: middle.number,
+      Activ_func: middle.activation
     };
     structureList.push(structureData);
-    
-  });
+  })
   // 学習手段の取得
   const TrainInfoElement = document.getElementById('TrainInfo-wrapper');
   const LossElement = TrainInfoElement.querySelector('.Loss-name');

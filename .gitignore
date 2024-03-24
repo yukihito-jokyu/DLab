@@ -1,0 +1,3 @@
+div/backend/Image/*
+dev/api/node_modules/*
+dev/frontend/reactapp/node_modules/*
