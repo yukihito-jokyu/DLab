@@ -139,8 +139,8 @@ class DQNAgent:
         self.loss_func = get_loss(train_info.get('Loss'))
 
         self.replay_buffer = ReplayBuffer(self.buffer_size, self.batch_size)
-        self.qnet = QNet_model().to(device=self.device)
-        self.qnet_target = QNet_model().to(device=self.device)
+        self.qnet = QNet_model(structures, other_structure).to(device=self.device)
+        self.qnet_target = QNet_model(structures, other_structure).to(device=self.device)
         self.optimizer = get_optimizer(train_info.get('Optimizer'), self.qnet.parameters(), self.lr)
         # 勾配を0で初期化する(学習時は毎回行う)
         self.optimizer.zero_grad()

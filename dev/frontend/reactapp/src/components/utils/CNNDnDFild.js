@@ -26,27 +26,34 @@ function CNNDnDFild(props) {
     const { source, destination } = result;
     
 
-    console.log(data);
-    const sourceNuron = [...data];
+    console.log(convList);
+    const sourceNuron = [...convList];
     // タスクの削除
     const [removed] = sourceNuron.splice(source.index, 1);
     // タスクの追加
     sourceNuron.splice(destination.index, 0, removed);
 
     const newdata = sourceNuron;
-    setData(newdata);
+    setConvList(newdata);
   };
 
   // 要素の追加
   const handleAdd = () => {
     const newNuron = {
       id: uuidv4(),
+      LayerName: "Conv2d",
+      InChannel: 3,
+      OutChannel: 64,
+      KernelSize: 3,
+      Stride: 1,
+      Padding: 0,
+      ActivFunc: "ReLU"
     };
-    setData(prevData => [...prevData, newNuron]);
+    setConvList(prevData => [...prevData, newNuron]);
   };
   // 要素の削除
   const handleDeletion = (idToDelete) => {
-    setData(prevData => prevData.filter(nuron => nuron.id !== idToDelete));
+    setConvList(prevData => prevData.filter(nuron => nuron.id !== idToDelete));
   };
 
   
@@ -73,7 +80,7 @@ function CNNDnDFild(props) {
                 {...provided.droppableProps}
               >
                 <div className='nuron-data'>
-                  {data.map((nuron_data, index) => (
+                  {convList.map((nuron_data, index) => (
                     <Draggable
                       draggableId={nuron_data.id}
                       index={index}
@@ -89,9 +96,9 @@ function CNNDnDFild(props) {
                             border: snapshot.isDragging ? "2px solid red" : "0.5px solid #1c0909"
                           }}
                         >
-                          {/* <MiddleLayerStyle DeletIvent={() => handleDeletion(nuron_data.id)} /> */}
-                          {handleMakeHTML(nuron_data.id, index)}
-                          {console.log(index)}
+                          <MiddleLayerStyle DeletIvent={() => handleDeletion(nuron_data.id)} setData={setConvList} neuronData={nuron_data} id={nuron_data.id} />
+                          {/* {handleMakeHTML(nuron_data.id, index)}
+                          {console.log(index)} */}
                         </div>
                       )}
                     </Draggable>

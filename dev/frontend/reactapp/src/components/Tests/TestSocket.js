@@ -13,7 +13,7 @@ function TestSocket(props) {
     console.log(id)
     socket.emit('test_socket', sentData);
   }
-  socket.on('socket_test', (data) => {
+  socket.on('socket_test'+id, (data) => {
     console.log(data.data);
     setData(data.data);
   })

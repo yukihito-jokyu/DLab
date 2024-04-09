@@ -1,48 +1,49 @@
-function GetFlappyData() {
-  console.log('Flappyデータ取得');
+function GetFlappyData(trainInfo) {
+  console.log('Flappyデータ取得', trainInfo);
+  const { inputLayer: [inputSize] } = trainInfo;
+  const { convLayer: [convList] } = trainInfo;
+  const { middleLayer: [middleList] } = trainInfo;
+  const { outputLayer: [outputNeuron] } = trainInfo;
+  
   // 入力データと出力データのサイズを取得
-  const InputSize = document.querySelector('.Input_size').textContent.match(/\d+/g);
-  const OutputSize = document.getElementById('output_size').querySelector('.neuron_num').textContent;
   const OtherStructure = {
-    Input_size: InputSize,
-    Output_size: OutputSize
+    Input_size: inputSize,
+    Output_size: outputNeuron
   };
+  
   // 中間層のデータ取得(畳み込み層)
   const conv_structureList = [];
-  const ConvStructureElement = document.getElementById('Conv-structure').querySelector('.nuron-data');
-  Array.from(ConvStructureElement.children).forEach((element) => {
-    const layer_name = element.querySelector('.Layer_name').textContent;
+  convList.forEach((conv, index) => {
+    const layer_name = conv.LayerName;
     if (layer_name === 'Conv2d') {
       const ConvStructureData = {
-        Layer_name: layer_name,
-        In_channel: element.querySelector('.In_channel').textContent,
-        Out_channel: element.querySelector('.Out_channel').textContent,
-        Kernel_size: element.querySelector('.Kernel_size').textContent,
-        Stride: element.querySelector('.Stride').textContent,
-        Padding: element.querySelector('.Padding').textContent,
-        Active_func: element.querySelector('.Active_func').textContent
-      }
+        Layer_name: conv.LayerName,
+        In_channel: conv.InChannel,
+        Out_channel: conv.OutChannel,
+        Kernel_size: conv.KernelSize,
+        Stride: conv.Stride,
+        Padding: conv.Padding,
+        Active_func: conv.ActivFunc
+      };
       conv_structureList.push(ConvStructureData);
     }
     if (layer_name === 'MaxPool2d') {
       const ConvStructureData = {
-        Layer_name: layer_name,
-        Kernel_size: element.querySelector('.Kernel_size').textContent,
-        Stride: element.querySelector('.Stride').textContent,
-        Padding: element.querySelector('.Padding').textContent
+        Layer_name: conv.LayerName,
+        Kernel_size: conv.KernelSize,
+        Stride: conv.Stride,
+        Padding: conv.Padding
       }
       conv_structureList.push(ConvStructureData);
     }
   });
+  
   // 中間層のデータ取得(全結合層)
   const structureList = [];
-  const StructureElement = document.getElementById('structure').querySelector('.nuron-data');
-  Array.from(StructureElement.children).forEach((element) => {
-    const neuronNumElement = element.querySelector('.neuron_num');
-    const neuronActivElement = element.querySelector('.neuron_activ');
+  middleList.forEach((middle, index) => {
     const structureData = {
-      Neuron_num: neuronNumElement.textContent,
-      Activ_func: neuronActivElement.textContent
+      Neuron_num: middle.number,
+      Activ_func: middle.activation
     };
     structureList.push(structureData);
   });

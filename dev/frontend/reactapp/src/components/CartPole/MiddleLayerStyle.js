@@ -32,7 +32,7 @@ function LayerStyle(props) {
         updatedData[index].activation = e.target.value;
       }
       return updatedData;
-    })
+    });
   };
 
   // クリックされたら要素を消す

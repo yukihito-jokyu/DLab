@@ -167,7 +167,9 @@ function App() {
           {elementId.map((id, index) => (
             <Route key={index} path={'/Reinforcement/Cartpole'+id} element={<CartPole id={id} />} />
           ))}
-          <Route path='/Reinforcement/Flappybird' element={<Flappybird />} />
+          {elementId.map((id, index) => (
+            <Route key={index} path={'/Reinforcement/Flappybird'+id} element={<Flappybird id={id} />} />
+          ))}
         </Routes>
       </Router>
       {/* <div>-</div>

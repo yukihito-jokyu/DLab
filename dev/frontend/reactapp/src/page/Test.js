@@ -58,6 +58,15 @@ function Test() {
     setElementId(prev => [...prev, `${prev.length+1}`]);
   };
 
+  // クリックしたときにpygameのwindowを表示する
+  const handleOpenPygame = async () => {
+    const response = await fetch('http://127.0.0.1:5050/test/pygame', {
+      method: 'GET'
+    });
+    const result = await response.json();
+    console.log(result);
+  };
+
   return (
     <div>
       <div>
@@ -76,6 +85,10 @@ function Test() {
             <TestSocket key={index} id={String(index)} />
           ))}
         </div>
+      </div>
+      <div>
+        <h1>pygame</h1>
+        <button onClick={handleOpenPygame}>起動</button>
       </div>
     </div>
   );

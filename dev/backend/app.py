@@ -17,34 +17,44 @@ from utils.generate_python import make_python_code
 
 # test
 from utils.test import test_env
+from pygame_test.test import pygame_window
 
 # ライブラリ
 import time
-import asyncio
 
+# 非同期処理に使用するライブラリの指定
+# `threading`, `eventlet`, `gevent`から選択可能
+async_mode = None
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode=async_mode)
+
+# スレッドを格納するためのグローバル変数
+thread = None
 
 # test
 @socketio.on('test_socket')
 def test_socket(data):
+    global thread
     id = data.get('id')
     print(id)
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    try:
-        for i in range(10):
-            print(i)
-            loop.create_task(test_(id, i))
-        loop.run_forever()
-    finally:
-        loop.close()
+    print(thread)
+    # if thread is None:
+    print(thread)
+    thread = socketio.start_background_task(target=test_(id))
+    print(thread)
+    emit('socket_test'+id, {'data': 0})
 
-async def test_(id, i):
-    await asyncio.sleep(3)
-    await emit('socket_test', {'data': i})
+def test_(id):
+    for i in range(10):
+        socketio.sleep(1)
+        emit('socket_test'+id, {'data': i+1})
+
+@app.route('/test/pygame')
+def test_pygame():
+    pygame_window()
+    return jsonify({'message': 'successfully'})
 
 @app.route('/', methods=['POST'])
 def get_data():
@@ -102,12 +112,14 @@ def socket_process(data):
 @socketio.on('CartPole')
 def train_CartPole(datas):
     # make_python_code(data)
+    global thread
     data = datas.get('CartPole')
     id = datas.get('id')
     structures = data.get('structures')
     other_structure = data.get('other_structure')
     train_info = data.get('train_info')
-    cartpole(structures, other_structure, train_info, id)
+    cartpole(structures, other_structure, train_info, id, socketio)
+    # thread = socketio.start_background_task(cartpole(structures, other_structure, train_info, id))
 
 
 
@@ -116,11 +128,14 @@ def try_CartPole(data):
     trycartpole()
 
 @socketio.on('FlappyBird')
-def train_FlappyBird(data):
+def train_FlappyBird(datas):
+    data = datas.get('alldata')
+    id = datas.get('id')
+    print(data)
     structures = data.get('Structure')
     other_structure = data.get('other_structure')
     train_info = data.get('train_info')
-    flappybird(structures, other_structure, train_info)
+    flappybird(structures, other_structure, train_info, id)
 
 
 @socketio.on('InputImage')

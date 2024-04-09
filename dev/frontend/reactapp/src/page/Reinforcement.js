@@ -13,8 +13,8 @@ function Reinforcement(props) {
   const handleCartpole = (id) => {
     navigate('/Reinforcement/Cartpole'+id)
   };
-  const handleFlappybird = () => {
-    navigate('/Reinforcement/Flappybird')
+  const handleFlappybird = (id) => {
+    navigate('/Reinforcement/Flappybird'+id)
   }
   // クリックしたときに要素追加のイベントが走る。
   const handleClickIvent = () => {
@@ -28,7 +28,9 @@ function Reinforcement(props) {
         {elementId.map((id, index) => (
           <div key={index} className='Reinforcement-button-style' onClick={() => handleCartpole(id)}>Cartpole</div>
         ))}
-        <div className='Reinforcement-button-style' onClick={handleFlappybird}>Flappybird</div>
+        {elementId.map((id, index) => (
+          <div key={index} className='Reinforcement-button-style' onClick={() => handleFlappybird(id)}>Flappybird</div>
+        ))}
       </div>
     </div>
   )

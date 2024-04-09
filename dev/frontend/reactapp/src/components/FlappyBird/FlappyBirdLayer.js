@@ -1,23 +1,21 @@
 import React from 'react'
 import FlappyInputLayer from './FlappyInputLayer'
 import FlappyConvLayer from './FlappyConvLayer'
-import MiddleLayer from '../CartPole/MiddleLayer'
-import OutputLayerStyle from '../CartPole/OutputLayerStyle'
 import DQNTrainInfo from '../utils/DQNTrainInfo'
 import FlappyFrame from './FlappyFrame'
+import FlappyBirdMiddleLayer from './FlappyBirdMiddleLayer'
+import FlappyBirdOutputLayerStyle from './FlappyBirdOutputLayerStyle'
 
-function FlappyBirdLayer() {
+function FlappyBirdLayer(props) {
   return (
     <div>
       <FlappyInputLayer />
-      {/* <FlappyConvLayer /> */}
-      {/* <MiddleLayer /> */}
+      <FlappyConvLayer />
+      <FlappyBirdMiddleLayer />
       <h1>出力層</h1>
-      <div id='output_size'>
-        {/* <OutputLayerStyle /> */}
-      </div>
-      {/* <DQNTrainInfo /> */}
-      {/* <FlappyFrame /> */}
+      <FlappyBirdOutputLayerStyle />
+      <DQNTrainInfo />
+      <FlappyFrame id={props.id} />
     </div>
   )
 }

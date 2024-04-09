@@ -7,10 +7,11 @@ from flask_socketio import emit
 import numpy as np
 
 
-def cartpole(structures, other_structure, train_info, id):
+def cartpole(structures, other_structure, train_info, id, socketio):
     # モデルの作成
     # 学習の詳細情報
-    env = gym.make('CartPole-v1', render_mode='human')
+    # env = gym.make('CartPole-v1', render_mode='human')
+    env = gym.make('CartPole-v1')
     agent = DQNAgent(train_info, structures, other_structure, Simple_NN)
     epoch = int(train_info.get('Epoch'))
     sync_interval = 20
@@ -20,6 +21,7 @@ def cartpole(structures, other_structure, train_info, id):
         state = env.reset()[0]
         location = state[0]
         radian = state[2]
+        socketio.sleep(0.15)
         emit('episode_start'+id, {'episode': episode+1, 'location': float(location), 'radian': float(radian)})
         done = False
         total_reward = 0
@@ -27,12 +29,13 @@ def cartpole(structures, other_structure, train_info, id):
         cnt = 0
 
         while not done:
-            env.render()
+            # env.render()
             action = agent.get_action(state)
             next_state = env.step(int(action))[0]
             # ソケット通信
             location = next_state[0]
-            radian = next_state[2] 
+            radian = next_state[2]
+            socketio.sleep(0.15)
             emit('CartPole_data'+id, {'location': float(location), 'radian': float(radian)})
 
             reward = env.step(int(action))[1]

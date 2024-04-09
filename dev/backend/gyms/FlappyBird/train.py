@@ -17,7 +17,7 @@ def make_show_image(image):
     return image
 
 
-def flappybird(structures, other_structure, train_info):
+def flappybird(structures, other_structure, train_info, id):
     agent = DQNAgent(train_info, structures, other_structure, CNN_Network, device='cuda:0')
     episodes = int(train_info.get('Epoch'))
     sync_interval = 20
@@ -58,7 +58,7 @@ def flappybird(structures, other_structure, train_info):
                 next_train_image = torch.zeros_like(next_train_image)
             
             # ソケット通信
-            emit('FlappyBird_data', {'image_data': encoded_image})
+            emit('FlappyBird_data'+id, {'image_data': encoded_image})
 
             total_loss += agent.update(train_image, action_index, reward, next_train_image, terminal)
             train_image = next_train_image
