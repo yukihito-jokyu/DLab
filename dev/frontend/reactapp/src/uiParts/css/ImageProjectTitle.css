@@ -1,0 +1,12 @@
+.projecttitle-wrapper {
+  height: 52px;
+  width: 205px;
+  margin-left: 8px;
+}
+
+.projecttitle-wrapper p {
+  line-height: 52px;
+  font-weight: 500;
+  font-size: 25px;
+  color: #676767;
+}

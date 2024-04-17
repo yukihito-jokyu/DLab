@@ -1,0 +1,8 @@
+.titlefeild-wrapper {
+  width: 250px;
+  height: 55px;
+}
+
+.project-title {
+  display: flex;
+}

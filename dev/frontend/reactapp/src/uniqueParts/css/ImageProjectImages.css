@@ -1,0 +1,18 @@
+.projectimages-wrapper {
+  display: flex;
+  width: 240px;
+  height: 150px;
+  margin: 15px 5px 0px 5px;
+}
+
+.big-image {
+  margin-left: 5px;
+}
+
+.small-image {
+  margin-left: 10px;
+}
+
+.is-first {
+  margin-bottom: 10px;
+}

@@ -1,0 +1,26 @@
+.bugerbutton-wrapper {
+  position: relative;
+  width: 60px;
+  height: 50px;
+  margin: 20px 40px 20px 40px;
+}
+
+.bugerbutton-wrapper span {
+  position: absolute;
+  display: inline-block;
+  width: 100%;
+  height: 6px;
+  background-color: white;
+}
+
+.bugerbutton-wrapper span:nth-of-type(1) {
+  top: 5px;
+}
+
+.bugerbutton-wrapper span:nth-of-type(2) {
+  top: 22px;
+}
+
+.bugerbutton-wrapper span:nth-of-type(3) {
+  top: 39px;
+}

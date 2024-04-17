@@ -1,0 +1,11 @@
+.logo-wrapper {
+  width: 110px;
+  height: 70px;
+  margin: 10px 0px 10px 0px;
+}
+
+.logo-wrapper p {
+  font-size: 45px;
+  color: white;
+  font-weight: 500;
+}

@@ -22,6 +22,7 @@ import Reinforcement from './page/Reinforcement'
 import ImageRecognition from './page/ImageRecognition';
 import Flappybird from './page/Flappybird';
 import CartPole from './page/Cartpole';
+import ImageClassificationProjectList from './pages/component/ImageClassificationProjectList';
 
 function App() {
   // ソケット通信
@@ -158,7 +159,6 @@ function App() {
   return (
     <div>
       <Router>
-        <h1>ページ遷移</h1>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/test" element={<Test />} />
@@ -170,6 +170,7 @@ function App() {
           {elementId.map((id, index) => (
             <Route key={index} path={'/Reinforcement/Flappybird'+id} element={<Flappybird id={id} />} />
           ))}
+          <Route path="/ImageClassificationProjectList" element={<ImageClassificationProjectList />} />
         </Routes>
       </Router>
       {/* <div>-</div>
