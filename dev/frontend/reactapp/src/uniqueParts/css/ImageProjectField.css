@@ -1,8 +1,9 @@
 .imageprojectfield-wrapper {
-  width: calc(100% - 40px);
-  height: calc(100vh - 110px);
-  margin: 0px 20px 20px 20px;
+  display: flex;
+  width: calc(100% - 20px);
+  height: calc(100vh - 100px);
+  margin: 0px 10px 10px 10px;
   background-color: white;
   border-radius: 25px;
-  padding: 50px;
+  padding: 40px;
 }

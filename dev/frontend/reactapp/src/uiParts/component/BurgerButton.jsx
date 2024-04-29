@@ -1,5 +1,5 @@
-import React from 'react'
-import '../css/BurgerButton.css'
+import React from 'react';
+import '../css/BurgerButton.css';
 
 function BurgerButton() {
   return (
@@ -9,6 +9,6 @@ function BurgerButton() {
       <span></span>
     </div>
   )
-}
+};
 
-export default BurgerButton
+export default BurgerButton;

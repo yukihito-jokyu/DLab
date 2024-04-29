@@ -1,0 +1,15 @@
+.ImageProjectAdd-wrapper {
+  position: relative;
+  width: 271px;
+  height: 241px;
+  border-radius: 25px;
+  border: 4px dotted #489CFF;
+}
+
+.add-svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  fill: #489CFF;
+}
