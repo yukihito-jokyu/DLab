@@ -1,8 +1,20 @@
-.creat-background-wrapper {
+.create-background-wrapper {
   /* display: inline-block; */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+}
+
+.create-background-color {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   opacity: 0.2;
   background: linear-gradient(249.81deg, rgba(0, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 35%, rgba(146, 229, 255, 0) 66%, rgba(0, 240, 255, 0.4) 100%), radial-gradient(98.31% 179.05% at 0% 3.12%, #E18FFF 2.5%, #C190FF 21%, #3491FF 53%, #8690FF 78.5%, #E18FFF 100%)
 }
-

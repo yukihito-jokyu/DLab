@@ -1,0 +1,13 @@
+.project-model-name-wrapper {
+  position: absolute;
+  width: 500px;
+  height: 35px;
+  right: 0%;
+  margin-top: 25px;
+}
+
+.project-model-name-wrapper p {
+  font-size: 25px;
+  color: white;
+  font-weight: 400;
+}

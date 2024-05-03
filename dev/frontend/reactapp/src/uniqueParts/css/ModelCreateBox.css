@@ -1,0 +1,29 @@
+.model-create-box-border {
+  width: 906px;
+  height: 306px;
+  background: linear-gradient(to bottom, #C39DFF, #459FFF), #E5E5E5;
+  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.2);
+  border-radius: 25px;
+  padding: 3px;
+}
+
+.model-create-box-wrapper {
+  position: relative;
+  background: white;
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+}
+
+.create-model-button-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 90px;
+  width: 720px;
+  height: 150px;
+}
+
+.create-model-button {
+
+}

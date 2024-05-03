@@ -1,0 +1,11 @@
+.input-field-wrapper {
+  width: 100%;
+  height: 150px;
+}
+
+.input-tile-position {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-left: 50px;
+}

@@ -1,22 +1,18 @@
 import React from 'react';
-import '../css/CreateField.css';
+import '../css/ModelCreateBox.css';
 import CreateName from './CreateName';
-import CreateDataset from './CreateDataset';
 import CreateButton from '../../uiParts/component/CreateButton';
 import CreateFieldDeletButton from '../../uiParts/component/CreateFieldDeletButton';
 
-function CreateField() {
+function ModelCreateBox() {
   return (
-    <div className='create-field-border'>
-      <div className='create-field-wrapper'>
-        <div className='create-name-field'>
+    <div className='model-create-box-border'>
+      <div className='model-create-box-wrapper'>
+      <div className='create-name-field'>
           <CreateName />
         </div>
-        <div className='create-dataset-field'>
-          <CreateDataset />
-        </div>
-        <div className='create-button-field'>
-          <div className='create-button-position'>
+        <div className='create-model-button-field'>
+          <div className='create-model-button'>
             <CreateButton />
           </div>
         </div>
@@ -26,6 +22,6 @@ function CreateField() {
       </div>
     </div>
   )
-};
+}
 
-export default CreateField;
+export default ModelCreateBox

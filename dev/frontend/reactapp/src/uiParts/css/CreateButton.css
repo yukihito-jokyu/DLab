@@ -1,0 +1,13 @@
+.create-button-wrapper {
+  width: 140px;
+  height: 35px;
+  background: linear-gradient(91.27deg, #C49EFF 0.37%, #47A1FF 99.56%);
+  border-radius: 10px;
+}
+
+.create-button-wrapper p {
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+}

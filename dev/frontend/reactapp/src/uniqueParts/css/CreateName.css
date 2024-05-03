@@ -1,0 +1,25 @@
+
+
+.project-name p {
+  display: inline-block;
+  font-size: 23px;
+  font-weight: 600;
+  padding-top: 35px;
+  background: linear-gradient(91.27deg, #C49EFF 0.37%, #47A1FF 99.56%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.project-name-field {
+  margin: 0 30px 10px 30px;
+}
+
+.project-name-field p {
+  color: #676767;
+  font-size: 45px;
+  font-weight: 500;
+}
+
+
+

@@ -23,6 +23,8 @@ import ImageRecognition from './page/ImageRecognition';
 import Flappybird from './page/Flappybird';
 import CartPole from './page/Cartpole';
 import ImageClassificationProjectList from './pages/component/ImageClassificationProjectList';
+import ModelManegementEvaluation from './pages/component/ModelManegementEvaluation';
+import ModelCreateTrain from './pages/component/ModelCreateTrain';
 
 function App() {
   // ソケット通信
@@ -171,6 +173,8 @@ function App() {
             <Route key={index} path={'/Reinforcement/Flappybird'+id} element={<Flappybird id={id} />} />
           ))}
           <Route path="/ImageClassificationProjectList" element={<ImageClassificationProjectList />} />
+          <Route path="/ModelManegementEvaluation" element={<ModelManegementEvaluation />} />
+          <Route path="/ModelCreateTrain" element={<ModelCreateTrain />} />
         </Routes>
       </Router>
       {/* <div>-</div>
