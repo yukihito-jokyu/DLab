@@ -25,6 +25,7 @@ import CartPole from './page/Cartpole';
 import ImageClassificationProjectList from './pages/component/ImageClassificationProjectList';
 import ModelManegementEvaluation from './pages/component/ModelManegementEvaluation';
 import ModelCreateTrain from './pages/component/ModelCreateTrain';
+import RLProjectList from './pages/component/RLProjectList';
 
 function App() {
   // ソケット通信
@@ -175,6 +176,7 @@ function App() {
           <Route path="/ImageClassificationProjectList" element={<ImageClassificationProjectList />} />
           <Route path="/ModelManegementEvaluation" element={<ModelManegementEvaluation />} />
           <Route path="/ModelCreateTrain" element={<ModelCreateTrain />} />
+          <Route path="/RLProjectList" element={<RLProjectList />} />
         </Routes>
       </Router>
       {/* <div>-</div>
