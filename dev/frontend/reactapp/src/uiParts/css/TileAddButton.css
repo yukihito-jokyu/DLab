@@ -1,0 +1,12 @@
+.tile-add-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.tile-add-button {
+  width: 30px;
+  height: 30px;
+  fill: #D57CDD;
+}

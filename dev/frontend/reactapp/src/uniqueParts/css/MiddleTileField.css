@@ -1,0 +1,13 @@
+.middle-tile-field-wrapper {
+  display: flex;
+  width: 550px;
+  height: 130px;
+}
+
+.delete-tile {
+  width: 50px;
+}
+
+.tile-position-wrapper {
+  width: 100%;
+}

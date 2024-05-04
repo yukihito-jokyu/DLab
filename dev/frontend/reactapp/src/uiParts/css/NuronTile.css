@@ -1,0 +1,39 @@
+.nuron-tile-wrapper {
+  width: 100%;
+  height: 80px;
+  display: flex;
+}
+
+.nuron-tile {
+  width: 350px;
+  background-color: #B9B9B9;
+  border-right: white solid 3px;
+}
+
+.activate-tile-wrapper {
+  position: relative;
+  width: 150px;
+  background-color: #D57CDD;
+}
+
+.activate-tile-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #D57CDD;
+  border: white solid 3px;
+  z-index: 1;
+}
+
+.activate-tile {
+  position: absolute;
+  width: 150px;
+  height: 100%;
+  background-color: #D57CDD;
+  z-index: 2;
+}

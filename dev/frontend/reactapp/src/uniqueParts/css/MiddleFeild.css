@@ -1,0 +1,4 @@
+.middle-field-wrapper {
+  width: calc(100% - 50px);
+  margin-left: 50px;
+}
