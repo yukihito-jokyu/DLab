@@ -1,0 +1,41 @@
+.train-panel-edit-wrapper {
+  display: flex;
+  width: 400px;
+  height: 50px;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.train-panel-name-wrapper {
+  width: 200px;
+  height: 100%;
+  
+}
+
+.train-panel-edit-wrapper p {
+  color: #555555;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.train-panel-value-wrapper {
+  position: relative;
+  width: 200px;
+  height: 100%;
+  border-radius: 35px;
+  border: #70B4FF solid 3px;
+  text-align: center;
+}
+
+.train-panel-value-wrapper::before {
+  content: '';
+  top: 40%;
+  right: 15px;
+  /* transform: translate(-100%, -100%); */
+  position: absolute;
+  border-left: 8px solid transparent; /* 左側のボーダー */
+  border-right: 8px solid transparent; /* 右側のボーダー */
+  border-bottom: 16px solid #70B4FF;
+  transform: rotate(180deg);
+}
+
