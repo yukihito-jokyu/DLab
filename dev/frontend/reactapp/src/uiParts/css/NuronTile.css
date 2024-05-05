@@ -8,12 +8,15 @@
   width: 350px;
   background-color: #B9B9B9;
   border-right: white solid 3px;
+  /* border: #D57CDD solid 3px; */
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
 .activate-tile-wrapper {
   position: relative;
   width: 150px;
-  background-color: #D57CDD;
+  /* background-color: #D57CDD; */
 }
 
 .activate-tile-wrapper::before {
@@ -32,8 +35,21 @@
 
 .activate-tile {
   position: absolute;
-  width: 150px;
+  width: 130px;
   height: 100%;
   background-color: #D57CDD;
   z-index: 2;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.activate {
+  color: white;
+  font-size: 30px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.activate::first-letter {
+  font-size: 50px;
 }

@@ -1,0 +1,46 @@
+.edit-tile-paramet-wrapper {
+  display: inline-flex;
+  width: 500px;
+  height: 50px;
+  background-color: #D9D9D9;
+  border-radius: 35px;
+}
+
+.edit-tile-name-wrapper {
+  width: 250px;
+  height: 100%;
+
+}
+
+.edit-tile-name-wrapper p {
+  color: #555555;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.edit-tile-value-wrapper {
+  position: relative;
+  width: 250px;
+  height: 100%;
+  background-color: white;
+  border-radius: 35px;
+  border: #D9D9D9 solid 3px;
+}
+
+.edit-tile-value-wrapper::before {
+  content: '';
+  top: 35%;
+  right: 15px;
+  /* transform: translate(-100%, -100%); */
+  position: absolute;
+  border-left: 8px solid transparent; /* 左側のボーダー */
+  border-right: 8px solid transparent; /* 右側のボーダー */
+  border-bottom: 16px solid #D9D9D9;
+  transform: rotate(180deg);
+}
+
+.edit-tile-value-wrapper p {
+  color: #555555;
+  font-size: 30px;
+  font-weight: 500;
+}

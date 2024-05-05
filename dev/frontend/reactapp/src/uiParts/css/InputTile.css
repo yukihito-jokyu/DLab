@@ -7,6 +7,7 @@
 }
 
 .tile-title-wrapper {
+  height: 100%;
   margin-left: 20px;
 }
 
@@ -27,9 +28,9 @@
 
 .output-dim-wrapper p {
   position: absolute;
-  font-size: 20px;
+  font-size: 25px;
   color: white;
   font-weight: 500;
-  bottom: 5px;
-  right: 30px;
+  bottom: 0px;
+  right: 15px;
 }
