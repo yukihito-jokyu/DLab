@@ -17,6 +17,7 @@
   position: relative;
   width: 150px;
   /* background-color: #D57CDD; */
+  /* z-index: 2; */
 }
 
 .activate-tile-wrapper::before {

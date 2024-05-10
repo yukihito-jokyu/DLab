@@ -26,6 +26,7 @@ import ImageClassificationProjectList from './pages/component/ImageClassificatio
 import ModelManegementEvaluation from './pages/component/ModelManegementEvaluation';
 import ModelCreateTrain from './pages/component/ModelCreateTrain';
 import RLProjectList from './pages/component/RLProjectList';
+import Login from './pages/component/Login';
 
 function App() {
   // ソケット通信
@@ -164,6 +165,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path='/Login' element={<Login />} />
           <Route path="/test" element={<Test />} />
           <Route path='/Reinforcement' element={<Reinforcement handlemakeid={handleMakeId} elementid={elementId} />} />
           <Route path='/ImageRecognition' element={<ImageRecognition />} />

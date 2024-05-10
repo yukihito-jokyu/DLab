@@ -9,8 +9,8 @@ function ScreenField() {
   return (
     <div className='screen-field-wrapper'>
       <div className='left-screen'>
-        {/* <EditScreen /> */}
-        <TrainLogField />
+        <EditScreen />
+        {/* <TrainLogField /> */}
       </div>
       <div className='right-screen'>
         <div className='top-screen'>
