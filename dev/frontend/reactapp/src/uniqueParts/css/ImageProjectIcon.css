@@ -4,7 +4,7 @@
   margin: 0px 40px 40px 0;
 
   background: linear-gradient(to bottom, #C39DFF, #459FFF), #E5E5E5;
-  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 7px rgba(121, 87, 123, 0.5);
   border-radius: 25px;
   padding: 3px;
 }
