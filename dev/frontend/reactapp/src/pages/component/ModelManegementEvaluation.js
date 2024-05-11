@@ -6,6 +6,7 @@ import '../css/ModelManegementEvaluation.css';
 import ModelField from '../../uniqueParts/component/ModelField';
 import ProjectModelName from '../../uiParts/component/ProjectModelName';
 import ModelCreateField from '../../uniqueParts/component/ModelCreateField';
+import ContentsBackground from '../../uiParts/component/ContentsBackground';
 
 function ModelManegementEvaluation() {
   return (
@@ -15,7 +16,8 @@ function ModelManegementEvaluation() {
         logocomponent={Logo}
         projectmodelnamecomponent={ProjectModelName}
       />
-      <ModelField />
+      {/* <ModelField /> */}
+      <ContentsBackground children={ModelField} />
       <div className='create-background-field'>
         <ModelCreateField />
       </div>

@@ -5,11 +5,9 @@ import ImageProjectImages from './ImageProjectImages'
 
 function ImageProjectIcon() {
   return (
-    <div className='ImageProjectIcon-border'>
-      <div className='ImageProjectIcon-wrapper'>
-        <ImageProjectTitleFeild />
-        <ImageProjectImages />
-      </div>
+    <div className='ImageProjectIcon-wrapper'>
+      <ImageProjectTitleFeild />
+      <ImageProjectImages />
     </div>
   )
 }

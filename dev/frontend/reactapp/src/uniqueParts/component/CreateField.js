@@ -7,22 +7,20 @@ import CreateFieldDeletButton from '../../uiParts/component/CreateFieldDeletButt
 
 function CreateField() {
   return (
-    <div className='create-field-border'>
-      <div className='create-field-wrapper'>
-        <div className='create-name-field'>
-          <CreateName />
+    <div>
+      <div className='create-name-field'>
+        <CreateName />
+      </div>
+      <div className='create-dataset-field'>
+        <CreateDataset />
+      </div>
+      <div className='create-button-field'>
+        <div className='create-button-position'>
+          <CreateButton />
         </div>
-        <div className='create-dataset-field'>
-          <CreateDataset />
-        </div>
-        <div className='create-button-field'>
-          <div className='create-button-position'>
-            <CreateButton />
-          </div>
-        </div>
-        <div className='delet-button-field'>
-          <CreateFieldDeletButton />
-        </div>
+      </div>
+      <div className='delet-button-field'>
+        <CreateFieldDeletButton />
       </div>
     </div>
   )

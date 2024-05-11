@@ -1,12 +1,20 @@
 import React from 'react';
 import '../css/CreateName.css';
 import ImageProjectTitleLine from '../../uiParts/component/ImageProjectTitleLine';
+import GradationFonts from '../../uiParts/component/GradationFonts';
 
 function CreateName() {
+  const text = 'Project Name';
+  const style = {
+    fontSize: '23px',
+    fontWeight: '600',
+    paddingTop: '35px'
+  }
   return (
     <div className='create-name-wapper'>
       <div className='project-name'>
-        <p>Project Name</p>
+        {/* <p>Project Name</p> */}
+        <GradationFonts text={text} style={style} />
       </div>
       <div className='project-name-field'>
         <p>Project Name</p>

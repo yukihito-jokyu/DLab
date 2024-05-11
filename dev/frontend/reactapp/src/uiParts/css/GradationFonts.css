@@ -1,0 +1,7 @@
+.gradation-fonts-wrapper p {
+  display: inline-block;
+  background: linear-gradient(91.27deg, #C49EFF 0.37%, #47A1FF 99.56%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

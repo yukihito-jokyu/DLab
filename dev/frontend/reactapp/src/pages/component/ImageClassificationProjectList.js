@@ -5,6 +5,7 @@ import BurgerButton from '../../uiParts/component/BurgerButton'
 import Logo from '../../uiParts/component/Logo'
 import '../css/ImageClassificationProjectList.css'
 import CreateBackground from '../../uniqueParts/component/CreateBackground'
+import ContentsBackground from '../../uiParts/component/ContentsBackground'
 
 function ImageClassificationProjectList() {
   return (
@@ -13,8 +14,7 @@ function ImageClassificationProjectList() {
         burgerbutton={BurgerButton}
         logocomponent={Logo}
       />
-      <ImageProjectField />
-      {/* <div className='test'></div> */}
+      <ContentsBackground children={ImageProjectField} />
       <div className='create-background-field'>
         <CreateBackground />
       </div>
