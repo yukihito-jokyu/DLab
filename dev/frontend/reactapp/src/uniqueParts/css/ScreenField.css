@@ -1,7 +1,7 @@
 .screen-field-wrapper {
   display: flex;
   width: calc(100% - 20px);
-  height: calc(100vh - 100px);
+  height: calc(100vh - 75px);
   margin: 0px 10px 10px 10px;
 }
 
