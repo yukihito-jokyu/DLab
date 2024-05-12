@@ -1,12 +1,14 @@
 import React from 'react';
 import '../css/CreateButton.css'
+import GradationButton from './GradationButton';
 
 function CreateButton() {
+  const text = '作成';
   return (
-    <div className='create-button-wrapper'>
-      <p>作成</p>
+    <div>
+      <GradationButton text={text} />
     </div>
-  )
-}
+  );
+};
 
-export default CreateButton
+export default CreateButton;
