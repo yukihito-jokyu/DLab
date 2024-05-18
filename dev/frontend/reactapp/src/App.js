@@ -22,11 +22,11 @@ import Reinforcement from './page/Reinforcement'
 import ImageRecognition from './page/ImageRecognition';
 import Flappybird from './page/Flappybird';
 import CartPole from './page/Cartpole';
-import ImageClassificationProjectList from './pages/component/ImageClassificationProjectList';
-import ModelManegementEvaluation from './pages/component/ModelManegementEvaluation';
-import ModelCreateTrain from './pages/component/ModelCreateTrain';
+import ImageClassificationProjectList from './components/ImageClassificationProjectList/ImageClassificationProjectList';
+import ModelManegementEvaluation from './components/ModelManegementEvaluation/ModelManegementEvaluation';
+import ModelCreateTrain from './components/ModelCreateTrain/ModelCreateTrain';
 import RLProjectList from './pages/component/RLProjectList';
-import Login from './pages/component/Login';
+import Login from './components/Login/Login';
 
 function App() {
   // ソケット通信
