@@ -27,7 +27,7 @@ import ModelManegementEvaluation from './components/ModelManegementEvaluation/Mo
 import ModelCreateTrain from './components/ModelCreateTrain/ModelCreateTrain';
 import RLProjectList from './pages/component/RLProjectList';
 import Login from './components/Login/Login';
-import testFirebase from './db/testFirebase';
+import TestFirebase from './db/TestFirebase';
 
 function App() {
   // ソケット通信
@@ -180,7 +180,7 @@ function App() {
           <Route path="/ModelManegementEvaluation" element={<ModelManegementEvaluation />} />
           <Route path="/ModelCreateTrain" element={<ModelCreateTrain />} />
           <Route path="/RLProjectList" element={<RLProjectList />} />
-          <Route path="/testfirebase" element={<testFirebase />} />
+          <Route path="/testfirebase" element={<TestFirebase />} />
         </Routes>
       </Router>
       {/* <div>-</div>
