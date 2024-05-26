@@ -28,6 +28,7 @@ import ModelCreateTrain from './components/ModelCreateTrain/ModelCreateTrain';
 import RLProjectList from './pages/component/RLProjectList';
 import Login from './components/Login/Login';
 import TestFirebase from './db/TestFirebase';
+import DjangoTest from './Django/DjangoTest';
 
 function App() {
   // ソケット通信
@@ -181,6 +182,7 @@ function App() {
           <Route path="/ModelCreateTrain" element={<ModelCreateTrain />} />
           <Route path="/RLProjectList" element={<RLProjectList />} />
           <Route path="/testfirebase" element={<TestFirebase />} />
+          <Route path="/testdjango" element={<DjangoTest />} />
         </Routes>
       </Router>
       {/* <div>-</div>
