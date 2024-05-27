@@ -29,6 +29,7 @@ import RLProjectList from './pages/component/RLProjectList';
 import Login from './components/Login/Login';
 import TestFirebase from './db/TestFirebase';
 import DjangoTest from './Django/DjangoTest';
+import Top from './components/top/Top';
 
 function App() {
   // ソケット通信
@@ -177,6 +178,7 @@ function App() {
           {elementId.map((id, index) => (
             <Route key={index} path={'/Reinforcement/Flappybird'+id} element={<Flappybird id={id} />} />
           ))}
+          <Route path='/top' element={<Top />} />
           <Route path="/ImageClassificationProjectList" element={<ImageClassificationProjectList />} />
           <Route path="/ModelManegementEvaluation" element={<ModelManegementEvaluation />} />
           <Route path="/ModelCreateTrain" element={<ModelCreateTrain />} />
