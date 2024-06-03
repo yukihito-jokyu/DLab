@@ -29,7 +29,7 @@ import RLProjectList from './pages/component/RLProjectList';
 import Login from './components/Login/Login';
 import TestFirebase from './db/TestFirebase';
 import DjangoTest from './Django/DjangoTest';
-import Top from './components/top/Top';
+import Top from './components/Top/Top';
 
 function App() {
   // ソケット通信

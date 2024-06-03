@@ -1,0 +1,89 @@
+.top-wrapper {
+  height: 200vh;
+  /* test */
+}
+
+.top-header-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background: linear-gradient(249.81deg, rgba(0, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 35%, rgba(146, 229, 255, 0) 66%, rgba(0, 240, 255, 0.4) 100%), radial-gradient(98.31% 179.05% at 0% 3.12%, #E18FFF 2.5%, #C190FF 21%, #3491FF 53%, #8690FF 78.5%, #E18FFF 100%);
+}
+
+/* Explanation */
+
+.explanation-wrapper {
+  /* width: 100%; */
+  display: flex;
+  height: 550px;
+  margin-top: 65px;
+  padding: 10px 60px;
+}
+.exp-left {
+  position: relative;
+}
+
+.exp-left .first-p {
+  font-size: 50px;
+}
+
+.exp-left .second-p {
+  padding-top: 10px;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.exp-left .button-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.exp-right .DL-image {
+  width: 600px;
+  height: 550px;
+}
+
+/* Recommend */
+.recommend-wrapper {
+  margin-top: 50px;
+  padding: 0px 60px;
+}
+
+.recommend-wrapper .recommend-comment {
+  width: 100%;
+}
+
+.recommend-wrapper .recommend-comment p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.icon-wrapper {
+  display: flex;
+
+}
+
+.icon-wrapper .recommend-icon {
+  position: relative;
+  width: calc((100% - 120px) / 3);
+  border-radius: 50%;
+  margin: 50px 30px;
+  background-color: #D9D9D9;
+}
+
+.icon-wrapper .recommend-icon p {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 40px;
+}
