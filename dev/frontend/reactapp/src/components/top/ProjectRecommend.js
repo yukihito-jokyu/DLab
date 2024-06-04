@@ -1,27 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import './Top.css'
 import GradationButton from '../../uiParts/component/GradationButton';
 
 function ProjectRecommend() {
+  const [height, setHeight] = useState(0);
+  useEffect(() => {
+    const calculateHeight = () => {
+      const element = document.getElementById('recommend-icon-width');
+      const width = element.offsetWidth;
+      setHeight(width);
+    };
+    // 初期計算
+    calculateHeight();
+    window.addEventListener('resize', calculateHeight);
+    return () => window.removeEventListener('resize', calculateHeight);
+  }, []);
+
+  const imageStyle = {
+    height: `${height}px`
+  }
   return (
-    <div>
+    <div className='project-recommend-wrapper'>
+      <div className='project-recommend-title'>
+        <p>利用できる深層学習</p>
+      </div>
       <div className='classification-wrapper'>
         <div className='project-info-wrapper'>
           <p className='project-title'>Image Classification</p>
           <p className='project-title-ja'>画像分類</p>
           <p className='project-exp'>説明</p>
-          <GradationButton />
+          <div className='project-button'>
+            <GradationButton />
+          </div>
         </div>
-        <div></div>
+        <div className='project-image' id='project-image-width' style={imageStyle}></div>
       </div>
       <div className='reinforcement-wrapper'>
+        <div className='project-image' style={imageStyle}></div>
         <div className='project-info-wrapper'>
           <p className='project-title'>Reinforcement Learning</p>
           <p className='project-title-ja'>強化学習モデル</p>
           <p className='project-exp'>説明</p>
           <GradationButton />
         </div>
-        <div></div>
-        </div>
+      </div>
     </div>
   );
 };

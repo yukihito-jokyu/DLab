@@ -7,7 +7,6 @@ function Recommend() {
     const calculateHeight = () => {
       const element = document.getElementById('recommend-icon-width');
       const width = element.offsetWidth;
-      console.log(width)
       setHeight(width);
     };
 
