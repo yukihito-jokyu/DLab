@@ -6,6 +6,9 @@ import BurgerButton from '../../uiParts/component/BurgerButton';
 import Logo from '../../uiParts/component/Logo';
 import Recommend from './Recommend';
 import ProjectRecommend from './ProjectRecommend';
+import YoutubeRecommend from './YoutubeRecommend';
+import UpDatesRecommend from './UpDatesRecommend';
+import Footer from './Footer';
 
 
 function Top() {
@@ -20,6 +23,9 @@ function Top() {
       <Explanation />
       <Recommend />
       <ProjectRecommend />
+      <YoutubeRecommend />
+      <UpDatesRecommend />
+      <Footer />
     </div>
   )
 }

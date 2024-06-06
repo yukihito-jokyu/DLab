@@ -6,7 +6,7 @@ function ProjectRecommend() {
   const [height, setHeight] = useState(0);
   useEffect(() => {
     const calculateHeight = () => {
-      const element = document.getElementById('recommend-icon-width');
+      const element = document.getElementById('project-image-width');
       const width = element.offsetWidth;
       setHeight(width);
     };
@@ -19,6 +19,12 @@ function ProjectRecommend() {
   const imageStyle = {
     height: `${height}px`
   }
+  const imageClassificationStyle = {
+    background: '#D997FF'
+  }
+  const reinforcementStyle = {
+    background: '#50BBFF'
+  }
   return (
     <div className='project-recommend-wrapper'>
       <div className='project-recommend-title'>
@@ -30,7 +36,7 @@ function ProjectRecommend() {
           <p className='project-title-ja'>画像分類</p>
           <p className='project-exp'>説明</p>
           <div className='project-button'>
-            <GradationButton />
+            <GradationButton text={'画像分類へ'} style1={imageClassificationStyle} />
           </div>
         </div>
         <div className='project-image' id='project-image-width' style={imageStyle}></div>
@@ -41,7 +47,9 @@ function ProjectRecommend() {
           <p className='project-title'>Reinforcement Learning</p>
           <p className='project-title-ja'>強化学習モデル</p>
           <p className='project-exp'>説明</p>
-          <GradationButton />
+          <div className='project-button'>
+            <GradationButton text={'強化学習へ'} style1={reinforcementStyle} />
+          </div>
         </div>
       </div>
     </div>
