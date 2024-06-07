@@ -9,6 +9,7 @@ import ProjectRecommend from './ProjectRecommend';
 import YoutubeRecommend from './YoutubeRecommend';
 import UpDatesRecommend from './UpDatesRecommend';
 import Footer from './Footer';
+import UserNameModal from './UserNameModal';
 
 
 function Top() {
@@ -26,6 +27,7 @@ function Top() {
       <YoutubeRecommend />
       <UpDatesRecommend />
       <Footer />
+      <UserNameModal />
     </div>
   )
 }

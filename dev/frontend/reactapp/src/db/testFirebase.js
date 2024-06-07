@@ -1,25 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { db, auth } from './firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, doc, getDocs, query, where } from 'firebase/firestore';
 import { signInWithGoogle, testSetDb } from './firebaseFunction';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { signOut } from 'firebase/auth';
+import { UserIdContext } from '../context/context';
 
 
 function TestFirebase() {
   const [posts, setPosts] = useState([]);
   const [user] = useAuthState(auth);
+  const [userId, setUserId] = useContext(UserIdContext)
   console.log(user);
 
-  useEffect(() => {
-    const postData = collection(db, 'user');
-    getDocs(postData).then((snapShot) => {
-      // console.log(snapShot.docs.map((doc) => ({...doc.data()})));
-      setPosts(snapShot.docs.map((doc) => ({...doc.data()})))
-    })
-  }, []);
+  // useEffect(() => {
+  //   const postData = collection(db, 'user');
+  //   getDocs(postData).then((snapShot) => {
+  //     // console.log(snapShot.docs.map((doc) => ({...doc.data()})));
+  //     setPosts(snapShot.docs.map((doc) => ({...doc.data()})))
+  //   })
+  // }, []);
 
-  
+  const getData = async () => {
+    const userSnapshot = await getDocs(collection(db, 'user'));
+    userSnapshot.forEach((doc) => {
+      console.log(doc.data().mail_address);
+    });
+    const q = query(collection(db, "user"), where("mail_address", "==", "teseeet"))
+    console.log(q.docs == null)
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data())
+    })
+    // console.log(querySnapshot.docs[0].data())
+  }
+
+  const checkUserId = () => {
+    console.log(userId);
+  };
 
 
   return (
@@ -41,6 +59,8 @@ function TestFirebase() {
       </div>}
       <button onClick={testSetDb}><p>データ追加</p></button>
       {/* <p>{user}</p> */}
+      <button onClick={getData}><p>データ取得</p></button>
+      <button onClick={checkUserId}><p>ユーザーid取得</p></button>
     </div>
   )
 }

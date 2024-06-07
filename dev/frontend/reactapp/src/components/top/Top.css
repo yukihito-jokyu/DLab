@@ -1,6 +1,7 @@
 .top-wrapper {
   /* height: 200vh; */
   /* test */
+  position: relative;
 }
 
 .top-header-wrapper {
@@ -279,4 +280,23 @@
 .footer-wrapper {
   height: 150px;
   background-color: #D9D9D9;
+}
+
+/* UserNameModal */
+
+.user-name-modal-wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 60%;
+  background-color: #D9D9D9;
+}
+
+.user-name-modal-wrapper div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }

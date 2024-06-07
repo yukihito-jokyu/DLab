@@ -30,8 +30,10 @@ import Login from './components/Login/Login';
 import TestFirebase from './db/TestFirebase';
 import DjangoTest from './Django/DjangoTest';
 import Top from './components/Top/Top';
+import { UserIdContext } from './context/context';
 
 function App() {
+  const [userId, setUserId] = useState("");
   // ソケット通信
   // const socket = useContext(SocketContext);
 
@@ -164,7 +166,7 @@ function App() {
   };
 
   return (
-    <div>
+    <UserIdContext.Provider value={[userId, setUserId]}>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -212,7 +214,7 @@ function App() {
       {/* <CartPoleFrame />
       <FlappyBird />
       <Dnd /> */}
-    </div>
+    </UserIdContext.Provider>
   );
 }
 
