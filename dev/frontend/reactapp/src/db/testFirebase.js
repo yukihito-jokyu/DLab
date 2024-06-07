@@ -1,17 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { db, auth } from './firebase';
 import { collection, doc, getDocs, query, where } from 'firebase/firestore';
-import { signInWithGoogle, testSetDb } from './firebaseFunction';
+import { handlSignOut, signInWithGoogle, testSetDb } from './firebaseFunction';
 import { useAuthState } from "react-firebase-hooks/auth";
-import { signOut } from 'firebase/auth';
-import { UserIdContext } from '../context/context';
+import { UserIdContext } from '../App';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function TestFirebase() {
   const [posts, setPosts] = useState([]);
   const [user] = useAuthState(auth);
-  const [userId, setUserId] = useContext(UserIdContext)
-  console.log(user);
+  const { userId, setUserId } = useContext(UserIdContext);
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   const postData = collection(db, 'user');
@@ -23,12 +24,13 @@ function TestFirebase() {
 
   const getData = async () => {
     const userSnapshot = await getDocs(collection(db, 'user'));
-    userSnapshot.forEach((doc) => {
-      console.log(doc.data().mail_address);
-    });
-    const q = query(collection(db, "user"), where("mail_address", "==", "teseeet"))
+    // userSnapshot.forEach((doc) => {
+    //   console.log(doc.data().mail_address);
+    // });
+    const q = query(collection(db, "user"), where("mail_address", "==", "test"))
     console.log(q.docs == null)
     const querySnapshot = await getDocs(q);
+    console.log(querySnapshot.docs[0].data())
     querySnapshot.forEach((doc) => {
       console.log(doc.data())
     })
@@ -38,7 +40,6 @@ function TestFirebase() {
   const checkUserId = () => {
     console.log(userId);
   };
-
 
   return (
     <div>
@@ -52,8 +53,8 @@ function TestFirebase() {
           </div>
         ))}
       </div>
-      <button onClick={signInWithGoogle}><p>サインイン</p></button>
-      <button onClick={() => auth.signOut()}><p>サインアウト</p></button>
+      <button onClick={() => signInWithGoogle(setUserId)}><p>サインイン</p></button>
+      <button onClick={() => handlSignOut(setUserId)}><p>サインアウト</p></button>
       {user && <div>
         <p>{auth.currentUser.displayName}</p>
       </div>}
@@ -61,6 +62,7 @@ function TestFirebase() {
       {/* <p>{user}</p> */}
       <button onClick={getData}><p>データ取得</p></button>
       <button onClick={checkUserId}><p>ユーザーid取得</p></button>
+      <button onClick={() => navigate('/top')}>ページ遷移</button>
     </div>
   )
 }

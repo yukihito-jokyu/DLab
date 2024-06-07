@@ -1,27 +1,26 @@
 import { signInWithPopup } from "firebase/auth";
 import { auth, db, provider } from "./firebase";
-import { collection, doc, query, setDoc, where } from "firebase/firestore";
+import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { v4 as uuidv4 } from 'uuid';
-import { useContext } from "react";
-import { UserIdContext } from "../context/context";
 
 // googleでサインイン
-const signInWithGoogle = () => {
+const signInWithGoogle = (setUserId) => {
   // firebaseを使ってグーグルでサインインする
   signInWithPopup(auth, provider).then(() => {
     // ここでfirebaseにユーザー情報が無かったら保存することにする
     searchUserMail()
-  }).then(() => {
+  }).then( async () => {
     // ログイン中のuserIdを取得し、セットする
-    const [userId, setUserId] = useContext(UserIdContext);
     const q = query(collection(db, "user"), where("mail_address", "==", auth.currentUser.email))
-    const id = q.docs[0].data().user_id;
+    const querySnapshot = await getDocs(q);
+    const id = querySnapshot.docs[0].data().user_id;
     setUserId(id);
   });
 };
 
 // サインアウト
-const signOut = () => {
+const handlSignOut = (setUserId) => {
+  setUserId('');
   auth.signOut();
 };
 
@@ -41,7 +40,8 @@ const saveData = async () => {
 // firebaseにユーザー情報があるか確認。無かったら保存
 const searchUserMail = async () => {
   const q = query(collection(db, "user"), where("mail_address", "==", auth.currentUser.email))
-  if (q.docs == null) {
+  const querySnapshot = await getDocs(q);
+  if (querySnapshot.empty) {
     saveData();
   };
 }
@@ -56,4 +56,4 @@ const testSetDb = async (user_id, mail_address, user_name) => {
   await setDoc(doc(db, "user", user_id), userData);
 }
 
-export { signInWithGoogle, signOut, testSetDb };
+export { signInWithGoogle, handlSignOut, testSetDb };

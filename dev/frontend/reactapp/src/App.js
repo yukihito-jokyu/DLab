@@ -1,5 +1,5 @@
 // Reactアプリのコード (frontend/src/App.jsなど)
-import React, { useState } from 'react';
+import React, { createContext, useState } from 'react';
 // import Layer from "./components/CartPole/CartPoleLayer";
 // import DQNTrainInfo from './components/utils/DQNTrainInfo';
 // import CSVUploader from './components/CSVUploader';
@@ -30,7 +30,9 @@ import Login from './components/Login/Login';
 import TestFirebase from './db/TestFirebase';
 import DjangoTest from './Django/DjangoTest';
 import Top from './components/Top/Top';
-import { UserIdContext } from './context/context';
+
+
+export const UserIdContext = createContext()
 
 function App() {
   const [userId, setUserId] = useState("");
@@ -166,7 +168,7 @@ function App() {
   };
 
   return (
-    <UserIdContext.Provider value={[userId, setUserId]}>
+    <UserIdContext.Provider value={{ userId, setUserId }}>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />

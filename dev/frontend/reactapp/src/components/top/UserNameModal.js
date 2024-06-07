@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { UserIdContext } from '../../context/context';
+import { UserIdContext } from '../../App';
 
 function UserNameModal() {
   const [name, setName] = useState("");
-  const [userId, setUserId] = useContext(UserIdContext);
+  const { userId, setUserId } = useContext(UserIdContext);
 
   return (
     <div className='user-name-modal-wrapper'>
@@ -15,6 +15,7 @@ function UserNameModal() {
           onChange={(e) => setName(e.target.value)}
         />
         <button>登録</button>
+        <button onClick={() => {console.log(userId)}}>id確認</button>
       </div>
     </div>
   );

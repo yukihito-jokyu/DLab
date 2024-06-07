@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './Top.css';
 import Explanation from './Explanation';
 import Header from '../../uniqueParts/component/Header';
@@ -10,9 +10,16 @@ import YoutubeRecommend from './YoutubeRecommend';
 import UpDatesRecommend from './UpDatesRecommend';
 import Footer from './Footer';
 import UserNameModal from './UserNameModal';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../../db/firebase';
+import { UserIdContext } from '../../App';
+
 
 
 function Top() {
+  const { userId, setUserId } = useContext(UserIdContext);
+  const [user] = useAuthState(auth);
+  // console.log(userId)
   return (
     <div className='top-wrapper'>
       <div className='top-header-wrapper'>
@@ -27,7 +34,7 @@ function Top() {
       <YoutubeRecommend />
       <UpDatesRecommend />
       <Footer />
-      <UserNameModal />
+      {user && <UserNameModal />}
     </div>
   )
 }
