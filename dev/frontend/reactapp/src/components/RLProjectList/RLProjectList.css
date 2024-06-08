@@ -1,0 +1,107 @@
+/* main */
+
+.rl-project-list-wrapper {
+	position: relative;
+	width: 100%;
+	height: 100vh;
+	background: linear-gradient(249.81deg, rgba(0, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 35%, rgba(146, 229, 255, 0) 66%, rgba(0, 240, 255, 0.4) 100%), radial-gradient(98.31% 179.05% at 0% 3.12%, #E18FFF 2.5%, #C190FF 21%, #3491FF 53%, #8690FF 78.5%, #E18FFF 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #FFFFFF;
+}
+
+/* RLProjectField */
+
+.rl-project-field-wrapper {
+  display: flex;
+	width: calc(100% - 20px);
+	height: calc(100vh - 75px);
+	margin: 0px 10px 10px 10px;
+	background-color: white;
+	border-radius: 25px;
+	padding: 40px;
+	overflow-x: auto;
+}
+
+.rl-project-field-wrapper .field-middle {
+	display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* RLProjectIcon */
+
+.rl-project-icon-wrapper {
+	height: 540px;
+	width: 350px;
+}
+
+.rl-project-icon-wrapper .project-title-wrapper {
+	height: 80px;
+	display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rl-project-icon-wrapper .project-title-wrapper .project-title {
+	height: 100%;
+	width: 300px;
+	display: flex;
+  justify-content: center;
+  align-items: center;
+	border-bottom: 2px solid #cccccc;
+}
+
+.rl-project-icon-wrapper .project-title-wrapper .project-title p {
+	display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+	font-size: 40px;
+}
+
+.rl-project-icon-wrapper .project-image-wrapper {
+	display: flex;
+  justify-content: center;
+  align-items: center;
+	margin-top: 20px;
+}
+
+.rl-project-icon-wrapper .project-image-wrapper .project-image {
+	width: 300px;
+	height: 150px;
+}
+
+.rl-project-icon-wrapper .project-info-wrapper {
+	display: flex;
+  justify-content: center;
+  align-items: center;
+	width: 100%;
+	margin-top: 20px;
+}
+
+.rl-project-icon-wrapper .project-info-wrapper .project-info {
+	width: 300px;
+	height: 250px;
+}
+
+/* RLRequestIcon */
+
+.rl-request-icon-wrapper {
+	display: flex;
+  justify-content: center;
+  align-items: center;
+	height: 560px;
+	width: 350px;
+	border-radius: 20px;
+	background-color: #E5E5E5;
+}
+
+.request-wrapper .request {
+	font-size: 30px;
+}
+
+.request-wrapper .button-wrapper {
+	display: flex;
+  justify-content: center;
+  align-items: center;
+	margin-top: 20px;
+}

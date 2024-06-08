@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './Top.css'
 import GradationButton from '../../uiParts/component/GradationButton';
+import { UserInfoContext } from '../../App';
+import { auth } from '../../db/firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
+import { signInWithGoogle } from '../../db/firebaseFunction';
 
 function UpDatesRecommend() {
+  const { setUserId, setFirstSignIn } = useContext(UserInfoContext);
+  const [user] = useAuthState(auth);
+  const navigate = useNavigate();
+  const handleSignIn = () => {
+    if (user) {
+      navigate('/testfirebase');
+    } else {
+      signInWithGoogle(setUserId, setFirstSignIn);
+    }
+  };
   return (
     <div className='update-wrapper'>
       <div className='update-title'>
@@ -12,7 +27,7 @@ function UpDatesRecommend() {
         <p>今後のサービス向上のために何かご要望等ございましたら</p>
         <p>下記フォームへご要望下さい</p>
       </div>
-      <div className='update-button'>
+      <div className='update-button' onClick={handleSignIn}>
         <GradationButton />
       </div>
       <div className='update-list'>

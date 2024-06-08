@@ -25,17 +25,19 @@ import CartPole from './page/Cartpole';
 import ImageClassificationProjectList from './components/ImageClassificationProjectList/ImageClassificationProjectList';
 import ModelManegementEvaluation from './components/ModelManegementEvaluation/ModelManegementEvaluation';
 import ModelCreateTrain from './components/ModelCreateTrain/ModelCreateTrain';
-import RLProjectList from './pages/component/RLProjectList';
+import RLProjectList from './components/RLProjectList/RLProjectList';
 import Login from './components/Login/Login';
 import TestFirebase from './db/TestFirebase';
 import DjangoTest from './Django/DjangoTest';
 import Top from './components/Top/Top';
 
 
-export const UserIdContext = createContext()
+export const UserInfoContext = createContext()
 
 function App() {
   const [userId, setUserId] = useState("");
+  const [projectId, setProjectId] = useState("");
+  const [firstSignIn, setFirstSignIn] = useState(false);
   // ソケット通信
   // const socket = useContext(SocketContext);
 
@@ -168,7 +170,7 @@ function App() {
   };
 
   return (
-    <UserIdContext.Provider value={{ userId, setUserId }}>
+    <UserInfoContext.Provider value={{ userId, setUserId, firstSignIn, setFirstSignIn, projectId, setProjectId }}>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -216,7 +218,7 @@ function App() {
       {/* <CartPoleFrame />
       <FlappyBird />
       <Dnd /> */}
-    </UserIdContext.Provider>
+    </UserInfoContext.Provider>
   );
 }
 

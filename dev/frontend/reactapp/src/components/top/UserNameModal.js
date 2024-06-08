@@ -1,9 +1,14 @@
 import React, { useContext, useState } from 'react';
-import { UserIdContext } from '../../App';
+import { UserInfoContext } from '../../App';
+import { registName } from '../../db/firebaseFunction';
 
 function UserNameModal() {
   const [name, setName] = useState("");
-  const { userId, setUserId } = useContext(UserIdContext);
+  const { userId, setFirstSignIn } = useContext(UserInfoContext);
+  const handleSetName = () => {
+    setFirstSignIn(false);
+    registName(userId, name)
+  }
 
   return (
     <div className='user-name-modal-wrapper'>
@@ -14,7 +19,7 @@ function UserNameModal() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <button>登録</button>
+        <button onClick={handleSetName}>登録</button>
         <button onClick={() => {console.log(userId)}}>id確認</button>
       </div>
     </div>

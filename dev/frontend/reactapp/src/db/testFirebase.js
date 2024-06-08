@@ -3,7 +3,7 @@ import { db, auth } from './firebase';
 import { collection, doc, getDocs, query, where } from 'firebase/firestore';
 import { handlSignOut, signInWithGoogle, testSetDb } from './firebaseFunction';
 import { useAuthState } from "react-firebase-hooks/auth";
-import { UserIdContext } from '../App';
+import { UserInfoContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 function TestFirebase() {
   const [posts, setPosts] = useState([]);
   const [user] = useAuthState(auth);
-  const { userId, setUserId } = useContext(UserIdContext);
+  const { userId, setUserId, setFirstSignIn } = useContext(UserInfoContext);
   const navigate = useNavigate();
 
   // useEffect(() => {
@@ -27,7 +27,7 @@ function TestFirebase() {
     // userSnapshot.forEach((doc) => {
     //   console.log(doc.data().mail_address);
     // });
-    const q = query(collection(db, "user"), where("mail_address", "==", "test"))
+    const q = query(collection(db, "user"), where("mail_address", "==", auth.currentUser.email))
     console.log(q.docs == null)
     const querySnapshot = await getDocs(q);
     console.log(querySnapshot.docs[0].data())
@@ -53,7 +53,7 @@ function TestFirebase() {
           </div>
         ))}
       </div>
-      <button onClick={() => signInWithGoogle(setUserId)}><p>サインイン</p></button>
+      <button onClick={() => signInWithGoogle(setUserId, setFirstSignIn)}><p>サインイン</p></button>
       <button onClick={() => handlSignOut(setUserId)}><p>サインアウト</p></button>
       {user && <div>
         <p>{auth.currentUser.displayName}</p>

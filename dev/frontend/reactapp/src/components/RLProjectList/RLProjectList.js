@@ -1,9 +1,9 @@
 import React from 'react'
-import '../css/RLProjectList.css'
+import './RLProjectList.css'
 import Header from '../../uniqueParts/component/Header'
 import BurgerButton from '../../uiParts/component/BurgerButton'
 import Logo from '../../uiParts/component/Logo'
-import RLProjectField from '../../uniqueParts/component/RLProjectField'
+import RLProjectField from './RLProjectField'
 
 function RLProjectList() { 
   return (

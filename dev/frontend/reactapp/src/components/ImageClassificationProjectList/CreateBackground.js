@@ -1,5 +1,5 @@
 import React from 'react';
-import './CreateBackground.css';
+import './ImageClassificationProjectList.css';
 import CreateField from './CreateField';
 import BorderGradationBox from '../../uiParts/component/BorderGradationBox';
 

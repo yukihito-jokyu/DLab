@@ -5,6 +5,10 @@
   border-radius: 10px;
 }
 
+.gradation-button-wrapper:hover {
+  cursor: pointer;
+}
+
 .gradation-button-wrapper p {
   color: white;
   font-size: 20px;

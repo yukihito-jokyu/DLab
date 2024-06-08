@@ -15,9 +15,9 @@ function ImageClassificationProjectList() {
         logocomponent={Logo}
       />
       <ContentsBackground children={ImageProjectField} />
-      <div className='create-background-field'>
+      {/* <div className='create-background-field'>
         <CreateBackground />
-      </div>
+      </div> */}
     </div>
   )
 }

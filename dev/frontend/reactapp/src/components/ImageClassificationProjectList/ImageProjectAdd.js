@@ -1,5 +1,5 @@
 import React from 'react';
-import './ImageProjectAdd.css';
+import './ImageClassificationProjectList.css';
 import { ReactComponent as AddIcon } from '../../assets/svg/project_add_48.svg'
 
 function ImageProjectAdd() {
