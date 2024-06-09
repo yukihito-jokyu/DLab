@@ -1,0 +1,130 @@
+/* main */
+
+.project-share-wrapper .header-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background: linear-gradient(91.27deg, #C49EFF 0.37%, #47A1FF 99.56%);
+}
+
+/* ProjectRequest */
+
+.project-request-wrapper {
+  display: flex;
+  width: 100%;
+  margin-top: 70px;
+  margin-bottom: 100px;
+  padding: 10px 60px;
+}
+
+.project-request-wrapper .request-left {
+  position: relative;
+  width: 50%;
+}
+
+.project-request-wrapper .request-left .title {
+  font-size: 50px;
+  padding-top: 30px;
+  font-weight: 700;
+  color: #00906E;
+}
+
+.project-request-wrapper .request-left .info-1 {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.project-request-wrapper .request-left .info-2 {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.project-request-wrapper .request-left .button-wrapper {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.project-request-wrapper .request-left .button-wrapper .button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.project-request-wrapper .request-left .info-3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  color: #00906E;
+  font-weight: 900;
+}
+
+.project-request-wrapper .request-right {
+  width: 50%;
+}
+
+/* ProjectTile */
+
+.project-tile-wrapper {
+  width: 100%;
+  height: 250px;
+  padding: 10px 65px;
+}
+
+.project-tile-wrapper .tile-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+}
+
+.project-tile-wrapper .tile-wrapper .tile-left {
+  width: 50%;
+  background: linear-gradient(90deg, #00C2FF 0%, #509FE8 100%);
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.project-tile-wrapper .tile-wrapper .tile-left .project-tile-title {
+  padding-left: 40px;
+  padding-top: 20px;
+  font-size: 30px;
+  color: white;
+  font-weight: 500;
+}
+
+.project-tile-wrapper .tile-wrapper .tile-left .project-tile-info {
+  padding-left: 40px;
+  padding-top: 10px;
+  /* font-size: 30px; */
+  color: white;
+  font-weight: 500;
+}
+
+.project-tile-wrapper .tile-wrapper .tile-right {
+  width: 50%;
+  position: relative;
+}
+
+.project-tile-wrapper .tile-wrapper .tile-right .CIFAR-10-image {
+  width: 100%;
+  height: 100%;
+}
+
+.project-tile-wrapper .tile-wrapper .tile-right .image-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #509FE8 0%, rgba(80, 159, 232, 0.1) 100%);
+}
+

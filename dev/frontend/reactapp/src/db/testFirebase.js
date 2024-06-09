@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { db, auth } from './firebase';
 import { collection, doc, getDocs, query, where } from 'firebase/firestore';
-import { handlSignOut, signInWithGoogle, testSetDb } from './firebaseFunction';
+import { getProjectInfo, handlSignOut, signInWithGoogle, testSetDb } from './firebaseFunction';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { UserInfoContext } from '../App';
 import { useNavigate } from 'react-router-dom';
@@ -63,6 +63,7 @@ function TestFirebase() {
       <button onClick={getData}><p>データ取得</p></button>
       <button onClick={checkUserId}><p>ユーザーid取得</p></button>
       <button onClick={() => navigate('/top')}>ページ遷移</button>
+      <button onClick={getProjectInfo}>プロジェクト情報取得</button>
     </div>
   )
 }

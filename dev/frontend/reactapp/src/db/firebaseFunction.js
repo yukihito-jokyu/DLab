@@ -1,6 +1,6 @@
 import { signInWithPopup } from "firebase/auth";
 import { auth, db, provider } from "./firebase";
-import { collection, doc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { v4 as uuidv4 } from 'uuid';
 
 // googleでサインイン
@@ -66,6 +66,17 @@ const getProject = async (userId) => {
   return null;
 }
 
+// プロジェクト情報を取得
+const getProjectInfo = async () => {
+  const docRef = doc(db, 'project_info', 'info');
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data()
+  } else {
+    return null
+  }
+}
+
 // test
 const testSetDb = async (user_id, mail_address, user_name) => {
   const userData = {
@@ -76,4 +87,4 @@ const testSetDb = async (user_id, mail_address, user_name) => {
   await setDoc(doc(db, "user", user_id), userData);
 };
 
-export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject };
+export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo };

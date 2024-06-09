@@ -30,6 +30,8 @@ import Login from './components/Login/Login';
 import TestFirebase from './db/TestFirebase';
 import DjangoTest from './Django/DjangoTest';
 import Top from './components/Top/Top';
+import ProjectShare from './components/ProjectShare/ProjectShare';
+import Community from './components/Community/Community';
 
 
 export const UserInfoContext = createContext()
@@ -191,6 +193,8 @@ function App() {
           <Route path="/RLProjectList" element={<RLProjectList />} />
           <Route path="/testfirebase" element={<TestFirebase />} />
           <Route path="/testdjango" element={<DjangoTest />} />
+          <Route path='/projectshare' element={<ProjectShare />} />
+          <Route path='/community' element={<Community />} />
         </Routes>
       </Router>
       {/* <div>-</div>
