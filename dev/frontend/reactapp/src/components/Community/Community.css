@@ -1,0 +1,50 @@
+/* main */
+
+.community-header-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background: linear-gradient(91.27deg, #C49EFF 0.37%, #47A1FF 99.56%);
+}
+
+/* ProjectActivatie */
+
+.project-activate-wrapper {
+  display: flex;
+  width: 100%;
+  margin-top: 130px;
+  margin-bottom: 100px;
+  padding: 10px 60px;
+}
+
+.activate-left {
+  width: 50%;
+  position: relative;
+}
+
+.activate-info-field .activate-project-title {
+  font-size: 60px;
+  padding-top: 10px;
+  font-weight: 700;
+  color: #00906E;
+}
+
+.activate-info-field .activate-project-info {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.activate-button-wrapper {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.activate-right {
+  width: 50%;
+}
