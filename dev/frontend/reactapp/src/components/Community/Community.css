@@ -86,3 +86,25 @@
   height: 4px;
   background-color: #17A277;
 }
+
+/* ProjectOverview */
+
+.project-overview-wrapper {
+  padding: 40px 60px;
+}
+
+.overview-wrapper {
+  margin-bottom: 40px;
+}
+
+.overview-wrapper .overview-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #17A277;
+}
+
+.overview-wrapper .overview-info {
+  padding-left: 40px;
+  padding-top: 13px;
+  font-weight: 600;
+}

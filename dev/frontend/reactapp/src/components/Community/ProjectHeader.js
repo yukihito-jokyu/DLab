@@ -1,36 +1,8 @@
 import React, { useState } from 'react';
 import './Community.css';
 
-function ProjectHeader() {
-  const [overview, setOverview] = useState(true);
-  const [preview, setPreview] = useState(false);
-  const [discussion, setDiscussion] = useState(false);
-  const [readerBoard, setReaderBoard] = useState(false);
-
-  const handleOverview = () => {
-    setOverview(true);
-    setPreview(false);
-    setDiscussion(false);
-    setReaderBoard(false);
-  };
-  const handlePreview = () => {
-    setOverview(false);
-    setPreview(true);
-    setDiscussion(false);
-    setReaderBoard(false);
-  };
-  const handleDiscussion = () => {
-    setOverview(false);
-    setPreview(false);
-    setDiscussion(true);
-    setReaderBoard(false);
-  };
-  const handleReaderBoard = () => {
-    setOverview(false);
-    setPreview(false);
-    setDiscussion(false);
-    setReaderBoard(true);
-  };
+function ProjectHeader({ handleOverview, handlePreview, handleDiscussion, handleReaderBoard, overview, preview, discussion, readerBoard }) {
+  
   const style1 = {
     height: overview ? '54px' : '50px',
     backgroundColor: overview ? 'white' : '#D9D9D9',
