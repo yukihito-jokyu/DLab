@@ -5,7 +5,7 @@ import React, { createContext, useState } from 'react';
 // import CSVUploader from './components/CSVUploader';
 // import CartPoleFrame from './components/CartPole/CartPoleFrame';
 // ページ遷移用
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import './App.css'
 
@@ -37,7 +37,7 @@ import Community from './components/Community/Community';
 export const UserInfoContext = createContext()
 
 function App() {
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState('');
   const [projectId, setProjectId] = useState("");
   const [firstSignIn, setFirstSignIn] = useState(false);
   // ソケット通信
@@ -195,6 +195,7 @@ function App() {
           <Route path="/testdjango" element={<DjangoTest />} />
           <Route path='/projectshare' element={<ProjectShare />} />
           <Route path='/community' element={<Community />} />
+          <Route path="*" element={<Navigate to="/top" replace />} />
         </Routes>
       </Router>
       {/* <div>-</div>

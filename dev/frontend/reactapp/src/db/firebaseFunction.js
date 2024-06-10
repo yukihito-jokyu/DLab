@@ -16,6 +16,7 @@ const signInWithGoogle = (setUserId, setFirstSignIn) => {
     if (!querySnapshot.empty) {
       const id = querySnapshot.docs[0].data().user_id;
       setUserId(id);
+      sessionStorage.setItem('userId', JSON.stringify(id));
     }
   });
 };
@@ -23,12 +24,13 @@ const signInWithGoogle = (setUserId, setFirstSignIn) => {
 // サインアウト
 const handlSignOut = (setUserId) => {
   setUserId('');
+  sessionStorage.setItem('userId', JSON.stringify(''));
   auth.signOut();
 };
 
 // firebaseにユーザー情報があるか確認。無かったら保存
 const searchUserMail = async (setUserId, setFirstSignIn) => {
-  const q = query(collection(db, "user"), where("mail_address", "==", auth.currentUser.email))
+  const q = query(collection(db, "user"), where("mail_address", "==", auth.currentUser.email));
   const querySnapshot = await getDocs(q);
   if (querySnapshot.empty) {
     setFirstSignIn(true);
@@ -46,7 +48,8 @@ const saveData = async (setUserId) => {
     user_id: user_id,
     user_name: user_name
   };
-  setUserId(user_id)
+  setUserId(user_id);
+  sessionStorage.setItem('userId', JSON.stringify(user_id));
   await setDoc(doc(db, "user", user_id), userData);
 };
 
@@ -77,6 +80,16 @@ const getProjectInfo = async () => {
   }
 }
 
+// メールアドレスからuser_idを取得する方法
+const getUserId = async (mail_address) => {
+  const q = query(collection(db, "user"), where("mail_address", "==", auth.currentUser.email));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    const user_id = querySnapshot.docs[0].data().user_id;
+    sessionStorage.setItem('userId', JSON.stringify(user_id));
+  };
+};
+
 // test
 const testSetDb = async (user_id, mail_address, user_name) => {
   const userData = {
@@ -87,4 +100,4 @@ const testSetDb = async (user_id, mail_address, user_name) => {
   await setDoc(doc(db, "user", user_id), userData);
 };
 
-export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo };
+export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId };

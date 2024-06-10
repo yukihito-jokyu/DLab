@@ -8,7 +8,7 @@ import { getProject } from '../../db/firebaseFunction'
 
 
 function ImageProjectField() {
-  const { userId } = useContext(UserInfoContext);
+  // const { userId } = useContext(UserInfoContext);
   const [participationProjects, setParticipationProjects] = useState(null);
   const style1 = {
     margin: '0px 40px 40px 0',
@@ -17,13 +17,14 @@ function ImageProjectField() {
   };
   useEffect(() => {
     const fatchProjects = async () => {
+      const userId = JSON.parse(sessionStorage.getItem('userId'));
       const projects = await getProject(userId);
       setParticipationProjects(projects);
     };
 
     fatchProjects();
 
-  }, [userId]);
+  }, []);
   return (
     <div className='imageprojectfield-wrapper'>
       {participationProjects ? (

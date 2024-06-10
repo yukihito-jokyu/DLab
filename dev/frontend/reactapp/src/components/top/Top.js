@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Top.css';
 import Explanation from './Explanation';
 import Header from '../../uniqueParts/component/Header';
@@ -13,11 +13,26 @@ import UserNameModal from './UserNameModal';
 // import { useAuthState } from 'react-firebase-hooks/auth';
 // import { auth } from '../../db/firebase';
 import { UserInfoContext } from '../../App';
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../../db/firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { getUserId } from '../../db/firebaseFunction';
 
 
 
 function Top() {
   const { firstSignIn } = useContext(UserInfoContext);
+  const [user] = useAuthState(auth);
+  useEffect(() => {
+    const fetchUserId = () => {
+      if (user) {
+        getUserId(auth.currentUser.email);
+      };
+    };
+
+    fetchUserId();
+
+  }, [user]);
   // const [user] = useAuthState(auth);
   // console.log(userId)
   return (
