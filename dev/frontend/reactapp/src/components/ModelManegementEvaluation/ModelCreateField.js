@@ -1,5 +1,4 @@
 import React from 'react';
-import './ModelCreateField.css';
 import ModelCreateBox from './ModelCreateBox';
 import BorderGradationBox from '../../uiParts/component/BorderGradationBox';
 
@@ -15,7 +14,9 @@ function ModelCreateField() {
   return (
     <div className='create-background-wrapper'>
       <div className='create-background-color'></div>
-      <BorderGradationBox children={ModelCreateBox} style1={style1} style2={style2} />
+      <BorderGradationBox style1={style1} style2={style2} >
+        <ModelCreateBox />
+      </BorderGradationBox>
     </div>
   )
 }

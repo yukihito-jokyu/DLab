@@ -26,7 +26,7 @@ import ImageClassificationProjectList from './components/ImageClassificationProj
 import ModelManegementEvaluation from './components/ModelManegementEvaluation/ModelManegementEvaluation';
 import ModelCreateTrain from './components/ModelCreateTrain/ModelCreateTrain';
 import RLProjectList from './components/RLProjectList/RLProjectList';
-import Login from './components/Login/Login';
+// import Login from './components/Login/Login';
 import TestFirebase from './db/TestFirebase';
 import DjangoTest from './Django/DjangoTest';
 import Top from './components/Top/Top';
@@ -176,7 +176,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path='/Login' element={<Login />} />
+          {/* <Route path='/Login' element={<Login />} /> */}
           <Route path="/test" element={<Test />} />
           <Route path='/Reinforcement' element={<Reinforcement handlemakeid={handleMakeId} elementid={elementId} />} />
           <Route path='/ImageRecognition' element={<ImageRecognition />} />

@@ -1,7 +1,6 @@
 import React from 'react';
-import './ModelTile.css';
-import ModelPictureIcon from './ModelPictureIcon';
-import ModelPictureField from './ModelPictureField';
+import './ModelManegementEvaluation.css';
+import { ReactComponent as PictureIcon } from '../../assets/svg/graph_24.svg'
 
 function ModelTile() {
   return (
@@ -23,12 +22,16 @@ function ModelTile() {
           <p>2024年3月26日</p>
         </div>
         <div className='model-picture'>
-          <ModelPictureIcon />
+          <div className='model-picture-icon-wrapper'>
+            <PictureIcon className='picture-svg' />
+          </div>
         </div>
       </div>
       <div className='graph-field'>
         <p>Graph</p>
-        <ModelPictureField />
+        <div className='model-picture-filed-wrapper'>
+          
+        </div>
       </div>
     </div>
   )

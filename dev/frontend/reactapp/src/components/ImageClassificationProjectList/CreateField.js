@@ -1,6 +1,6 @@
 import React from 'react';
 import './ImageClassificationProjectList.css';
-import CreateFieldDeletButton from './CreateFieldDeletButton';
+import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
 
@@ -56,7 +56,9 @@ function CreateField() {
         </div>
       </div>
       <div className='delet-button-field'>
-        <CreateFieldDeletButton />
+        <div className='delet-button-wrapper'>
+          <DeletIcon className='delet-svg' />
+        </div>
       </div>
     </div>
   )

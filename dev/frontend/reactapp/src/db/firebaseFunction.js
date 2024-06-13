@@ -90,6 +90,24 @@ const getUserId = async (mail_address) => {
   };
 };
 
+// project_idとuser_idを用いてデータベースからmodel_idを取得する方法
+const getModelId = async (user_id, project_id) => {
+  const q = query(
+    collection(db, "models"),
+    where("user_id", "==", user_id),
+    where("project_id", "==", project_id)
+  );
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    // querySnapshot.docs.map((doc) => (
+    //   console.log(doc.data())
+    // ))
+    // console.log(querySnapshot);
+    return querySnapshot
+  };
+  return null
+};
+
 // test
 const testSetDb = async (user_id, mail_address, user_name) => {
   const userData = {
@@ -100,4 +118,4 @@ const testSetDb = async (user_id, mail_address, user_name) => {
   await setDoc(doc(db, "user", user_id), userData);
 };
 
-export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId };
+export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId };

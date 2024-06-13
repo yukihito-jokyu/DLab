@@ -1,6 +1,6 @@
 import React from 'react';
-import './ModelFieldHeader.css';
-import ModelDeletIcon from './ModelDeletIcon';
+import './ModelManegementEvaluation.css';
+import { ReactComponent as DeleteIcon } from '../../assets/svg/delete_24.svg'
 
 function ModelFieldHeader() {
   return (
@@ -18,7 +18,9 @@ function ModelFieldHeader() {
         <p>Date</p>
       </div>
       <div className='model-delet-div'>
-        <ModelDeletIcon />
+        <div className='model-delet-icon-wrapper'>
+          <DeleteIcon className='model-delet-svg' />
+        </div>
       </div>
     </div>
   )

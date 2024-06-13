@@ -1,6 +1,289 @@
+/* main */
+
 .mme-wrapper {
   position: relative;
   width: 100%;
   height: 100vh;
   background: linear-gradient(249.81deg, rgba(0, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 35%, rgba(146, 229, 255, 0) 66%, rgba(0, 240, 255, 0.4) 100%), radial-gradient(98.31% 179.05% at 0% 3.12%, #E18FFF 2.5%, #C190FF 21%, #3491FF 53%, #8690FF 78.5%, #E18FFF 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #FFFFFF;
+}
+
+/* ModelField */
+
+.model-field-wrapper {
+  height: 100%;
+}
+
+.tile-field {
+  /* position: static; */
+  overflow: auto;
+  height: calc(100% - 45px);
+  /* flex: 1; */
+}
+
+.DL-field {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  bottom: 10px;
+  right: 10px;
+}
+
+/* ModelFieldHeader */
+
+.model-field-header-wrapper {
+  display: flex;
+  width: 100%;
+  height: 45px;
+  border-bottom: 3px solid #DDDDDD;
+}
+
+.model-field-header-wrapper p {
+  font-size: 20px;
+  color: #575757;
+}
+
+.model-name-div {
+  display: flex;
+  align-items: center;
+  width: calc(100% - 530px);
+  padding-left: 80px;
+}
+
+.model-name-div p {
+  text-align: center;
+}
+
+.model-accuracy-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 130px;
+}
+
+.model-accuracy-div p {
+  text-align: center;
+}
+
+.model-loss-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+}
+
+.model-loss-div p {
+  text-align: center;
+}
+
+.model-date-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+}
+
+.model-date-div p {
+  text-align: center;
+}
+
+.model-delet-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+}
+
+.model-delet-icon-wrapper {
+  width: 30px;
+  height: 30px;
+}
+
+.model-delet-svg {
+  width: 30px;
+  height: 30px;
+  fill: #979797;
+}
+
+/* ModelTitle */
+
+.model-tile-wrapper {
+  width: 100%;
+  height: 300px;
+  background-color: rgb(80, 166, 255, 0.15);
+  border-bottom: 3px solid white;
+}
+
+.model-title-field {
+  display: flex;
+  height: 70px;
+}
+
+.model-check-box-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 70px;
+}
+
+.model-check-box {
+  width: 25px;
+  height: 25px;
+  background-color: #C2DBF4;
+}
+
+.model-title {
+  display: flex;
+  align-items: center;
+  width: calc(100% - 610px);
+}
+
+.model-title p {
+  font-size: 30px;
+}
+
+.model-accuracy {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 130px;
+}
+
+.model-accuracy p {
+  font-size: 20px;
+}
+
+.model-loss {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+}
+
+.model-loss p {
+  font-size: 20px;
+}
+
+.model-date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+}
+
+.model-date p {
+  font-size: 20px;
+}
+
+.model-picture {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+}
+
+.graph-field {
+  margin: 0 100px 0 80px;
+}
+
+.graph-field p {
+  font-size: 25px;
+  color: #575757;
+}
+
+.model-picture-icon-wrapper {
+  width: 30px;
+  height: 30px;
+}
+
+.picture-svg {
+  width: 30px;
+  height: 30px;
+  fill: #5BA0D0;
+}
+
+.model-picture-filed-wrapper {
+  width: 100%;
+  height: 180px;
+  background-color: #9AAAE2;
+  border-radius: 20px;
+}
+
+/* ModelCreateButton */
+
+.model-create-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  border-radius: 10px;
+  border: 4px dotted #489CFF;
+  margin: 5px 10px 5px 10px;
+}
+
+.model-add-svg {
+  width: 40px;
+  height: 40px;
+  fill: #489CFF;
+}
+
+/* DLButton */
+
+.DL-button-wrapper {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #D992FF;
+}
+
+.DL-button-icon {
+  position: absolute;
+  fill: white;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  /* margin-top: 15px; */
+}
+
+.DL-button-wrapper p {
+  position: absolute;
+  top: 63%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  font-size: 13px;
+  color: white;
+}
+
+/* ModelCreateBox */
+
+.create-model-button-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 90px;
+  width: 720px;
+  height: 150px;
+}
+
+.project-name-field {
+  margin: 0 30px 10px 30px;
+}
+
+.project-name-field p {
+  color: #676767;
+  font-size: 45px;
+  font-weight: 500;
+}
+
+.projecttitle-line {
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, #C39DFF, #459FFF), #E5E5E5;
+}
+
+.delet-svg {
+  fill: #9D9EFF;
 }

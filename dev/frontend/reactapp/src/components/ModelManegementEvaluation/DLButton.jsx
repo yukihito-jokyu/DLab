@@ -1,5 +1,5 @@
 import React from 'react';
-import './DLButton.css';
+import './ModelManegementEvaluation.css';
 import { ReactComponent as DLButtonIcon } from '../../assets/svg/download_40.svg'
 
 function DLButton() {
