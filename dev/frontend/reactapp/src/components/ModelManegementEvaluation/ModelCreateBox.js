@@ -10,7 +10,7 @@ function ModelCreateBox({ handleCreateModal }) {
   const text1 = 'Model Name';
   const handleMakeModel = () => {
     const userId = JSON.parse(sessionStorage.getItem('userId'));
-    const projectId = 'CartPole';
+    const projectId = JSON.parse(sessionStorage.getItem('projectId'));
     setModel(userId, projectId, modelName);
     handleCreateModal();
   };

@@ -19,8 +19,8 @@ function RLProjectField() {
   // };
   const handleNav = useCallback((projectId) => {
     navigate('/ModelManegementEvaluation')
-    setProjectId(projectId)
-  }, [navigate, setProjectId])
+    sessionStorage.setItem('projectId', JSON.stringify(projectId));
+  }, [navigate])
 
   return (
     <div className='rl-project-field-wrapper'>

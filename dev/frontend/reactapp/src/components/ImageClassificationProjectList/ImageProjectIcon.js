@@ -10,6 +10,7 @@ function ImageProjectIcon({ projectName }) {
   const navigate = useNavigate();
   const handleNav = (projectName) => {
     setProjectId(projectName);
+    sessionStorage.setItem('projectId', JSON.stringify(projectName));
     navigate('/ModelManegementEvaluation');
   }
   const style1 = {

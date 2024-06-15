@@ -12,18 +12,20 @@ function ModelField() {
   const [models, setModels] = useState([])
   const [DL, setDL] = useState(false);
   const [create, setCreate] = useState(false);
-  const porjectId = 'CartPole'
   useEffect(() => {
     const fetchProjects = async () => {
       const userId = JSON.parse(sessionStorage.getItem('userId'));
-      const dataList = await getModelId(userId, porjectId);
-      const modelsWithCheckbox = dataList.map(model => ({ ...model, isChecked: false }));
-      setModels(modelsWithCheckbox);
+      const projectId = JSON.parse(sessionStorage.getItem('projectId'));
+      const dataList = await getModelId(userId, projectId);
+      if (dataList !== null) {
+        const modelsWithCheckbox = dataList.map(model => ({ ...model, isChecked: false }));
+        setModels(modelsWithCheckbox);
+      };
     };
 
     fetchProjects();
 
-  }, [porjectId, create]);
+  }, [create]);
 
   // 照準降順並び替え
   const accuracySort = (isAscending) => {
