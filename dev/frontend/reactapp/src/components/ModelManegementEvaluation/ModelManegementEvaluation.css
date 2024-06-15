@@ -315,13 +315,27 @@
 }
 
 .project-name-field {
-  margin: 0 30px 10px 30px;
+  /* margin: 10px 30px 10px 30px; */
+  padding: 0 20px;
+  margin: 0;
 }
 
 .project-name-field p {
   color: #676767;
   font-size: 45px;
   font-weight: 500;
+}
+
+.project-name-field .model-name-input {
+  width: 100%;
+  height: 70px;
+  border: none;
+  font-size: 45px;
+  font-weight: 500;
+  color: #676767;
+}
+.project-name-field .model-name-input:focus {
+  outline: none;
 }
 
 .projecttitle-line {

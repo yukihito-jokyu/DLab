@@ -23,7 +23,7 @@ function ModelField() {
 
     fetchProjects();
 
-  }, [porjectId]);
+  }, [porjectId, create]);
 
   // 照準降順並び替え
   const accuracySort = (isAscending) => {

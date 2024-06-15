@@ -1,6 +1,6 @@
 import { signInWithPopup } from "firebase/auth";
 import { auth, db, provider } from "./firebase";
-import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { v4 as uuidv4 } from 'uuid';
 
 // googleでサインイン
@@ -110,6 +110,24 @@ const getModelId = async (user_id, project_id) => {
   return null
 };
 
+// モデルを新規作成
+const setModel = async (userId, projectId, modelName) => {
+  const modelId = uuidv4();
+  const accuracy = null;
+  const loss = null;
+  const date = serverTimestamp();
+  const modelData = {
+    accuracy: accuracy,
+    date: date,
+    loss: loss,
+    model_id: modelId,
+    model_name: modelName,
+    project_id: projectId,
+    user_id: userId
+  };
+  await setDoc(doc(db, "models", modelId), modelData);
+}
+
 // test
 const testSetDb = async (user_id, mail_address, user_name) => {
   const userData = {
@@ -120,4 +138,4 @@ const testSetDb = async (user_id, mail_address, user_name) => {
   await setDoc(doc(db, "user", user_id), userData);
 };
 
-export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId };
+export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel };

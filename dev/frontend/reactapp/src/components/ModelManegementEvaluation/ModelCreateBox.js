@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ModelManegementEvaluation.css';
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
+import { setModel } from '../../db/firebaseFunction';
 
 function ModelCreateBox({ handleCreateModal }) {
+  const [modelName, setModelName] = useState("model_name");
   const text1 = 'Model Name';
+  const handleMakeModel = () => {
+    const userId = JSON.parse(sessionStorage.getItem('userId'));
+    const projectId = 'CartPole';
+    setModel(userId, projectId, modelName);
+    handleCreateModal();
+  };
   const style = {
     fontSize: '23px',
     fontWeight: '600',
     paddingTop: '35px'
-  }
+  };
   const text2 = '作成';
+  const handleChange = (e) => {
+    setModelName(e.target.value);
+  };
   return (
     <div className='model-create-box-border'>
       <div className='create-name-field'>
@@ -21,7 +32,8 @@ function ModelCreateBox({ handleCreateModal }) {
             <GradationFonts text={text1} style={style} />
           </div>
           <div className='project-name-field'>
-            <p>Project Name</p>
+            {/* <p>Project Name</p> */}
+            <input type='text' value={modelName} onChange={handleChange} className='model-name-input' />
           </div>
           <div>
             <div className='projecttitle-line'>
@@ -32,7 +44,7 @@ function ModelCreateBox({ handleCreateModal }) {
       </div>
       <div className='create-model-button-field'>
         <div className='create-model-button'>
-          <div>
+          <div onClick={handleMakeModel}>
             <GradationButton text={text2} />
           </div>
         </div>
