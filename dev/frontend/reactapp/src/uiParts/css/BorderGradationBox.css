@@ -1,14 +1,15 @@
 .gradation-border {
-  background: #99c6f9;
-  border-radius: 25px;
-  padding: 3px;
-  cursor: pointer;
-}
-
-.gradation-border:hover {
   background: linear-gradient(to bottom, #C39DFF, #459FFF), #E5E5E5;
   box-shadow: 5px 5px 7px rgba(121, 87, 123, 0.5);
+  border-radius: 25px;
+  padding: 3px;
+  /* cursor: pointer; */
 }
+
+/* .gradation-border:hover {
+  background: linear-gradient(to bottom, #C39DFF, #459FFF), #E5E5E5;
+  box-shadow: 5px 5px 7px rgba(121, 87, 123, 0.5);
+} */
 
 .gradation-wrapper {
   width: 100%;

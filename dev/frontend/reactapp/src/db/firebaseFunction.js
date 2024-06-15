@@ -99,11 +99,13 @@ const getModelId = async (user_id, project_id) => {
   );
   const querySnapshot = await getDocs(q);
   if (!querySnapshot.empty) {
-    // querySnapshot.docs.map((doc) => (
-    //   console.log(doc.data())
-    // ))
-    // console.log(querySnapshot);
-    return querySnapshot
+    const dataList = [];
+    querySnapshot.docs.map((doc) => (
+      dataList.push({ id: doc.id, ...doc.data() })
+    ));
+
+    // console.log(dataList);
+    return dataList
   };
   return null
 };

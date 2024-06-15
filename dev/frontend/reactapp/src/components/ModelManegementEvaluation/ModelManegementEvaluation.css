@@ -45,7 +45,7 @@
 .model-name-div {
   display: flex;
   align-items: center;
-  width: calc(100% - 530px);
+  width: calc(100% - 550px);
   padding-left: 80px;
 }
 
@@ -108,7 +108,7 @@
 
 .model-tile-wrapper {
   width: 100%;
-  height: 300px;
+  /* height: 70px; */
   background-color: rgb(80, 166, 255, 0.15);
   border-bottom: 3px solid white;
 }
@@ -126,11 +126,57 @@
   height: 70px;
 }
 
-.model-check-box {
-  width: 25px;
-  height: 25px;
-  background-color: #C2DBF4;
+/* カスタムチェックボックスのスタイル */
+.custom-checkbox {
+  display: inline-block;
+  position: relative;
+  width: 20px; /* サイズを調整 */
+  height: 20px; /* サイズを調整 */
 }
+
+.custom-checkbox input[type="checkbox"] {
+  opacity: 0; /* デフォルトのチェックボックスを非表示にする */
+  width: 0;
+  height: 0;
+  position: absolute;
+  cursor: pointer;
+}
+
+.custom-checkbox .checkmark {
+  display: inline-block;
+  width: 100%; /* 親要素の幅に合わせる */
+  height: 100%; /* 親要素の高さに合わせる */
+  background-color: #f0f0f0; /* チェックされていない時の背景色 */
+  border: 2px solid #ccc; /* ボーダーのスタイル */
+  border-radius: 4px; /* ボーダーの角を丸くする */
+  cursor: pointer;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + .checkmark {
+  background-color: #2196F3; /* チェックされた時の背景色 */
+}
+
+.custom-checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + .checkmark:after {
+  display: block;
+}
+
+.custom-checkbox .checkmark:after {
+  left: 7px; /* チェックマークの位置を調整 */
+  top: 4px; /* チェックマークの位置を調整 */
+  width: 5px; /* チェックマークのサイズを調整 */
+  height: 10px; /* チェックマークのサイズを調整 */
+  border: solid white; /* チェックマークの色 */
+  border-width: 0 3px 3px 0; /* チェックマークのスタイル */
+  transform: rotate(45deg); /* チェックマークの回転 */
+}
+
+
 
 .model-title {
   display: flex;

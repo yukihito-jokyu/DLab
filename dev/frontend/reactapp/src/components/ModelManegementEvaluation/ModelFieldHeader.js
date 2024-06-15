@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ModelManegementEvaluation.css';
 import { ReactComponent as DeleteIcon } from '../../assets/svg/delete_24.svg'
 
-function ModelFieldHeader() {
+function ModelFieldHeader({ accuracySort, lossSort, dateSort }) {
+  const [isAccuracyAcending, setIsAccuracyAcending] = useState(true);
+  const [isLossAcending, setIsLossAcending] = useState(true);
+  const [isDateAcending, setIsDateAcending] = useState(true);
+  const handleAccuracy = () => {
+    setIsAccuracyAcending(!isAccuracyAcending);
+    accuracySort(isAccuracyAcending);
+  };
+  const handleLoss = () => {
+    setIsLossAcending(!isLossAcending);
+    lossSort(isLossAcending);
+  }
+  const handleDate = () => {
+    setIsDateAcending(!isDateAcending);
+    dateSort(isDateAcending);
+  };
   return (
     <div className='model-field-header-wrapper'>
       <div className='model-name-div'>
         <p>Name</p>
       </div>
-      <div className='model-accuracy-div'>
+      <div className='model-accuracy-div'  onClick={handleAccuracy}>
         <p>Accuracy</p>
       </div>
-      <div className='model-loss-div'>
+      <div className='model-loss-div' onClick={handleLoss}>
         <p>Loss</p>
       </div>
-      <div className='model-date-div'>
+      <div className='model-date-div' onClick={handleDate}>
         <p>Date</p>
       </div>
       <div className='model-delet-div'>

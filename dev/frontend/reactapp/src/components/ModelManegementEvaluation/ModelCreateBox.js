@@ -4,7 +4,7 @@ import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
 
-function ModelCreateBox() {
+function ModelCreateBox({ handleCreateModal }) {
   const text1 = 'Model Name';
   const style = {
     fontSize: '23px',
@@ -39,7 +39,7 @@ function ModelCreateBox() {
       </div>
       <div className='delet-button-field'>
         <div className='delet-button-wrapper'>
-          <div className='delet-button-wrapper'>
+          <div className='delet-button-wrapper' onClick={handleCreateModal}>
             <DeletIcon className='delet-svg' />
           </div>
         </div>
