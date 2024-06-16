@@ -9,7 +9,8 @@ function ProjectTile({ title, info }) {
   const navigate = useNavigate();
   const handleNav = () => {
     setProjectId(title);
-    navigate('/');
+    sessionStorage.setItem('projectId', JSON.stringify(title));
+    navigate('/community');
   }
   
   return (

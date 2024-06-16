@@ -6,7 +6,7 @@ import CIFA10Image from '../../assets/images/CIFA10Image.png';
 
 function ProjectActivate() {
   const [projects, setProjects] = useState(null);
-  const projectName = 'CIFAR-10';
+  const projectName = JSON.parse(sessionStorage.getItem('projectId'));
   useEffect(() => {
     const fatchProjects = async () => {
       const projectsInfo = await getProjectInfo();

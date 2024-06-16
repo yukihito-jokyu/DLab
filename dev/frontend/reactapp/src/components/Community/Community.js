@@ -7,6 +7,7 @@ import ProjectActivate from './ProjectActivate';
 import ProjectHeader from './ProjectHeader';
 import ProjectOverview from './ProjectOverview';
 import ProjectPreview from './ProjectPreview';
+import ProjectDiscussion from './ProjectDiscussion';
 
 function Community() {
   const [overview, setOverview] = useState(true);
@@ -60,6 +61,7 @@ function Community() {
       <ProjectHeader {...props} />
       {overview && <ProjectOverview />}
       {preview && <ProjectPreview />}
+      {discussion && <ProjectDiscussion />}
     </div>
   );
 };

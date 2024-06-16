@@ -1,6 +1,6 @@
 import { signInWithPopup } from "firebase/auth";
 import { auth, db, provider } from "./firebase";
-import { collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { v4 as uuidv4 } from 'uuid';
 
 // googleでサインイン
@@ -128,6 +128,15 @@ const setModel = async (userId, projectId, modelName) => {
   await setDoc(doc(db, "models", modelId), modelData);
 }
 
+//  モデルの削除
+const deleteModels = async (modelId) => {
+  const q = query(collection(db, 'models'), where('model_id', '==', modelId));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach(async (doc) => {
+    await deleteDoc(doc.ref);
+  });
+};
+
 // test
 const testSetDb = async (user_id, mail_address, user_name) => {
   const userData = {
@@ -138,4 +147,4 @@ const testSetDb = async (user_id, mail_address, user_name) => {
   await setDoc(doc(db, "user", user_id), userData);
 };
 
-export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel };
+export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels };

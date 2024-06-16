@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import './ModelManegementEvaluation.css';
 import { ReactComponent as PictureIcon } from '../../assets/svg/graph_24.svg'
+import { useNavigate } from 'react-router-dom';
 
 function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkBoxChange  }) {
   const [isPicture, setIsPicture] = useState(false);
+  const navigate = useNavigate();
   const formatTimestamp = (timestamp) => {
     if (timestamp && timestamp.seconds) {
       const date = new Date(timestamp.seconds * 1000);
@@ -13,6 +15,10 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   };
   const handleClick = () => {
     setIsPicture(!isPicture);
+  };
+  const handleNav = () => {
+    sessionStorage.setItem('modelId', JSON.stringify(modelId));
+    navigate('/ModelCreateTrain');
   };
   return (
     <div className='model-tile-wrapper'>
@@ -28,7 +34,7 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
             <span className="checkmark"></span>
           </label>
         </div>
-        <div className='model-title'>
+        <div className='model-title' onClick={handleNav}>
           <p>{modelName}</p>
         </div>
         <div className='model-accuracy'>

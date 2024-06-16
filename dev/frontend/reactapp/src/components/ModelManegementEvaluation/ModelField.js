@@ -5,17 +5,17 @@ import ModelTile from './ModelTile';
 import ModelCreateButton from './ModelCreateButton';
 import DLButton from './DLButton';
 import { useNavigate } from 'react-router-dom';
-import { getModelId } from '../../db/firebaseFunction';
+import { deleteModels, getModelId } from '../../db/firebaseFunction';
 import ModelCreateField from './ModelCreateField';
 
 function ModelField() {
   const [models, setModels] = useState([])
   const [DL, setDL] = useState(false);
   const [create, setCreate] = useState(false);
+  const userId = JSON.parse(sessionStorage.getItem('userId'));
+  const projectId = JSON.parse(sessionStorage.getItem('projectId'));
   useEffect(() => {
     const fetchProjects = async () => {
-      const userId = JSON.parse(sessionStorage.getItem('userId'));
-      const projectId = JSON.parse(sessionStorage.getItem('projectId'));
       const dataList = await getModelId(userId, projectId);
       if (dataList !== null) {
         const modelsWithCheckbox = dataList.map(model => ({ ...model, isChecked: false }));
@@ -25,7 +25,7 @@ function ModelField() {
 
     fetchProjects();
 
-  }, [create]);
+  }, [create, userId, projectId]);
 
   // 照準降順並び替え
   const accuracySort = (isAscending) => {
@@ -70,9 +70,24 @@ function ModelField() {
   const handleCreateModal = () => {
     setCreate(!create);
   };
+
+  // モデル削除
+  const handleDelate = async () => {
+    const checkedModels = models.filter(model => model.isChecked);
+    const deletePromises = checkedModels.map(model => deleteModels(model.model_id));
+    await Promise.all(deletePromises);
+    const remainingModels = models.filter(model => !model.isChecked);
+    setModels(remainingModels);
+    console.log(checkedModels);
+  };
   return (
     <div className='model-field-wrapper'>
-      <ModelFieldHeader accuracySort={accuracySort} lossSort={lossSort} dateSort={dateSort} />
+      <ModelFieldHeader
+        accuracySort={accuracySort}
+        lossSort={lossSort}
+        dateSort={dateSort}
+        handleDelate={handleDelate}
+      />
       <div className='tile-field'>
         {models.length > 0 ? (
           models.map((model) => (

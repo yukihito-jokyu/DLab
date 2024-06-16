@@ -32,6 +32,7 @@ import DjangoTest from './Django/DjangoTest';
 import Top from './components/Top/Top';
 import ProjectShare from './components/ProjectShare/ProjectShare';
 import Community from './components/Community/Community';
+import Profile from './components/Profile/Profile';
 
 
 export const UserInfoContext = createContext()
@@ -195,6 +196,7 @@ function App() {
           <Route path="/testdjango" element={<DjangoTest />} />
           <Route path='/projectshare' element={<ProjectShare />} />
           <Route path='/community' element={<Community />} />
+          <Route path='/profile' element={<Profile />} />
           <Route path="*" element={<Navigate to="/top" replace />} />
         </Routes>
       </Router>

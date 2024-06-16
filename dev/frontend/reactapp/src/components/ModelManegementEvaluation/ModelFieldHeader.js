@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './ModelManegementEvaluation.css';
 import { ReactComponent as DeleteIcon } from '../../assets/svg/delete_24.svg'
 
-function ModelFieldHeader({ accuracySort, lossSort, dateSort }) {
+function ModelFieldHeader({ accuracySort, lossSort, dateSort, handleDelate }) {
   const [isAccuracyAcending, setIsAccuracyAcending] = useState(true);
   const [isLossAcending, setIsLossAcending] = useState(true);
   const [isDateAcending, setIsDateAcending] = useState(true);
@@ -33,7 +33,7 @@ function ModelFieldHeader({ accuracySort, lossSort, dateSort }) {
         <p>Date</p>
       </div>
       <div className='model-delet-div'>
-        <div className='model-delet-icon-wrapper'>
+        <div className='model-delet-icon-wrapper' onClick={handleDelate}>
           <DeleteIcon className='model-delet-svg' />
         </div>
       </div>
