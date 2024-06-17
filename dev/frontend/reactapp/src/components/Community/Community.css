@@ -264,3 +264,87 @@
   font-weight: 600;
   color: #868686;
 }
+
+/* Discussion */
+
+.wrapper-out {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+}
+
+.discussion-wrapper {
+  width: 700px;
+}
+
+.discussion-title-wrapper {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.discussion-title-wrapper .title-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 640px;
+  height: 50px;
+  background-color: #D9D9D9;
+  margin-right: 10px;
+  border-radius: 10px;
+}
+
+.discussion-title-wrapper .title-box p {
+  font-size: 25px;
+  font-weight: 600;
+  color: #868686;
+}
+
+.discussion-title-wrapper .delet-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  background-color: #FF7272;
+  border-radius: 10px;
+}
+
+.discussion-title-wrapper .delet-box .delet-icon {
+  fill: white;
+}
+
+.discussion-wrapper input {
+  width: 100%;
+}
+
+.title-input-wrapper {
+  margin-bottom: 30px;
+}
+
+.title-input-wrapper input {
+  height: 45px;
+  padding-left: 20px;
+  color: #D9D9D9;
+  font-size: 18px;
+}
+
+.contents-wrapper {
+  margin-bottom: 30px;
+}
+
+.contents-wrapper textarea {
+  height: 300px;
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: #D9D9D9;
+  font-size: 18px;
+}
+
+.post-button-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

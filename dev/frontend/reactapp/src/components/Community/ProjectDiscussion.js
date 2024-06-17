@@ -4,7 +4,7 @@ import './Community.css';
 import { ReactComponent as EditIcon } from '../../assets/svg/edit.svg';
 import { ReactComponent as SearchIcon } from '../../assets/svg/search_24.svg'
 
-function ProjectDiscussion() {
+function ProjectDiscussion({ handleEdit }) {
   const [inputValue, setInputValue] = useState('')
   return (
     <div className='project-discussion-wrapper'>
@@ -21,7 +21,7 @@ function ProjectDiscussion() {
               <SearchIcon />
             </div>
           </div>
-          <div className='post-button'>
+          <div className='post-button' onClick={handleEdit}>
             <p>投稿する</p>
             <EditIcon className='edit-icon' />
           </div>

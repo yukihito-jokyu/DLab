@@ -8,12 +8,14 @@ import ProjectHeader from './ProjectHeader';
 import ProjectOverview from './ProjectOverview';
 import ProjectPreview from './ProjectPreview';
 import ProjectDiscussion from './ProjectDiscussion';
+import Discussion from './Discussion';
 
 function Community() {
   const [overview, setOverview] = useState(true);
   const [preview, setPreview] = useState(false);
   const [discussion, setDiscussion] = useState(false);
   const [readerBoard, setReaderBoard] = useState(false);
+  const [discussionEdit, setDiscussionEdit] = useState(false);
 
   const handleOverview = () => {
     setOverview(true);
@@ -49,6 +51,10 @@ function Community() {
     discussion,
     readerBoard
   };
+
+  const handleEdit = () => {
+    setDiscussionEdit(!discussionEdit);
+  }
   return (
     <div className='community-wrapper'>
       <div className='community-header-wrapper'>
@@ -61,7 +67,11 @@ function Community() {
       <ProjectHeader {...props} />
       {overview && <ProjectOverview />}
       {preview && <ProjectPreview />}
-      {discussion && <ProjectDiscussion />}
+      {discussion && discussionEdit ? (
+        <Discussion handleEdit={handleEdit} />
+      ) : discussion ? (
+        <ProjectDiscussion handleEdit={handleEdit} />
+      ) : (<></>)}
     </div>
   );
 };
