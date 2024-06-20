@@ -10,6 +10,7 @@ import ProjectPreview from './ProjectPreview';
 import ProjectDiscussion from './ProjectDiscussion';
 import Discussion from './Discussion';
 import DiscussionInfo from './DiscussionInfo';
+import ProjectReaderBoard from './ProjectReaderBoard';
 
 function Community() {
   const [overview, setOverview] = useState(true);
@@ -82,6 +83,7 @@ function Community() {
         )) : (
           <></>
         )}
+        {readerBoard && <ProjectReaderBoard />}
     </div>
   );
 };
