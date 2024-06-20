@@ -61,7 +61,8 @@ function Community() {
   const [source, setSource] = useState('');
   const [sourceLink, setSourceLink] = useState('');
   const [summary, setSummary] = useState('');
-  const [labelList, setLabelList] = useState([])
+  const [labelList, setLabelList] = useState([]);
+
 
   // ページに訪れた時にproject_infoから情報を抜き取る
   useEffect(() => {
@@ -76,11 +77,14 @@ function Community() {
         setSummary(projectsInfo.summary);
         setLabelList(projectsInfo.label_list);
       }
-    }
+    };
+    fatchProjects();
+  }, []);
 
-    fatchProjects()
-    
-  }, [])
+  // 記事のid
+  const [reportInfo, setReportInfo] = useState('');
+  const [discussionId, setDiscussionId] = useState('');
+  
 
   const handleEdit = () => {
     setDiscussionEdit(!discussionEdit);
@@ -104,9 +108,9 @@ function Community() {
         discussionEdit ? (
           <Discussion handleEdit={handleEdit} />
         ) : discussionInfo ? (
-          <DiscussionInfo handleInfo={handleInfo} />
+          <DiscussionInfo handleInfo={handleInfo} discussionId={discussionId} />
         ) : (
-          <ProjectDiscussion handleEdit={handleEdit} handleInfo={handleInfo} />
+          <ProjectDiscussion handleEdit={handleEdit} handleInfo={handleInfo} setReportInfo={setReportInfo} setDiscussionId={setDiscussionId} />
         )) : (
           <></>
         )}

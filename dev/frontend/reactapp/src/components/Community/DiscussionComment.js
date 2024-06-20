@@ -1,7 +1,7 @@
 import React from 'react';
 import './Community.css';
 
-function DiscussionComment() {
+function DiscussionComment({ comment }) {
   return (
     <div className='discussion-comment-wrapper'>
       <div className='comment-left'>
@@ -9,7 +9,7 @@ function DiscussionComment() {
         <div className='rod'></div>
       </div>
       <div className='comment-right'>
-        <p>記事の入力テストを行います。</p>
+        <p>{comment}</p>
       </div>
     </div>
   )

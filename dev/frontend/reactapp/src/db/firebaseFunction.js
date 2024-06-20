@@ -1,6 +1,6 @@
 import { signInWithPopup } from "firebase/auth";
 import { auth, db, provider } from "./firebase";
-import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
+import { arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { v4 as uuidv4 } from 'uuid';
 
 // googleでサインイン
@@ -160,6 +160,76 @@ const getDiscussionInfo = async (projectName) => {
   }
 };
 
+// 記事を投稿
+const postArticle = async (projectId, userId, userName, title, comment) => {
+  const projectName = projectId + '_discussion'
+  const date = serverTimestamp();
+  const articleId = uuidv4();
+  const articleData = {
+    user_name: userName,
+    user_id: userId,
+    title: title,
+    date: date,
+    comments: [{
+      comment: comment,
+      user_id: userId,
+      user_name: userName
+    }]
+  }
+  await setDoc(doc(db, projectName, articleId), articleData);
+};
+
+// userIdからuserNameを取得する
+const getUserName = async (userId) => {
+  const q = query(collection(db, 'user'), where('user_id', '==', userId));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    return querySnapshot.docs[0].data().user_name;
+  } else {
+    return null
+  }
+};
+
+// ディスカッションのコメントを追加
+const addComment = async (projectId, commentId, comment, userId, userName) => {
+  const projectName = projectId + '_discussion';
+  const articleRef = doc(db, projectName, commentId);
+  const docSnap = await getDoc(articleRef);
+  const newComment = {
+    comment: comment,
+    comment_id: docSnap.data().comments.length+1,
+    user_id: userId,
+    user_name: userName
+  };
+  await updateDoc(articleRef, {
+    comments: arrayUnion(newComment)
+  });
+}
+
+// ディスカッションのコメントだけ取得
+const getComment = async (projectId, commentId) => {
+  const projectName = projectId + '_discussion';
+  const docRef = doc(db, projectName, commentId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data().comments;
+  } else {
+    return null
+  }
+};
+
+// ディスカッションのタイトルを取得
+const getTitle = async (projectId, commentId) => {
+  const projectName = projectId + '_discussion';
+  const docRef = doc(db, projectName, commentId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data().title;
+  } else {
+    return null
+  }
+};
+
 // test
 const testSetDb = async (user_id, mail_address, user_name) => {
   const userData = {
@@ -170,4 +240,4 @@ const testSetDb = async (user_id, mail_address, user_name) => {
   await setDoc(doc(db, "user", user_id), userData);
 };
 
-export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo };
+export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle };

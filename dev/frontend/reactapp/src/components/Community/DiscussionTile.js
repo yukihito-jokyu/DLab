@@ -1,9 +1,9 @@
 import React from 'react'
 
-function DiscussionTile() {
+function DiscussionTile({ title }) {
   return (
     <div className='discussion-tile-wrapper'>
-      <p>記事タイトル</p>
+      <p>{title}</p>
     </div>
   )
 }

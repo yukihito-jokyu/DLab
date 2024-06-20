@@ -5,7 +5,7 @@ import { ReactComponent as EditIcon } from '../../assets/svg/edit.svg';
 import { ReactComponent as SearchIcon } from '../../assets/svg/search_24.svg'
 import { getDiscussionInfo } from '../../db/firebaseFunction';
 
-function ProjectDiscussion({ handleEdit, handleInfo }) {
+function ProjectDiscussion({ handleEdit, handleInfo, setReportInfo, setDiscussionId }) {
   const [inputValue, setInputValue] = useState('');
   const [discussions, setDiscussions] = useState([]);
   useEffect(() => {
@@ -18,6 +18,12 @@ function ProjectDiscussion({ handleEdit, handleInfo }) {
     fetchDiscussion();
 
   }, []);
+
+  const handleClick = (reportInfo, discussionId) => {
+    handleInfo();
+    setDiscussionId(discussionId)
+    setReportInfo(reportInfo);
+  }
   return (
     <div className='project-discussion-wrapper'>
       <div className='discussion-search-wrapper'>
@@ -40,13 +46,23 @@ function ProjectDiscussion({ handleEdit, handleInfo }) {
         </div>
       </div>
       <div className='discussion-field'>
-        <div onClick={handleInfo}>
+        {discussions.length > 0 ? (
+          discussions.map((discussion) => (
+            <div onClick={() => handleClick(discussion.data(), discussion.id)} key={discussion.id}>
+              <DiscussionTile title={discussion.data().title} />
+            </div>
+            // console.log(discussion.id)
+          ))
+        ) : (
+          <></>
+        )}
+        {/* <div onClick={handleInfo}>
           <DiscussionTile />
         </div>
         <DiscussionTile />
         <DiscussionTile />
         <DiscussionTile />
-        <DiscussionTile />
+        <DiscussionTile /> */}
       </div>
     </div>
   )
