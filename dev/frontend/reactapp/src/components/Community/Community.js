@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Community.css';
 import Header from '../../uniqueParts/component/Header';
 import BurgerButton from '../../uiParts/component/BurgerButton';
@@ -11,6 +11,7 @@ import ProjectDiscussion from './ProjectDiscussion';
 import Discussion from './Discussion';
 import DiscussionInfo from './DiscussionInfo';
 import ProjectReaderBoard from './ProjectReaderBoard';
+import { getProjectInfoUp } from '../../db/firebaseFunction';
 
 function Community() {
   const [overview, setOverview] = useState(true);
@@ -55,6 +56,32 @@ function Community() {
     readerBoard
   };
 
+  const [projectName, setProjectName] = useState('');
+  const [shortExp, setShortExp] = useState('');
+  const [source, setSource] = useState('');
+  const [sourceLink, setSourceLink] = useState('');
+  const [summary, setSummary] = useState('');
+  const [labelList, setLabelList] = useState([])
+
+  // ページに訪れた時にproject_infoから情報を抜き取る
+  useEffect(() => {
+    const fatchProjects = async () => {
+      const projectId = JSON.parse(sessionStorage.getItem('projectId'));
+      const projectsInfo = await getProjectInfoUp(projectId);
+      if (projectsInfo) {
+        setProjectName(projectsInfo.name);
+        setShortExp(projectsInfo.short_explanation);
+        setSource(projectsInfo.source);
+        setSourceLink(projectsInfo.source_link);
+        setSummary(projectsInfo.summary);
+        setLabelList(projectsInfo.label_list);
+      }
+    }
+
+    fatchProjects()
+    
+  }, [])
+
   const handleEdit = () => {
     setDiscussionEdit(!discussionEdit);
   }
@@ -69,10 +96,10 @@ function Community() {
           logocomponent={Logo}
         />
       </div>
-      <ProjectActivate />
+      <ProjectActivate projectName={projectName} shortExp={shortExp} />
       <ProjectHeader {...props} />
-      {overview && <ProjectOverview />}
-      {preview && <ProjectPreview />}
+      {overview && <ProjectOverview summary={summary} source={source} sourceLink={sourceLink} />}
+      {preview && <ProjectPreview labelList={labelList} />}
       {discussion ? (
         discussionEdit ? (
           <Discussion handleEdit={handleEdit} />

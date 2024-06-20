@@ -3,7 +3,7 @@ import './Community.css';
 import PreviewImage from './PreviewImage';
 import { ReactComponent as SearchIcon } from '../../assets/svg/search_24.svg'
 
-function ProjectPreview() {
+function ProjectPreview({ labelList }) {
   const [selectedValue, setSelectedValue] = useState('');
   const [options, setOptions] = useState(["all", "bird", "fish", "dog"]);
   const handleSelectedChange = (e) => {
@@ -17,9 +17,9 @@ function ProjectPreview() {
           <input />
           <p>Label</p>
           <select value={selectedValue} onChange={handleSelectedChange}>
-            {options.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
+            {labelList.map((label, index) => (
+              <option key={index} value={label}>
+                {label}
               </option>
             ))}
           </select>

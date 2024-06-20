@@ -1,11 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DiscussionTile from './DiscussionTile';
 import './Community.css';
 import { ReactComponent as EditIcon } from '../../assets/svg/edit.svg';
 import { ReactComponent as SearchIcon } from '../../assets/svg/search_24.svg'
+import { getDiscussionInfo } from '../../db/firebaseFunction';
 
 function ProjectDiscussion({ handleEdit, handleInfo }) {
-  const [inputValue, setInputValue] = useState('')
+  const [inputValue, setInputValue] = useState('');
+  const [discussions, setDiscussions] = useState([]);
+  useEffect(() => {
+    const fetchDiscussion = async () => {
+      const projectId = JSON.parse(sessionStorage.getItem('projectId'));
+      const discussionInfo = await getDiscussionInfo(projectId);
+      setDiscussions(discussionInfo);
+    };
+
+    fetchDiscussion();
+
+  }, []);
   return (
     <div className='project-discussion-wrapper'>
       <div className='discussion-search-wrapper'>
