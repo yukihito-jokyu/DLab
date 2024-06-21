@@ -230,6 +230,29 @@ const getTitle = async (projectId, commentId) => {
   }
 };
 
+// リーダーボード
+const getReaderBoard = async (projectId) => {
+  const projectName = projectId + "_reader_board";
+  const q = await query(collection(db, projectName), orderBy('accuracy', 'desc'));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    return querySnapshot.docs;
+  } else {
+    return null
+  }
+};
+
+// お気に入りユーザーを取得
+const getFavoriteUser = async (userId) => {
+  const q = query(collection(db, 'user'), where('user_id', '==', userId));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    return querySnapshot.docs[0].data().favorite_user;
+  } else {
+    return null
+  }
+}
+
 // test
 const testSetDb = async (user_id, mail_address, user_name) => {
   const userData = {
@@ -240,4 +263,4 @@ const testSetDb = async (user_id, mail_address, user_name) => {
   await setDoc(doc(db, "user", user_id), userData);
 };
 
-export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle };
+export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle, getReaderBoard, getFavoriteUser };
