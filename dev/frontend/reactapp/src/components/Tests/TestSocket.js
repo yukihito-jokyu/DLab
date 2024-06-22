@@ -1,22 +1,22 @@
 import React, { useContext, useState } from 'react'
-import SocketContext from '../..';
+// import SocketContext from '../..';
 
 function TestSocket(props) {
-  const socket = useContext(SocketContext);
+  // const socket = useContext(SocketContext);
   const id = props.id;
   const [data, setData] = useState('');
 
-  const handleSocket = () => {
-    const sentData = {
-      id: id
-    };
-    console.log(id)
-    socket.emit('test_socket', sentData);
-  }
-  socket.on('socket_test'+id, (data) => {
-    console.log(data.data);
-    setData(data.data);
-  })
+  // const handleSocket = () => {
+  //   const sentData = {
+  //     id: id
+  //   };
+  //   console.log(id)
+  //   socket.emit('test_socket', sentData);
+  // }
+  // socket.on('socket_test'+id, (data) => {
+  //   console.log(data.data);
+  //   setData(data.data);
+  // })
   return (
     <div
       style={{
@@ -25,7 +25,7 @@ function TestSocket(props) {
       }}
     >
       <p>{id}</p>
-      <button onClick={handleSocket}>通信</button>
+      {/* <button onClick={handleSocket}>通信</button> */}
       <p>受信したデータ：{data}</p>
     </div>
   )

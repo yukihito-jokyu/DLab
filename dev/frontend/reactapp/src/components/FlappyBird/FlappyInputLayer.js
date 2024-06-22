@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import SocketContext from '../..';
+// import SocketContext from '../..';
 
 import FlappyImage from '../../assets/images/FlappyBird.png'
 
@@ -16,7 +16,7 @@ function FlappyInputLayer() {
   const [imagedata, setImagedata] = useState(null);
 
   // ソケット通信用
-  const socket = useContext(SocketContext);
+  // const socket = useContext(SocketContext);
 
   // チェックボックスの変化
   const handleCheckbox1Change = () => {
@@ -45,21 +45,21 @@ function FlappyInputLayer() {
   };
 
   // socket通信
-  socket.on('get_resize_image', (data) => {
-    const newimagedata = data.image_data;
-    setImagedata(newimagedata);
-  });
+  // socket.on('get_resize_image', (data) => {
+  //   const newimagedata = data.image_data;
+  //   setImagedata(newimagedata);
+  // });
 
   //クリックイベント
-  const handleSentSize = () => {
-    const ImageSize = {
-      'H': selecth,
-      'W': selectw,
-      'C': channel
-    };
-    // socket通信開始
-    socket.emit('InputImage', ImageSize);
-  };
+  // const handleSentSize = () => {
+  //   const ImageSize = {
+  //     'H': selecth,
+  //     'W': selectw,
+  //     'C': channel
+  //   };
+  //   // socket通信開始
+  //   socket.emit('InputImage', ImageSize);
+  // };
 
   return (
     <div>
@@ -98,7 +98,7 @@ function FlappyInputLayer() {
           <p className='Input_size'>前処理後のデータサイズ：({selecth}, {selectw}, {channel})</p>
         </div>
         <div>
-          <button onClick={handleSentSize}>確認</button>
+          {/* <button onClick={handleSentSize}>確認</button> */}
         </div>
       </div>
       <div className='flappy-images'>

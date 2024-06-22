@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import './CartPoleFrame.css';
 import stick from '../../img/CartPole/stick.png'
 import stand from '../../img/CartPole/stand.png'
-import SocketContext from '../..';
+// import SocketContext from '../..';
 import RadianToDegree from '../../utils/RadianToDegree';
 import ToPx from '../../utils/ToPx';
 import Getdata from '../../utils/Getdata';
@@ -15,7 +15,7 @@ function CartPoleFrame(props) {
   // データの取得
   const { structures } = useContext(InputContext);
   // ソケット通信用
-  const socket = useContext(SocketContext);
+  // const socket = useContext(SocketContext);
   // 回転
   const [rotation, setRotation] = useState(0);
   // 横移動
@@ -25,40 +25,40 @@ function CartPoleFrame(props) {
   // transition
   const [disableTransition, setDisableTransition] = useState(false);
   // ソケット通信
-  const handleTrain = () => {
-    const AllData = Getdata(structures);
-    const SentData = {
-      CartPole: AllData,
-      id: id
-    };
-    socket.emit('CartPole', SentData);
-  };
-  socket.on('CartPole_data'+id, (data) => {
-    const newrotation = RadianToDegree(data.radian);
-    const newmove = ToPx(data.location);
-    setDisableTransition(false);
-    setRotation(newrotation);
-    setMove(newmove);
-  });
-  socket.on('end_CartPole', (data) => {
-    setRotation(0);
-    setMove(0);
-  });
-  socket.on('episode_start'+String(id), (data) => {
-    const newrotation = RadianToDegree(data.radian);
-    const newmove = ToPx(data.location);
-    const newepisode = data.episode;
-    setDisableTransition(true);
-    setRotation(newrotation);
-    setMove(newmove);
-    setEpisode(newepisode);
-  });
-  socket.on('end', (data) => {
-    console.log(data.message);
-    setDisableTransition(true);
-    setRotation(0);
-    setMove(0);
-  });
+  // const handleTrain = () => {
+  //   const AllData = Getdata(structures);
+  //   const SentData = {
+  //     CartPole: AllData,
+  //     id: id
+  //   };
+  //   socket.emit('CartPole', SentData);
+  // };
+  // socket.on('CartPole_data'+id, (data) => {
+  //   const newrotation = RadianToDegree(data.radian);
+  //   const newmove = ToPx(data.location);
+  //   setDisableTransition(false);
+  //   setRotation(newrotation);
+  //   setMove(newmove);
+  // });
+  // socket.on('end_CartPole', (data) => {
+  //   setRotation(0);
+  //   setMove(0);
+  // });
+  // socket.on('episode_start'+String(id), (data) => {
+  //   const newrotation = RadianToDegree(data.radian);
+  //   const newmove = ToPx(data.location);
+  //   const newepisode = data.episode;
+  //   setDisableTransition(true);
+  //   setRotation(newrotation);
+  //   setMove(newmove);
+  //   setEpisode(newepisode);
+  // });
+  // socket.on('end', (data) => {
+  //   console.log(data.message);
+  //   setDisableTransition(true);
+  //   setRotation(0);
+  //   setMove(0);
+  // });
   // スタイル
   const QulleyStyle = {
     transition: disableTransition ? 'none' : 'transform 0.3s ease',
@@ -83,7 +83,7 @@ function CartPoleFrame(props) {
     console.log(result);
   };
   const handleTry = () => {
-    socket.emit('CartPoleTry', {});
+    // socket.emit('CartPoleTry', {});
   };
 
   // pth,pyファイルの読み込み
@@ -111,7 +111,7 @@ function CartPoleFrame(props) {
   return (
     <div>
       <button onClick={handleMakeConfig}>Config作成</button>
-      <button onClick={handleTrain}>学習開始</button>
+      {/* <button onClick={handleTrain}>学習開始</button> */}
       <FileUpload onFileChange={handlePthUpload} />
       <FileUpload onFileChange={handlePyUpload} />
       <button onClick={handleTry}>お試し</button>
