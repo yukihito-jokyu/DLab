@@ -33,6 +33,7 @@ import Top from './components/Top/Top';
 import ProjectShare from './components/ProjectShare/ProjectShare';
 import Community from './components/Community/Community';
 import Profile from './components/Profile/Profile';
+import { socket } from './socket/socket';
 
 
 export const UserInfoContext = createContext()
@@ -95,6 +96,13 @@ function App() {
   //     console.error('Socketが初期化されません');
   //   }
   // };
+  const handleClick = () => {
+    const dataToSend = { message: 'Hello, server!' };
+    socket.emit('test', dataToSend);
+    socket.on('test_event', (response) => {
+        console.log('Response from server:', response);
+    });
+  };
 
   // const handldisconnect = () => {
   //   console.log('ソケットを閉じる')
@@ -200,6 +208,7 @@ function App() {
           <Route path="*" element={<Navigate to="/top" replace />} />
         </Routes>
       </Router>
+      <button onClick={handleClick}>ソケット</button>
       {/* <div>-</div>
       <button onClick={handlClick}>+</button>
       <p>{count}</p>
