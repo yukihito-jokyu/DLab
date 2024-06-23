@@ -1,12 +1,13 @@
 import React from 'react';
-import './MiddleFeild.css';
+import './ModelCreateTrain.css';
 import MiddleTileField from './MiddleTileField';
 
-function MiddleFeild() {
+function MiddleFeild({ middleLayer }) {
   return (
     <div className='middle-field-wrapper'>
-      <MiddleTileField />
-      <MiddleTileField />
+      {middleLayer.map((middle, index) => (
+        <MiddleTileField key={index} tileName={middle.layer_type} />
+      ))}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import './EditTileParameterField.css';
+import './ModelCreateTrain.css';
 import EditTileParamet from './EditTileParamet';
 
 function EditTileParameterField() {

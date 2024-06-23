@@ -1,6 +1,242 @@
+/* main */
+
 .mct-wrapper {
   position: relative;
   width: 100%;
   height: 100vh;
   background: linear-gradient(249.81deg, rgba(0, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 35%, rgba(146, 229, 255, 0) 66%, rgba(0, 240, 255, 0.4) 100%), radial-gradient(98.31% 179.05% at 0% 3.12%, #E18FFF 2.5%, #C190FF 21%, #3491FF 53%, #8690FF 78.5%, #E18FFF 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #FFFFFF;
+}
+
+/* ScreenField */
+
+.screen-field-wrapper {
+  display: flex;
+  width: calc(100% - 20px);
+  height: calc(100vh - 75px);
+  margin: 0px 10px 10px 10px;
+}
+
+.left-screen {
+  width: calc(100% - 610px);
+}
+
+.right-screen {
+  margin-left: 10px;
+  width: 600px;
+}
+
+.top-screen {
+  margin-bottom: 10px;
+  height: calc(50% - 5px);
+}
+
+.bottom-screen {
+  height: calc(50% - 5px);
+}
+
+/* EditScreen */
+
+.edit-screen-wrapper {
+  /* position: relative; */
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border-radius: 15px;
+  overflow: auto;
+}
+
+/* InputField */
+
+.input-field-wrapper {
+  width: 400px;
+  height: 150px;
+}
+
+.input-tile-position {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-left: 50px;
+}
+
+/* ConvField */
+
+/* FlattenField */
+
+.flatten-field-wrapper {
+  margin-left: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* MiddleField */
+
+.middle-field-wrapper {
+  /* width: calc(100% - 50px); */
+  margin-left: 50px;
+}
+
+/* MiddleTileField */
+
+.middle-tile-field-wrapper {
+  display: flex;
+  width: 650px;
+  height: 130px;
+}
+
+.delete-tile {
+  width: 50px;
+}
+
+.tile-position-wrapper {
+  width: 100%;
+  margin-left: 50px;
+}
+
+.tile-add-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.tile-add-button {
+  width: 30px;
+  height: 30px;
+  fill: #D57CDD;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
+}
+
+.tile-add-button-wrapper:hover .tile-add-button {
+  visibility: visible;
+  opacity: 1;
+}
+
+.delete-tile {
+  margin-right: 20px;
+  height: 80px;
+  width: 160px;
+  background-color: black;
+}
+
+/* TileAddModal */
+
+.tile-add-modal-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(249.81deg, rgba(0, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 35%, rgba(146, 229, 255, 0) 66%, rgba(0, 240, 255, 0.4) 100%), radial-gradient(98.31% 179.05% at 0% 3.12%, #E18FFF 2.5%, #C190FF 21%, #3491FF 53%, #8690FF 78.5%, #E18FFF 100%), #FFFFFF;
+  opacity: 0.3;
+  z-index: 100;
+}
+
+.tile-add-field-wrapper {
+  position: absolute;
+  z-index: 200;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.tile-add-field {
+  position: relative;
+  width: 830px;
+  height: 400px;
+}
+
+.modal-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.gradation-border2-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gradation-border2 {
+  width: 700px;
+  margin-top: 10px;
+  height: 3px;
+  background: linear-gradient(91.27deg, #C49EFF 0.37%, #47A1FF 99.56%);
+  box-shadow: none;
+}
+
+.modal-tile-field {
+  margin: 20px;
+  margin-top: 40px;
+  margin-left: 50px;
+  max-height: 300px;
+  width: 740px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 0px;
+  overflow: auto;
+}
+
+
+
+.modal-tile-field .modal-tile-wrapper {
+  height: 80px;
+  margin-bottom: 40px;
+}
+
+.layer-add-modal-delet-button-field {
+  position: absolute;
+  right: 0px;
+  top: -15px;
+}
+
+.layer-add-modal-delet-button-field .delet-svg {
+  width: 55px;
+  height: 55px;
+}
+
+
+
+/* OutPutField */
+
+.output-field-wrapper {
+  /* background-color: black; */
+  width: 400px;
+  height: 150px;
+}
+
+.output-tile-position {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-left: 50px;
+}
+
+/* DataScreen */
+
+.data-screen-wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border-radius: 15px;
+}
+
+/* EditTileParameterField */
+
+.edit-tile-parameter-wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.edit-tile-field {
+  text-align: center;
+  padding-top: 20px;
 }

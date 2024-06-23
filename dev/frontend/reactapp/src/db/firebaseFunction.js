@@ -253,6 +253,17 @@ const getFavoriteUser = async (userId) => {
   }
 }
 
+// モデルの構造データ受け取り
+const getModelStructure = async (modelId) => {
+  const q = query(collection(db, 'model'), where('model_id', '==', modelId));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    return querySnapshot.docs[0].data().structure;
+  } else {
+    return null
+  }
+}
+
 // test
 const testSetDb = async (user_id, mail_address, user_name) => {
   const userData = {
@@ -263,4 +274,4 @@ const testSetDb = async (user_id, mail_address, user_name) => {
   await setDoc(doc(db, "user", user_id), userData);
 };
 
-export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle, getReaderBoard, getFavoriteUser };
+export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle, getReaderBoard, getFavoriteUser, getModelStructure };

@@ -1,5 +1,5 @@
 import React from 'react';
-import './DataScreen.css';
+import './ModelCreateTrain.css';
 
 function DataScreen() {
   return (

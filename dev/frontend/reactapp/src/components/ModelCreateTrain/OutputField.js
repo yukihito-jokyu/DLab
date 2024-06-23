@@ -1,6 +1,6 @@
 import React from 'react';
-import './OutputField.css';
-import OutputTile from './OutputTile';
+import './ModelCreateTrain.css';
+import OutputTile from './Tile/OutputTile';
 
 function OutputField() {
   return (
