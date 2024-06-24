@@ -4,8 +4,9 @@ import NuronTile from './Tile/NuronTile';
 import { ReactComponent as TileAdd } from '../../assets/svg/tile_add.svg'
 import Conv2dTile from './Tile/Conv2dTile';
 import Tile from './Tile/Tile';
+import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 
-function MiddleTileField({ tileName, layer ,setLayer, index, setNowIndex, handleModal }) {
+function MiddleTileField({ tileName, layer ,setLayer, index, setNowIndex, handleModal, handleDeleteConvTile }) {
   const handleAddTile = () => {
     setNowIndex(index+1);
     handleModal();
@@ -13,6 +14,13 @@ function MiddleTileField({ tileName, layer ,setLayer, index, setNowIndex, handle
   return (
     <div className='over-wrapper'>
       <div className='middle-tile-field-wrapper'>
+        <div className='delete-tile'>
+          <div className='delete-button-wrapper'>
+            <div className='delete-button' onClick={() => handleDeleteConvTile(index)}>
+              <DeletIcon className='delet-svg' />
+            </div>
+          </div>
+        </div>
         <div className='tile-position-wrapper'>
           {tileName === 'Conv2d' ? (
             <Conv2dTile />
@@ -27,7 +35,7 @@ function MiddleTileField({ tileName, layer ,setLayer, index, setNowIndex, handle
             </div>
           </div>
         </div>
-        <div className='delete-tile'></div>
+        
       </div>
     </div>
   )

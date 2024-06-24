@@ -61,6 +61,11 @@
 
 /* ConvField */
 
+.tile-add-button-over-wrapper {
+  margin-left: 60px;
+  width: 580px;
+}
+
 /* FlattenField */
 
 .flatten-field-wrapper {
@@ -79,24 +84,22 @@
 /* MiddleTileField */
 
 .middle-tile-field-wrapper {
+  position: relative;
   display: flex;
   width: 650px;
   height: 130px;
 }
 
-.delete-tile {
-  width: 50px;
-}
-
 .tile-position-wrapper {
   width: 100%;
-  margin-left: 50px;
+  margin-left: 60px;
 }
 
 .tile-add-button-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 400px;
   height: 50px;
 }
 
@@ -115,10 +118,44 @@
 }
 
 .delete-tile {
-  margin-right: 20px;
+  position: absolute;
+  z-index: 0;
   height: 80px;
-  width: 160px;
-  background-color: black;
+  width: 120px;
+  /* background-color: black; */
+}
+
+.delete-tile .delete-button-wrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.delete-tile .delete-button-wrapper .delete-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  position: absolute;
+  right: 0;
+  height: 80px;
+  width: 50px;
+  border-radius: 10px;
+  background-color: #FF7272;
+  opacity: 0;
+}
+
+.delete-tile .delete-button-wrapper:hover .delete-button {
+  cursor: pointer;
+  right: 55%;
+  opacity: 1;
+  transition: right 0.5s ease, opacity 1s ease;
+}
+
+.delete-tile .delete-button-wrapper .delete-button .delet-svg {
+  fill: white;
+  width: 35px;
+  height: 35px;
 }
 
 /* TileAddModal */

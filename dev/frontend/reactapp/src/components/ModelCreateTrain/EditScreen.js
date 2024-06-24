@@ -74,10 +74,16 @@ function EditScreen() {
     }
     setAdd(!add);
   }
+
+  const handleDeleteConvTile = (index) => {
+    const newLayer = [...convLayer];
+    newLayer.splice(index, 1);
+    setConvLayer(newLayer);
+  }
   return (
     <div className='edit-screen-wrapper'>
       <InputField  />
-      <ConvField convLayer={convLayer} setConvLayer={setConvLayer} setNowIndex={setNowIndex} handleModal={handleModal} />
+      <ConvField convLayer={convLayer} setConvLayer={setConvLayer} setNowIndex={setNowIndex} handleModal={handleModal} handleDeleteConvTile={handleDeleteConvTile} />
       <FlattenField />
       <MiddleFeild middleLayer={middleLayer} />
       <OutputField />
