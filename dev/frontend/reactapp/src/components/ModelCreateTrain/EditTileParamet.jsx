@@ -1,14 +1,14 @@
 import React from 'react';
 import './EditTileParamet.css';
 
-function EditTileParamet() {
+function EditTileParamet({ name, value }) {
   return (
     <div className='edit-tile-paramet-wrapper'>
       <div className='edit-tile-name-wrapper'>
-        <p>Name</p>
+        <p>{name}</p>
       </div>
       <div className='edit-tile-value-wrapper'>
-        <p>Value</p>
+        <p>{value}</p>
       </div>
     </div>
   )

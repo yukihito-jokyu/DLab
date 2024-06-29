@@ -10,7 +10,7 @@ function TileAddModal({ handleModal, handleAddTile }) {
     fontSize: "26px",
     fontWeight: "600"
   }
-  const layerList = ['Conv2d', 'MaxPool2d', 'BatchNorm', 'Dropout']
+  const layerList = ['Conv2d', 'MaxPool2d', 'BatchNorm', 'Dropout', 'Neuron']
   return (
     <div>
       <div className='tile-add-modal-wrapper'></div>
