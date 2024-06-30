@@ -5,7 +5,7 @@ import { ReactComponent as TileAdd } from '../../assets/svg/tile_add.svg'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { provider } from '../../db/firebase';
 
-function ConvField({ convLayer, setConvLayer, setNowIndex, handleModal, handleDeleteConvTile, setParameter }) {
+function ConvField({ convLayer, setConvLayer, setNowIndex, handleModal, handleDeleteConvTile, setParameter, setParameterSet, setLayerType, setSelectedIndex }) {
   const handleAddTile = () => {
     setNowIndex(0);
     handleModal();
@@ -60,6 +60,9 @@ function ConvField({ convLayer, setConvLayer, setNowIndex, handleModal, handleDe
                           handleModal={handleModal}
                           handleDeleteTile={handleDeleteConvTile}
                           setParameter={setParameter}
+                          setParameterSet={setParameterSet}
+                          setLayerType={setLayerType}
+                          setSelectedIndex={setSelectedIndex}
                         />
                       </div>
                     )}

@@ -4,7 +4,7 @@ import MiddleTileField from './MiddleTileField';
 import { ReactComponent as TileAdd } from '../../assets/svg/tile_add.svg'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
-function MiddleFeild({ middleLayer, setMiddleLayer, setNowIndex, handleModal, handleDeleteMiddleTile, setParameter }) {
+function MiddleFeild({ middleLayer, setMiddleLayer, setNowIndex, handleModal, handleDeleteMiddleTile, setParameter, setParameterSet, setLayerType, setSelectedIndex }) {
   const handleAddTile = () => {
     setNowIndex(0);
     handleModal();
@@ -59,6 +59,9 @@ function MiddleFeild({ middleLayer, setMiddleLayer, setNowIndex, handleModal, ha
                           handleModal={handleModal}
                           handleDeleteTile={handleDeleteMiddleTile}
                           setParameter={setParameter}
+                          setParameterSet={setParameterSet}
+                          setLayerType={setLayerType}
+                          setSelectedIndex={setSelectedIndex}
                         />
                       </div>
                     )}

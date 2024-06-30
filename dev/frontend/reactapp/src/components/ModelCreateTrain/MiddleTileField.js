@@ -6,10 +6,16 @@ import Conv2dTile from './Tile/Conv2dTile';
 import Tile from './Tile/Tile';
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 
-function MiddleTileField({ tileName, layer ,setLayer, index, setNowIndex, handleModal, handleDeleteTile, setParameter }) {
+function MiddleTileField({ tileName, layer ,setLayer, index, setNowIndex, handleModal, handleDeleteTile, setParameter, setParameterSet, setLayerType, setSelectedIndex }) {
   const handleAddTile = () => {
     setNowIndex(index+1);
     handleModal();
+  };
+  const handleParameter = () => {
+    setParameter(layer);
+    setLayerType(layer.type);
+    setSelectedIndex(index);
+    // setParameterSet(setLayer);
   };
   return (
     <div className='over-wrapper'>
@@ -21,7 +27,7 @@ function MiddleTileField({ tileName, layer ,setLayer, index, setNowIndex, handle
             </div>
           </div>
         </div>
-        <div className='tile-position-wrapper' onClick={() => setParameter(layer)}>
+        <div className='tile-position-wrapper' onClick={handleParameter}>
           {tileName === 'Conv2d' ? (
             <Conv2dTile />
           ) : tileName === 'Neuron' ? (
