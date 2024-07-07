@@ -137,6 +137,7 @@ const setModel = async (userId, projectId, modelName) => {
     user_id: userId
   };
   await setDoc(doc(db, "models", modelId), modelData);
+  await initModelStructure(modelId);
 }
 
 // モデルの削除
@@ -146,6 +147,7 @@ const deleteModels = async (modelId) => {
   querySnapshot.forEach(async (doc) => {
     await deleteDoc(doc.ref);
   });
+  await deleteModelStructure(modelId);
 };
 
 // Discussionの情報取得
@@ -253,6 +255,44 @@ const getFavoriteUser = async (userId) => {
   }
 }
 
+// モデルの構造の初期化
+const initModelStructure = async (modelId) => {
+  const newData = {
+    model_id: modelId,
+    TrainInfo: {
+      batch: 32,
+      epoch: 100,
+      learning_rate: 0.01,
+      loss: "mse_loss",
+      optimizer: "Adam"
+    },
+    structure: {
+      InputLayer: {
+        shape: [28, 28, 1],
+        preprocessing: "none",
+        type: "Input"
+      },
+      ConvLayer: [],
+      FlattenWay: {
+        type: "Flatten",
+        way: "normal"
+      },
+      MiddleLayer: [],
+      OutputLayer: 10
+    }
+  };
+  await setDoc(doc(db, "model", modelId), newData);
+}
+
+// モデルの構造の削除
+const deleteModelStructure = async (modelId) => {
+  const q = query(collection(db, 'model'), where('model_id', '==', modelId));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach(async (doc) => {
+    await deleteDoc(doc.ref);
+  });
+}
+
 // モデルの構造データ受け取り
 const getModelStructure = async (modelId) => {
   const q = query(collection(db, 'model'), where('model_id', '==', modelId));
@@ -264,6 +304,20 @@ const getModelStructure = async (modelId) => {
   }
 }
 
+// モデルの構造の更新
+const updateStructure = async (modelId, structure) => {
+  const q = query(collection(db, 'model'), where('model_id', '==', modelId));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach(async (document) => {
+    const docRef = doc(db, 'model', document.id);
+    await updateDoc(docRef, {
+      structure: structure
+    });
+  })
+}
+
+
+
 // test
 const testSetDb = async (user_id, mail_address, user_name) => {
   const userData = {
@@ -274,4 +328,4 @@ const testSetDb = async (user_id, mail_address, user_name) => {
   await setDoc(doc(db, "user", user_id), userData);
 };
 
-export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle, getReaderBoard, getFavoriteUser, getModelStructure };
+export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle, getReaderBoard, getFavoriteUser, getModelStructure, updateStructure };

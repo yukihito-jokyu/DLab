@@ -1,7 +1,18 @@
 .output-tile-wrapper {
+  position: relative;
   display: flex;
   width: 350px;
   height: 80px;
   background-color: #AEAEAE;
+  border-radius: 10px;
+}
+
+.output-tile-wrapper .error-wrapper {
+  width: 350px;
+  position: absolute;
+  height: 80px;
+  background: linear-gradient(249.81deg, rgba(0, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 35%, rgba(146, 229, 255, 0) 66%, rgba(0, 240, 255, 0.4) 100%), radial-gradient(98.31% 179.05% at 0% 3.12%, #FF8FD2 2.5%, #FF9096 21%, #FF3434 53%, #FF8686 78.5%, #FF8FD2 100%), #FFFFFF;
+  opacity: 0.5;
+  z-index: 30;
   border-radius: 10px;
 }

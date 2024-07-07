@@ -2,3 +2,8 @@
   width: 100%;
   height: 45%;
 }
+
+.train-panel-wrapper .panel-field {
+  height: calc(100% - 70px);
+  overflow: auto;
+}

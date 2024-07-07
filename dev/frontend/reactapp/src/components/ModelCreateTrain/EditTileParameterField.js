@@ -2,28 +2,39 @@ import React, { useEffect, useState } from 'react';
 import './ModelCreateTrain.css';
 import EditTileParamet from './EditTileParamet';
 import { v4 as uuidv4 } from 'uuid';
+import InputLayer from '../Image/InputLayer';
 
-function EditTileParameterField({ parameter, convLayer, middleLayer, layerType, selectedindex, setConvLayer, setMiddleLayer }) {
-  const pList =["kernel_size", "activ_func", "out_channel", "padding", "strid", "dropout_p", "input_size"]
+function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, middleLayer, layerType, param, selectedindex, setInputLayer, setConvLayer, setFlattenWay, setMiddleLayer, setParam }) {
+  const pList =["kernel_size", "activ_func", "out_channel", "padding", "strid", "dropout_p", "input_size", "preprocessing", "way"]
   const [keys, setKeys] = useState([]);
-  const [param, setParam] = useState(null);
   useEffect(() => {
     const handleSetParameter = () => {
-      console.log('実行された')
+      let layerParam = null;
+
       if (layerType === "Conv") {
-        setParam(convLayer[selectedindex])
-        const keys = Object.keys(convLayer[selectedindex]);
-        const sortedKeys = keys.sort((a, b) => a.localeCompare(b));
-        setKeys(sortedKeys);
+        layerParam = convLayer[selectedindex];
       } else if (layerType === "Middle") {
-        setParam(middleLayer[selectedindex])
-        const keys = Object.keys(middleLayer[selectedindex]);
+        layerParam = middleLayer[selectedindex];
+      } else if (layerType === 'Input') {
+        layerParam = inputLayer;
+      } else if (layerType === 'Flatten') {
+        layerParam = flattenWay;
+      }
+
+      if (layerParam) {
+        setParam(layerParam);
+        const keys = Object.keys(layerParam);
         const sortedKeys = keys.sort((a, b) => a.localeCompare(b));
         setKeys(sortedKeys);
+      } else {
+        setParam(null);
+        setKeys([]);
       }
     }
+
     handleSetParameter();
-  }, [parameter, layerType, selectedindex, convLayer, middleLayer]);
+  }, [parameter, inputLayer, layerType, selectedindex, setParam, convLayer, flattenWay, middleLayer]);
+
   const handleChangeParameter = (key, value) => {
     console.log(key, value)
     if (layerType === 'Conv') {
@@ -34,6 +45,14 @@ function EditTileParameterField({ parameter, convLayer, middleLayer, layerType, 
       const newMiddleLayer = [...middleLayer];
       newMiddleLayer[selectedindex] = { ...newMiddleLayer[selectedindex], [key]: value}
       setMiddleLayer(newMiddleLayer);
+    } else if (layerType === 'Input') {
+      const newInputLayer = { ...inputLayer };
+      newInputLayer[key] = value;
+      setInputLayer(newInputLayer);
+    } else if (layerType === 'Flatten') {
+      const newFlattenWay = { ...flattenWay };
+      newFlattenWay[key] = value;
+      setFlattenWay(newFlattenWay);
     }
   };
   return (

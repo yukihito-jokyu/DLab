@@ -2,3 +2,8 @@
   width: 100%;
   height: 55%;
 }
+
+.train-log-wrapper .log-field {
+  height: calc(100% - 70px);
+  overflow: auto;
+}

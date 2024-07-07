@@ -7,11 +7,15 @@ import ConvField from './ConvField';
 import FlattenField from './FlattenField';
 import TileAddModal from './TileAddModal';
 import { v4 as uuidv4 } from 'uuid';
+import ErrorModal from './ErrorModal';
 
-function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLayer, outputLayer, setConvLayer, setMiddleLayer, setParameterSet, setLayerType, setSelectedIndex }) {
+function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLayer, outputLayer, setConvLayer, setMiddleLayer, setParameterSet, setLayerType, setSelectedIndex, setParam, inputShape, convShape, flattenShape, middleShape, outputShape }) {
   const [convAdd, setConvAdd] = useState(false);
   const [middleAdd, setMiddleAdd] = useState(false);
   const [nowIndex, setNowIndex] = useState(null);
+  const [errorModal, setErrorModal] = useState(false);
+  const [errorField, setErrorField] = useState('');
+  const [errorTile, setErrorTile] = useState('');
   const handleConvModal = () => {
     setConvAdd(!convAdd);
   };
@@ -65,46 +69,55 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
       copyLayer.splice(nowIndex, 0, newLayer);
       setConvLayer(copyLayer);
     } else if (layerType === 'Neuron') {
-      const newLayer = {
-        id: uuidv4(),
-        layer_type: layerType,
-        activ_func: "ReLU",
-        input_size: 100,
-        type: "Conv"
-      };
-      const copyLayer = [...convLayer];
-      copyLayer.splice(nowIndex, 0, newLayer);
-      setConvLayer(copyLayer);
+      // const newLayer = {
+      //   id: uuidv4(),
+      //   layer_type: layerType,
+      //   activ_func: "ReLU",
+      //   input_size: 100,
+      //   type: "Conv"
+      // };
+      // const copyLayer = [...convLayer];
+      // copyLayer.splice(nowIndex, 0, newLayer);
+      // setConvLayer(copyLayer);
+      setErrorModal(!errorModal);
+      setErrorField('畳み込み層');
+      setErrorTile('Nuron');
     };
     setConvAdd(!convAdd);
   };
   const handleAddMiddleTile = (layerType) => {
     if (layerType === 'Conv2d') {
-      const newLayer = {
-        id: uuidv4(),
-        activ_func: "ReLU",
-        kernel_size: 3,
-        layer_type: layerType,
-        out_channel: 64,
-        padding: 0,
-        strid: 1,
-        type: "Middle"
-      };
-      const copyLayer = [...middleLayer];
-      copyLayer.splice(nowIndex, 0, newLayer);
-      setMiddleLayer(copyLayer);
+      // const newLayer = {
+      //   id: uuidv4(),
+      //   activ_func: "ReLU",
+      //   kernel_size: 3,
+      //   layer_type: layerType,
+      //   out_channel: 64,
+      //   padding: 0,
+      //   strid: 1,
+      //   type: "Middle"
+      // };
+      // const copyLayer = [...middleLayer];
+      // copyLayer.splice(nowIndex, 0, newLayer);
+      // setMiddleLayer(copyLayer);
+      setErrorModal(!errorModal);
+      setErrorField('全結合層');
+      setErrorTile(layerType);
     } else if (layerType === 'MaxPool2d') {
-      const newLayer = {
-        id: uuidv4(),
-        kernel_size: 3,
-        layer_type: layerType,
-        padding: 0,
-        strid: 1,
-        type: "Middle"
-      };
-      const copyLayer = [...middleLayer];
-      copyLayer.splice(nowIndex, 0, newLayer);
-      setMiddleLayer(copyLayer);
+      // const newLayer = {
+      //   id: uuidv4(),
+      //   kernel_size: 3,
+      //   layer_type: layerType,
+      //   padding: 0,
+      //   strid: 1,
+      //   type: "Middle"
+      // };
+      // const copyLayer = [...middleLayer];
+      // copyLayer.splice(nowIndex, 0, newLayer);
+      // setMiddleLayer(copyLayer);
+      setErrorModal(!errorModal);
+      setErrorField('全結合層');
+      setErrorTile(layerType);
     } else if (layerType === 'Dropout') {
       const newLayer = {
         id: uuidv4(),
@@ -143,15 +156,25 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
     const newLayer = [...convLayer];
     newLayer.splice(index, 1);
     setConvLayer(newLayer);
+    setParam(null);
   };
   const handleDeleteMiddleTile = (index) => {
     const newLayer = [...middleLayer];
     newLayer.splice(index, 1);
     setMiddleLayer(newLayer);
+    setParam(null)
   };
+
+  const handleErrorModal = () => {
+    setErrorModal(!errorModal);
+  }
   return (
     <div className='edit-screen-wrapper'>
-      <InputField  />
+      <InputField
+        inputLayer={inputLayer}
+        setLayerType={setLayerType}
+        shape={inputShape}
+      />
       <ConvField
         convLayer={convLayer}
         setConvLayer={setConvLayer}
@@ -162,8 +185,13 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
         setParameterSet={setParameterSet}
         setLayerType={setLayerType}
         setSelectedIndex={setSelectedIndex}
+        convShape={convShape}
       />
-      <FlattenField />
+      <FlattenField
+        flattenWay={flattenWay}
+        setLayerType={setLayerType}
+        flattenShape={flattenShape}
+      />
       <MiddleFeild
         middleLayer={middleLayer}
         setMiddleLayer={setMiddleLayer}
@@ -174,8 +202,11 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
         setParameterSet={setParameterSet}
         setLayerType={setLayerType}
         setSelectedIndex={setSelectedIndex}
+        middleShape={middleShape}
       />
-      <OutputField />
+      <OutputField
+        outputShape={outputShape}
+      />
       {convAdd && 
         <TileAddModal
           handleModal={handleConvModal}
@@ -188,6 +219,11 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
           handleAddTile={handleAddMiddleTile}
         />
       }
+      {errorModal && <ErrorModal
+        handleErrorModal={handleErrorModal}
+        filedName={errorField}
+        tileName={errorTile}
+      />}
     </div>
   )
 }

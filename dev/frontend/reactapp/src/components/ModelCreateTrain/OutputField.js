@@ -2,11 +2,11 @@ import React from 'react';
 import './ModelCreateTrain.css';
 import OutputTile from './Tile/OutputTile';
 
-function OutputField() {
+function OutputField({ outputShape }) {
   return (
     <div className='output-field-wrapper'>
       <div className='output-tile-position'>
-        <OutputTile />
+        <OutputTile shape={outputShape} />
       </div>
     </div>
   )

@@ -87,12 +87,22 @@ function EditTileParamet({ name, value, handleChangeParameter }) {
               <option key={number} value={number}>{number}</option>
             ))}
           </select>
+        ) : name === 'preprocessing' ? (
+          <select value={selectedValue} onChange={handleChange}>
+            <option value="None">None</option>
+            <option value="GCN">GCN</option>
+            <option value="ZCA">ZCA</option>
+          </select>
+        ) : name === 'way' ? (
+          <select value={selectedValue} onChange={handleChange}>
+            <option value="normal">normal</option>
+            <option value="GAP">GAP</option>
+            <option value="GMP">GMP</option>
+          </select>
         ) : (
           <></>
         )}
-        
       </div>
-      <p>{value}</p>
     </div>
   )
 }

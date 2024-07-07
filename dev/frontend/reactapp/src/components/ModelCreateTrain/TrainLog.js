@@ -6,6 +6,9 @@ function TrainLog() {
   return (
     <div className='train-log-wrapper'>
       <TrainPanelTital />
+      <div className='log-field'>
+        
+      </div>
     </div>
   )
 }

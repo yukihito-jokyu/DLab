@@ -7,7 +7,16 @@ function TrainPanel() {
   return (
     <div className='train-panel-wrapper'>
       <TrainPanelTital />
-      <TrainPanelEdit />
+      <div className='panel-field'>
+        <TrainPanelEdit />
+        <TrainPanelEdit />
+        <TrainPanelEdit />
+        <TrainPanelEdit />
+        <TrainPanelEdit />
+        <TrainPanelEdit />
+        <TrainPanelEdit />
+        <TrainPanelEdit />
+      </div>
     </div>
   )
 }
