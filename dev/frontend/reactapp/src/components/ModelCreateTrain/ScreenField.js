@@ -4,7 +4,7 @@ import EditScreen from './EditScreen';
 import DataScreen from './DataScreen';
 import EditTileParameterField from './EditTileParameterField';
 import TrainLogField from './TrainLogField';
-import { getModelStructure, updateStructure } from '../../db/firebaseFunction';
+import { getModelStructure, getTrainInfo, updateStructure, updateTrainInfo } from '../../db/firebaseFunction';
 import MiddleLayer from '../Image/MiddleLayer';
 
 function ScreenField() {
@@ -23,12 +23,12 @@ function ScreenField() {
   const [flattenShape, setFlattenShape] = useState([]);
   const [middleShape, setMiddleShape] = useState([]);
   const [outputShape, setOutputShape] = useState([]);
+  const [trainInfo, setTrainInfo] = useState(null);
   const modelId = JSON.parse(sessionStorage.getItem('modelId'));
   
+  // モデルの構造データ取得
   useEffect(() => {
     const fetchStructure = async () => {
-      // const modelId = "model_test"
-      
       const structure = await getModelStructure(modelId);
       setInputLayer(structure.InputLayer);
       setMiddleLayer(structure.MiddleLayer);
@@ -36,9 +36,26 @@ function ScreenField() {
       setConvLayer(structure.ConvLayer);
       setOutputLayer(structure.OutputLayer);
     };
-
     fetchStructure()
   }, [modelId]);
+
+  // モデルの訓練情報取得
+  useEffect(() => {
+    const fetchTrainInfo = async () => {
+      const info = await getTrainInfo(modelId);
+      setTrainInfo(info);
+    }
+    fetchTrainInfo();
+  }, [modelId]);
+
+  // モデルの訓練情報の保尊
+  useEffect(() => {
+    const saveTrainInfo = async () => {
+      updateTrainInfo(modelId, trainInfo);
+    };
+    saveTrainInfo();
+  }, [modelId, trainInfo]);
+
 
   useEffect(() => {
     // 形状の計算
@@ -110,8 +127,6 @@ function ScreenField() {
 
   // パラメータやタイルの位置の変更があったらfirebaseに保存する。
   useEffect(() => {
-    
-    
     const saveStructure = () => {
       const structure = {
         InputLayer: inputLayer,
@@ -128,7 +143,7 @@ function ScreenField() {
   return (
     <div className='screen-field-wrapper'>
       <div className='left-screen'>
-        {/* <EditScreen
+        <EditScreen
           setParameter={setParameter}
           inputLayer={inputLayer}
           convLayer={convLayer}
@@ -146,8 +161,11 @@ function ScreenField() {
           flattenShape={flattenShape}
           middleShape={middleShape}
           outputShape={outputShape}
+        />
+        {/* <TrainLogField
+          trainInfo={trainInfo}
+          setTrainInfo={setTrainInfo}
         /> */}
-        <TrainLogField />
       </div>
       <div className='right-screen'>
         <div className='top-screen'>

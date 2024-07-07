@@ -3,10 +3,13 @@ import './TrainLogField.css';
 import TrainPanel from './TrainPanel';
 import TrainLog from './TrainLog';
 
-function TrainLogField() {
+function TrainLogField({ trainInfo, setTrainInfo }) {
   return (
     <div className='train-log-field-wrapper'>
-      <TrainPanel />
+      <TrainPanel
+        trainInfo={trainInfo}
+        setTrainInfo={setTrainInfo}
+      />
       <TrainLog />
     </div>
   )
