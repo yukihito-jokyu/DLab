@@ -444,7 +444,7 @@
   height: 100px;
   transform-style: preserve-3d;
   transform: rotateZ(45deg) rotateY(45deg) rotateX(40deg);
-  animation: rotate 5s linear infinite;
+  animation: rotate 3s linear infinite;
   position: relative;
 }
 
@@ -491,11 +491,11 @@
   background: linear-gradient(45deg, #4c4c4c 0%, #565454 99%, #565554 100%);
 }
 
-/* @keyframes rotate {
+@keyframes rotate {
   0% {
     transform: rotateZ(45deg) rotateX(0deg);
   }
   100% {
     transform: rotateZ(45deg) rotateX(360deg);
   }
-} */
+}

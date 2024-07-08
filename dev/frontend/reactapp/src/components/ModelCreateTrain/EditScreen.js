@@ -176,7 +176,7 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
         setLayerType={setLayerType}
         shape={inputShape}
       />
-      <ConvField
+      {convLayer && <ConvField
         convLayer={convLayer}
         setConvLayer={setConvLayer}
         setNowIndex={setNowIndex}
@@ -187,12 +187,12 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
         setLayerType={setLayerType}
         setSelectedIndex={setSelectedIndex}
         convShape={convShape}
-      />
-      <FlattenField
+      />}
+      {flattenWay && <FlattenField
         flattenWay={flattenWay}
         setLayerType={setLayerType}
         flattenShape={flattenShape}
-      />
+      />}
       <MiddleFeild
         middleLayer={middleLayer}
         setMiddleLayer={setMiddleLayer}
@@ -225,7 +225,7 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
         filedName={errorField}
         tileName={errorTile}
       />}
-      <InfoModal />
+      {/* <InfoModal /> */}
     </div>
   )
 }

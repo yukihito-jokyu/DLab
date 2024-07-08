@@ -25,6 +25,7 @@ function ScreenField() {
   const [outputShape, setOutputShape] = useState([]);
   const [trainInfo, setTrainInfo] = useState(null);
   const modelId = JSON.parse(sessionStorage.getItem('modelId'));
+  const projectId = JSON.parse(sessionStorage.getItem('projectId'));
   
   // モデルの構造データ取得
   useEffect(() => {
@@ -61,89 +62,116 @@ function ScreenField() {
     // 形状の計算
     const shapeUpdate = () => {
       if (inputLayer.shape) {
-        const inputShape = inputLayer.shape;
-        let H = inputShape[0]
-        let W = inputShape[1]
-        let C = inputShape[2]
-        let N = 0;
-        let errorHandle = false;
-        setInputShape([H, W, C]);
-        const newConvShape = []
-        convLayer.forEach((conv, index) => {
-          const layerType = conv.layer_type;
-          const kernelSize = conv.kernel_size;
-          const padding = conv.padding;
-          const strid = conv.strid;
-          const outChannel = conv.out_channel;
-          if (layerType === 'Conv2d' || layerType === 'MaxPool2d') {
-            H = Math.trunc(((H - kernelSize + 2 * padding) / strid) + 1)
-            W = Math.trunc(((W - kernelSize + 2 * padding) / strid) + 1)
-            if (outChannel) {
-              C = outChannel
+        if (projectId === 'CartPole') {
+          let N = inputLayer.shape;
+          setInputShape([N])
+          const newMiddleShape = []
+          middleLayer.forEach((middle, index) => {
+            if (middle.input_size) {
+              N = middle.input_size;
             }
-          }
-          if (H < 1 || W < 1) {
-            newConvShape.push(['error'])
-            errorHandle = true
+            newMiddleShape.push([N]);
+          })
+          setMiddleShape(newMiddleShape);
+          N = outputLayer;
+          setOutputShape([N]);
+        } else {
+          const inputShape = inputLayer.shape;
+          let H = inputShape[0]
+          let W = inputShape[1]
+          let C = inputShape[2]
+          let N = 0;
+          let errorHandle = false;
+          setInputShape([H, W, C]);
+          const newConvShape = []
+          convLayer.forEach((conv, index) => {
+            const layerType = conv.layer_type;
+            const kernelSize = conv.kernel_size;
+            const padding = conv.padding;
+            const strid = conv.strid;
+            const outChannel = conv.out_channel;
+            if (layerType === 'Conv2d' || layerType === 'MaxPool2d') {
+              H = Math.trunc(((H - kernelSize + 2 * padding) / strid) + 1)
+              W = Math.trunc(((W - kernelSize + 2 * padding) / strid) + 1)
+              if (outChannel) {
+                C = outChannel
+              }
+            }
+            if (H < 1 || W < 1) {
+              newConvShape.push(['error'])
+              errorHandle = true
+            } else {
+              newConvShape.push([H, W, C]);
+            }
+            
+          });
+          setConvShape(newConvShape);
+          const way = flattenWay.way;
+          if (way === 'GAP' || way === 'GMP') {
+            N = C;
           } else {
-            newConvShape.push([H, W, C]);
+            N = H * W * C;
+          }
+          if (errorHandle) {
+            setFlattenShape(['error']);
+          } else {
+            setFlattenShape([N])
           }
           
-        });
-        setConvShape(newConvShape);
-        const way = flattenWay.way;
-        if (way === 'GAP' || way === 'GMP') {
-          N = C;
-        } else {
-          N = H * W * C;
-        }
-        if (errorHandle) {
-          setFlattenShape(['error']);
-        } else {
-          setFlattenShape([N])
+          const newMiddleShape = []
+          middleLayer.forEach((middle, index) => {
+            if (errorHandle) {
+              newMiddleShape.push(['error'])
+            } else {
+              if (middle.input_size) {
+                N = middle.input_size
+              }
+              newMiddleShape.push([N]);
+            }
+          })
+          setMiddleShape(newMiddleShape);
+          N = outputLayer;
+          if (errorHandle) {
+            setOutputShape(['error'])
+          } else {
+            setOutputShape([N]);
+          }
         }
         
-        const newMiddleShape = []
-        middleLayer.forEach((middle, index) => {
-          const nuronNum = middle.input_size;
-          N = nuronNum;
-          if (errorHandle) {
-            newMiddleShape.push(['error'])
-          } else {
-            newMiddleShape.push([N]);
-          }
-        })
-        setMiddleShape(newMiddleShape);
-        N = outputLayer;
-        if (errorHandle) {
-          setOutputShape(['error'])
-        } else {
-          setOutputShape([N]);
-        }
       }
     }
     shapeUpdate();
-  }, [inputLayer, convLayer, flattenWay, middleLayer, outputLayer])
+  }, [projectId, inputLayer, convLayer, flattenWay, middleLayer, outputLayer])
 
   // パラメータやタイルの位置の変更があったらfirebaseに保存する。
   useEffect(() => {
     const saveStructure = () => {
-      const structure = {
-        InputLayer: inputLayer,
-        ConvLayer: convLayer,
-        FlattenWay: flattenWay,
-        MiddleLayer: middleLayer,
-        OutputLayer: outputLayer
+      let structure = {}
+      if (projectId === 'CartPole') {
+        structure = {
+          InputLayer: inputLayer,
+          MiddleLayer: middleLayer,
+          OutputLayer: outputLayer
+        }
+      } else {
+        structure = {
+          InputLayer: inputLayer,
+          ConvLayer: convLayer,
+          FlattenWay: flattenWay,
+          MiddleLayer: middleLayer,
+          OutputLayer: outputLayer
+        }
       }
+      
       updateStructure(modelId, structure);
     };
     
     saveStructure();
-  }, [modelId, inputLayer, convLayer, flattenWay, middleLayer, outputLayer]);
+  }, [projectId, modelId, inputLayer, convLayer, flattenWay, middleLayer, outputLayer]);
   return (
     <div className='screen-field-wrapper'>
       <div className='left-screen'>
-        <EditScreen
+        {/* <EditScreen
           setParameter={setParameter}
           inputLayer={inputLayer}
           convLayer={convLayer}
@@ -161,11 +189,11 @@ function ScreenField() {
           flattenShape={flattenShape}
           middleShape={middleShape}
           outputShape={outputShape}
-        />
-        {/* <TrainLogField
+        /> */}
+        <TrainLogField
           trainInfo={trainInfo}
           setTrainInfo={setTrainInfo}
-        /> */}
+        />
       </div>
       <div className='right-screen'>
         <div className='top-screen'>

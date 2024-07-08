@@ -39,6 +39,7 @@ function ProjectRecommend() {
       navigate('/ImageClassificationProjectList');
     } else {
       signInWithGoogle(setUserId, setFirstSignIn);
+      
     }
   };
   const handleRLSignIn = () => {

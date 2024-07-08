@@ -48,6 +48,17 @@ const saveData = async (setUserId) => {
     user_id: user_id,
     user_name: user_name
   };
+  const sentData = {
+    user_id: user_id
+  };
+  const response = await fetch('http://127.0.0.1:5000/train', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(sentData),
+  });
+  console.log(response);
   setUserId(user_id);
   sessionStorage.setItem('userId', JSON.stringify(user_id));
   await setDoc(doc(db, "user", user_id), userData);
@@ -137,7 +148,7 @@ const setModel = async (userId, projectId, modelName) => {
     user_id: userId
   };
   await setDoc(doc(db, "models", modelId), modelData);
-  await initModelStructure(modelId);
+  await initModelStructure(modelId, projectId);
 }
 
 // モデルの削除
@@ -256,31 +267,84 @@ const getFavoriteUser = async (userId) => {
 }
 
 // モデルの構造の初期化
-const initModelStructure = async (modelId) => {
-  const newData = {
-    model_id: modelId,
-    TrainInfo: {
-      batch: 32,
-      epoch: 100,
-      learning_rate: 0.01,
-      loss: "mse_loss",
-      optimizer: "Adam"
-    },
-    structure: {
-      InputLayer: {
-        shape: [28, 28, 1],
-        preprocessing: "none",
-        type: "Input"
+const initModelStructure = async (modelId, projectId) => {
+  let newData
+  if (projectId === 'CartPole') {
+    newData = {
+      model_id: modelId,
+      TrainInfo: {
+        batch: 32,
+        epoch: 100,
+        learning_rate: 0.01,
+        loss: "mse_loss",
+        optimizer: "Adam",
+        buffer: 10000,
+        episilon: 0.1,
+        syns: 20
       },
-      ConvLayer: [],
-      FlattenWay: {
-        type: "Flatten",
-        way: "normal"
-      },
-      MiddleLayer: [],
-      OutputLayer: 10
+      structure: {
+        InputLayer: {
+          shape: 4,
+          type: "Input"
+        },
+        MiddleLayer: [],
+        OutputLayer: 2
+      }
     }
-  };
+  } else if (projectId === 'FlappyBird') {
+    newData = {
+      model_id: modelId,
+      TrainInfo: {
+        batch: 32,
+        epoch: 100,
+        learning_rate: 0.01,
+        loss: "mse_loss",
+        optimizer: "Adam",
+        buffer: 10000,
+        episilon: 0.1,
+        syns: 20
+      },
+      structure: {
+        InputLayer: {
+          shape: [28, 28, 1],
+          preprocessing: "none",
+          type: "Input"
+        },
+        ConvLayer: [],
+        FlattenWay: {
+          type: "Flatten",
+          way: "normal"
+        },
+        MiddleLayer: [],
+        OutputLayer: 2
+      }
+    }
+  } else {
+    newData = {
+      model_id: modelId,
+      TrainInfo: {
+        batch: 32,
+        epoch: 100,
+        learning_rate: 0.01,
+        loss: "mse_loss",
+        optimizer: "Adam"
+      },
+      structure: {
+        InputLayer: {
+          shape: [28, 28, 1],
+          preprocessing: "none",
+          type: "Input"
+        },
+        ConvLayer: [],
+        FlattenWay: {
+          type: "Flatten",
+          way: "normal"
+        },
+        MiddleLayer: [],
+        OutputLayer: 10
+      }
+    }
+  }
   await setDoc(doc(db, "model", modelId), newData);
 }
 

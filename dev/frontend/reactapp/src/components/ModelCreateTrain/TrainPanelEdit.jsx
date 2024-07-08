@@ -4,9 +4,27 @@ import './TrainPanelEdit.css';
 function TrainPanelEdit({ parameter, value, handleChangeParameter }) {
   const [selectedValue, setSelectedValue] = useState('');
   const [floatValue, setFloatValue] = useState('');
+  const [numValue, setNumValue] = useState('');
   useEffect(() => {
     setSelectedValue(value);
   }, [value]);
+  const handleNumChange = (e) => {
+    const inputValue = e.target.value;
+    const regex = /^[0-9]*$/; // 数字のみを許可
+  
+    if (regex.test(inputValue)) {
+      // 空入力を許可
+      if (inputValue === '') {
+        setNumValue('');
+      } else {
+        const num = parseInt(inputValue, 10);
+        // 0より大きく100000以下の整数のみを許可
+        if (num > 0 && num <= 100000) {
+          setNumValue(inputValue);
+        }
+      }
+    }
+  };
   const handleFloatChange = (e) => {
     const inputValue = e.target.value;
     const regex = /^[0-9.]*$/;
@@ -68,6 +86,26 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter }) {
               <option value="Adagrad">Adagrad</option>
               <option value="RMSprop">RMSprop</option>
               <option value="Adadelta">Adadelta</option>
+            </select>
+          ) : parameter === 'episilon' ? (
+            <input
+              type='text'
+              value={floatValue}
+              onChange={handleFloatChange}
+              placeholder='0 以上 1 未満の数値'
+            />
+          ) : parameter === 'buffer' ? (
+            <input
+              type='text'
+              value={numValue}
+              onChange={handleNumChange}
+              placeholder='1 以上 10万 以下の数値'
+            />
+          ) : parameter === 'syns' ? (
+            <select value={selectedValue} onChange={handleChange}>
+              {Array.from({ length: 200 }, (_, index) => index + 1).map((number) => (
+                <option key={number} value={number}>{number}</option>
+              ))}
             </select>
           ) : (
             <></>
