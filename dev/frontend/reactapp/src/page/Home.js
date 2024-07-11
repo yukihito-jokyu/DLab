@@ -27,6 +27,20 @@ function Home() {
     }
   }
 
+  const handleDir = async () => {
+    const sentData = {
+      test: 't'
+    }
+    const response = await fetch('http://127.0.0.1:5000/mkdir/test', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(sentData),
+    });
+    console.log(response)
+  }
+
   return (
     <div className='home-page'>
       <h1>Home</h1>
@@ -39,6 +53,7 @@ function Home() {
         </div>
       </div>
       <button onClick={handleClick}>ソケット</button>
+      <button onClick={handleDir}>mkdir</button>
     </div>
   )
 }

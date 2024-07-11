@@ -171,7 +171,7 @@ function ScreenField() {
   return (
     <div className='screen-field-wrapper'>
       <div className='left-screen'>
-        {/* <EditScreen
+        <EditScreen
           setParameter={setParameter}
           inputLayer={inputLayer}
           convLayer={convLayer}
@@ -189,11 +189,11 @@ function ScreenField() {
           flattenShape={flattenShape}
           middleShape={middleShape}
           outputShape={outputShape}
-        /> */}
-        <TrainLogField
+        />
+        {/* <TrainLogField
           trainInfo={trainInfo}
           setTrainInfo={setTrainInfo}
-        />
+        /> */}
       </div>
       <div className='right-screen'>
         <div className='top-screen'>

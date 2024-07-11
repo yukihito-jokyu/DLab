@@ -51,7 +51,7 @@ const saveData = async (setUserId) => {
   const sentData = {
     user_id: user_id
   };
-  const response = await fetch('http://127.0.0.1:5000/train', {
+  const response = await fetch('http://127.0.0.1:5000/mkdir/user', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
