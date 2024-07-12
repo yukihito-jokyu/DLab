@@ -2,51 +2,12 @@ import os
 import importlib
 import gym
 import torch
-import torch.nn as nn
 import numpy as np
 import matplotlib.pyplot as plt
 from collections import deque
 import random
-import torch.optim as optim
-
-# 活性化関数を取得する関数
-def get_activation(activation_name):
-    if activation_name == 'ReLU':
-        return nn.ReLU()
-    elif activation_name == 'Sigmoid':
-        return nn.Sigmoid()
-    elif activation_name == 'Tanh':
-        return nn.Tanh()
-    elif activation_name == 'Softmax':
-        return nn.Softmax(dim=1)
-
-# オプティマイザーを取得する関数
-def get_optimizer(optimizer_name, params, lr):
-    if optimizer_name == 'SGD':
-        return optim.SGD(params, lr)
-    if optimizer_name == 'momentum':
-        return optim.SGD(params, lr, momentum=0.8)
-    if optimizer_name == 'Adam':
-        return optim.Adam(params, lr)
-    if optimizer_name == 'Adagrad':
-        return optim.Adagrad(params, lr)
-    if optimizer_name == 'RMSProp':
-        return optim.RMSprop(params, lr)
-    if optimizer_name == 'Adadelta':
-        return optim.Adadelta(params, lr)
-
-# 損失関数を取得する関数
-def get_loss(loss_name):
-    if loss_name == 'mse_loss':
-        return nn.MSELoss()
-    if loss_name == 'cross_entropy':
-        return nn.CrossEntropyLoss()
-    if loss_name == 'binary_corss_entropy':
-        return nn.BCELoss()
-    if loss_name == 'nll_loss':
-        return nn.NLLLoss()
-    if loss_name == 'hinge_embedding_loss':
-        return nn.HingeEmbeddingLoss()
+from flask_socketio import emit
+from utils.get_func import get_optimizer, get_loss
 
 # リプレイバッファクラスの定義
 class ReplayBuffer:
@@ -125,7 +86,7 @@ class DQNAgent:
         return loss.item()
 
 # モデルを訓練する関数
-def train_model(config):
+def train_cartpole(config, socketio):
     user_id = config["user_id"]
     project_name = config["Project_name"]
     model_id = config["model_id"]
@@ -170,7 +131,8 @@ def train_model(config):
             max_reward = total_reward
             torch.save(agent.qnet.state_dict(), os.path.join(base_dir, user_id, project_name, model_id, "best_model.pth"))
 
-        # print(f"Episode: {episode}, Loss: {total_loss:.4f}, Reward: {total_reward}")
+        socketio.sleep(0.15)
+        emit(f"Episode: {episode}, Loss: {total_loss:.4f}, Reward: {total_reward}")
 
     plt.figure()
     plt.plot(rewards)
