@@ -59,12 +59,14 @@ class Simple_NN(nn.Module):
             py_3 += make_dropout_layer(layer.get('dropout_p'))
         elif layer_type == 'batchnorm':
             py_3 += make_batchnorm_layer(in_channels)
-    
-    if flutten_way == 'GAP':
-        py_3 += make_flatten_bif('AdaptiveAvgPool2d')
-    elif flutten_way == 'GMP':
-        py_3 += make_flatten_bif('AdaptiveMaxPool2d')
 
+    # Global Poolingの追加
+    if flutten_way == 'GAP':
+        py_3 += '            nn.AdaptiveAvgPool2d(1),\n'
+    elif flutten_way == 'GMP':
+        py_3 += '            nn.AdaptiveMaxPool2d(1),\n'
+
+    # Flatten層の追加
     py_3 += '            nn.Flatten(),\n'
 
     input_size = middle_layers[0].get('input_size')
@@ -72,12 +74,12 @@ class Simple_NN(nn.Module):
         py_3 += make_linear(input_size, layer.get('input_size'))
         py_3 += make_activ(layer.get('activ_func'))
         input_size = layer.get('input_size')
-    
+
     py_3 += make_linear(input_size, output_size)
 
     python_code = py_1 + py_2 + py_3 + py_4 + py_5
     file_name = 'model_config.py'
-    
+
     try:
         with open(f"{save_dir}/{file_name}", 'w') as file:
             file.write(python_code)
