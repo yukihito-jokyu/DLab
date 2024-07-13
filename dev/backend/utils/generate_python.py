@@ -60,16 +60,15 @@ class Simple_NN(nn.Module):
         elif layer_type == 'batchnorm':
             py_3 += make_batchnorm_layer(in_channels)
 
-    # Global Poolingの追加
     if flutten_way == 'GAP':
         py_3 += '            nn.AdaptiveAvgPool2d(1),\n'
     elif flutten_way == 'GMP':
         py_3 += '            nn.AdaptiveMaxPool2d(1),\n'
 
-    # Flatten層の追加
     py_3 += '            nn.Flatten(),\n'
 
-    input_size = middle_layers[0].get('input_size')
+    input_size = in_channels
+
     for layer in middle_layers:
         py_3 += make_linear(input_size, layer.get('input_size'))
         py_3 += make_activ(layer.get('activ_func'))

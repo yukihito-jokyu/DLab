@@ -108,7 +108,7 @@ def train_cartpole(config, socketio):
     rewards = []
     losses = []
 
-    for episode in range(epoch):
+    for episode in range(1, epoch+1):
         state, _ = env.reset()
         done = False
         total_reward = 0
@@ -132,7 +132,7 @@ def train_cartpole(config, socketio):
             torch.save(agent.qnet.state_dict(), os.path.join(base_dir, user_id, project_name, model_id, "best_model.pth"))
 
         socketio.sleep(0.15)
-        emit(f"Episode: {episode}, Loss: {total_loss:.4f}, Reward: {total_reward}")
+        emit({'episode': episode, 'loss': round(total_loss, 5), 'Reword': total_reward})
 
     plt.figure()
     plt.plot(rewards)
@@ -141,14 +141,16 @@ def train_cartpole(config, socketio):
     plt.ylabel('Total Reward')
     photo_dir = os.path.join(base_dir, user_id, project_name, model_id, "photo")
     os.makedirs(photo_dir, exist_ok=True)
-    plt.savefig(os.path.join(photo_dir, "training_reward.png"))
+    plt.savefig(os.path.join(photo_dir, "reward_curve.png"))
+    plt.close()
 
     plt.figure()
     plt.plot(losses)
     plt.title('Training Loss')
     plt.xlabel('Episode')
     plt.ylabel('Total Loss')
-    plt.savefig(os.path.join(photo_dir, "training_loss.png"))
+    plt.savefig(os.path.join(photo_dir, "loss_curve.png"))
+    plt.close()
 
     env.close()
     return {"loss": total_loss, "location": state[0], "radian": state[2]}
