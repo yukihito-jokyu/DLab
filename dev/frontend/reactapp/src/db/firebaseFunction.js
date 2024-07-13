@@ -155,8 +155,8 @@ const getModelId = async (user_id, project_id) => {
 };
 
 // モデルを新規作成
-const setModel = async (userId, projectId, modelName) => {
-  const modelId = uuidv4();
+const setModel = async (userId, projectId, modelId, modelName) => {
+  
   const accuracy = null;
   const loss = null;
   const date = serverTimestamp();

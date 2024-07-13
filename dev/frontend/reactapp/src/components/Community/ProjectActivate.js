@@ -12,11 +12,14 @@ function ProjectActivate({ projectName, shortExp }) {
   useEffect(() => {
     const fetchJoinProject = async () => {
       const joinProject = await getJoinProject(userId);
-      if (joinProject.includes(projectId)) {
-        setJoined(true);
-      } else {
-        setJoined(false);
+      if (joinProject) {
+        if (joinProject.includes(projectId)) {
+          setJoined(true);
+        } else {
+          setJoined(false);
+        }
       }
+      
     };
     fetchJoinProject();
   }, [userId, projectId]);

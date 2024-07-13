@@ -4,6 +4,7 @@ import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
 import { setModel } from '../../db/firebaseFunction';
+import { v4 as uuidv4 } from 'uuid';
 
 function ModelCreateBox({ handleCreateModal }) {
   const [modelName, setModelName] = useState("model_name");
@@ -12,14 +13,21 @@ function ModelCreateBox({ handleCreateModal }) {
   const handleMakeModel = async () => {
     const userId = JSON.parse(sessionStorage.getItem('userId'));
     const projectId = JSON.parse(sessionStorage.getItem('projectId'));
-    await setModel(userId, projectId, modelName);
-  //   const response = await fetch('http://127.0.0.1:5000/train', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(AllData),
-  //   });
+    const modelId = uuidv4();
+    await setModel(userId, projectId, modelId, modelName);
+    const sentData = {
+      "user_id": userId,
+      "project_name": projectId,
+      "model_id": modelId
+    }
+    const response = await fetch('http://127.0.0.1:5000/mkdir/model', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(sentData),
+    });
+    console.log(response)
     handleCreateModal();
   };
   const style = {
