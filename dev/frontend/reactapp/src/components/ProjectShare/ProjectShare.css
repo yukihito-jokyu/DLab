@@ -11,6 +11,8 @@
   background: linear-gradient(91.27deg, #C49EFF 0.37%, #47A1FF 99.56%);
 }
 
+
+
 /* ProjectRequest */
 
 .project-request-wrapper {
@@ -88,7 +90,7 @@
 
 .project-tile-wrapper .tile-wrapper .tile-left {
   width: 50%;
-  background: linear-gradient(90deg, #00C2FF 0%, #509FE8 100%);
+  /* background: linear-gradient(90deg, #00C2FF 0%, #509FE8 100%); */
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
 }
@@ -128,3 +130,76 @@
   background: linear-gradient(90deg, #509FE8 0%, rgba(80, 159, 232, 0.1) 100%);
 }
 
+/* ProjectShaerHeader */
+
+.project-share-header {
+  position: relative;
+}
+
+.project-share-header-wrapper {
+  display: flex;
+}
+
+.project-share-header-item {
+  width: 50%;
+  height: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: #D9D9D9;
+  border-bottom: none;
+}
+
+.project-share-header-item p {
+  font-size: 30px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: none;
+}
+
+.project-share-header-bottom {
+  position: absolute;
+  top: 50px;
+  z-index: -1;
+  width: 100%;
+  height: 4px;
+  background-color: none;
+}
+
+.display-button-wrapper {
+  position: relative;
+  margin-top: 25px;
+  width: 100%;
+  height: 50px;
+}
+
+.display-button-wrapper .wrapper {
+  display: flex;
+  position: absolute;
+  right: 65px;
+}
+
+.display-button-wrapper .wrapper p {
+  color: #868686;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.display-button-cover {
+  position: relative;
+  margin-left: 20px;
+  width: 60px;
+  background-color: #D9D9D9;
+  border-radius: 15px;
+}
+
+.display-button-cover .display-button {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: #03B0CD;
+}

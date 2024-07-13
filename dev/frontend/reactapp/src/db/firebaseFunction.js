@@ -80,6 +80,28 @@ const getProject = async (userId) => {
   return null;
 }
 
+// 画像分類参加プロジェクトの取得
+const getJoinProject = async (userId) => {
+  const q = query(collection(db, "user"), where("user_id", "==", userId));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    return querySnapshot.docs[0].data()['join_project'];
+  }
+  return null;
+}
+
+// 画像分類へ参加
+const updateJoinProject = async (userId, projectName) => {
+  const q = query(collection(db, "user"), where("user_id", "==", userId));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    const doc = querySnapshot.docs[0]
+    await updateDoc(doc.ref, {
+      join_project: arrayUnion(projectName)
+    });
+  }
+}
+
 // プロジェクト情報を取得
 const getProjectInfo = async () => {
   const docRef = doc(db, 'project_info', 'info');
@@ -413,4 +435,4 @@ const testSetDb = async (user_id, mail_address, user_name) => {
   await setDoc(doc(db, "user", user_id), userData);
 };
 
-export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle, getReaderBoard, getFavoriteUser, getModelStructure, updateStructure, getTrainInfo, updateTrainInfo };
+export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle, getReaderBoard, getFavoriteUser, getModelStructure, updateStructure, getTrainInfo, updateTrainInfo, getJoinProject, updateJoinProject };

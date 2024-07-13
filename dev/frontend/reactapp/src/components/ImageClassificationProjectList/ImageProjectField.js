@@ -4,7 +4,7 @@ import ImageProjectIcon from './ImageProjectIcon'
 import ImageProjectAdd from './ImageProjectAdd'
 import BorderGradationBox from '../../uiParts/component/BorderGradationBox'
 import { UserInfoContext } from '../../App'
-import { getProject } from '../../db/firebaseFunction'
+import { getJoinProject, getProject } from '../../db/firebaseFunction'
 
 
 function ImageProjectField() {
@@ -18,7 +18,7 @@ function ImageProjectField() {
   useEffect(() => {
     const fatchProjects = async () => {
       const userId = JSON.parse(sessionStorage.getItem('userId'));
-      const projects = await getProject(userId);
+      const projects = await getJoinProject(userId);
       setParticipationProjects(projects);
     };
 
@@ -28,20 +28,13 @@ function ImageProjectField() {
   return (
     <div className='imageprojectfield-wrapper'>
       {participationProjects ? (
-          Object.keys(participationProjects).sort().map((key) => {
-            if (participationProjects[key] === true && key !== 'user_id') {
-              return (
-                <div key={key}>
-                  <BorderGradationBox style1={style1}>
-                    <ImageProjectIcon projectName={key} />
-                  </BorderGradationBox>
-                  {/* {key}: {participationProjects[key].toString()} */}
-                </div>
-              );
-            } else {
-              return null
-            }
-          })
+          participationProjects.sort().map((name, index) => (
+            <div key={index}>
+              <BorderGradationBox style1={style1}>
+                <ImageProjectIcon projectName={name} />
+              </BorderGradationBox>
+            </div>
+          ))
         ) : (<></>)}
       <ImageProjectAdd />
       <ImageProjectAdd />
