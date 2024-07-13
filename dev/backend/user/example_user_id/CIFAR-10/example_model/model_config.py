@@ -6,7 +6,7 @@ class Simple_NN(nn.Module):
         super(Simple_NN, self).__init__()
 
         self.seq = nn.Sequential(
-            nn.Conv2d(1, 64, 3, stride=1, padding=0),
+            nn.Conv2d(3, 64, 3, stride=1, padding=0),
             nn.ReLU(),
             nn.Dropout(p=0.2),
             nn.BatchNorm2d(64),
