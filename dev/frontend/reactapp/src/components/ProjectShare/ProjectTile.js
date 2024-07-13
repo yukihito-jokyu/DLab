@@ -4,7 +4,7 @@ import CIFAR10Image from '../../assets/images/CIFA10Image.png';
 import { UserInfoContext } from '../../App';
 import { useNavigate } from 'react-router-dom';
 
-function ProjectTile({ title, info }) {
+function ProjectTile({ title, info, style1 }) {
   const { setProjectId } = useContext(UserInfoContext);
   const navigate = useNavigate();
   const handleNav = () => {
@@ -16,7 +16,7 @@ function ProjectTile({ title, info }) {
   return (
     <div className='project-tile-wrapper' onClick={handleNav}>
       <div className='tile-wrapper'>
-        <div className='tile-left'>
+        <div className='tile-left' style={style1}>
           <p className='project-tile-title'>{title}</p>
           <p dangerouslySetInnerHTML={{ __html: info }} className='project-tile-info'></p>
         </div>
