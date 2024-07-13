@@ -2,7 +2,7 @@
 from flask import request
 from firebase_config import initialize_firebase, get_firestore_db
 from utils.generate_python import make_python_code
-from utils.mkdir import create_user_directory
+from utils.mkdir import create_user_directory, create_project_directory
 
 def setup_routes_base(app):
     @app.route('/')
@@ -11,10 +11,18 @@ def setup_routes_base(app):
     
     # userディレクトリ作成
     @app.route('/mkdir/user', methods=['POST'])
-    def user_make_dir():
+    def make_user_dir():
         data = request.get_json()
         print('message:', data)
         message = create_user_directory(data)
+        return message
+    
+    # projectディレクトリ作成
+    @app.route('/mkdir/project', methods=['POST'])
+    def make_project_dir():
+        data = request.get_json()
+        print('data:', data)
+        message = create_project_directory(data)
         return message
     
     # cartpoleのモデルpyファイル作成

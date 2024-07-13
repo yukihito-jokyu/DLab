@@ -33,7 +33,7 @@ def import_model(config):
     project_name = config["Project_name"]
     model_id = config["model_id"]
     
-    base_dir = os.path.abspath(os.path.join(os.getcwd(), "../user"))
+    base_dir = os.path.abspath(os.path.join(os.getcwd(), "./user"))
     model_path = os.path.join(base_dir, user_id, project_name, model_id, "model_config.py")
     spec = importlib.util.spec_from_file_location("Simple_NN", model_path)
     model_module = importlib.util.module_from_spec(spec)
@@ -43,7 +43,7 @@ def import_model(config):
 # データセットの読込み＆前処理を行う関数
 def load_and_split_data(config):
     project_name = config["Project_name"]
-    dataset_dir = os.path.abspath(os.path.join(os.getcwd(), "../dataset", project_name))
+    dataset_dir = os.path.abspath(os.path.join(os.getcwd(), "./dataset", project_name))
     
     x_train = np.load(os.path.join(dataset_dir, "x_train.npy"))
     y_train = np.load(os.path.join(dataset_dir, "y_train.npy"))
@@ -175,7 +175,7 @@ def train_model(config):
     user_id = config["user_id"]
     project_name = config["Project_name"]
     model_id = config["model_id"]
-    base_dir = os.path.abspath(os.path.join(os.getcwd(), "../user", user_id, project_name, model_id))
+    base_dir = os.path.abspath(os.path.join(os.getcwd(), "./user", user_id, project_name, model_id))
     os.makedirs(base_dir, exist_ok=True)
     best_model_path = os.path.join(base_dir, "best_model.pth")
     torch.save(best_model, best_model_path)
@@ -204,20 +204,22 @@ def train_model(config):
     plt.savefig(os.path.join(photo_dir, "loss_curve.png"))
     plt.close()
 
-# 実行
-config = {
-    "user_id": "example_user_id",
-    "Project_name": "MNIST",
-    "model_id": "example_model",
-    "Train_info": {
-        "Pretreatment": "none",
-        "loss": "cross_entropy",
-        "optimizer": "Adam",
-        "learning_rate": 0.001,
-        "batch": 16,
-        "epoch": 2,
-        "test_size": 0.2
-    }
-}
 
-train_model(config)
+if __name__ == '__main__':
+    # 実行
+    config = {
+        "user_id": "example_user_id",
+        "Project_name": "MNIST",
+        "model_id": "example_model",
+        "Train_info": {
+            "Pretreatment": "none",
+            "loss": "cross_entropy",
+            "optimizer": "Adam",
+            "learning_rate": 0.001,
+            "batch": 16,
+            "epoch": 2,
+            "test_size": 0.2
+        }
+    }
+
+    train_model(config)
