@@ -1,9 +1,10 @@
 .project-model-name-wrapper {
   position: absolute;
-  width: 500px;
+  width: 400px;
   height: 35px;
-  right: 0%;
+  right: 100px;
   margin-top: 15px;
+  overflow: hidden;
 }
 
 .project-model-name-wrapper p {

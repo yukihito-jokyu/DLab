@@ -8,6 +8,7 @@ import ProjectModelName from '../../uiParts/component/ProjectModelName';
 import ContentsBackground from '../../uiParts/component/ContentsBackground';
 import ModelCreateField from './ModelCreateField';
 import { useNavigate } from 'react-router-dom';
+import CommunityIcon from '../../uiParts/component/CommunityIcon';
 
 function ModelManegementEvaluation() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ function ModelManegementEvaluation() {
         burgerbutton={BurgerButton}
         logocomponent={Logo}
         projectmodelnamecomponent={ProjectModelName}
+        communityiconcomponent={CommunityIcon}
       />
       {/* <ModelField /> */}
       <ContentsBackground children={ModelField} />

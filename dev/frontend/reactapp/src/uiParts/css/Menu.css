@@ -1,0 +1,24 @@
+.menu-wrapper {
+  position: absolute;
+  height: 100vh;
+  width: 400px;
+  background-color: black;
+  z-index: 10;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), linear-gradient(249.75deg, rgba(0, 255, 255, 0.4) -0.06%, rgba(255, 255, 255, 0) 34.91%, rgba(146, 229, 255, 0) 65.88%, rgba(0, 240, 255, 0.4) 99.85%), radial-gradient(98.31% 178.47% at 0% 2.87%, #E18FFF 2.5%, #C190FF 21%, #3491FF 53%, #8690FF 78.5%, #E18FFF 100%), #FFFFFF;
+}
+
+
+.menu-list-wrapper {
+  overflow: auto;
+  margin-top: 95px;
+  margin-left: 60px;
+}
+
+.menu-list-wrapper p {
+  margin-bottom: 5px;
+  font-size: 25px;
+  color: white;
+  font-weight: 600;
+}

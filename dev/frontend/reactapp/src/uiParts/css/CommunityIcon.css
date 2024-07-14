@@ -1,0 +1,14 @@
+.community-icon-wrapper {
+  position: absolute;
+  display: flex;
+  width: 100px;
+  height: 35px;
+  margin-top: 20px;
+  right: 450px;
+}
+
+.community-icon-wrapper .community {
+  height: 30px;
+  width: 30px;
+  fill: white;
+}

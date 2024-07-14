@@ -9,6 +9,7 @@ import TileAddModal from './TileAddModal';
 import { v4 as uuidv4 } from 'uuid';
 import ErrorModal from './ErrorModal';
 import InfoModal from './InfoModal';
+import TileBox from './Tile/TileBox';
 
 function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLayer, outputLayer, setConvLayer, setMiddleLayer, setParameterSet, setLayerType, setSelectedIndex, setParam, inputShape, convShape, flattenShape, middleShape, outputShape }) {
   const [convAdd, setConvAdd] = useState(false);
@@ -176,6 +177,7 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
         setLayerType={setLayerType}
         shape={inputShape}
       />
+      <TileBox />
       {convLayer && <ConvField
         convLayer={convLayer}
         setConvLayer={setConvLayer}

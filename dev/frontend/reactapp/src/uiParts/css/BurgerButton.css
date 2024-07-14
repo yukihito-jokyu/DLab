@@ -1,8 +1,23 @@
 .bugerbutton-wrapper {
-  position: relative;
+  position: absolute;
+  z-index: 20;
   width: 40px;
+  height: 40px;
   /* height: 50px; */
   margin: 15px 30px 10px 30px;
+}
+
+.bugerbutton-wrapper-open {
+  position: absolute;
+  z-index: 20;
+  width: 40px;
+  height: 40px;
+  /* height: 50px; */
+  margin: 15px 30px 10px 30px;
+}
+
+.buger-field {
+  position: relative;
 }
 
 .bugerbutton-wrapper span {
@@ -11,6 +26,16 @@
   width: 100%;
   height: 4px;
   background-color: white;
+  
+}
+
+.bugerbutton-wrapper-open span {
+  position: absolute;
+  display: inline-block;
+  width: 100%;
+  height: 4px;
+  background-color: white;
+  
 }
 
 .bugerbutton-wrapper span:nth-of-type(1) {
@@ -23,4 +48,19 @@
 
 .bugerbutton-wrapper span:nth-of-type(3) {
   top: 27px;
+}
+
+.bugerbutton-wrapper-open span:nth-of-type(1) {
+  top: 16px;
+  transform: rotate(45deg);
+}
+
+.bugerbutton-wrapper-open span:nth-of-type(2) {
+  top: 16px;
+  height: 0px;
+}
+
+.bugerbutton-wrapper-open span:nth-of-type(3) {
+  top: 16px;
+  transform: rotate(-45deg);
 }

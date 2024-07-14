@@ -1,12 +1,15 @@
 import React from 'react';
 import '../css/BurgerButton.css';
 
-function BurgerButton() {
+function BurgerButton({ handleClickMenu, menu }) {
+  const className = menu ? 'bugerbutton-wrapper-open' : 'bugerbutton-wrapper'
   return (
-    <div className='bugerbutton-wrapper'>
-      <span></span>
-      <span></span>
-      <span></span>
+    <div className={className} onClick={handleClickMenu}>
+      <div className='buger-field'>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
   )
 };

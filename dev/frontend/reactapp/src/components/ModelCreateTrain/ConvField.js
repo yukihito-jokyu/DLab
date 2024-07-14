@@ -14,12 +14,18 @@ function ConvField({ convLayer, setConvLayer, setNowIndex, handleModal, handleDe
     if (!result.source || !result.destination) {
       return;
     };
+    
     const { source, destination } = result;
-    const copyConvLayer = [...convLayer];
-    const [removed] = copyConvLayer.splice(source.index, 1);
-    copyConvLayer.splice(destination.index, 0, removed);
-    const newConvLayer = copyConvLayer;
-    setConvLayer(newConvLayer);
+    // 違うカラムに移動したとき
+    if (source.droppableId !== destination.droppableId) {
+      console.log('a')
+    } else {
+      const copyConvLayer = [...convLayer];
+      const [removed] = copyConvLayer.splice(source.index, 1);
+      copyConvLayer.splice(destination.index, 0, removed);
+      const newConvLayer = copyConvLayer;
+      setConvLayer(newConvLayer);
+    }
   };
   return (
     <div className='middle-field-wrapper'>
@@ -49,6 +55,7 @@ function ConvField({ convLayer, setConvLayer, setNowIndex, handleModal, handleDe
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
+                        className='a'
                       >
                         <MiddleTileField
                           key={index}

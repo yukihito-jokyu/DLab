@@ -1,0 +1,24 @@
+.train-buttons-wrapper {
+  position: absolute;
+  display: flex;
+  width: 100px;
+  height: 35px;
+  margin-top: 15px;
+  right: 620px;
+}
+
+.terminal-wrapper {
+  margin-right: 15px;
+}
+
+.terminal-wrapper .terminal-svg {
+  width: 35px;
+  height: 35px;
+  fill: white;
+}
+
+.play-wrapper .play-svg {
+  width: 35px;
+  height: 35px;
+  fill: white;
+}

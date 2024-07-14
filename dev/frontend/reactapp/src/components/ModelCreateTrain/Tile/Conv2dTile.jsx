@@ -9,7 +9,6 @@ function Conv2dTile({ shape }) {
       setErrorTile(false);
       if (shape) {
         let text = ''
-      console.log(shape)
       shape.forEach((num, index) => {
         if (index > 0) {
           text += ','
