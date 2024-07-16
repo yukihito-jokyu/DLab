@@ -18,7 +18,11 @@ function ConvField({ convLayer, setConvLayer, setNowIndex, handleModal, handleDe
     const { source, destination } = result;
     // 違うカラムに移動したとき
     if (source.droppableId !== destination.droppableId) {
-      console.log('a')
+      console.log('source')
+      console.log(source)
+      console.log('destination')
+      console.log(destination)
+      console.log(convLayer)
     } else {
       const copyConvLayer = [...convLayer];
       const [removed] = copyConvLayer.splice(source.index, 1);
@@ -38,7 +42,7 @@ function ConvField({ convLayer, setConvLayer, setNowIndex, handleModal, handleDe
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
         <div>
-          <Droppable droppableId='0'>
+          <Droppable droppableId='0' type="GROUP">
             {(provided) => (
               <div
                 ref={provided.innerRef}
@@ -55,7 +59,6 @@ function ConvField({ convLayer, setConvLayer, setNowIndex, handleModal, handleDe
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        className='a'
                       >
                         <MiddleTileField
                           key={index}
@@ -71,6 +74,7 @@ function ConvField({ convLayer, setConvLayer, setNowIndex, handleModal, handleDe
                           setLayerType={setLayerType}
                           setSelectedIndex={setSelectedIndex}
                           shape={convShape[index]}
+                          snapshot={snapshot}
                         />
                       </div>
                     )}

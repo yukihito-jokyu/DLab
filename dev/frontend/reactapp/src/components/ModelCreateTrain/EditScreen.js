@@ -177,7 +177,7 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
         setLayerType={setLayerType}
         shape={inputShape}
       />
-      <TileBox />
+      {/* <TileBox /> */}
       {convLayer && <ConvField
         convLayer={convLayer}
         setConvLayer={setConvLayer}
