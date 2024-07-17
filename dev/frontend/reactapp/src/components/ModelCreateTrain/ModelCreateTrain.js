@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../../uniqueParts/component/Header'
 import BurgerButton from '../../uiParts/component/BurgerButton'
 import Logo from '../../uiParts/component/Logo'
@@ -9,6 +9,14 @@ import UserIcon from '../../uiParts/component/UserIcon';
 import TrainButtons from '../../uiParts/component/TrainButtons';
 
 function ModelCreateTrain() {
+  const [edit, setEdit] = useState(true);
+  const [train, setTrain] = useState(false);
+  const changeEdit = () => {
+    setEdit(!edit);
+  };
+  const changeTrain = () => {
+    setTrain(!train);
+  }
   return (
     <div className='mct-wrapper'>
       <Header
@@ -17,8 +25,10 @@ function ModelCreateTrain() {
         projectmodelnamecomponent={ProjectModelName}
         usericoncomponent={UserIcon}
         trainbuttonscomponent={TrainButtons}
+        changeedit={changeEdit}
+        changeTrain={changeTrain}
       />
-      <ScreenField />
+      <ScreenField edit={edit} train={train} changeTrain={changeTrain} />
     </div>
   )
 }

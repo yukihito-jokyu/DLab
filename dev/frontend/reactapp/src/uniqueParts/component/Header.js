@@ -11,6 +11,9 @@ function Header(props) {
   const UserIconComponent = props.usericoncomponent;
   const TrainButtonsComponent = props.trainbuttonscomponent;
   const CommunityIconComponent = props.communityiconcomponent;
+  // 引数として関数を受け取る
+  const changeEdit = props.changeedit;
+  const changeTrain = props.changeTrain;
   const handleClickMenu = () => {
     setMenu(!menu);
   };
@@ -20,7 +23,7 @@ function Header(props) {
       {LogoComponent && <LogoComponent />}
       {ProjectModelNameComponent && <ProjectModelNameComponent />}
       {UserIconComponent && <UserIconComponent />}
-      {TrainButtonsComponent && <TrainButtonsComponent />}
+      {TrainButtonsComponent && <TrainButtonsComponent changeEdit={changeEdit} changeTrain={changeTrain} />}
       {CommunityIconComponent && <CommunityIconComponent />}
       {menu && <Menu />}
     </div>
