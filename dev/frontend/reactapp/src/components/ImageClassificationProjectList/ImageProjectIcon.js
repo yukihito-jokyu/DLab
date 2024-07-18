@@ -28,9 +28,9 @@ function ImageProjectIcon({ projectName }) {
           <div className='projecttitle-wrapper'>
             <p>{projectName}</p>
           </div>
-          <div className='rename-icon'>
+          {/* <div className='rename-icon'>
             <EditSVG className='edit-svg' />
-          </div>
+          </div> */}
         </div>
         <div className='projecttitle-line'></div>
       </div>

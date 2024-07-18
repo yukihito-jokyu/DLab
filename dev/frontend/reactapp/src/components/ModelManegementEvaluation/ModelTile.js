@@ -56,7 +56,8 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
         <div className='graph-field'>
           <p>Graph</p>
           <div className='model-picture-filed-wrapper'>
-            
+            <div className='model-accuracy-picture'></div>
+            <div className='model-loss-picture'></div>
           </div>
         </div>
       }

@@ -5,7 +5,7 @@ import GradationButton from '../../uiParts/component/GradationButton';
 import CIFA10Image from '../../assets/images/CIFA10Image.png';
 import { useNavigate } from 'react-router-dom';
 
-function ProjectActivate({ projectName, shortExp }) {
+function ProjectActivate({ projectName, shortExp, changeJoinModal }) {
   const projectId = JSON.parse(sessionStorage.getItem('projectId'));
   const userId = JSON.parse(sessionStorage.getItem('userId'));
   const [joined, setJoined] = useState(false);
@@ -19,7 +19,9 @@ function ProjectActivate({ projectName, shortExp }) {
           setJoined(false);
         }
       }
-      
+      if (projectId === 'CartPole' || projectId === 'FlappyBird') {
+        setJoined(true);
+      }
     };
     fetchJoinProject();
   }, [userId, projectId]);
@@ -28,22 +30,7 @@ function ProjectActivate({ projectName, shortExp }) {
     background: 'linear-gradient(95.34deg, #B6F862 3.35%, #00957A 100%), linear-gradient(94.22deg, #D997FF 0.86%, #50BCFF 105.96%)'
   };
   const navigate = useNavigate();
-  const handleNav = async () => {
-    await updateJoinProject(userId, projectId);
-    const sentData = {
-      "user_id": userId,
-      "project_name": projectId
-    }
-    const response = await fetch('http://127.0.0.1:5000/mkdir/project', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(sentData),
-    });
-    console.log(response)
-    navigate('/ImageClassificationProjectList');
-  };
+  
   const handleActivate = () => {
     sessionStorage.setItem('projectId', JSON.stringify(projectId));
     navigate('/ModelManegementEvaluation');
@@ -62,12 +49,11 @@ function ProjectActivate({ projectName, shortExp }) {
             <GradationButton text={'Activate'} style1={style1} />
           </div>
         ) : (
-          <div className='activate-button-wrapper' onClick={handleNav}>
+          <div className='activate-button-wrapper' onClick={changeJoinModal}>
             <GradationButton text={'join'} style1={style1} />
           </div>
         )}
       </div>
-      
       <div className='activate-right'>
         <img src={CIFA10Image} alt='ProjectImage' className='activate-project-image' />
       </div>

@@ -9,7 +9,7 @@ import { deleteModels, getModelId } from '../../db/firebaseFunction';
 import ModelCreateField from './ModelCreateField';
 
 function ModelField() {
-  const [models, setModels] = useState([])
+  const [models, setModels] = useState([]);
   const [DL, setDL] = useState(false);
   const [create, setCreate] = useState(false);
   const userId = JSON.parse(sessionStorage.getItem('userId'));
@@ -22,9 +22,7 @@ function ModelField() {
         setModels(modelsWithCheckbox);
       };
     };
-
     fetchProjects();
-
   }, [create, userId, projectId]);
 
   // 照準降順並び替え
@@ -57,13 +55,20 @@ function ModelField() {
 
   // modelsが更新された後に実行されるコード
   useEffect(() => {
-    const isChecked = models.some(model => model.isChecked);
-    // チェックされた時に実行する処理
-    if (isChecked) {
-      setDL(true);
-    } else {
-      setDL(false);
-    }
+    models.forEach((value) => {
+      if (value.isChecked && value.status === 'done') {
+        setDL(true);
+      } else {
+        setDL(false);
+      }
+    });
+    // const isChecked = models.some(model => model.isChecked);
+    // // チェックされた時に実行する処理
+    // if (isChecked) {
+    //   setDL(true);
+    // } else {
+    //   setDL(false);
+    // }
   }, [models]);
 
   // モデル作成モーダル表示非表示
