@@ -33,6 +33,16 @@ def setup_routes_base(app):
         message = create_model_directory_from_dict(data)
         return message
     
+    # 画像分類のモデルpyファイル作成
+    @app.route('/ImageClassification/make/config', methods=['POST'])
+    def imageclassification_make_config():
+        data = request.get_json()
+        print(data)
+        message = make_python_code(data)
+        print('作成！')
+        print(message)
+        return message
+    
     # cartpoleのモデルpyファイル作成
     @app.route('/CartPole/make/config', methods=['POST'])
     def cartpole_make_config():

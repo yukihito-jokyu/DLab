@@ -7,7 +7,7 @@ import Tile from './Tile/Tile';
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import TileBox from './Tile/TileBox';
 
-function MiddleTileField({ tileName, layer ,setLayer, index, setNowIndex, handleModal, handleDeleteTile, setParameter, setParameterSet, setLayerType, setSelectedIndex, shape }) {
+function MiddleTileField({ tileName, layer ,setLayer, index, setNowIndex, handleModal, handleDeleteTile, setParameter, setParameterSet, setLayerType, setSelectedIndex, shape, snapshot }) {
   const handleAddTile = () => {
     setNowIndex(index+1);
     handleModal();
@@ -33,8 +33,8 @@ function MiddleTileField({ tileName, layer ,setLayer, index, setNowIndex, handle
             <Conv2dTile shape={shape} />
           ) : tileName === 'Neuron' ? (
             <NuronTile shape={shape} />
-          ) : tileName === 'MaxPool2d' ? (
-            <TileBox />
+          ) : tileName === 'Box' ? (
+            <TileBox droppableId={layer.box_id} snapshot={snapshot} />
           ) : (
             <Tile text={tileName} shape={shape} />
           )}

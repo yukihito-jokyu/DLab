@@ -6,8 +6,9 @@ import EditTileParameterField from './EditTileParameterField';
 import TrainLogField from './TrainLogField';
 import { getModelStructure, getTrainInfo, updateStructure, updateTrainInfo } from '../../db/firebaseFunction';
 import MiddleLayer from '../Image/MiddleLayer';
+import TrainModal from './TrainModal';
 
-function ScreenField() {
+function ScreenField({ edit, train, changeTrain }) {
   const [parameter, setParameter] = useState(null);
   const [param, setParam] = useState(null);
   const [parameterSet, setParameterSet] = useState(null);
@@ -49,7 +50,7 @@ function ScreenField() {
     fetchTrainInfo();
   }, [modelId]);
 
-  // モデルの訓練情報の保尊
+  // モデルの訓練情報の更新
   useEffect(() => {
     const saveTrainInfo = async () => {
       updateTrainInfo(modelId, trainInfo);
@@ -171,7 +172,7 @@ function ScreenField() {
   return (
     <div className='screen-field-wrapper'>
       <div className='left-screen'>
-        <EditScreen
+        {edit && (<EditScreen
           setParameter={setParameter}
           inputLayer={inputLayer}
           convLayer={convLayer}
@@ -189,11 +190,11 @@ function ScreenField() {
           flattenShape={flattenShape}
           middleShape={middleShape}
           outputShape={outputShape}
-        />
-        {/* <TrainLogField
+        />)}
+        {!edit && (<TrainLogField
           trainInfo={trainInfo}
           setTrainInfo={setTrainInfo}
-        /> */}
+        />)}
       </div>
       <div className='right-screen'>
         <div className='top-screen'>
@@ -217,6 +218,9 @@ function ScreenField() {
           />
         </div>
       </div>
+      {train && (
+        <TrainModal changeTrain={changeTrain} flattenShape={flattenShape} />
+      )}
     </div>
   )
 }

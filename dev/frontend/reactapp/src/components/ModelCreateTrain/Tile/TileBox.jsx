@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './TileBox.css';
 import { ReactComponent as EjectIcon } from '../../../assets/svg/eject_24.svg';
 import { ReactComponent as Clip } from '../../../assets/svg/attach_file_24.svg'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Tile from './Tile';
 
-function TileBox() {
+function TileBox({ droppableId, snapshot }) {
+  const [dragType, setDragType] = useState('')
+  if (snapshot) {
+    console.log(snapshot.isDragging)
+    console.log(dragType)
+  }
+  
   const [open, setOpen] = useState(false);
-  const [boxLayer, setBoxLayer] = useState([0, 1, 2]);
+  const [boxLayer, setBoxLayer] = useState([0]);
   const handleClick = () => {
     setOpen(!open);
   };
@@ -22,23 +28,21 @@ function TileBox() {
     transform: open ? 'none' : 'rotate(180deg)',
     transition: 'all 0.3s'
   }
+  const style4 = {
+    height: open ? '400px' : '0px'
+  }
   const className = open ? 'tile-box-wrapper opened' : 'tile-box-wrapper'
 
-  const onDragEnd = (result) => {
-    if (!result.source || !result.destination) {
-      return;
-    };
-    const { source, destination } = result;
-    // 別のカラムにタスクが移動した場合
-    if (source.droppableId !== destination) {
-      console.log('a')
+  useEffect(() => {
+    if (snapshot) {
+      if (snapshot.idDragging) {
+        setDragType('TILE');
+      } else {
+        setDragType('');
+      }
     }
-    const copyBoxLayer = [...boxLayer];
-    const [removed] = copyBoxLayer.splice(source.index, 1);
-    copyBoxLayer.splice(destination.index, 0, removed);
-    const newBoxLayer = copyBoxLayer;
-    setBoxLayer(newBoxLayer);
-  };
+    
+  }, [snapshot]);
   return (
     <div>
       <div className={className}>
@@ -55,18 +59,23 @@ function TileBox() {
       </div>
       <div className='tile-box' style={style2}>
         <div className='tile-box-field'>
-          <div className='box-field'>
+          <div className='box-field' style={style4}>
             {/* ここにdnd実装 */}
-            {open && <Droppable droppableId='2'>
+            {open && (
+              <Droppable
+                droppableId={String(droppableId)}
+                type='ITEM'
+              >
                 {(provided) => (
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                     className='droppable-container'
+                    style={style4}
                   >
                     {boxLayer.map((box, index) => (
                       <Draggable
-                        draggableId={`box-${index}`}
+                        draggableId={`box2-${index}`}
                         index={index}
                         key={index}
                       >
@@ -84,7 +93,7 @@ function TileBox() {
                     {provided.placeholder}
                   </div>
                 )}
-              </Droppable>}
+              </Droppable>)}
           </div>
         </div>
         <div className='tile-box-open-button' onClick={handleClick}>
