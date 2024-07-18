@@ -46,7 +46,7 @@ function ProjectDiscussion({ handleEdit, handleInfo, setReportInfo, setDiscussio
         </div>
       </div>
       <div className='discussion-field'>
-        {discussions.length > 0 ? (
+        {discussions ? (
           discussions.map((discussion) => (
             <div onClick={() => handleClick(discussion.data(), discussion.id)} key={discussion.id}>
               <DiscussionTile title={discussion.data().title} />

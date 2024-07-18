@@ -102,9 +102,20 @@ const updateJoinProject = async (userId, projectName) => {
   }
 }
 
-// プロジェクト情報を取得
+// 画像分類プロジェクト情報を取得
 const getProjectInfo = async () => {
   const docRef = doc(db, 'project_info', 'info');
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data()
+  } else {
+    return null
+  }
+}
+
+// 強化学習プロジェクト情報を取得
+const getRlProjectInfo = async () => {
+  const docRef = doc(db, 'project_info', 'rl_info');
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     return docSnap.data()
@@ -435,4 +446,4 @@ const testSetDb = async (user_id, mail_address, user_name) => {
   await setDoc(doc(db, "user", user_id), userData);
 };
 
-export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle, getReaderBoard, getFavoriteUser, getModelStructure, updateStructure, getTrainInfo, updateTrainInfo, getJoinProject, updateJoinProject };
+export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle, getReaderBoard, getFavoriteUser, getModelStructure, updateStructure, getTrainInfo, updateTrainInfo, getJoinProject, updateJoinProject, getRlProjectInfo };

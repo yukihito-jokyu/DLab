@@ -61,7 +61,7 @@ function ProjectReaderBoard() {
       </div>
       <div className='reader-board-field'>
         {favorite === true ? (
-          readerBoard.length > 0 ? (
+          readerBoard ? (
             readerBoard.map((board, index) => (
             (board.data().user_id === userId ? (
                 <div key={index} ref={targetRef} >
@@ -81,7 +81,7 @@ function ProjectReaderBoard() {
             <></>
           )
         ) : (
-          readerBoard.length > 0 ? (
+          readerBoard ? (
             readerBoard.map((board, index) => (
             (board.data().user_id === userId ? (
                 <div key={index} ref={targetRef} >

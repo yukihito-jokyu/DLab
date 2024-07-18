@@ -37,12 +37,12 @@ function ProjectShareHeader({ handleClickImage, handleClickReinforcement, image,
       </div>
       <div className='project-share-header-bottom' style={style3}></div>
       <div className='display-button-wrapper'>
-        <div className='wrapper'>
+      {image && (<div className='wrapper'>
           <p>参加済みのプロジェクトを表示</p>
           <div className='display-button-cover' onClick={handleJoin}>
             <div className='display-button' style={style4}></div>
           </div>
-        </div>
+        </div>)}
       </div>
     </div>
   )
