@@ -1,3 +1,4 @@
 /db
 /venv
 /dataset
+**/__pycache__/
