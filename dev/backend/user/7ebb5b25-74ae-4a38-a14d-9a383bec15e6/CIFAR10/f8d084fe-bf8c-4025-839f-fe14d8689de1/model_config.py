@@ -6,16 +6,16 @@ class Simple_NN(nn.Module):
         super(Simple_NN, self).__init__()
 
         self.seq = nn.Sequential(
-            nn.Conv2d(1, 64, 3, stride=1, padding=0),
+            nn.Conv2d(1, 86, 3, stride=1, padding=0),
             nn.ReLU(),
+            nn.Dropout(p=0.1),
             nn.MaxPool2d(3, stride=1, padding=0),
-            nn.BatchNorm2d(64),
-            nn.Dropout(p=0.1),
+            nn.BatchNorm2d(86),
             nn.Flatten(),
-            nn.Linear(64, 100),
+            nn.BatchNorm1d(49536),
+            nn.Linear(49536, 100),
             nn.ReLU(),
             nn.Dropout(p=0.1),
-            nn.BatchNorm1d(64),
             nn.Linear(100, 10),
 
             )

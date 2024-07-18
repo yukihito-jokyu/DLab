@@ -50,7 +50,7 @@ function ScreenField({ edit, train, changeTrain }) {
     fetchTrainInfo();
   }, [modelId]);
 
-  // モデルの訓練情報の保尊
+  // モデルの訓練情報の更新
   useEffect(() => {
     const saveTrainInfo = async () => {
       updateTrainInfo(modelId, trainInfo);
@@ -219,7 +219,7 @@ function ScreenField({ edit, train, changeTrain }) {
         </div>
       </div>
       {train && (
-        <TrainModal changeTrain={changeTrain} />
+        <TrainModal changeTrain={changeTrain} flattenShape={flattenShape} />
       )}
     </div>
   )

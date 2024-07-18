@@ -5,7 +5,7 @@ import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
 import { getModelStructure } from '../../db/firebaseFunction';
 
-function TrainModal({ changeTrain }) {
+function TrainModal({ changeTrain, flattenShape }) {
   const userId = JSON.parse(sessionStorage.getItem('userId'));
   const projectId = JSON.parse(sessionStorage.getItem('projectId'));
   const modelId = JSON.parse(sessionStorage.getItem('modelId'));
@@ -26,7 +26,8 @@ function TrainModal({ changeTrain }) {
       user_id: userId,
       project_name: projectId,
       model_id: modelId,
-      structure: structure
+      structure: structure,
+      flattenshape: flattenShape
     };
     const response = await fetch('http://127.0.0.1:5000/ImageClassification/make/config', {
       method: 'POST',
