@@ -301,6 +301,14 @@ const getFavoriteUser = async (userId) => {
 
 // モデルの構造の初期化
 const initModelStructure = async (modelId, projectId) => {
+  let shape = 24
+  let originShape = 24
+  let C = 1
+  if (projectId === 'CIFAR10') {
+    shape = 32
+    originShape = 32
+    C = 3
+  }
   let newData
   if (projectId === 'CartPole') {
     newData = {
@@ -327,6 +335,7 @@ const initModelStructure = async (modelId, projectId) => {
   } else if (projectId === 'FlappyBird') {
     newData = {
       model_id: modelId,
+      originShape: originShape,
       TrainInfo: {
         batch: 32,
         epoch: 100,
@@ -340,6 +349,7 @@ const initModelStructure = async (modelId, projectId) => {
       structure: {
         InputLayer: {
           shape: [28, 28, 1],
+          changeShape: shape,
           preprocessing: "none",
           type: "Input"
         },
@@ -355,6 +365,7 @@ const initModelStructure = async (modelId, projectId) => {
   } else {
     newData = {
       model_id: modelId,
+      originShape: originShape,
       TrainInfo: {
         batch: 32,
         epoch: 100,
@@ -364,7 +375,8 @@ const initModelStructure = async (modelId, projectId) => {
       },
       structure: {
         InputLayer: {
-          shape: [28, 28, 1],
+          shape: [shape, shape, C],
+          changeShape: shape,
           preprocessing: "none",
           type: "Input"
         },

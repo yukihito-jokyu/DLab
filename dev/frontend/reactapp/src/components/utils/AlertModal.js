@@ -4,7 +4,7 @@ import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 
-function AlertModal({ changeJoinModal, handleNav }) {
+function AlertModal({ deleteModal, handleClick, sendText }) {
   const text = 'Attention';
   const text2 = 'OK';
   const style = {
@@ -25,15 +25,14 @@ function AlertModal({ changeJoinModal, handleNav }) {
                 <div className='gradation-border2'></div>
               </div>
               <div className='alert-comment'>
-                <p>プロジェクトをアクティベートします。<br/>
-                よろしいですか。</p>
+                <p dangerouslySetInnerHTML={{ __html: sendText }} />
               </div>
               <div className='alert-modal'>
-                <div onClick={handleNav}>
+                <div onClick={handleClick}>
                   <GradationButton text={text2} />
                 </div>
               </div>
-              <div className='train-modal-delet-button-field' onClick={changeJoinModal}>
+              <div className='train-modal-delet-button-field' onClick={deleteModal}>
                 <DeletIcon className='delet-svg' />
               </div>
             </div>

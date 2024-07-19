@@ -122,6 +122,7 @@ function Community() {
   const handleInfo = () => {
     setDiscussionInfo(!discussionInfo);
   }
+  const sendText = 'プロジェクトをアクティベートします。<br/>よろしいですか。'
   return (
     <div className='community-wrapper'>
       <div className='community-header-wrapper'>
@@ -145,7 +146,7 @@ function Community() {
           <></>
         )}
         {readerBoard && <ProjectReaderBoard />}
-        {joinModal && (<AlertModal changeJoinModal={changeJoinModal} handleNav={handleNav} />)}
+        {joinModal && (<AlertModal deleteModal={changeJoinModal} handleClick={handleNav} sendText={sendText} />)}
     </div>
   );
 };
