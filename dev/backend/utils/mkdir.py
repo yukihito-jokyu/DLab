@@ -54,4 +54,4 @@ def create_model_directory_from_dict(data):
         os.makedirs(model_path, exist_ok=True)
         return {"message": "successfully"}
     except Exception as e:
-        return {"error": str(e)}
+        return {"message": str(e)}

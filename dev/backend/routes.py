@@ -1,9 +1,10 @@
 # from flask import render_template
-from flask import request
+from flask import request, send_file, jsonify
 from firebase_config import initialize_firebase, get_firestore_db
 from utils.generate_python import make_python_code
 from utils.mkdir import create_user_directory, create_project_directory, create_model_directory_from_dict
 from utils.del_dir import delete_model_directories
+from utils.download_model import download_model_directories
 
 def setup_routes_base(app):
     @app.route('/')
@@ -33,6 +34,13 @@ def setup_routes_base(app):
         print('data:', data)
         message = create_model_directory_from_dict(data)
         return message
+
+    # modelディレクトリのダウンロード
+    @app.route('/download_zip', methods=['POST'])
+    def download_model_dir():
+        data = request.json
+        result = download_model_directories(data)
+        return send_file(result, as_attachment=True)       
     
     # modelディレクトリ削除
     @app.route('/del_dir/model', methods=['POST'])
