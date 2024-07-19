@@ -13,10 +13,8 @@ def setup_sockets(socketio):
     
     @socketio.on('CartPole')
     def train_CartPole(datas):
-        global thread
         train_cartpole(datas, socketio)
 
     @socketio.on('Train')
     def train(datas):
-        global thread
-        train_model(datas, socketio)
+        train_model(datas)

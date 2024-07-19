@@ -9,6 +9,10 @@ import random
 from flask_socketio import emit
 from utils.get_func import get_optimizer, get_loss
 
+# デバイスを指定
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"CartPole:{device}")
+
 # リプレイバッファクラスの定義
 class ReplayBuffer:
     def __init__(self, buffer_size, batch_size):
@@ -33,7 +37,7 @@ class ReplayBuffer:
 
 # DQNエージェントクラスの定義
 class DQNAgent:
-    def __init__(self, train_info, QNet_model, device='cpu'):
+    def __init__(self, train_info, QNet_model, device=device):
         self.device = device
         self.gamma = 0.9  # 割引率
         self.lr = float(train_info['learning_rate'])
@@ -100,7 +104,7 @@ def train_cartpole(config, socketio):
     Simple_NN = model_module.Simple_NN
 
     env = gym.make('CartPole-v1')
-    agent = DQNAgent(train_info, Simple_NN)
+    agent = DQNAgent(train_info, Simple_NN, device)
 
     epoch = train_info["epoch"]
     sync_interval = train_info["syns"]
@@ -153,4 +157,4 @@ def train_cartpole(config, socketio):
     plt.close()
 
     env.close()
-    return {"loss": total_loss, "location": state[0], "radian": state[2]}
+    return {"loss": round(total_loss, 5), "location": round(state[0], 5), "radian": round(state[2], 5)}
