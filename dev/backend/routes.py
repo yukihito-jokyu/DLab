@@ -3,6 +3,7 @@ from flask import request
 from firebase_config import initialize_firebase, get_firestore_db
 from utils.generate_python import make_python_code
 from utils.mkdir import create_user_directory, create_project_directory, create_model_directory_from_dict
+from utils.del_dir import delete_model_directories
 
 def setup_routes_base(app):
     @app.route('/')
@@ -31,6 +32,14 @@ def setup_routes_base(app):
         data = request.get_json()
         print('data:', data)
         message = create_model_directory_from_dict(data)
+        return message
+    
+    # modelディレクトリ削除
+    @app.route('/del_dir/model', methods=['POST'])
+    def delete_model_dir():
+        data = request.get_json()
+        print('data:', data)
+        message = delete_model_directories(data)
         return message
     
     # 画像分類のモデルpyファイル作成
