@@ -35,7 +35,7 @@ def setup_routes_base(app):
         return message
     
     # modelディレクトリ削除
-    @app.route('/del_model/model', methods=['POST'])
+    @app.route('/del_dir/model', methods=['POST'])
     def delete_model_dir():
         data = request.get_json()
         print('data:', data)
