@@ -11,7 +11,7 @@ from utils.get_func import get_optimizer, get_loss
 
 # デバイスを指定
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(device)
+print(f"CartPole:{device}")
 
 # リプレイバッファクラスの定義
 class ReplayBuffer:
