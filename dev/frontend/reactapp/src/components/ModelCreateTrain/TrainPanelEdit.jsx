@@ -4,6 +4,7 @@ import './TrainPanelEdit.css';
 function TrainPanelEdit({ parameter, value, handleChangeParameter }) {
   const [selectedValue, setSelectedValue] = useState('');
   const [floatValue, setFloatValue] = useState('');
+  const [testSize, setTestSize] = useState('');
   const [numValue, setNumValue] = useState('');
   useEffect(() => {
     setSelectedValue(value);
@@ -41,12 +42,30 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter }) {
     setSelectedValue(e.target.value);
     handleChangeParameter(parameter, e.target.value);
   };
+  // test_size
+  const handleTestSizeChange = (e) => {
+    const inputValue = e.target.value;
+    const regex = /^[0-9.]*$/;
+    if (regex.test(inputValue)) {
+      // 入力が空か、有効な数値形式かチェック
+      if (inputValue === '' || /^0(\.\d{0,1})?$/.test(inputValue)) {
+        // 数値に変換して範囲をチェック
+        const numValue = parseFloat(inputValue);
+        if (isNaN(numValue) || (numValue >= 0 && numValue < 1)) {
+          setTestSize(inputValue);
+        }
+      }
+    }
+    setSelectedValue(e.target.value);
+    handleChangeParameter(parameter, e.target.value);
+  };
   const handleChange = (e) => {
     setSelectedValue(e.target.value);
     handleChangeParameter(parameter, e.target.value);
   };
   return (
-    <div className='train-panel-edit-wrapper'>
+    <>
+    {parameter !== 'image_shape' ? (<div className='train-panel-edit-wrapper'>
       <div className='train-panel-name-wrapper'>
         <p>{parameter}</p>
       </div>
@@ -107,11 +126,21 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter }) {
                 <option key={number} value={number}>{number}</option>
               ))}
             </select>
+          ) : parameter === 'test_size' ? (
+            <input
+              type='text'
+              value={testSize}
+              onChange={handleTestSizeChange}
+              placeholder='0 以上 1 未満の数値'
+            />
           ) : (
             <></>
           )}
       </div>
-    </div>
+    </div>) : (
+      <></>
+    )}
+    </>
   )
 }
 

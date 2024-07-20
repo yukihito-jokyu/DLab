@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import InputLayer from '../Image/InputLayer';
 
 function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, middleLayer, layerType, param, selectedindex, setInputLayer, setConvLayer, setFlattenWay, setMiddleLayer, setParam }) {
-  const pList =["kernel_size", "activ_func", "out_channel", "padding", "strid", "dropout_p", "input_size", "preprocessing", "way"]
+  const pList =["kernel_size", "activ_func", "out_channel", "padding", "strid", "dropout_p", "input_size", "preprocessing", "way", "changeShape"]
   const [keys, setKeys] = useState([]);
   useEffect(() => {
     const handleSetParameter = () => {

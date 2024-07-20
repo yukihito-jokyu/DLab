@@ -8,8 +8,8 @@ class Simple_NN(nn.Module):
         self.seq = nn.Sequential(
             nn.Conv2d(1, 86, 3, stride=1, padding=0),
             nn.ReLU(),
-            nn.Dropout(p=0.1),
             nn.MaxPool2d(3, stride=1, padding=0),
+            nn.Dropout(p=0.1),
             nn.BatchNorm2d(86),
             nn.Flatten(),
             nn.BatchNorm1d(49536),

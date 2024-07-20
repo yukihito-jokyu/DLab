@@ -371,7 +371,9 @@ const initModelStructure = async (modelId, projectId) => {
         epoch: 100,
         learning_rate: 0.01,
         loss: "mse_loss",
-        optimizer: "Adam"
+        optimizer: "Adam",
+        test_size: 0.2,
+        image_shape: shape
       },
       structure: {
         InputLayer: {
@@ -408,6 +410,17 @@ const getModelStructure = async (modelId) => {
   const querySnapshot = await getDocs(q);
   if (!querySnapshot.empty) {
     return querySnapshot.docs[0].data().structure;
+  } else {
+    return null
+  }
+}
+
+// モデルのオリジン画像サイズを取得
+const getOriginShape = async (modelId) => {
+  const q = query(collection(db, 'model'), where('model_id', '==', modelId));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    return querySnapshot.docs[0].data().originShape;
   } else {
     return null
   }
@@ -458,4 +471,4 @@ const testSetDb = async (user_id, mail_address, user_name) => {
   await setDoc(doc(db, "user", user_id), userData);
 };
 
-export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle, getReaderBoard, getFavoriteUser, getModelStructure, updateStructure, getTrainInfo, updateTrainInfo, getJoinProject, updateJoinProject, getRlProjectInfo };
+export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle, getReaderBoard, getFavoriteUser, getModelStructure, updateStructure, getTrainInfo, updateTrainInfo, getJoinProject, updateJoinProject, getRlProjectInfo, getOriginShape };
