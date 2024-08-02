@@ -278,7 +278,12 @@ const getTitle = async (projectId, commentId) => {
 
 // リーダーボード
 const getReaderBoard = async (projectId) => {
-  const projectName = projectId + "_reader_board";
+  let projectName
+  if (projectId === 'CIFAR10') {
+    projectName = 'CIFAR-10_reader_board';
+  } else {
+    projectName = projectId + "_reader_board";
+  }
   const q = await query(collection(db, projectName), orderBy('accuracy', 'desc'));
   const querySnapshot = await getDocs(q);
   if (!querySnapshot.empty) {
