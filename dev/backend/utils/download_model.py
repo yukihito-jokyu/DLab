@@ -44,6 +44,7 @@ def download_model_directories(data):
                 zipf.write(file, os.path.basename(file))
                 os.remove(file)
 
-        return final_zip_file
+        return {"message": "successfully"}
     except Exception as e:
-        return str(e)
+        return {"message": str(e)}
+    

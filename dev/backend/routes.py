@@ -39,8 +39,8 @@ def setup_routes_base(app):
     @app.route('/download_zip', methods=['POST'])
     def download_model_dir():
         data = request.json
-        result = download_model_directories(data)
-        return send_file(result, as_attachment=True)       
+        message = download_model_directories(data)
+        return message    
     
     # modelディレクトリ削除
     @app.route('/del_dir/model', methods=['POST'])
