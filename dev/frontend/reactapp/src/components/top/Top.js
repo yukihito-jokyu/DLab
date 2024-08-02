@@ -23,6 +23,7 @@ import { getUserId } from '../../db/firebaseFunction';
 function Top() {
   const { firstSignIn } = useContext(UserInfoContext);
   const [user] = useAuthState(auth);
+
   useEffect(() => {
     const fetchUserId = () => {
       if (user) {
@@ -33,8 +34,7 @@ function Top() {
     fetchUserId();
 
   }, [user]);
-  // const [user] = useAuthState(auth);
-  // console.log(userId)
+  
   return (
     <div className='top-wrapper'>
       <div className='top-header-wrapper'>
