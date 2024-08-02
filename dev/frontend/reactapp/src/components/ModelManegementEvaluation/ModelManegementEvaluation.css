@@ -176,12 +176,11 @@
   transform: rotate(45deg); /* チェックマークの回転 */
 }
 
-
-
 .model-title {
   display: flex;
   align-items: center;
   width: calc(100% - 610px);
+  overflow: hidden;
 }
 
 .model-title p {
@@ -237,6 +236,23 @@
   color: #575757;
 }
 
+.graph-field .model-picture-filed-wrapper {
+  display: flex;
+}
+
+.graph-field .model-picture-filed-wrapper .model-accuracy-picture {
+  background-color: #9AAAE2;
+  border-radius: 20px;
+  width: 54%;
+  margin-right: 2%;
+}
+
+.graph-field .model-picture-filed-wrapper .model-loss-picture {
+  background-color: #9AAAE2;
+  border-radius: 20px;
+  width: 54%;
+}
+
 .model-picture-icon-wrapper {
   width: 30px;
   height: 30px;
@@ -250,9 +266,7 @@
 
 .model-picture-filed-wrapper {
   width: 100%;
-  height: 180px;
-  background-color: #9AAAE2;
-  border-radius: 20px;
+  height: 300px;
 }
 
 /* ModelCreateButton */

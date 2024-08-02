@@ -7,10 +7,14 @@ import DLButton from './DLButton';
 import { useNavigate } from 'react-router-dom';
 import { deleteModels, getModelId } from '../../db/firebaseFunction';
 import ModelCreateField from './ModelCreateField';
+import AlertModal from '../utils/AlertModal';
+import { sendEmailVerification } from 'firebase/auth';
 
 function ModelField() {
-  const [models, setModels] = useState([])
+  const [models, setModels] = useState([]);
   const [DL, setDL] = useState(false);
+  const [DLModal, setDLModal] = useState(false);
+  const [modelDeleteModal, setModelDeleteModal] = useState(false);
   const [create, setCreate] = useState(false);
   const userId = JSON.parse(sessionStorage.getItem('userId'));
   const projectId = JSON.parse(sessionStorage.getItem('projectId'));
@@ -22,9 +26,7 @@ function ModelField() {
         setModels(modelsWithCheckbox);
       };
     };
-
     fetchProjects();
-
   }, [create, userId, projectId]);
 
   // 照準降順並び替え
@@ -57,13 +59,20 @@ function ModelField() {
 
   // modelsが更新された後に実行されるコード
   useEffect(() => {
-    const isChecked = models.some(model => model.isChecked);
-    // チェックされた時に実行する処理
-    if (isChecked) {
-      setDL(true);
-    } else {
-      setDL(false);
-    }
+    models.forEach((value) => {
+      if (value.isChecked && value.status === 'done') {
+        setDL(true);
+      } else {
+        setDL(false);
+      }
+    });
+    // const isChecked = models.some(model => model.isChecked);
+    // // チェックされた時に実行する処理
+    // if (isChecked) {
+    //   setDL(true);
+    // } else {
+    //   setDL(false);
+    // }
   }, [models]);
 
   // モデル作成モーダル表示非表示
@@ -80,13 +89,32 @@ function ModelField() {
     setModels(remainingModels);
     console.log(checkedModels);
   };
+  // モデル削除モーダルの表示非表示
+  const changeModelDeleteModal = () => {
+    setModelDeleteModal(!modelDeleteModal);
+  };
+  const handleDelateModel = () => {
+    handleDelate();
+    setModelDeleteModal(!modelDeleteModal);
+  }
+  const sendText2 = 'チェックしたモデルを削除しますか？'
+
+  // DLモーダル表示非表示
+  const changeDLModal = () => {
+    setDLModal(!DLModal)
+  }
+  // DL関数
+  const getDLItem = () => {
+    setDLModal(!DLModal)
+  }
+  const sendText = 'チェックしたモデルをダウンロードしますか？'
   return (
     <div className='model-field-wrapper'>
       <ModelFieldHeader
         accuracySort={accuracySort}
         lossSort={lossSort}
         dateSort={dateSort}
-        handleDelate={handleDelate}
+        handleDelate={changeModelDeleteModal}
       />
       <div className='tile-field'>
         {models.length > 0 ? (
@@ -107,7 +135,7 @@ function ModelField() {
         <ModelCreateButton handleCreateModal={handleCreateModal} />
       </div>
       {DL ? (
-        <div className='DL-field'>
+        <div className='DL-field' onClick={changeDLModal}>
           <DLButton />
         </div>
       ) : (
@@ -117,6 +145,20 @@ function ModelField() {
       {create ? (
         <div className='create-background-field'>
           <ModelCreateField handleCreateModal={handleCreateModal} />
+        </div>
+      ) : (
+        <></>
+      )}
+      {DLModal ? (
+        <div>
+          <AlertModal deleteModal={changeDLModal} handleClick={getDLItem} sendText={sendText} />
+        </div>
+      ) : (
+        <></>
+      )}
+      {modelDeleteModal ? (
+        <div>
+          <AlertModal deleteModal={changeModelDeleteModal} handleClick={handleDelateModel} sendText={sendText2} />
         </div>
       ) : (
         <></>

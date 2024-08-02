@@ -1,9 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import './EditTileParamet.css';
+import { getOriginShape } from '../../db/firebaseFunction';
 
 function EditTileParamet({ name, value, handleChangeParameter }) {
+  // console.log(typeof(value))
   const [selectedValue, setSelectedValue] = useState('');
   const [floatValue, setFloatValue] = useState('');
+  const [originShape, setOriginShape] = useState('');
+  // モデルのオリジン画像サイズを取得
+  useEffect(() => {
+    const fatchOriginImageShape = async () => {
+      const modelId = JSON.parse(sessionStorage.getItem('modelId'));
+      const shape = await getOriginShape(modelId);
+      // console.log(typeof(shape))
+      // console.log(shape)
+      setOriginShape(shape);
+      // setOriginShape('5');
+    };
+    fatchOriginImageShape();
+  }, []);
   useEffect(() => {
     const initValue = () => {
       if (typeof(value) === 'number') {
@@ -98,6 +113,12 @@ function EditTileParamet({ name, value, handleChangeParameter }) {
             <option value="normal">normal</option>
             <option value="GAP">GAP</option>
             <option value="GMP">GMP</option>
+          </select>
+        ) : name === 'changeShape' ? (
+          <select value={selectedValue} onChange={handleChange}>
+            {Array.from({ length: parseInt(originShape, 10) }, (_, index) => index + 1).map((number) => (
+              <option key={number} value={number}>{number}</option>
+            ))}
           </select>
         ) : (
           <></>

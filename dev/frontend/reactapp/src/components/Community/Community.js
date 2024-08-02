@@ -11,9 +11,13 @@ import ProjectDiscussion from './ProjectDiscussion';
 import Discussion from './Discussion';
 import DiscussionInfo from './DiscussionInfo';
 import ProjectReaderBoard from './ProjectReaderBoard';
-import { getProjectInfoUp } from '../../db/firebaseFunction';
+import { getProjectInfoUp, updateJoinProject } from '../../db/firebaseFunction';
+import AlertModal from '../utils/AlertModal';
+import { useNavigate } from 'react-router-dom';
 
 function Community() {
+  const projectId = JSON.parse(sessionStorage.getItem('projectId'));
+  const userId = JSON.parse(sessionStorage.getItem('userId'));
   const [overview, setOverview] = useState(true);
   const [preview, setPreview] = useState(false);
   const [discussion, setDiscussion] = useState(false);
@@ -63,6 +67,32 @@ function Community() {
   const [summary, setSummary] = useState('');
   const [labelList, setLabelList] = useState([]);
 
+  // 参加モーダル表示・非表示
+  const [joinModal, setJoinModal] = useState(false);
+  // モーダル表示・非表示関数
+  const changeJoinModal = () => {
+    setJoinModal(!joinModal);
+  };
+
+  const navigate = useNavigate();
+  // プロジェクト参加関数
+  const handleNav = async () => {
+    await updateJoinProject(userId, projectId);
+    const sentData = {
+      "user_id": userId,
+      "project_name": projectId
+    }
+    const response = await fetch('http://127.0.0.1:5000/mkdir/project', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(sentData),
+    });
+    console.log(response)
+    navigate('/ImageClassificationProjectList');
+  };
+
 
   // ページに訪れた時にproject_infoから情報を抜き取る
   useEffect(() => {
@@ -92,6 +122,7 @@ function Community() {
   const handleInfo = () => {
     setDiscussionInfo(!discussionInfo);
   }
+  const sendText = 'プロジェクトをアクティベートします。<br/>よろしいですか。'
   return (
     <div className='community-wrapper'>
       <div className='community-header-wrapper'>
@@ -100,7 +131,7 @@ function Community() {
           logocomponent={Logo}
         />
       </div>
-      <ProjectActivate projectName={projectName} shortExp={shortExp} />
+      <ProjectActivate projectName={projectName} shortExp={shortExp} changeJoinModal={changeJoinModal} />
       <ProjectHeader {...props} />
       {overview && <ProjectOverview summary={summary} source={source} sourceLink={sourceLink} />}
       {preview && <ProjectPreview labelList={labelList} />}
@@ -115,6 +146,7 @@ function Community() {
           <></>
         )}
         {readerBoard && <ProjectReaderBoard />}
+        {joinModal && (<AlertModal deleteModal={changeJoinModal} handleClick={handleNav} sendText={sendText} />)}
     </div>
   );
 };

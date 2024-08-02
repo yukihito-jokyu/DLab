@@ -102,9 +102,20 @@ const updateJoinProject = async (userId, projectName) => {
   }
 }
 
-// プロジェクト情報を取得
+// 画像分類プロジェクト情報を取得
 const getProjectInfo = async () => {
   const docRef = doc(db, 'project_info', 'info');
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data()
+  } else {
+    return null
+  }
+}
+
+// 強化学習プロジェクト情報を取得
+const getRlProjectInfo = async () => {
+  const docRef = doc(db, 'project_info', 'rl_info');
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     return docSnap.data()
@@ -290,6 +301,14 @@ const getFavoriteUser = async (userId) => {
 
 // モデルの構造の初期化
 const initModelStructure = async (modelId, projectId) => {
+  let shape = 24
+  let originShape = 24
+  let C = 1
+  if (projectId === 'CIFAR10') {
+    shape = 32
+    originShape = 32
+    C = 3
+  }
   let newData
   if (projectId === 'CartPole') {
     newData = {
@@ -316,6 +335,7 @@ const initModelStructure = async (modelId, projectId) => {
   } else if (projectId === 'FlappyBird') {
     newData = {
       model_id: modelId,
+      originShape: originShape,
       TrainInfo: {
         batch: 32,
         epoch: 100,
@@ -329,6 +349,7 @@ const initModelStructure = async (modelId, projectId) => {
       structure: {
         InputLayer: {
           shape: [28, 28, 1],
+          changeShape: shape,
           preprocessing: "none",
           type: "Input"
         },
@@ -344,16 +365,20 @@ const initModelStructure = async (modelId, projectId) => {
   } else {
     newData = {
       model_id: modelId,
+      originShape: originShape,
       TrainInfo: {
         batch: 32,
         epoch: 100,
         learning_rate: 0.01,
         loss: "mse_loss",
-        optimizer: "Adam"
+        optimizer: "Adam",
+        test_size: 0.2,
+        image_shape: shape
       },
       structure: {
         InputLayer: {
-          shape: [28, 28, 1],
+          shape: [shape, shape, C],
+          changeShape: shape,
           preprocessing: "none",
           type: "Input"
         },
@@ -385,6 +410,17 @@ const getModelStructure = async (modelId) => {
   const querySnapshot = await getDocs(q);
   if (!querySnapshot.empty) {
     return querySnapshot.docs[0].data().structure;
+  } else {
+    return null
+  }
+}
+
+// モデルのオリジン画像サイズを取得
+const getOriginShape = async (modelId) => {
+  const q = query(collection(db, 'model'), where('model_id', '==', modelId));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    return querySnapshot.docs[0].data().originShape;
   } else {
     return null
   }
@@ -435,4 +471,4 @@ const testSetDb = async (user_id, mail_address, user_name) => {
   await setDoc(doc(db, "user", user_id), userData);
 };
 
-export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle, getReaderBoard, getFavoriteUser, getModelStructure, updateStructure, getTrainInfo, updateTrainInfo, getJoinProject, updateJoinProject };
+export { signInWithGoogle, handlSignOut, testSetDb, registName, getProject, getProjectInfo, getUserId, getModelId, setModel, deleteModels, getProjectInfoUp, getDiscussionInfo, postArticle, getUserName, addComment, getComment, getTitle, getReaderBoard, getFavoriteUser, getModelStructure, updateStructure, getTrainInfo, updateTrainInfo, getJoinProject, updateJoinProject, getRlProjectInfo, getOriginShape };

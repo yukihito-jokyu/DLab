@@ -36,7 +36,7 @@ function TileBox({ droppableId, snapshot }) {
   useEffect(() => {
     if (snapshot) {
       if (snapshot.idDragging) {
-        setDragType('TILE');
+        // setDragType('TILE');
       } else {
         setDragType('');
       }
@@ -64,7 +64,7 @@ function TileBox({ droppableId, snapshot }) {
             {open && (
               <Droppable
                 droppableId={String(droppableId)}
-                type='ITEM'
+                // type='ITEM'
               >
                 {(provided) => (
                   <div

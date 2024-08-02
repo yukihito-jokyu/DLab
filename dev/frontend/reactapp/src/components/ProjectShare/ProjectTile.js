@@ -4,7 +4,7 @@ import CIFAR10Image from '../../assets/images/CIFA10Image.png';
 import { UserInfoContext } from '../../App';
 import { useNavigate } from 'react-router-dom';
 
-function ProjectTile({ title, info, style1 }) {
+function ProjectTile({ title, info, style1, style2 }) {
   const { setProjectId } = useContext(UserInfoContext);
   const navigate = useNavigate();
   const handleNav = () => {
@@ -22,7 +22,7 @@ function ProjectTile({ title, info, style1 }) {
         </div>
         <div className='tile-right'>
           <img src={CIFAR10Image} alt='CIFAR10Image' className='CIFAR-10-image' />
-          <div className='image-cover'></div>
+          <div className='image-cover' style={style2}></div>
         </div>
       </div>
     </div>

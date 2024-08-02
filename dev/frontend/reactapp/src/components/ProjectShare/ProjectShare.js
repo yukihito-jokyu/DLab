@@ -5,20 +5,37 @@ import BurgerButton from '../../uiParts/component/BurgerButton';
 import Logo from '../../uiParts/component/Logo';
 import ProjectRequest from './ProjectRequest';
 import ProjectTile from './ProjectTile';
-import { getProjectInfo } from '../../db/firebaseFunction';
+import { getJoinProject, getProjectInfo, getRlProjectInfo } from '../../db/firebaseFunction';
 import ProjectShareHeader from './ProjectShareHeader';
 
 function ProjectShare() {
   const [image, setImage] = useState(true);
+  const [rl, setRl] = useState(null);
   const [reinforcement, setReinforcement] = useState(false);
   const [imageProjects, setImageProjects] = useState(null);
-  const [joinProject, setJoinProject] = useState(false)
+  const [joinProject, setJoinProject] = useState(false);
+  const [joinProjectList, setJoinProjectList] = useState(null);
+  
+
+  // 画像分類プロジェクト情報の取得
   useEffect(() => {
     const fatchProjects = async () => {
+      const userId = JSON.parse(sessionStorage.getItem('userId'));
       const projectsInfo = await getProjectInfo();
+      const joinProject = await getJoinProject(userId);
       setImageProjects(projectsInfo);
+      setJoinProjectList(joinProject)
     };
     fatchProjects();
+  }, []);
+
+  // 強化学習プロジェクト情報の取得
+  useEffect(() => {
+    const fatchRlProjects = async () => {
+      const rlProjectInfo = await getRlProjectInfo();
+      setRl(rlProjectInfo);
+    };
+    fatchRlProjects();
   }, []);
   const handleClickImage = () => {
     setImage(true);
@@ -35,6 +52,9 @@ function ProjectShare() {
   }
   const styleImage = {
     background: "linear-gradient(90deg, #00C2FF 0%, #509FE8 100%)"
+  }
+  const styleRl = {
+    background: "linear-gradient(90deg, #ff7aab 0%, rgba(156, 75, 105, 0.1) 100%)"
   }
   return (
     <div className='project-share-wrapper'>
@@ -53,10 +73,24 @@ function ProjectShare() {
         joinProject={joinProject}
         handleJoin={handleJoin}
       />
-      {(image && imageProjects) ? (
+      {(image && imageProjects && !joinProject) ? (
         Object.keys(imageProjects).sort().map((key) => (
           <div key={key}>
             <ProjectTile title={key} info={imageProjects[key].toString()} style1={styleImage} />
+          </div>
+        ))
+      ) : (image && imageProjects && joinProject) ? (
+        Object.values(joinProjectList).sort().map((key) => (
+          // console.log(key)
+          <div key={key}>
+            <ProjectTile title={key} info={imageProjects[key].toString()} style1={styleImage} />
+          </div>
+        ))
+      ) : (<></>)}
+      {(!image && rl) ? (
+        Object.keys(rl).sort().map((key) => (
+          <div key={key}>
+            <ProjectTile title={key} info={rl[key].toString()} style2={styleRl} />
           </div>
         ))
       ) : (<></>)}

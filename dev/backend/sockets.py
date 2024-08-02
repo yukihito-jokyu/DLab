@@ -15,6 +15,9 @@ def setup_sockets(socketio):
     def train_CartPole(datas):
         train_cartpole(datas, socketio)
 
-    @socketio.on('Train')
+    @socketio.on('image_train_start')
     def train(datas):
+        print(datas)
+        model_id = datas['model_id']
         train_model(datas)
+        socketio.emit('image_train_end'+model_id, {'message': 'train end'})

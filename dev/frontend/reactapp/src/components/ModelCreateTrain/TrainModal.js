@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './ModelCreateTrain.css'
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
-import { getModelStructure } from '../../db/firebaseFunction';
+import { getModelStructure, getTrainInfo } from '../../db/firebaseFunction';
+import { socket } from '../../socket/socket';
 
 function TrainModal({ changeTrain, flattenShape }) {
   const userId = JSON.parse(sessionStorage.getItem('userId'));
@@ -37,7 +38,35 @@ function TrainModal({ changeTrain, flattenShape }) {
       body: JSON.stringify(sentData),
     });
     console.log(response)
+  };
+
+  // 学習開始(socket)
+  const startTrain = async () => {
+    if (socket) {
+      const trainInfo = await getTrainInfo(modelId)
+      const sentData = {
+        user_id: userId,
+        project_name: projectId,
+        model_id: modelId,
+        Train_info: trainInfo
+      }
+      socket.emit('image_train_start', sentData);
+    }
   }
+
+  // socket通信にて
+  useEffect(() => {
+    const handleTrainResults = (response) => {
+      console.log('Response from server:', response.Epoch, response.TrainAcc, response.ValAcc, response.TrainLoss, response.ValLoss)
+    }
+
+    socket.on('train_image_results'+modelId, handleTrainResults);
+
+    // クリーンアップ
+    return () => {
+      socket.off('image_train_end'+modelId, handleTrainResults);
+    }
+  }, [modelId])
   return (
     <div>
       <div className='train-modal-wrapper'></div>
@@ -73,7 +102,7 @@ function TrainModal({ changeTrain, flattenShape }) {
               <div className='gradation-border2-wrapper'>
                 <div className='gradation-border2'></div>
               </div>
-              <div className='train-modal'>
+              <div className='train-modal' onClick={startTrain}>
                 <GradationButton text={text4} />
               </div>
               <div className='train-modal-delet-button-field' onClick={changeTrain}>

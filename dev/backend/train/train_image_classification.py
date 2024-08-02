@@ -47,10 +47,10 @@ class ZCA_Whitening:
 # モデルをインポートする関数
 def import_model(config):
     user_id = config["user_id"]
-    project_name = config["Project_name"]
+    project_name = config["project_name"]
     model_id = config["model_id"]
     
-    base_dir = os.path.abspath(os.path.join(os.getcwd(), "../user"))
+    base_dir = os.path.abspath(os.path.join(os.getcwd(), "./user"))
     model_path = os.path.join(base_dir, user_id, project_name, model_id, "model_config.py")
     spec = importlib.util.spec_from_file_location("Simple_NN", model_path)
     model_module = importlib.util.module_from_spec(spec)
@@ -59,8 +59,8 @@ def import_model(config):
 
 # データセットの読込み＆前処理を行う関数
 def load_and_split_data(config):
-    project_name = config["Project_name"]
-    dataset_dir = os.path.abspath(os.path.join(os.getcwd(), "../dataset", project_name))
+    project_name = config["project_name"]
+    dataset_dir = os.path.abspath(os.path.join(os.getcwd(), "./dataset", project_name))
     
     x_train = np.load(os.path.join(dataset_dir, "x_train.npy"))
     y_train = np.load(os.path.join(dataset_dir, "y_train.npy"))
@@ -77,7 +77,7 @@ def load_and_split_data(config):
         x_train = zca.transform(x_train)
         x_test = zca.transform(x_test)
     
-    test_size = config["Train_info"]["test_size"]
+    test_size = float(config["Train_info"]["test_size"])
     x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=test_size)
 
     image_shape = config["Train_info"]["image_shape"]
@@ -98,6 +98,7 @@ def load_and_split_data(config):
 
 # モデルの訓練を行う関数
 def train_model(config):
+    model_id = config["model_id"]
     model = import_model(config).to(device)
 
     (x_train, y_train), (x_val, y_val), (x_test, y_test) = load_and_split_data(config)
@@ -107,10 +108,10 @@ def train_model(config):
     train_dataset = TensorDataset(torch.from_numpy(x_train).float(), torch.from_numpy(y_train).long())
     val_dataset = TensorDataset(torch.from_numpy(x_val).float(), torch.from_numpy(y_val).long())
     
-    train_loader = DataLoader(train_dataset, batch_size=train_info["batch"], shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=train_info["batch"], shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=int(train_info["batch"]), shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=int(train_info["batch"]), shuffle=False)
 
-    optimizer = get_optimizer(train_info["optimizer"], model.parameters(), train_info["learning_rate"])
+    optimizer = get_optimizer(train_info["optimizer"], model.parameters(), float(train_info["learning_rate"]))
     loss_fn = get_loss(train_info["loss"])
 
     train_loss_history = []
@@ -119,8 +120,8 @@ def train_model(config):
     val_acc_history = []
     best_val_loss = float('inf')
     best_model = None
-    
-    for epoch in range(1, train_info["epoch"]+1):
+    print('学習スタート')
+    for epoch in range(1, int(train_info["epoch"])+1):
         model.train()
         running_loss = 0.0
         running_corrects = 0
@@ -156,15 +157,16 @@ def train_model(config):
         val_acc = running_val_corrects / len(val_loader.dataset)
         val_loss_history.append(val_loss)
         val_acc_history.append(val_acc)
-        
-        emit({'Epoch': epoch, 'TrainAcc': round(epoch_acc, 5), 'ValAcc': round(val_acc, 5), 'TrainLoss': round(epoch_loss, 5), 'ValLoss': round(val_loss, 5)})
+        print('Epoch:', epoch, 'TrainAcc:', round(epoch_acc, 5), 'ValAcc:', round(val_acc, 5), 'TrainLoss:', round(epoch_loss, 5), 'ValLoss:', round(val_loss, 5))
+        print('train_image_results'+model_id)
+        emit('train_image_results'+model_id, {'Epoch': epoch, 'TrainAcc': round(epoch_acc, 5), 'ValAcc': round(val_acc, 5), 'TrainLoss': round(epoch_loss, 5), 'ValLoss': round(val_loss, 5)})
         
         if val_loss < best_val_loss:
             best_val_loss = val_loss
             best_model = model.state_dict()
 
     user_id = config["user_id"]
-    project_name = config["Project_name"]
+    project_name = config["project_name"]
     model_id = config["model_id"]
     base_dir = os.path.abspath(os.path.join(os.getcwd(), "./user", user_id, project_name, model_id))
     os.makedirs(base_dir, exist_ok=True)
@@ -176,8 +178,8 @@ def train_model(config):
     
     plt.figure()
     plt.title("Training Accuracy")
-    plt.plot(range(1, train_info["epoch"]+1), train_acc_history, label="Train Accuracy")
-    plt.plot(range(1, train_info["epoch"]+1), val_acc_history, label="Validation Accuracy")
+    plt.plot(range(1, int(train_info["epoch"])+1), train_acc_history, label="Train Accuracy")
+    plt.plot(range(1, int(train_info["epoch"])+1), val_acc_history, label="Validation Accuracy")
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")
     plt.legend()
@@ -186,8 +188,8 @@ def train_model(config):
     
     plt.figure()
     plt.title('Training Loss')
-    plt.plot(range(1, train_info["epoch"]+1), train_loss_history, label="Train Loss")
-    plt.plot(range(1, train_info["epoch"]+1), val_loss_history, label="Validation Loss")
+    plt.plot(range(1, int(train_info["epoch"])+1), train_loss_history, label="Train Loss")
+    plt.plot(range(1, int(train_info["epoch"])+1), val_loss_history, label="Validation Loss")
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
     plt.legend()
