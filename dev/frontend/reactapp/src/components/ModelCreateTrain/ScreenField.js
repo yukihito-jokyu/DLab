@@ -147,6 +147,7 @@ function ScreenField({ edit, train, changeTrain }) {
   // パラメータやタイルの位置の変更があったらfirebaseに保存する。
   useEffect(() => {
     const saveStructure = () => {
+      // console.log(inputLayer)
       let structure = {}
       if (projectId === 'CartPole') {
         structure = {

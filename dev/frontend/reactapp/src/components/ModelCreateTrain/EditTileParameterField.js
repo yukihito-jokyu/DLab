@@ -48,6 +48,11 @@ function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, 
     } else if (layerType === 'Input') {
       const newInputLayer = { ...inputLayer };
       newInputLayer[key] = value;
+      // console.log(newInputLayer['shape'][0])
+      if (key === 'changeShape') {
+        newInputLayer['shape'][0] = Number(value)
+        newInputLayer['shape'][1] = Number(value)
+      }
       setInputLayer(newInputLayer);
     } else if (layerType === 'Flatten') {
       const newFlattenWay = { ...flattenWay };
