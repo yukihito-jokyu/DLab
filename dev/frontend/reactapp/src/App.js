@@ -27,9 +27,9 @@ import ModelManegementEvaluation from './components/ModelManegementEvaluation/Mo
 import ModelCreateTrain from './components/ModelCreateTrain/ModelCreateTrain';
 import RLProjectList from './components/RLProjectList/RLProjectList';
 // import Login from './components/Login/Login';
-import TestFirebase from './db/TestFirebase';
+import TestFirebase from './db/testFirebase';
 import DjangoTest from './Django/DjangoTest';
-import Top from './components/Top/Top';
+import Top from './components/top/Top';
 import ProjectShare from './components/ProjectShare/ProjectShare';
 import Community from './components/Community/Community';
 import Profile from './components/Profile/Profile';
@@ -45,7 +45,7 @@ function App() {
   // ソケット通信
   // const socket = useContext(SocketContext);
 
-  
+
   // csvファイル読み込み
   // const handleCSVUpload = (csvData) => {
   //   console.log('CSVデータ：', csvData);
@@ -60,25 +60,25 @@ function App() {
   //   const newsocket = Socket('ws://127.0.0.1:5000');
   //   // newsocket.disconnect();
   //   setSocket(newsocket);
-  
+
   //   // サーバーからのメッセージを受信
   //   newsocket.on('update', (data) => {
   //     setprogress(data.progress);
   //     setdata(data.data);
   //   });
-  
+
   //   // 処理が完了したらソケットを閉じる
   //   const handleComplete = (data) => {
   //     console.log(data.message);
   //     console.log(newsocket.connected)
   //     // newsocket.disconnect();
-      
+
   //     // newsocket.close(); // 強制的にクローズ
   //     console.log(newsocket.connected)
   //   };
-  
+
   //   newsocket.on('complete', handleComplete);
-  
+
   //   return () => {
   //   };
   // }, []);
@@ -90,13 +90,13 @@ function App() {
   //     console.log('起動');
   //     socket.connect();
   //     console.log(socket.connected)
-      
+
   //     socket.emit('start_process', {});
   //   } else {
   //     console.error('Socketが初期化されません');
   //   }
   // };
-  
+
 
   // const handldisconnect = () => {
   //   console.log('ソケットを閉じる')
@@ -122,7 +122,7 @@ function App() {
   //   fetchData();
   // }, []);
   // const [count, setCount] = useState(0);
-  
+
   // const ref = useRef();
   // const handlClick = async () => {
   //   const startTime = new Date();
@@ -137,7 +137,7 @@ function App() {
   //   const responseData = await response.json();
   //   console.log('Flaskからの応答:', responseData.count);
   //   setCount(responseData.count);
-    
+
   //   // setCount(count + 1);
   //   const endTime = new Date();
   //   const elapsedTime = endTime - startTime;
@@ -171,7 +171,7 @@ function App() {
 
   // クリックしたときにリストを追加する。
   const handleMakeId = () => {
-    setElementId(prev => [...prev, `${prev.length+1}`]);
+    setElementId(prev => [...prev, `${prev.length + 1}`]);
   };
 
   return (
@@ -184,10 +184,10 @@ function App() {
           <Route path='/Reinforcement' element={<Reinforcement handlemakeid={handleMakeId} elementid={elementId} />} />
           <Route path='/ImageRecognition' element={<ImageRecognition />} />
           {elementId.map((id, index) => (
-            <Route key={index} path={'/Reinforcement/Cartpole'+id} element={<CartPole id={id} />} />
+            <Route key={index} path={'/Reinforcement/Cartpole' + id} element={<CartPole id={id} />} />
           ))}
           {elementId.map((id, index) => (
-            <Route key={index} path={'/Reinforcement/Flappybird'+id} element={<Flappybird id={id} />} />
+            <Route key={index} path={'/Reinforcement/Flappybird' + id} element={<Flappybird id={id} />} />
           ))}
           <Route path='/top' element={<Top />} />
           <Route path="/ImageClassificationProjectList" element={<ImageClassificationProjectList />} />
@@ -202,7 +202,7 @@ function App() {
           <Route path="*" element={<Navigate to="/top" replace />} />
         </Routes>
       </Router>
-      
+
       {/* <div>-</div>
       <button onClick={handlClick}>+</button>
       <p>{count}</p>
