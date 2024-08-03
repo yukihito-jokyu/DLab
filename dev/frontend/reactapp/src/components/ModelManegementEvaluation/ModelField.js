@@ -12,7 +12,7 @@ import { sendEmailVerification } from 'firebase/auth';
 
 function ModelField() {
   const [models, setModels] = useState([]);
-  const [DL, setDL] = useState(false);
+  const [DL, setDL] = useState();
   const [DLModal, setDLModal] = useState(false);
   const [modelDeleteModal, setModelDeleteModal] = useState(false);
   const [create, setCreate] = useState(false);
@@ -59,20 +59,8 @@ function ModelField() {
 
   // modelsが更新された後に実行されるコード
   useEffect(() => {
-    models.forEach((value) => {
-      if (value.isChecked && value.status === 'done') {
-        setDL(true);
-      } else {
-        setDL(false);
-      }
-    });
-    // const isChecked = models.some(model => model.isChecked);
-    // // チェックされた時に実行する処理
-    // if (isChecked) {
-    //   setDL(true);
-    // } else {
-    //   setDL(false);
-    // }
+    const judgeDL = models.some(item => item.status === 'done' && item.isChecked);
+    setDL(judgeDL);
   }, [models]);
 
   // モデル作成モーダル表示非表示

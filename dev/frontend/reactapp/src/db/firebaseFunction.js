@@ -178,7 +178,8 @@ const setModel = async (userId, projectId, modelId, modelName) => {
     model_id: modelId,
     model_name: modelName,
     project_id: projectId,
-    user_id: userId
+    user_id: userId,
+    status: 'pre'
   };
   await setDoc(doc(db, "models", modelId), modelData);
   await initModelStructure(modelId, projectId);
