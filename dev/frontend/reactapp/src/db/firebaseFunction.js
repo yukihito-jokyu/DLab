@@ -194,6 +194,7 @@ const deleteModels = async (modelId) => {
   await deleteModelStructure(modelId);
 };
 
+
 // Discussionの情報取得
 const getDiscussionInfo = async (projectName) => {
   const projectId = projectName + "_discussion";

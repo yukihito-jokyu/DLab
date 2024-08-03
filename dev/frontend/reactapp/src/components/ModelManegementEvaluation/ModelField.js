@@ -87,7 +87,22 @@ function ModelField() {
     await Promise.all(deletePromises);
     const remainingModels = models.filter(model => !model.isChecked);
     setModels(remainingModels);
-    console.log(checkedModels);
+    const modelIdList = checkedModels
+      .map(item => item.model_id);
+    const sentData = {
+      user_id: userId,
+      Project_name: projectId,
+      model_id_list: modelIdList
+    }
+    const response = await fetch('http://127.0.0.1:5000/del_dir/model', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(sentData),
+    });
+    const result = await response.json();
+    console.log(result);
   };
   // モデル削除モーダルの表示非表示
   const changeModelDeleteModal = () => {
