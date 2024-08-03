@@ -27,9 +27,9 @@ import ModelManegementEvaluation from './components/ModelManegementEvaluation/Mo
 import ModelCreateTrain from './components/ModelCreateTrain/ModelCreateTrain';
 import RLProjectList from './components/RLProjectList/RLProjectList';
 // import Login from './components/Login/Login';
-import TestFirebase from './db/testFirebase';
+import TestFirebase from './db/TestFirebase';
 import DjangoTest from './Django/DjangoTest';
-import Top from './components/top/Top';
+import Top from './components/Top/Top';
 import ProjectShare from './components/ProjectShare/ProjectShare';
 import Community from './components/Community/Community';
 import Profile from './components/Profile/Profile';
