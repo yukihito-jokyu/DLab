@@ -4,7 +4,6 @@ import Header from '../../uniqueParts/component/Header'
 import BurgerButton from '../../uiParts/component/BurgerButton'
 import Logo from '../../uiParts/component/Logo'
 import './ImageClassificationProjectList.css'
-import CreateBackground from './CreateBackground'
 import ContentsBackground from '../../uiParts/component/ContentsBackground'
 import { useNavigate } from 'react-router-dom'
 
