@@ -10,8 +10,6 @@ import YoutubeRecommend from './YoutubeRecommend';
 import UpDatesRecommend from './UpDatesRecommend';
 import Footer from './Footer';
 import UserNameModal from './UserNameModal';
-// import { useAuthState } from 'react-firebase-hooks/auth';
-// import { auth } from '../../db/firebase';
 import { UserInfoContext } from '../../App';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../db/firebase';
