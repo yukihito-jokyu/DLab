@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import './Top.css';
 import Explanation from './Explanation';
 import Header from '../../uniqueParts/component/Header';
@@ -10,10 +10,7 @@ import YoutubeRecommend from './YoutubeRecommend';
 import UpDatesRecommend from './UpDatesRecommend';
 import Footer from './Footer';
 import UserNameModal from './UserNameModal';
-// import { useAuthState } from 'react-firebase-hooks/auth';
-// import { auth } from '../../db/firebase';
 import { UserInfoContext } from '../../App';
-import { useNavigate } from 'react-router-dom';
 import { auth } from '../../db/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getUserId } from '../../db/firebaseFunction';
