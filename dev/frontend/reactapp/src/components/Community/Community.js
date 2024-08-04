@@ -11,9 +11,10 @@ import ProjectDiscussion from './ProjectDiscussion';
 import Discussion from './Discussion';
 import DiscussionInfo from './DiscussionInfo';
 import ProjectReaderBoard from './ProjectReaderBoard';
-import { getProjectInfoUp, updateJoinProject } from '../../db/firebaseFunction';
 import AlertModal from '../utils/AlertModal';
 import { useNavigate } from 'react-router-dom';
+import { getProjectDetailedInfo } from '../../db/function/project_info';
+import { updateJoinProject } from '../../db/function/users';
 
 function Community() {
   const projectId = JSON.parse(sessionStorage.getItem('projectId'));
@@ -98,7 +99,7 @@ function Community() {
   useEffect(() => {
     const fatchProjects = async () => {
       const projectId = JSON.parse(sessionStorage.getItem('projectId'));
-      const projectsInfo = await getProjectInfoUp(projectId);
+      const projectsInfo = await getProjectDetailedInfo(projectId);
       if (projectsInfo) {
         setProjectName(projectsInfo.name);
         setShortExp(projectsInfo.short_explanation);

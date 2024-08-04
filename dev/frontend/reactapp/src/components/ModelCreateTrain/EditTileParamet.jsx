@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './EditTileParamet.css';
-import { getOriginShape } from '../../db/firebaseFunction';
+import { getOriginShape } from '../../db/function/model_structure';
 
 function EditTileParamet({ name, value, handleChangeParameter }) {
   // console.log(typeof(value))
@@ -13,7 +13,6 @@ function EditTileParamet({ name, value, handleChangeParameter }) {
       const modelId = JSON.parse(sessionStorage.getItem('modelId'));
       const shape = await getOriginShape(modelId);
       // console.log(typeof(shape))
-      // console.log(shape)
       setOriginShape(shape);
       // setOriginShape('5');
     };
@@ -58,7 +57,7 @@ function EditTileParamet({ name, value, handleChangeParameter }) {
         <p>{name}</p>
       </div>
       <div className='edit-tile-value-wrapper'>
-        {name === 'activ_func' ? (
+        {name === 'activation_function' ? (
           <select value={selectedValue} onChange={handleChange}>
             <option value="ReLU">ReLU</option>
             <option value="Sigmoid">Sigmoid</option>
@@ -96,7 +95,7 @@ function EditTileParamet({ name, value, handleChangeParameter }) {
             onChange={handleFloatChange}
             placeholder='0 以上 1 未満の数値'
           />
-        ) : name === 'input_size' ? (
+        ) : name === 'neuron_size' ? (
           <select value={selectedValue} onChange={handleChange}>
             {Array.from({ length: 200 }, (_, index) => index + 1).map((number) => (
               <option key={number} value={number}>{number}</option>
@@ -114,7 +113,7 @@ function EditTileParamet({ name, value, handleChangeParameter }) {
             <option value="GAP">GAP</option>
             <option value="GMP">GMP</option>
           </select>
-        ) : name === 'changeShape' ? (
+        ) : name === 'change_shape' ? (
           <select value={selectedValue} onChange={handleChange}>
             {Array.from({ length: parseInt(originShape, 10) }, (_, index) => index + 1).map((number) => (
               <option key={number} value={number}>{number}</option>

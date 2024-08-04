@@ -5,9 +5,9 @@ import { UserInfoContext } from '../../App';
 import { auth } from '../../db/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
-import { signInWithGoogle } from '../../db/firebaseFunction';
+import { signInWithGoogle } from '../../db/function/users';
 
-function ProjectRecommend() {
+function ProjectRecommend({ setFirstSignIn }) {
   const [height, setHeight] = useState(0);
   useEffect(() => {
     const calculateHeight = () => {
@@ -31,14 +31,14 @@ function ProjectRecommend() {
     background: '#50BBFF'
   }
 
-  const { setUserId, setFirstSignIn } = useContext(UserInfoContext);
+  // const { setUserId, setFirstSignIn } = useContext(UserInfoContext);
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const handleICSignIn = () => {
     if (user) {
       navigate('/ImageClassificationProjectList');
     } else {
-      signInWithGoogle(setUserId, setFirstSignIn);
+      signInWithGoogle(setFirstSignIn);
       
     }
   };
@@ -46,7 +46,7 @@ function ProjectRecommend() {
     if (user) {
       navigate('/RLProjectList');
     } else {
-      signInWithGoogle(setUserId, setFirstSignIn);
+      signInWithGoogle(setFirstSignIn);
     }
   };
   return (

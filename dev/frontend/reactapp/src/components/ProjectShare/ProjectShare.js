@@ -5,8 +5,9 @@ import BurgerButton from '../../uiParts/component/BurgerButton';
 import Logo from '../../uiParts/component/Logo';
 import ProjectRequest from './ProjectRequest';
 import ProjectTile from './ProjectTile';
-import { getJoinProject, getProjectInfo, getRlProjectInfo } from '../../db/firebaseFunction';
 import ProjectShareHeader from './ProjectShareHeader';
+import { getClassificationProjectInfo, getReinforcementlearningProjectInfo } from '../../db/function/project_info';
+import { getJoinProject } from '../../db/function/users';
 
 function ProjectShare() {
   const [image, setImage] = useState(true);
@@ -17,11 +18,11 @@ function ProjectShare() {
   const [joinProjectList, setJoinProjectList] = useState(null);
   
 
-  // 画像分類プロジェクト情報の取得
+  // 画像分類プロジェクト情報と参加プロジェクトの取得
   useEffect(() => {
     const fatchProjects = async () => {
       const userId = JSON.parse(sessionStorage.getItem('userId'));
-      const projectsInfo = await getProjectInfo();
+      const projectsInfo = await getClassificationProjectInfo();
       const joinProject = await getJoinProject(userId);
       setImageProjects(projectsInfo);
       setJoinProjectList(joinProject)
@@ -32,7 +33,7 @@ function ProjectShare() {
   // 強化学習プロジェクト情報の取得
   useEffect(() => {
     const fatchRlProjects = async () => {
-      const rlProjectInfo = await getRlProjectInfo();
+      const rlProjectInfo = await getReinforcementlearningProjectInfo();
       setRl(rlProjectInfo);
     };
     fatchRlProjects();

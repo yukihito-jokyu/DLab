@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { ReactComponent as EditIcon } from '../../assets/svg/edit.svg';
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_40.svg';
 import './Community.css';
-import { getUserName, postArticle } from '../../db/firebaseFunction';
+import { getUserName } from '../../db/function/users';
+import { postArticle } from '../../db/function/discussion';
 
 function Discussion({ handleEdit }) {
   const [title, setTitle] = useState('');

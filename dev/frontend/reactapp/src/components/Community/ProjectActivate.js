@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Community.css';
-import { getJoinProject, getProjectInfo, updateJoinProject } from '../../db/firebaseFunction';
 import GradationButton from '../../uiParts/component/GradationButton';
 import CIFA10Image from '../../assets/images/CIFA10Image.png';
 import { useNavigate } from 'react-router-dom';
+import { getJoinProject } from '../../db/function/users';
 
 function ProjectActivate({ projectName, shortExp, changeJoinModal }) {
   const projectId = JSON.parse(sessionStorage.getItem('projectId'));

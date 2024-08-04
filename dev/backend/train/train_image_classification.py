@@ -112,7 +112,7 @@ def train_model(config):
     val_loader = DataLoader(val_dataset, batch_size=int(train_info["batch"]), shuffle=False)
 
     optimizer = get_optimizer(train_info["optimizer"], model.parameters(), float(train_info["learning_rate"]))
-    loss_fn = get_loss(train_info["loss"])
+    loss_fn = get_loss('cross_entropy')
 
     train_loss_history = []
     val_loss_history = []

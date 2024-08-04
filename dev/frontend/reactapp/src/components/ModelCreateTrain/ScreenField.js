@@ -4,9 +4,9 @@ import EditScreen from './EditScreen';
 import DataScreen from './DataScreen';
 import EditTileParameterField from './EditTileParameterField';
 import TrainLogField from './TrainLogField';
-import { getModelStructure, getTrainInfo, updateStructure, updateTrainInfo } from '../../db/firebaseFunction';
 import MiddleLayer from '../Image/MiddleLayer';
 import TrainModal from './TrainModal';
+import { getModelStructure, getTrainInfo, updateStructure, updateTrainInfo } from '../../db/function/model_structure';
 
 function ScreenField({ edit, train, changeTrain }) {
   const [parameter, setParameter] = useState(null);
@@ -32,11 +32,11 @@ function ScreenField({ edit, train, changeTrain }) {
   useEffect(() => {
     const fetchStructure = async () => {
       const structure = await getModelStructure(modelId);
-      setInputLayer(structure.InputLayer);
-      setMiddleLayer(structure.MiddleLayer);
-      setFlattenWay(structure.FlattenWay);
-      setConvLayer(structure.ConvLayer);
-      setOutputLayer(structure.OutputLayer);
+      setInputLayer(structure.input_layer);
+      setMiddleLayer(structure.middle_layer);
+      setFlattenWay(structure.flatten_method);
+      setConvLayer(structure.conv_layer);
+      setOutputLayer(structure.output_layer);
     };
     fetchStructure()
   }, [modelId]);
@@ -68,8 +68,8 @@ function ScreenField({ edit, train, changeTrain }) {
           setInputShape([N])
           const newMiddleShape = []
           middleLayer.forEach((middle, index) => {
-            if (middle.input_size) {
-              N = middle.input_size;
+            if (middle.neuron_size) {
+              N = middle.neuron_size;
             }
             newMiddleShape.push([N]);
           })
@@ -124,8 +124,8 @@ function ScreenField({ edit, train, changeTrain }) {
             if (errorHandle) {
               newMiddleShape.push(['error'])
             } else {
-              if (middle.input_size) {
-                N = middle.input_size
+              if (middle.neuron_size) {
+                N = middle.neuron_size
               }
               newMiddleShape.push([N]);
             }
@@ -151,17 +151,17 @@ function ScreenField({ edit, train, changeTrain }) {
       let structure = {}
       if (projectId === 'CartPole') {
         structure = {
-          InputLayer: inputLayer,
-          MiddleLayer: middleLayer,
-          OutputLayer: outputLayer
+          input_layer: inputLayer,
+          middle_layer: middleLayer,
+          output_layer: outputLayer
         }
       } else {
         structure = {
-          InputLayer: inputLayer,
-          ConvLayer: convLayer,
-          FlattenWay: flattenWay,
-          MiddleLayer: middleLayer,
-          OutputLayer: outputLayer
+          input_layer: inputLayer,
+          conv_layer: convLayer,
+          flatten_method: flattenWay,
+          middle_layer: middleLayer,
+          output_layer: outputLayer
         }
       }
       

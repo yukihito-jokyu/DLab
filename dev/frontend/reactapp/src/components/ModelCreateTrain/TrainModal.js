@@ -3,8 +3,8 @@ import './ModelCreateTrain.css'
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
-import { getModelStructure, getTrainInfo } from '../../db/firebaseFunction';
 import { socket } from '../../socket/socket';
+import { getModelStructure, getTrainInfo } from '../../db/function/model_structure';
 
 function TrainModal({ changeTrain, flattenShape }) {
   const userId = JSON.parse(sessionStorage.getItem('userId'));

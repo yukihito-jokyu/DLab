@@ -5,18 +5,18 @@ import DLImage from '../../assets/images/DLImage.png';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../db/firebase';
 import { useNavigate } from 'react-router-dom';
-import { signInWithGoogle } from '../../db/firebaseFunction';
+import { signInWithGoogle } from '../../db/function/users';
 import { UserInfoContext } from '../../App';
 
-function Explanation() {
-  const { setUserId, setFirstSignIn } = useContext(UserInfoContext);
+function Explanation({ setFirstSignIn }) {
+  // const { setUserId, setFirstSignIn } = useContext(UserInfoContext);
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const handleSignIn = () => {
     if (user) {
       navigate('/testfirebase');
     } else {
-      signInWithGoogle(setUserId, setFirstSignIn);
+      signInWithGoogle(setFirstSignIn);
     }
   };
   return (
