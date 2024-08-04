@@ -3,8 +3,8 @@ import './ModelManegementEvaluation.css';
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
-import { setModel } from '../../db/firebaseFunction';
 import { v4 as uuidv4 } from 'uuid';
+import { initModel } from '../../db/function/model_management';
 
 function ModelCreateBox({ handleCreateModal }) {
   const [modelName, setModelName] = useState("model_name");
@@ -14,7 +14,7 @@ function ModelCreateBox({ handleCreateModal }) {
     const userId = JSON.parse(sessionStorage.getItem('userId'));
     const projectId = JSON.parse(sessionStorage.getItem('projectId'));
     const modelId = uuidv4();
-    await setModel(userId, projectId, modelId, modelName);
+    await initModel(userId, projectId, modelId, modelName);
     const sentData = {
       "user_id": userId,
       "project_name": projectId,

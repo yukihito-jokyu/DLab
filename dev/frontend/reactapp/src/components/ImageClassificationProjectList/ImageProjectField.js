@@ -4,7 +4,7 @@ import ImageProjectIcon from './ImageProjectIcon'
 import ImageProjectAdd from './ImageProjectAdd'
 import BorderGradationBox from '../../uiParts/component/BorderGradationBox'
 import { UserInfoContext } from '../../App'
-import { getJoinProject, getProject } from '../../db/firebaseFunction'
+import { getJoinProject } from '../../db/function/users'
 
 
 function ImageProjectField() {
@@ -15,15 +15,14 @@ function ImageProjectField() {
     width: '276px',
     height: '241px'
   };
+  // 参加プロジェクトをfirebaseから取得する
   useEffect(() => {
     const fatchProjects = async () => {
       const userId = JSON.parse(sessionStorage.getItem('userId'));
       const projects = await getJoinProject(userId);
       setParticipationProjects(projects);
     };
-
     fatchProjects();
-
   }, []);
   return (
     <div className='imageprojectfield-wrapper'>

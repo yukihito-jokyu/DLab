@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { UserInfoContext } from '../../App';
-import { registName } from '../../db/firebaseFunction';
+import { registName } from '../../db/function/users';
 
-function UserNameModal() {
+function UserNameModal({ setFirstSignIn }) {
   const [name, setName] = useState("");
-  const { userId, setFirstSignIn } = useContext(UserInfoContext);
+  const userId = JSON.parse(sessionStorage.getItem('userId'));
+  // const { userId, setFirstSignIn } = useContext(UserInfoContext);
   const handleSetName = () => {
     setFirstSignIn(false);
     registName(userId, name)

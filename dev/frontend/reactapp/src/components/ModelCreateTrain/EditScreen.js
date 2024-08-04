@@ -28,7 +28,7 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
     if (layerType === 'Conv2d') {
       const newLayer = {
         id: uuidv4(),
-        activ_func: "ReLU",
+        activation_function: "ReLU",
         kernel_size: 3,
         layer_type: layerType,
         out_channel: 64,
@@ -71,16 +71,6 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
       copyLayer.splice(nowIndex, 0, newLayer);
       setConvLayer(copyLayer);
     } else if (layerType === 'Neuron') {
-      // const newLayer = {
-      //   id: uuidv4(),
-      //   layer_type: layerType,
-      //   activ_func: "ReLU",
-      //   input_size: 100,
-      //   type: "Conv"
-      // };
-      // const copyLayer = [...convLayer];
-      // copyLayer.splice(nowIndex, 0, newLayer);
-      // setConvLayer(copyLayer);
       setErrorModal(!errorModal);
       setErrorField('畳み込み層');
       setErrorTile('Nuron');
@@ -89,34 +79,10 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
   };
   const handleAddMiddleTile = (layerType) => {
     if (layerType === 'Conv2d') {
-      // const newLayer = {
-      //   id: uuidv4(),
-      //   activ_func: "ReLU",
-      //   kernel_size: 3,
-      //   layer_type: layerType,
-      //   out_channel: 64,
-      //   padding: 0,
-      //   strid: 1,
-      //   type: "Middle"
-      // };
-      // const copyLayer = [...middleLayer];
-      // copyLayer.splice(nowIndex, 0, newLayer);
-      // setMiddleLayer(copyLayer);
       setErrorModal(!errorModal);
       setErrorField('全結合層');
       setErrorTile(layerType);
     } else if (layerType === 'MaxPool2d') {
-      // const newLayer = {
-      //   id: uuidv4(),
-      //   kernel_size: 3,
-      //   layer_type: layerType,
-      //   padding: 0,
-      //   strid: 1,
-      //   type: "Middle"
-      // };
-      // const copyLayer = [...middleLayer];
-      // copyLayer.splice(nowIndex, 0, newLayer);
-      // setMiddleLayer(copyLayer);
       setErrorModal(!errorModal);
       setErrorField('全結合層');
       setErrorTile(layerType);
@@ -143,8 +109,8 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
       const newLayer = {
         id: uuidv4(),
         layer_type: layerType,
-        activ_func: "ReLU",
-        input_size: 100,
+        activation_function: "ReLU",
+        neuron_size: 100,
         type: "Middle"
       };
       const copyLayer = [...middleLayer];

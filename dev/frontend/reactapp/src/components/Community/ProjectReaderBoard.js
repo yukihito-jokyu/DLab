@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import './Community.css'
 import { ReactComponent as SearchIcon } from '../../assets/svg/search_24.svg';
 import ReaderBoard from './ReaderBoard';
-import { getFavoriteUser, getReaderBoard } from '../../db/firebaseFunction';
+import { getReaderBoardInfo } from '../../db/function/reader_bord';
+import { getFavoriteUser } from '../../db/function/users';
 
 function ProjectReaderBoard() {
   const [readerBoard, setReaderBoard] = useState([]);
@@ -13,7 +14,7 @@ function ProjectReaderBoard() {
   useEffect(() => {
     const fetchReaderBoard = async () => {
       const projectId = JSON.parse(sessionStorage.getItem('projectId'));
-      const readerBoardData = await getReaderBoard(projectId);
+      const readerBoardData = await getReaderBoardInfo(projectId);
       const favoriteUser = await getFavoriteUser(userId);
       setReaderBoard(readerBoardData);
       setFavoriteUser(favoriteUser);
@@ -62,40 +63,36 @@ function ProjectReaderBoard() {
       <div className='reader-board-field'>
         {favorite === true ? (
           readerBoard ? (
-            readerBoard.map((board, index) => (
-            (board.data().user_id === userId ? (
-                <div key={index} ref={targetRef} >
-                  <ReaderBoard rank={index+1} name={board.data().user_name} accuracy={board.data().accuracy} />
+            readerBoard.map((board) => {
+              const userData = board.data();
+              return (userData.user_id === userId ? (
+                <div key={userData.user_id} ref={targetRef}>
+                  <ReaderBoard rank={userData.rank} name={userData.user_name} accuracy={userData.accuracy} />
                 </div>
               ) : (
-                favoriteUser.includes(board.data().user_name) ? (
-                  <div key={index}>
-                    <ReaderBoard rank={index+1} name={board.data().user_name} accuracy={board.data().accuracy} />
+                favoriteUser.includes(userData.user_name) ? (
+                  <div key={userData.user_id}>
+                    <ReaderBoard rank={userData.rank} name={userData.user_name} accuracy={userData.accuracy} />
                   </div>
-                ) : (
-                  <></>
-                )
-              ))
-            ))
-          ) : (
-            <></>
-          )
+                ) : null
+              ));
+            })
+          ) : null
         ) : (
           readerBoard ? (
-            readerBoard.map((board, index) => (
-            (board.data().user_id === userId ? (
-                <div key={index} ref={targetRef} >
-                  <ReaderBoard rank={index+1} name={board.data().user_name} accuracy={board.data().accuracy} />
+            readerBoard.map((board) => {
+              const userData = board.data();
+              return (userData.user_id === userId ? (
+                <div key={userData.user_id} ref={targetRef}>
+                  <ReaderBoard rank={userData.rank} name={userData.user_name} accuracy={userData.accuracy} />
                 </div>
               ) : (
-                <div key={index}>
-                  <ReaderBoard rank={index+1} name={board.data().user_name} accuracy={board.data().accuracy} />
+                <div key={userData.user_id}>
+                  <ReaderBoard rank={userData.rank} name={userData.user_name} accuracy={userData.accuracy} />
                 </div>
-              ))
-            ))
-          ) : (
-            <></>
-          )
+              ));
+            })
+          ) : null
         )}
         
       </div>

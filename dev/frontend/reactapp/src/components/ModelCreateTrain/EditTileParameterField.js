@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import InputLayer from '../Image/InputLayer';
 
 function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, middleLayer, layerType, param, selectedindex, setInputLayer, setConvLayer, setFlattenWay, setMiddleLayer, setParam }) {
-  const pList =["kernel_size", "activ_func", "out_channel", "padding", "strid", "dropout_p", "input_size", "preprocessing", "way", "changeShape"]
+  const pList =["kernel_size", "activation_function", "out_channel", "padding", "strid", "dropout_p", "neuron_size", "preprocessing", "way", "change_shape"]
   const [keys, setKeys] = useState([]);
   useEffect(() => {
     const handleSetParameter = () => {
@@ -49,7 +49,7 @@ function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, 
       const newInputLayer = { ...inputLayer };
       newInputLayer[key] = value;
       // console.log(newInputLayer['shape'][0])
-      if (key === 'changeShape') {
+      if (key === 'change_shape') {
         newInputLayer['shape'][0] = Number(value)
         newInputLayer['shape'][1] = Number(value)
       }

@@ -3,7 +3,8 @@ import './Community.css';
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_40.svg';
 import { ReactComponent as SendIcon } from '../../assets/svg/send.svg';
 import DiscussionComment from './DiscussionComment';
-import { addComment, getComment, getTitle, getUserName } from '../../db/firebaseFunction';
+import { addDiscussionComment, getDiscussionComment, getDiscussionTitle } from '../../db/function/discussion';
+import { getUserName } from '../../db/function/users';
 
 function DiscussionInfo({ handleInfo, discussionId }) {
   const [comment, setComment] = useState('');
@@ -13,8 +14,8 @@ function DiscussionInfo({ handleInfo, discussionId }) {
   useEffect(() => {
     const getDiscussion = async () => {
       const projectId = JSON.parse(sessionStorage.getItem('projectId'));
-      const reportInfo = await getComment(projectId, discussionId);
-      const title = await getTitle(projectId, discussionId);
+      const reportInfo = await getDiscussionComment(projectId, discussionId);
+      const title = await getDiscussionTitle(projectId, discussionId);
       setTitle(title)
       setReportInfo(reportInfo);
     };
@@ -26,7 +27,7 @@ function DiscussionInfo({ handleInfo, discussionId }) {
     const projectId = JSON.parse(sessionStorage.getItem('projectId'));
     const userId = JSON.parse(sessionStorage.getItem('userId'));
     const userName = await getUserName(userId);
-    await addComment(projectId, discussionId, comment, userId, userName);
+    await addDiscussionComment(projectId, discussionId, comment, userId, userName);
     setComment('');
     setPush(!push);
   }

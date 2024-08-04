@@ -5,10 +5,11 @@ import ModelTile from './ModelTile';
 import ModelCreateButton from './ModelCreateButton';
 import DLButton from './DLButton';
 import { useNavigate } from 'react-router-dom';
-import { deleteModels, getModelId } from '../../db/firebaseFunction';
+import { deleteModels } from '../../db/function/model_management';
 import ModelCreateField from './ModelCreateField';
 import AlertModal from '../utils/AlertModal';
 import { sendEmailVerification } from 'firebase/auth';
+import { getModelId } from '../../db/function/model_management';
 
 function ModelField() {
   const [models, setModels] = useState([]);
@@ -102,13 +103,52 @@ function ModelField() {
   }
   const sendText2 = 'チェックしたモデルを削除しますか？'
 
+  // zipファイルのダウンロード
+  const handleDownload = async () => {
+    try {
+      const checkedModels = models.filter(model => model.isChecked);
+      const modelIdList = checkedModels
+        .map(item => item.model_id);
+      const sentData = {
+        user_id: userId,
+        Project_name: projectId,
+        model_id_list: modelIdList
+      }
+      const response = await fetch('http://127.0.0.1:5000/download_zip', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(sentData),
+      });
+      console.log(response)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+
+      const blob = await response.blob();
+
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = `models_${new Date().toISOString()}.zip`;
+      link.click();
+
+      window.URL.revokeObjectURL(link.href);
+    } catch (e) {
+      console.error('Download failed', e)
+    }
+    
+  }
+
   // DLモーダル表示非表示
   const changeDLModal = () => {
-    setDLModal(!DLModal)
+    setDLModal(!DLModal);
   }
   // DL関数
-  const getDLItem = () => {
-    setDLModal(!DLModal)
+  const getDLItem = async () => {
+    setDLModal(!DLModal);
+    await handleDownload()
   }
   const sendText = 'チェックしたモデルをダウンロードしますか？'
   return (

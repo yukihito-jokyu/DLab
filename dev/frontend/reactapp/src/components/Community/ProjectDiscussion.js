@@ -3,7 +3,7 @@ import DiscussionTile from './DiscussionTile';
 import './Community.css';
 import { ReactComponent as EditIcon } from '../../assets/svg/edit.svg';
 import { ReactComponent as SearchIcon } from '../../assets/svg/search_24.svg'
-import { getDiscussionInfo } from '../../db/firebaseFunction';
+import { getDiscussionInfos } from '../../db/function/discussion';
 
 function ProjectDiscussion({ handleEdit, handleInfo, setReportInfo, setDiscussionId }) {
   const [inputValue, setInputValue] = useState('');
@@ -11,7 +11,7 @@ function ProjectDiscussion({ handleEdit, handleInfo, setReportInfo, setDiscussio
   useEffect(() => {
     const fetchDiscussion = async () => {
       const projectId = JSON.parse(sessionStorage.getItem('projectId'));
-      const discussionInfo = await getDiscussionInfo(projectId);
+      const discussionInfo = await getDiscussionInfos(projectId);
       setDiscussions(discussionInfo);
     };
 

@@ -42,11 +42,11 @@ class Simple_NN(nn.Module):
         return self.seq(x)
 '''
     structure = data.get('structure')
-    input_layer = structure.get('InputLayer')
-    conv_layers = structure.get('ConvLayer')
-    middle_layers = structure.get('MiddleLayer')
-    output_size = structure.get('OutputLayer')
-    flatten_way = structure.get('FlattenWay')['way']
+    input_layer = structure.get('input_layer')
+    conv_layers = structure.get('conv_layer')
+    middle_layers = structure.get('middle_layer')
+    output_size = structure.get('output_layer')
+    flatten_way = structure.get('flatten_method')['way']
     save_dir = f'./user/{data.get("user_id")}/{data.get("project_name")}/{data.get("model_id")}'
 
     in_channels = input_layer['shape'][2]
@@ -54,7 +54,7 @@ class Simple_NN(nn.Module):
         layer_type = layer.get('layer_type')
         if layer_type == 'Conv2d':
             py_3 += make_conv_layer(layer, in_channels)
-            py_3 += make_activ(layer.get('activ_func'))
+            py_3 += make_activ(layer.get('activation_function'))
             in_channels = layer.get('out_channel')
         elif layer_type == 'MaxPool2d':
             py_3 += make_pool_layer(layer.get('layer_type'), layer.get('kernel_size'), layer.get('strid'), layer.get('padding'))
@@ -75,9 +75,9 @@ class Simple_NN(nn.Module):
     for layer in middle_layers:
         layer_type = layer.get('layer_type')
         if layer_type == 'Neuron':
-            py_3 += make_linear(input_size, layer.get('input_size'))
-            py_3 += make_activ(layer.get('activ_func'))
-            input_size = layer.get('input_size')
+            py_3 += make_linear(input_size, layer.get('neuron_size'))
+            py_3 += make_activ(layer.get('activation_function'))
+            input_size = layer.get('neuron_size')
         if layer_type == 'Dropout':
             py_3 += make_dropout_layer(layer.get('dropout_p'))
         if layer_type == 'BatchNorm':

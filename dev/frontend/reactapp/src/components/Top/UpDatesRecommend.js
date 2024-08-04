@@ -5,17 +5,17 @@ import { UserInfoContext } from '../../App';
 import { auth } from '../../db/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
-import { signInWithGoogle } from '../../db/firebaseFunction';
+import { signInWithGoogle } from '../../db/function/users';
 
-function UpDatesRecommend() {
-  const { setUserId, setFirstSignIn } = useContext(UserInfoContext);
+function UpDatesRecommend({ setFirstSignIn }) {
+  // const { setUserId, setFirstSignIn } = useContext(UserInfoContext);
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const handleSignIn = () => {
     if (user) {
       navigate('/testfirebase');
     } else {
-      signInWithGoogle(setUserId, setFirstSignIn);
+      signInWithGoogle(setFirstSignIn);
     }
   };
   return (
