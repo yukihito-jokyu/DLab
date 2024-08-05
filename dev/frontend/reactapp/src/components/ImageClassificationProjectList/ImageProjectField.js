@@ -27,10 +27,10 @@ function ImageProjectField() {
   return (
     <div className='imageprojectfield-wrapper'>
       {participationProjects ? (
-          participationProjects.sort().map((name, index) => (
+          participationProjects.sort().map((value, index) => (
             <div key={index}>
               <BorderGradationBox style1={style1}>
-                <ImageProjectIcon projectName={name} />
+                <ImageProjectIcon projectName={value.project_name} />
               </BorderGradationBox>
             </div>
           ))

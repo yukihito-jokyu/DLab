@@ -12,7 +12,7 @@ function ProjectActivate({ projectName, shortExp, changeJoinModal }) {
     const fetchJoinProject = async () => {
       const joinProject = await getJoinProject(userId);
       if (joinProject) {
-        if (joinProject.includes(projectName)) {
+        if (joinProject.some(project => project.project_name === projectName)) {
           setJoined(true);
         } else {
           setJoined(false);

@@ -1,14 +1,14 @@
 import React from 'react'
 import './Profile.css'
 
-function ParticipationTile() {
+function ParticipationTile({ projectName, rank }) {
   return (
     <div className='participation-wrapper'>
       <div className='participation-name'>
-        <p>CIFAR-10</p>
+        <p>{projectName}</p>
       </div>
       <div className='participation-rank'>
-        <p>1</p>
+        <p>{String(rank)}</p>
       </div>
     </div>
   )

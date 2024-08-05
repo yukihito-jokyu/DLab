@@ -1,9 +1,15 @@
 import React from 'react';
 import '../css/UserIcon.css'
+import { useNavigate } from 'react-router-dom';
 
 function UserIcon() {
+  const userId = JSON.parse(sessionStorage.getItem('userId'));
+  const navigate = useNavigate();
+  const handleNav = () => {
+    navigate(`/profile/${userId}`);
+  }
   return (
-    <div className='user-icon-wrapper'>
+    <div className='user-icon-wrapper' onClick={handleNav}>
       <div className='user-icon'></div>
     </div>
   )

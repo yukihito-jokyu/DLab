@@ -1,6 +1,6 @@
 import { signInWithPopup } from "firebase/auth";
 import { auth, db, provider } from "../firebase";
-import { arrayUnion, collection, doc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { arrayRemove, arrayUnion, collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { v4 as uuidv4 } from 'uuid';
 
 // googleアカウントでサインイン
@@ -36,10 +36,12 @@ const initUsers = async () => {
   const user_id = uuidv4();
   const mail_address = auth.currentUser.email;
   const user_name = user_id;
+  const date = serverTimestamp();
   const userData = {
     mail_address: mail_address,
     user_id: user_id,
     user_name: user_name,
+    registration_date: date,
     favorite_user: [],
     join_project: []
   };
@@ -95,10 +97,14 @@ const getJoinProject = async (userId) => {
 const updateJoinProject = async (userId, projectName) => {
   const q = query(collection(db, "users"), where("user_id", "==", userId));
   const querySnapshot = await getDocs(q);
+  const data = {
+    'project_name': projectName,
+    'rank': NaN
+  }
   if (!querySnapshot.empty) {
     const doc = querySnapshot.docs[0]
     await updateDoc(doc.ref, {
-      join_project: arrayUnion(projectName)
+      join_project: arrayUnion(data)
     });
   }
 };
@@ -123,6 +129,42 @@ const getFavoriteUser = async (userId) => {
   } else {
     return []
   }
+};
+
+// お気に入り登録
+const addFavorite = async (userId, favoriteUserId) => {
+  const q = query(collection(db, "users"), where("user_id", "==", userId));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    const doc = querySnapshot.docs[0]
+    await updateDoc(doc.ref, {
+      favorite_user: arrayUnion(favoriteUserId)
+    });
+  }
+};
+
+// お気に入り登録の解除
+const removeFavorite = async (userId, favoriteUserId) => {
+  const q = query(collection(db, "users"), where("user_id", "==", userId));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    const doc = querySnapshot.docs[0]
+    await updateDoc(doc.ref, {
+      favorite_user: arrayRemove(favoriteUserId)
+    });
+  }
+};
+
+// 登録日の取得
+const getRegistrationDate = async (userId) => {
+  const q = query(collection(db, 'users'), where('user_id', '==', userId));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    return querySnapshot.docs[0].data().registration_date;
+  } else {
+    return null
+  }
 }
 
-export { signInWithGoogle, registName, handlSignOut, getUserId, getJoinProject, updateJoinProject, getUserName, getFavoriteUser }
+
+export { signInWithGoogle, registName, handlSignOut, getUserId, getJoinProject, updateJoinProject, getUserName, getFavoriteUser, addFavorite, removeFavorite, getRegistrationDate }
