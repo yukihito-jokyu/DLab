@@ -5,29 +5,29 @@ import { ReactComponent as SendIcon } from '../../assets/svg/send.svg';
 import DiscussionComment from './DiscussionComment';
 import { addDiscussionComment, getDiscussionComment, getDiscussionTitle } from '../../db/function/discussion';
 import { getUserName } from '../../db/function/users';
+import { useParams } from 'react-router-dom';
 
 function DiscussionInfo({ handleInfo, discussionId }) {
+  const { projectName } = useParams()
   const [comment, setComment] = useState('');
   const [title, setTitle] = useState('');
   const [reportInfo, setReportInfo] = useState([])
   const [push, setPush] = useState(false);
   useEffect(() => {
     const getDiscussion = async () => {
-      const projectId = JSON.parse(sessionStorage.getItem('projectId'));
-      const reportInfo = await getDiscussionComment(projectId, discussionId);
-      const title = await getDiscussionTitle(projectId, discussionId);
+      const reportInfo = await getDiscussionComment(projectName, discussionId);
+      const title = await getDiscussionTitle(projectName, discussionId);
       setTitle(title)
       setReportInfo(reportInfo);
     };
 
     getDiscussion();
 
-  }, [discussionId, push]);
+  }, [discussionId, push, projectName]);
   const handlePosetComment = async () => {
-    const projectId = JSON.parse(sessionStorage.getItem('projectId'));
     const userId = JSON.parse(sessionStorage.getItem('userId'));
     const userName = await getUserName(userId);
-    await addDiscussionComment(projectId, discussionId, comment, userId, userName);
+    await addDiscussionComment(projectName, discussionId, comment, userId, userName);
     setComment('');
     setPush(!push);
   }

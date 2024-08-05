@@ -4,7 +4,7 @@ import ModelFieldHeader from './ModelFieldHeader';
 import ModelTile from './ModelTile';
 import ModelCreateButton from './ModelCreateButton';
 import DLButton from './DLButton';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { deleteModels } from '../../db/function/model_management';
 import ModelCreateField from './ModelCreateField';
 import AlertModal from '../utils/AlertModal';
@@ -18,17 +18,18 @@ function ModelField() {
   const [modelDeleteModal, setModelDeleteModal] = useState(false);
   const [create, setCreate] = useState(false);
   const userId = JSON.parse(sessionStorage.getItem('userId'));
-  const projectId = JSON.parse(sessionStorage.getItem('projectId'));
+  const { projectName } = useParams();
+  // console.log(projectName)
   useEffect(() => {
     const fetchProjects = async () => {
-      const dataList = await getModelId(userId, projectId);
+      const dataList = await getModelId(userId, projectName);
       if (dataList !== null) {
         const modelsWithCheckbox = dataList.map(model => ({ ...model, isChecked: false }));
         setModels(modelsWithCheckbox);
       };
     };
     fetchProjects();
-  }, [create, userId, projectId]);
+  }, [create, userId, projectName]);
 
   // 照準降順並び替え
   const accuracySort = (isAscending) => {
@@ -80,7 +81,7 @@ function ModelField() {
       .map(item => item.model_id);
     const sentData = {
       user_id: userId,
-      Project_name: projectId,
+      Project_name: projectName,
       model_id_list: modelIdList
     }
     const response = await fetch('http://127.0.0.1:5000/del_dir/model', {
@@ -111,7 +112,7 @@ function ModelField() {
         .map(item => item.model_id);
       const sentData = {
         user_id: userId,
-        Project_name: projectId,
+        Project_name: projectName,
         model_id_list: modelIdList
       }
       const response = await fetch('http://127.0.0.1:5000/download_zip', {

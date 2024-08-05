@@ -4,6 +4,7 @@ import { ReactComponent as SearchIcon } from '../../assets/svg/search_24.svg';
 import ReaderBoard from './ReaderBoard';
 import { getReaderBoardInfo } from '../../db/function/reader_bord';
 import { getFavoriteUser } from '../../db/function/users';
+import { useParams } from 'react-router-dom';
 
 function ProjectReaderBoard() {
   const [readerBoard, setReaderBoard] = useState([]);
@@ -11,10 +12,10 @@ function ProjectReaderBoard() {
   const [favoriteUser, setFavoriteUser] = useState([]);
   const targetRef = useRef(null);
   const userId = JSON.parse(sessionStorage.getItem('userId'));
+  const { projectName } = useParams()
   useEffect(() => {
     const fetchReaderBoard = async () => {
-      const projectId = JSON.parse(sessionStorage.getItem('projectId'));
-      const readerBoardData = await getReaderBoardInfo(projectId);
+      const readerBoardData = await getReaderBoardInfo(projectName);
       const favoriteUser = await getFavoriteUser(userId);
       setReaderBoard(readerBoardData);
       setFavoriteUser(favoriteUser);
@@ -22,7 +23,7 @@ function ProjectReaderBoard() {
 
     fetchReaderBoard();
 
-  }, [userId]);
+  }, [userId, projectName]);
 
   const handleScroll = () => {
     // targetRef.currentが存在する場合にスクロール

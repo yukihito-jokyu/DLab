@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import './ModelManegementEvaluation.css';
 import { ReactComponent as PictureIcon } from '../../assets/svg/graph_24.svg'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkBoxChange  }) {
+  const { projectName } = useParams()
   const [isPicture, setIsPicture] = useState(false);
   const navigate = useNavigate();
   const formatTimestamp = (timestamp) => {
@@ -18,7 +19,7 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   };
   const handleNav = () => {
     sessionStorage.setItem('modelId', JSON.stringify(modelId));
-    navigate('/ModelCreateTrain');
+    navigate(`/ModelCreateTrain/${projectName}/${modelId}`);
   };
   return (
     <div className='model-tile-wrapper'>

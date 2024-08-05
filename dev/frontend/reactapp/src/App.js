@@ -190,14 +190,14 @@ function App() {
             <Route key={index} path={'/Reinforcement/Flappybird' + id} element={<Flappybird id={id} />} />
           ))}
           <Route path='/top' element={<Top />} />
-          <Route path="/ImageClassificationProjectList" element={<ImageClassificationProjectList />} />
-          <Route path="/ModelManegementEvaluation" element={<ModelManegementEvaluation />} />
-          <Route path="/ModelCreateTrain" element={<ModelCreateTrain />} />
+          <Route path="/ImageClassificationProjectList/:userId" element={<ImageClassificationProjectList />} />
+          <Route path="/ModelManegementEvaluation/:userId/:projectName" element={<ModelManegementEvaluation />} />
+          <Route path="/ModelCreateTrain/:projectName/:modelId" element={<ModelCreateTrain />} />
           <Route path="/RLProjectList" element={<RLProjectList />} />
           <Route path="/testfirebase" element={<TestFirebase />} />
           <Route path="/testdjango" element={<DjangoTest />} />
           <Route path='/projectshare' element={<ProjectShare />} />
-          <Route path='/community' element={<Community />} />
+          <Route path='/community/:projectName' element={<Community />} />
           <Route path='/profile' element={<Profile />} />
           <Route path="*" element={<Navigate to="/top" replace />} />
         </Routes>

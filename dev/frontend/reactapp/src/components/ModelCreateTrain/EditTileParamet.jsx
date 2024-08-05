@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import './EditTileParamet.css';
 import { getOriginShape } from '../../db/function/model_structure';
+import { useParams } from 'react-router-dom';
 
 function EditTileParamet({ name, value, handleChangeParameter }) {
   // console.log(typeof(value))
   const [selectedValue, setSelectedValue] = useState('');
   const [floatValue, setFloatValue] = useState('');
   const [originShape, setOriginShape] = useState('');
+  const { modelId } = useParams();
   // モデルのオリジン画像サイズを取得
   useEffect(() => {
     const fatchOriginImageShape = async () => {
-      const modelId = JSON.parse(sessionStorage.getItem('modelId'));
+      
       const shape = await getOriginShape(modelId);
       // console.log(typeof(shape))
       setOriginShape(shape);
       // setOriginShape('5');
     };
     fatchOriginImageShape();
-  }, []);
+  }, [modelId]);
   useEffect(() => {
     const initValue = () => {
       if (typeof(value) === 'number') {

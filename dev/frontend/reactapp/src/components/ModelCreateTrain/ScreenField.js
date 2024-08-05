@@ -7,6 +7,7 @@ import TrainLogField from './TrainLogField';
 import MiddleLayer from '../Image/MiddleLayer';
 import TrainModal from './TrainModal';
 import { getModelStructure, getTrainInfo, updateStructure, updateTrainInfo } from '../../db/function/model_structure';
+import { useParams } from 'react-router-dom';
 
 function ScreenField({ edit, train, changeTrain }) {
   const [parameter, setParameter] = useState(null);
@@ -25,8 +26,7 @@ function ScreenField({ edit, train, changeTrain }) {
   const [middleShape, setMiddleShape] = useState([]);
   const [outputShape, setOutputShape] = useState([]);
   const [trainInfo, setTrainInfo] = useState(null);
-  const modelId = JSON.parse(sessionStorage.getItem('modelId'));
-  const projectId = JSON.parse(sessionStorage.getItem('projectId'));
+  const { projectName, modelId } = useParams()
   
   // モデルの構造データ取得
   useEffect(() => {
@@ -63,7 +63,7 @@ function ScreenField({ edit, train, changeTrain }) {
     // 形状の計算
     const shapeUpdate = () => {
       if (inputLayer.shape) {
-        if (projectId === 'CartPole') {
+        if (projectName === 'CartPole') {
           let N = inputLayer.shape;
           setInputShape([N])
           const newMiddleShape = []
@@ -142,14 +142,14 @@ function ScreenField({ edit, train, changeTrain }) {
       }
     }
     shapeUpdate();
-  }, [projectId, inputLayer, convLayer, flattenWay, middleLayer, outputLayer])
+  }, [projectName, inputLayer, convLayer, flattenWay, middleLayer, outputLayer])
 
   // パラメータやタイルの位置の変更があったらfirebaseに保存する。
   useEffect(() => {
     const saveStructure = () => {
       // console.log(inputLayer)
       let structure = {}
-      if (projectId === 'CartPole') {
+      if (projectName === 'CartPole') {
         structure = {
           input_layer: inputLayer,
           middle_layer: middleLayer,
@@ -169,7 +169,7 @@ function ScreenField({ edit, train, changeTrain }) {
     };
     
     saveStructure();
-  }, [projectId, modelId, inputLayer, convLayer, flattenWay, middleLayer, outputLayer]);
+  }, [projectName, modelId, inputLayer, convLayer, flattenWay, middleLayer, outputLayer]);
   return (
     <div className='screen-field-wrapper'>
       <div className='left-screen'>

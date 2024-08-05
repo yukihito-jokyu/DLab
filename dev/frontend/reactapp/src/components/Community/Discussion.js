@@ -4,15 +4,16 @@ import { ReactComponent as DeletIcon } from '../../assets/svg/delet_40.svg';
 import './Community.css';
 import { getUserName } from '../../db/function/users';
 import { postArticle } from '../../db/function/discussion';
+import { useParams } from 'react-router-dom';
 
 function Discussion({ handleEdit }) {
+  const { projectName } = useParams()
   const [title, setTitle] = useState('');
   const [comment, setComment] = useState('');
   const handlePost = async () => {
-    const projectId = JSON.parse(sessionStorage.getItem('projectId'));
     const userId = JSON.parse(sessionStorage.getItem('userId'));
     const userName = await getUserName(userId);
-    await postArticle(projectId, userId, userName, title, comment);
+    await postArticle(projectName, userId, userName, title, comment);
     handleEdit();
   };
   return (

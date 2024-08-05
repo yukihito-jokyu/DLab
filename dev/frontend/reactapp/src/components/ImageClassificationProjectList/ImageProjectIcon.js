@@ -6,12 +6,13 @@ import { UserInfoContext } from '../../App'
 import { useNavigate } from 'react-router-dom'
 
 function ImageProjectIcon({ projectName }) {
-  const { setProjectId } = useContext(UserInfoContext);
+  // const { setProjectId } = useContext(UserInfoContext);
+  const userId = JSON.parse(sessionStorage.getItem('userId'));
   const navigate = useNavigate();
   const handleNav = (projectName) => {
-    setProjectId(projectName);
+    // setProjectId(projectName);
     sessionStorage.setItem('projectId', JSON.stringify(projectName));
-    navigate('/ModelManegementEvaluation');
+    navigate(`/ModelManegementEvaluation/${userId}/${projectName}`);
   }
   const style1 = {
     width: '150px',

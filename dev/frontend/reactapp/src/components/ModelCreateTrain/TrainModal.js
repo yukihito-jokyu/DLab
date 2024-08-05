@@ -5,11 +5,11 @@ import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
 import { socket } from '../../socket/socket';
 import { getModelStructure, getTrainInfo } from '../../db/function/model_structure';
+import { useParams } from 'react-router-dom';
 
 function TrainModal({ changeTrain, flattenShape }) {
   const userId = JSON.parse(sessionStorage.getItem('userId'));
-  const projectId = JSON.parse(sessionStorage.getItem('projectId'));
-  const modelId = JSON.parse(sessionStorage.getItem('modelId'));
+  const { projectName, modelId} = useParams()
   
   const [train, setTrain] = useState(false);
   const text = '学習用ファイルを作成してください'
@@ -25,7 +25,7 @@ function TrainModal({ changeTrain, flattenShape }) {
     const structure = await getModelStructure(modelId);
     const sentData = {
       user_id: userId,
-      project_name: projectId,
+      project_name: projectName,
       model_id: modelId,
       structure: structure,
       flattenshape: flattenShape
@@ -46,7 +46,7 @@ function TrainModal({ changeTrain, flattenShape }) {
       const trainInfo = await getTrainInfo(modelId)
       const sentData = {
         user_id: userId,
-        project_name: projectId,
+        project_name: projectName,
         model_id: modelId,
         Train_info: trainInfo
       }

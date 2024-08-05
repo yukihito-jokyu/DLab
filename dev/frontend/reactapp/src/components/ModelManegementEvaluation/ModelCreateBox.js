@@ -5,19 +5,20 @@ import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
 import { v4 as uuidv4 } from 'uuid';
 import { initModel } from '../../db/function/model_management';
+import { useParams } from 'react-router-dom';
 
 function ModelCreateBox({ handleCreateModal }) {
+  const { projectName } = useParams()
   const [modelName, setModelName] = useState("model_name");
   const text1 = 'Model Name';
   // モデルの作成
   const handleMakeModel = async () => {
     const userId = JSON.parse(sessionStorage.getItem('userId'));
-    const projectId = JSON.parse(sessionStorage.getItem('projectId'));
     const modelId = uuidv4();
-    await initModel(userId, projectId, modelId, modelName);
+    await initModel(userId, projectName, modelId, modelName);
     const sentData = {
       "user_id": userId,
-      "project_name": projectId,
+      "project_name": projectName,
       "model_id": modelId
     }
     const response = await fetch('http://127.0.0.1:5000/mkdir/model', {
