@@ -28,7 +28,7 @@ function NuronTile({ shape }) {
       {errorTile && <div className='error-wrapper'></div>}
       <div className='nuron-tile'>
         <div className='tile-title-wrapper'>
-          <p className='tile-title'>Nuron</p>
+          <p className='tile-title'>Linear</p>
         </div>
         <div className='output-dim-wrapper'>
           <p>{shapeText}</p>

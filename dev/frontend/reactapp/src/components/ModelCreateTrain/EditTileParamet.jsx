@@ -53,10 +53,22 @@ function EditTileParamet({ name, value, handleChangeParameter }) {
     setSelectedValue(e.target.value);
     handleChangeParameter(name, e.target.value);
   };
+  const paramName = {
+    'change_shape': '入力サイズ',
+    'preprocessing': '前処理',
+    'activation_function': '活性化関数',
+    'kernel_size': 'カーネルサイズ',
+    'out_channel': '出力チャンネル数',
+    'padding': 'パディング',
+    'strid': 'ストライド',
+    'dropout_p': 'ドロップアウト率',
+    'way': 'ベクトル化手法',
+    'neuron_size': 'ニューロン数'
+  }
   return (
     <div className='edit-tile-paramet-wrapper'>
       <div className='edit-tile-name-wrapper'>
-        <p>{name}</p>
+        <p>{paramName[name]}</p>
       </div>
       <div className='edit-tile-value-wrapper'>
         {name === 'activation_function' ? (

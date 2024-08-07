@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import ParticipationTile from './ParticipationTile';
-import { useParams } from 'react-router-dom';
-import { addFavorite, getFavoriteUser, getJoinProject, getRegistrationDate, getUserName, removeFavorite } from '../../db/function/users';
+import { useNavigate, useParams } from 'react-router-dom';
+import { addFavorite, getFavoriteUser, getJoinProject, getRegistrationDate, getUserName, handlSignOut, removeFavorite } from '../../db/function/users';
 import './Profile.css';
 import { ReactComponent as CheckSVG } from '../../assets/svg/check_24.svg'; 
+import GradationButton from '../../uiParts/component/GradationButton';
 
 function ProfileField() {
   const { profileUserId } = useParams();
@@ -13,6 +14,7 @@ function ProfileField() {
   const [otherProfile, setOtherProfile] = useState();
   const [favoriteUser, setFavaoriteUser] = useState();
   const [registrationDate, setRegistrationDate] = useState();
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchFirebase = async () => {
       const name = await getUserName(profileUserId);
@@ -49,6 +51,11 @@ function ProfileField() {
       await addFavorite(userId, profileUserId);
       setFavaoriteUser(!favoriteUser);
     }
+  }
+
+  const handleNav = () => {
+    handlSignOut();
+    navigate('/top');
   }
   return (
     <div className='profile-field-wrapper'>
@@ -94,6 +101,15 @@ function ProfileField() {
           ) : (
             <p>★</p>
           )}
+        </div>
+      ) : (
+        <></>
+      )}
+      {!otherProfile ? (
+        <div className='logout-wrapper'>
+          <div onClick={handleNav}>
+            <GradationButton text={'LOGOUT'} />
+          </div>
         </div>
       ) : (
         <></>

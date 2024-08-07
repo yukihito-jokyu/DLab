@@ -172,6 +172,7 @@ function ModelField() {
                 isChecked={model.isChecked}
                 modelId={model.id}
                 checkBoxChange={handleCheckboxChange}
+                status={model.status}
               />
             </div>
           ))

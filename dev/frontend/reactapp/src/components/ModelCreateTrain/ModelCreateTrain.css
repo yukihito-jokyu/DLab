@@ -119,7 +119,7 @@
 
 .delete-tile {
   position: absolute;
-  z-index: 0;
+  z-index: 3;
   height: 80px;
   width: 120px;
   /* background-color: black; */
@@ -327,6 +327,31 @@
   margin-left: 60px;
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.change-button-wrapper {
+  display: flex;
+  font-size: 30px;
+  font-weight: 600;
+  color: #828282;
+}
+
+.change-button-wrapper .left-button {
+  width: 250px;
+  margin-left: 20px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  padding-left: 220px;
+}
+
+.change-button-wrapper .right-button {
+  width: 250px;
+  margin-left: 60px;
+  display: flex;
+  /* padding-left: -10px; */
+  /* justify-content: center; */
   align-items: center;
 }
 

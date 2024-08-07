@@ -28,7 +28,6 @@ function ModelCreateBox({ handleCreateModal }) {
       },
       body: JSON.stringify(sentData),
     });
-    console.log(response)
     handleCreateModal();
   };
   const style = {

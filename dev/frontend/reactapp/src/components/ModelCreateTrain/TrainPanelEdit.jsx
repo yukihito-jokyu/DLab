@@ -63,11 +63,18 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter }) {
     setSelectedValue(e.target.value);
     handleChangeParameter(parameter, e.target.value);
   };
+  const paramName = {
+    'batch': 'バッチサイズ',
+    'epoch': '学習回数',
+    'learning_rate': '学習率',
+    'optimizer': '最適化手法',
+    'test_size': '検証データの割合'
+  }
   return (
     <>
     {parameter !== 'image_shape' ? (<div className='train-panel-edit-wrapper'>
       <div className='train-panel-name-wrapper'>
-        <p>{parameter}</p>
+        <p>{paramName[parameter]}</p>
       </div>
       <div className='train-panel-value-wrapper'>
         {parameter === 'loss' ? (
