@@ -1,5 +1,6 @@
 from train.train_cartpole import train_cartpole
 from train.train_image_classification import train_model
+from utils.db_manage import update_status
 
 def setup_sockets(socketio):
     @socketio.on('connect')
@@ -19,5 +20,7 @@ def setup_sockets(socketio):
     def train(datas):
         print(datas)
         model_id = datas['model_id']
-        train_model(datas)
+        update_status(model_id, 'doing')
+        accuracy, loss = train_model(datas)
+        update_status(model_id, 'done')
         socketio.emit('image_train_end'+model_id, {'message': 'train end'})
