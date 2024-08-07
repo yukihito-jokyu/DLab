@@ -6,25 +6,24 @@ import { useNavigate } from 'react-router-dom';
 import { getJoinProject } from '../../db/function/users';
 
 function ProjectActivate({ projectName, shortExp, changeJoinModal }) {
-  const projectId = JSON.parse(sessionStorage.getItem('projectId'));
   const userId = JSON.parse(sessionStorage.getItem('userId'));
   const [joined, setJoined] = useState(false);
   useEffect(() => {
     const fetchJoinProject = async () => {
       const joinProject = await getJoinProject(userId);
       if (joinProject) {
-        if (joinProject.includes(projectId)) {
+        if (joinProject.some(project => project.project_name === projectName)) {
           setJoined(true);
         } else {
           setJoined(false);
         }
       }
-      if (projectId === 'CartPole' || projectId === 'FlappyBird') {
+      if (projectName === 'CartPole' || projectName === 'FlappyBird') {
         setJoined(true);
       }
     };
     fetchJoinProject();
-  }, [userId, projectId]);
+  }, [userId, projectName]);
   const style1 = {
     width: '200px',
     background: 'linear-gradient(95.34deg, #B6F862 3.35%, #00957A 100%), linear-gradient(94.22deg, #D997FF 0.86%, #50BCFF 105.96%)'
@@ -32,15 +31,15 @@ function ProjectActivate({ projectName, shortExp, changeJoinModal }) {
   const navigate = useNavigate();
   
   const handleActivate = () => {
-    sessionStorage.setItem('projectId', JSON.stringify(projectId));
-    navigate('/ModelManegementEvaluation');
+    sessionStorage.setItem('projectId', JSON.stringify(projectName));
+    navigate(`/ModelManegementEvaluation/${userId}/${projectName}`);
   }
   return (
     <div className='project-activate-wrapper'>
       <div className='activate-left'>
         {projectName ? (
           <div className='activate-info-field'>
-            <p className='activate-project-title'>{projectId}</p>
+            <p className='activate-project-title'>{projectName}</p>
             <p dangerouslySetInnerHTML={{ __html: shortExp }} className='activate-project-info'></p>
           </div>
         ) : (<></>)}

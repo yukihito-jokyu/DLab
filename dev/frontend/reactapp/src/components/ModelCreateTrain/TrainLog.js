@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './TrainLog.css';
 import TrainPanelTital from './TrainPanelTital';
 import { socket } from '../../socket/socket';
+import { useParams } from 'react-router-dom';
 
 function TrainLog() {
   const [log, setLog] = useState('');
-  const modelId = JSON.parse(sessionStorage.getItem('modelId'));
+  const { modelId } = useParams();
   // socket通信にて
   useEffect(() => {
     const handleTrainResults = (response) => {

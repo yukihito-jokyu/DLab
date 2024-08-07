@@ -81,10 +81,10 @@ function ProjectShare() {
           </div>
         ))
       ) : (image && imageProjects && joinProject) ? (
-        Object.values(joinProjectList).sort().map((key) => (
+        joinProjectList.sort().map((value, index) => (
           // console.log(key)
-          <div key={key}>
-            <ProjectTile title={key} info={imageProjects[key].toString()} style1={styleImage} />
+          <div key={index}>
+            <ProjectTile title={value.project_name} info={imageProjects[value.project_name].toString()} style1={styleImage} />
           </div>
         ))
       ) : (<></>)}

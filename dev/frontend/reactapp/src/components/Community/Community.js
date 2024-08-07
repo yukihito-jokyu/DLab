@@ -12,12 +12,12 @@ import Discussion from './Discussion';
 import DiscussionInfo from './DiscussionInfo';
 import ProjectReaderBoard from './ProjectReaderBoard';
 import AlertModal from '../utils/AlertModal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getProjectDetailedInfo } from '../../db/function/project_info';
 import { updateJoinProject } from '../../db/function/users';
 
 function Community() {
-  const projectId = JSON.parse(sessionStorage.getItem('projectId'));
+  const { projectName } = useParams();
   const userId = JSON.parse(sessionStorage.getItem('userId'));
   const [overview, setOverview] = useState(true);
   const [preview, setPreview] = useState(false);
@@ -61,7 +61,7 @@ function Community() {
     readerBoard
   };
 
-  const [projectName, setProjectName] = useState('');
+  // const [projectName, setProjectName] = useState('');
   const [shortExp, setShortExp] = useState('');
   const [source, setSource] = useState('');
   const [sourceLink, setSourceLink] = useState('');
@@ -78,10 +78,10 @@ function Community() {
   const navigate = useNavigate();
   // プロジェクト参加関数
   const handleNav = async () => {
-    await updateJoinProject(userId, projectId);
+    await updateJoinProject(userId, projectName);
     const sentData = {
       "user_id": userId,
-      "project_name": projectId
+      "project_name": projectName
     }
     const response = await fetch('http://127.0.0.1:5000/mkdir/project', {
       method: 'POST',
@@ -98,10 +98,9 @@ function Community() {
   // ページに訪れた時にproject_infoから情報を抜き取る
   useEffect(() => {
     const fatchProjects = async () => {
-      const projectId = JSON.parse(sessionStorage.getItem('projectId'));
-      const projectsInfo = await getProjectDetailedInfo(projectId);
+      const projectsInfo = await getProjectDetailedInfo(projectName);
       if (projectsInfo) {
-        setProjectName(projectsInfo.name);
+        // setProjectName(projectsInfo.name);
         setShortExp(projectsInfo.short_explanation);
         setSource(projectsInfo.source);
         setSourceLink(projectsInfo.source_link);
@@ -110,7 +109,7 @@ function Community() {
       }
     };
     fatchProjects();
-  }, []);
+  }, [projectName]);
 
   // 記事のid
   const [reportInfo, setReportInfo] = useState('');

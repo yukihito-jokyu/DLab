@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import '../css/ProjectModelName.css';
 import { UserInfoContext } from '../../App';
+import { useParams } from 'react-router-dom';
 
 function ProjectModelName() {
-  // const { projectId } = useContext(UserInfoContext);
-  const projectId = JSON.parse(sessionStorage.getItem('projectId'));
+  const { projectName } = useParams()
   return (
     <div className='project-model-name-wrapper'>
-      <p>{projectId} - モデル選択</p>
+      <p>{projectName} - モデル選択</p>
     </div>
   )
 }

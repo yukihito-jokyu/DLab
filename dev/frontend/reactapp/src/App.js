@@ -190,44 +190,18 @@ function App() {
             <Route key={index} path={'/Reinforcement/Flappybird' + id} element={<Flappybird id={id} />} />
           ))}
           <Route path='/top' element={<Top />} />
-          <Route path="/ImageClassificationProjectList" element={<ImageClassificationProjectList />} />
-          <Route path="/ModelManegementEvaluation" element={<ModelManegementEvaluation />} />
-          <Route path="/ModelCreateTrain" element={<ModelCreateTrain />} />
+          <Route path="/ImageClassificationProjectList/:userId" element={<ImageClassificationProjectList />} />
+          <Route path="/ModelManegementEvaluation/:userId/:projectName" element={<ModelManegementEvaluation />} />
+          <Route path="/ModelCreateTrain/:projectName/:modelId" element={<ModelCreateTrain />} />
           <Route path="/RLProjectList" element={<RLProjectList />} />
           <Route path="/testfirebase" element={<TestFirebase />} />
           <Route path="/testdjango" element={<DjangoTest />} />
           <Route path='/projectshare' element={<ProjectShare />} />
-          <Route path='/community' element={<Community />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path='/community/:projectName' element={<Community />} />
+          <Route path='/profile/:profileUserId' element={<Profile />} />
           <Route path="*" element={<Navigate to="/top" replace />} />
         </Routes>
       </Router>
-
-      {/* <div>-</div>
-      <button onClick={handlClick}>+</button>
-      <p>{count}</p>
-      <h1>useContext</h1>
-      <h1>useRef</h1>
-      <input type='text' ref={ref} />
-      <button onClick={handlRef}>sent</button>
-      <h1>CSVファイル読み込み</h1>
-      <CSVUploader onCSVUpload={handleCSVUpload} /> */}
-      {/* <h1>クリックと同時に要素追加</h1>
-      <button onClick={getStructure}>要素を取得</button>
-      <Layer />
-      <h1>学習の手段</h1>
-      <DQNTrainInfo /> */}
-      {/* <div>
-        <button onClick={handleSocket}>データ処理を開始</button>
-        <p>進歩：{progress}</p>
-        <p>受信データ：{data}</p>
-      </div>
-      <div>
-        <button onClick={handldisconnect}>Socket切断</button>
-      </div> */}
-      {/* <CartPoleFrame />
-      <FlappyBird />
-      <Dnd /> */}
     </UserInfoContext.Provider>
   );
 }

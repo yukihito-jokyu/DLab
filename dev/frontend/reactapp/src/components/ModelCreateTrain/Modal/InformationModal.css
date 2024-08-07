@@ -1,0 +1,29 @@
+.information-modal-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(249.81deg, rgba(0, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 35%, rgba(146, 229, 255, 0) 66%, rgba(0, 240, 255, 0.4) 100%), radial-gradient(98.31% 179.05% at 0% 3.12%, #E18FFF 2.5%, #C190FF 21%, #3491FF 53%, #8690FF 78.5%, #E18FFF 100%), #FFFFFF;
+  opacity: 0.3;
+  z-index: 100;
+}
+
+.exp-field {
+  margin: 10px;
+  margin-top: 20px;
+  margin-left: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+  width: 710px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.exp-field p {
+  text-align: center;
+  color: #676767;
+  font-size: 25px;
+  font-weight: 600;
+}

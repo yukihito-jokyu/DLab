@@ -4,20 +4,21 @@ import './Community.css';
 import { ReactComponent as EditIcon } from '../../assets/svg/edit.svg';
 import { ReactComponent as SearchIcon } from '../../assets/svg/search_24.svg'
 import { getDiscussionInfos } from '../../db/function/discussion';
+import { useParams } from 'react-router-dom';
 
 function ProjectDiscussion({ handleEdit, handleInfo, setReportInfo, setDiscussionId }) {
+  const { projectName } = useParams()
   const [inputValue, setInputValue] = useState('');
   const [discussions, setDiscussions] = useState([]);
   useEffect(() => {
     const fetchDiscussion = async () => {
-      const projectId = JSON.parse(sessionStorage.getItem('projectId'));
-      const discussionInfo = await getDiscussionInfos(projectId);
+      const discussionInfo = await getDiscussionInfos(projectName);
       setDiscussions(discussionInfo);
     };
 
     fetchDiscussion();
 
-  }, []);
+  }, [projectName]);
 
   const handleClick = (reportInfo, discussionId) => {
     handleInfo();

@@ -10,7 +10,7 @@ function ProjectTile({ title, info, style1, style2 }) {
   const handleNav = () => {
     setProjectId(title);
     sessionStorage.setItem('projectId', JSON.stringify(title));
-    navigate('/community');
+    navigate(`/community/${title}`);
   }
   
   return (

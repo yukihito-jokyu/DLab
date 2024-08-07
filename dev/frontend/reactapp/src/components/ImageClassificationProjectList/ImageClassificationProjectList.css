@@ -91,10 +91,25 @@
 
 .big-image {
   margin-left: 5px;
+  
 }
 
 .small-image {
   margin-left: 10px;
+}
+
+.image1 {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.image2 {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .is-first {

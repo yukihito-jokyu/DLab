@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { signInWithGoogle } from '../../db/function/users';
 
 function ProjectRecommend({ setFirstSignIn }) {
+  const userId = JSON.parse(sessionStorage.getItem('userId'));
   const [height, setHeight] = useState(0);
   useEffect(() => {
     const calculateHeight = () => {
@@ -36,7 +37,7 @@ function ProjectRecommend({ setFirstSignIn }) {
   const navigate = useNavigate();
   const handleICSignIn = () => {
     if (user) {
-      navigate('/ImageClassificationProjectList');
+      navigate(`/ImageClassificationProjectList/${userId}`);
     } else {
       signInWithGoogle(setFirstSignIn);
       
@@ -44,7 +45,7 @@ function ProjectRecommend({ setFirstSignIn }) {
   };
   const handleRLSignIn = () => {
     if (user) {
-      navigate('/RLProjectList');
+      navigate(`/RLProjectLis/${userId}`);
     } else {
       signInWithGoogle(setFirstSignIn);
     }

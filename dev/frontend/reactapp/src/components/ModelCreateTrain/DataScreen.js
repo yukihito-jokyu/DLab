@@ -22,6 +22,14 @@ function DataScreen() {
           <p>After</p>
         </div>
       </div>
+      <div className='change-button-wrapper'>
+        <div className='left-button'>
+          <p>◀</p>
+        </div>
+        <div className='right-button'>
+          <p>▶</p>
+        </div>
+      </div>
     </div>
   )
 }
