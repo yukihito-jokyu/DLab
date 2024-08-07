@@ -4,6 +4,9 @@ import ImageProjectImages from './ImageProjectImages'
 import { ReactComponent as EditSVG } from '../../assets/svg/edit.svg' 
 import { UserInfoContext } from '../../App'
 import { useNavigate } from 'react-router-dom'
+import CIFAR10Image1 from '../../assets/images/project_image/CIFAR10/CIFAR10_image1.png';
+import CIFAR10Image2 from '../../assets/images/project_image/CIFAR10/CIFAR10_image2.png';
+import CIFAR10Image3 from '../../assets/images/project_image/CIFAR10/CIFAR10_image3.png';
 
 function ImageProjectIcon({ projectName }) {
   // const { setProjectId } = useContext(UserInfoContext);
@@ -38,18 +41,18 @@ function ImageProjectIcon({ projectName }) {
       <div className='projectimages-wrapper'>
         <div className='big-image'>
           <div style={style1}>
-            写真
+            <img src={CIFAR10Image1} alt='cifar10' className='image1' />
           </div>
         </div>
         <div className='small-image'>
           <div className='is-first'>
             <div style={style2}>
-              写真
+              <img src={CIFAR10Image2} alt='cifar10' className='image2' />
             </div>
           </div>
           <div>
             <div style={style2}>
-              写真
+              <img src={CIFAR10Image3} alt='cifar10' className='image2' />
             </div>
           </div>
         </div>

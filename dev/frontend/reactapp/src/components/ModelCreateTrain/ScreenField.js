@@ -8,6 +8,7 @@ import MiddleLayer from '../Image/MiddleLayer';
 import TrainModal from './TrainModal';
 import { getModelStructure, getTrainInfo, updateStructure, updateTrainInfo } from '../../db/function/model_structure';
 import { useParams } from 'react-router-dom';
+import InformationModal from './Modal/InformationModal';
 
 function ScreenField({ edit, train, changeTrain }) {
   const [parameter, setParameter] = useState(null);
@@ -26,7 +27,9 @@ function ScreenField({ edit, train, changeTrain }) {
   const [middleShape, setMiddleShape] = useState([]);
   const [outputShape, setOutputShape] = useState([]);
   const [trainInfo, setTrainInfo] = useState(null);
-  const { projectName, modelId } = useParams()
+  const [infoModal, setInfoModal] = useState(false);
+  const [infoName, setInfoName] = useState();
+  const { projectName, modelId } = useParams();
   
   // モデルの構造データ取得
   useEffect(() => {
@@ -216,11 +219,16 @@ function ScreenField({ edit, train, changeTrain }) {
             setFlattenWay={setFlattenWay}
             setMiddleLayer={setMiddleLayer}
             setParam={setParam}
+            setInfoModal={setInfoModal}
+            setInfoName={setInfoName}
           />
         </div>
       </div>
       {train && (
         <TrainModal changeTrain={changeTrain} flattenShape={flattenShape} />
+      )}
+      {infoModal && (
+        <InformationModal infoName={infoName} handleDelete={setInfoModal} />
       )}
     </div>
   )

@@ -106,6 +106,7 @@
 .tile-add-button {
   width: 30px;
   height: 30px;
+  cursor: pointer;
   fill: #D57CDD;
   visibility: hidden;
   opacity: 0;
@@ -369,6 +370,43 @@
   text-align: center;
   padding-top: 20px;
   overflow: auto;
+}
+
+.edit-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-wrapper .edit-field {
+  display: flex;
+}
+
+.param-information-button {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-wrapper {
+  width: 24px;
+  height: 24px;
+  fill: #3FA6ED;
+  cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
+}
+
+.param-information-button:hover .button-wrapper {
+  visibility: visible;
+  opacity: 1;
+}
+
+.info-icon {
+  fill: #86cdfd;
 }
 
 /* ErrorModal */

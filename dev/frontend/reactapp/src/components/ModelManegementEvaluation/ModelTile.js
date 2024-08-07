@@ -50,7 +50,7 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   const TextDisplay = ({ text, maxLength }) => {
     const displayedText = text.length > maxLength ? `${text.slice(0, maxLength - 3)}...` : text;
     
-    return <div className="text-container">{displayedText}</div>;
+    return <div className="text-container"><p>{displayedText}</p></div>;
   };
 
 
@@ -93,7 +93,7 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
           </label>
         </div>
         <div className='model-title' onClick={handleNav}>
-          <p><TextDisplay text={modelName} maxLength={20} /></p>
+          <TextDisplay text={modelName} maxLength={20} />
         </div>
         <div className='model-accuracy'>
           <p>{accuracy}</p>
