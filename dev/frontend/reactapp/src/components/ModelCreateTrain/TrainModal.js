@@ -6,12 +6,22 @@ import GradationButton from '../../uiParts/component/GradationButton';
 import { socket } from '../../socket/socket';
 import { getModelStructure, getTrainInfo } from '../../db/function/model_structure';
 import { useParams } from 'react-router-dom';
+import { getUserName } from '../../db/function/users';
 
 function TrainModal({ changeTrain, flattenShape }) {
   const userId = JSON.parse(sessionStorage.getItem('userId'));
   const { projectName, modelId} = useParams()
-  
   const [train, setTrain] = useState(false);
+  const [userName, setUserName] = useState('')
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      const name = await getUserName(userId);
+      setUserName(name);
+    };
+    fetchUserName();
+  }, [userId])
+
   const text = '学習用ファイルを作成してください'
   const text2 = '作成する'
   const text3 = '学習が可能になりました'
@@ -42,10 +52,12 @@ function TrainModal({ changeTrain, flattenShape }) {
 
   // 学習開始(socket)
   const startTrain = async () => {
+    changeTrain();
     if (socket) {
       const trainInfo = await getTrainInfo(modelId)
       const sentData = {
         user_id: userId,
+        user_name: userName,
         project_name: projectName,
         model_id: modelId,
         Train_info: trainInfo
