@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader, TensorDataset
 from flask_socketio import emit
 from utils.get_func import get_optimizer, get_loss
-from utils.db_manage import download_file, upload_file
+from utils.db_manage import download_file, upload_file, initialize_training_results, upload_training_result
 
 import matplotlib
 matplotlib.use('Agg')
@@ -125,6 +125,8 @@ def load_and_split_data(config):
 # モデルの訓練を行う関数
 def train_model(config):
     model_id = config["model_id"]
+    user_id = config["user_id"]
+    project_name = config["project_name"]
     model = import_model(config).to(device)
 
     (x_train, y_train), (x_val, y_val), (x_test, y_test) = load_and_split_data(config)
@@ -147,6 +149,10 @@ def train_model(config):
     best_val_loss = float('inf')
     best_val_acc = 0.0
     best_model = None
+    
+    init_result = initialize_training_results(user_id, project_name, model_id)
+    print(f"DB初期化:{init_result}")
+
     print('学習スタート')
     for epoch in range(1, int(train_info["epoch"])+1):
         model.train()
@@ -184,18 +190,27 @@ def train_model(config):
         val_acc = running_val_corrects / len(val_loader.dataset)
         val_loss_history.append(val_loss)
         val_acc_history.append(val_acc)
+        
+        # エポックごとの結果を辞書に格納
+        epoch_result = {
+            'Epoch': epoch,
+            'TrainAcc': round(epoch_acc, 5),
+            'ValAcc': round(val_acc, 5),
+            'TrainLoss': round(epoch_loss, 5),
+            'ValLoss': round(val_loss, 5)
+        }
+        
+        # Firestoreに結果をアップロード
+        upload_result = upload_training_result(config["user_id"], config["project_name"], model_id, epoch_result)
+        print(upload_result)
+        
         print('Epoch:', epoch, 'TrainAcc:', round(epoch_acc, 5), 'ValAcc:', round(val_acc, 5), 'TrainLoss:', round(epoch_loss, 5), 'ValLoss:', round(val_loss, 5))
-        print('train_image_results'+model_id)
-        emit('train_image_results'+model_id, {'Epoch': epoch, 'TrainAcc': round(epoch_acc, 5), 'ValAcc': round(val_acc, 5), 'TrainLoss': round(epoch_loss, 5), 'ValLoss': round(val_loss, 5)})
+        emit('train_image_results'+model_id, epoch_result)
         
         if val_loss < best_val_loss:
             best_val_loss = round(val_loss, 5)
             best_val_acc = round(val_acc, 5)
             best_model = model.state_dict()
-
-    user_id = config["user_id"]
-    project_name = config["project_name"]
-    model_id = config["model_id"]
 
     # 一時ファイルにモデルを保存
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pth") as tmp_file:
