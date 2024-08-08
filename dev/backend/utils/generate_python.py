@@ -1,3 +1,6 @@
+import tempfile
+from utils.db_manage import upload_file
+
 def make_conv_layer(layer, in_channels):
     return f'            nn.Conv2d({in_channels}, {layer["out_channel"]}, {layer["kernel_size"]}, stride={layer["strid"]}, padding={layer["padding"]}),\n'
 
@@ -22,6 +25,7 @@ def make_activ(activ_name):
 def make_flatten_bif(flutten_bif):
     return f'            nn.{flutten_bif}(1),\n'
 
+# Pythonコード生成とFirebase Storageに保存する関数
 def make_python_code(data):
     py_1 = '''
 import torch.nn as nn
@@ -47,7 +51,7 @@ class Simple_NN(nn.Module):
     middle_layers = structure.get('middle_layer')
     output_size = structure.get('output_layer')
     flatten_way = structure.get('flatten_method')['way']
-    save_dir = f'./user/{data.get("user_id")}/{data.get("project_name")}/{data.get("model_id")}'
+    save_dir = f'user/{data.get("user_id")}/{data.get("project_name")}/{data.get("model_id")}'
 
     in_channels = input_layer['shape'][2]
     for layer in conv_layers:
@@ -87,10 +91,16 @@ class Simple_NN(nn.Module):
 
     python_code = py_1 + py_2 + py_3 + py_4 + py_5
     file_name = 'model_config.py'
+    destination_path = f"{save_dir}/{file_name}"
 
     try:
-        with open(f"{save_dir}/{file_name}", 'w') as file:
-            file.write(python_code)
-        return {"message": "successfully"}
+        # 一時ファイルに書き込む
+        with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+            tmp_file.write(python_code.encode('utf-8'))
+            tmp_file_path = tmp_file.name
+
+        # Firebase Storageにアップロード
+        result = upload_file(tmp_file_path, destination_path)
+        return result
     except Exception as e:
         return {"message": str(e)}
