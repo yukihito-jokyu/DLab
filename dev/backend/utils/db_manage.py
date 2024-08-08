@@ -1,4 +1,5 @@
 from firebase_config import get_firestore_db
+from firebase_admin import storage
 
 def update_status(model_id, status):
     db = get_firestore_db()
@@ -50,9 +51,9 @@ def save_result_readarboard(project_name, user_id, user_name, accuracy):
                 'user_name': user_name,
                 'accuracy': accuracy
             })
-            print(f"Updated {user_id} with new accuracy {accuracy}")
+            print(f"\nUpdated {user_id} with new accuracy {accuracy}\n")
         else:
-            print(f"No update performed for {user_id} because existing accuracy {existing_accuracy} is higher or equal.")
+            print(f"\nNo update performed for {user_id} because existing accuracy {existing_accuracy} is higher or equal.\n")
     else:
         # ドキュメントが存在しない場合は新規作成
         doc_ref.set({
@@ -60,4 +61,27 @@ def save_result_readarboard(project_name, user_id, user_name, accuracy):
             'user_name': user_name,
             'accuracy': accuracy
         })
-        print(f"Created new document for {user_id} with accuracy {accuracy}")
+        print(f"\nCreated new document for {user_id} with accuracy {accuracy}\n")
+
+# ファイルをダウンロードする関数
+def download_file(source_blob_name, destination_file_name):
+    try:
+        bucket = storage.bucket()
+        blob = bucket.blob(source_blob_name)
+        blob.download_to_filename(destination_file_name)
+        print(f"\nDownloaded {source_blob_name} to {destination_file_name}.\n")
+        return destination_file_name
+    except Exception as e:
+        print(f"\nFailed to download {source_blob_name}: {e}\n")
+        return None
+
+# ファイルをアップロードする関数
+def upload_file(local_file_path, storage_blob_path):
+    try:
+        bucket = storage.bucket()
+        blob = bucket.blob(storage_blob_path)
+        blob.upload_from_filename(local_file_path)
+        print(f"\nUploaded {local_file_path} to {storage_blob_path}.\n")
+        return {"message": "successfully"}
+    except Exception as e:
+        return {"message": str(e)}
