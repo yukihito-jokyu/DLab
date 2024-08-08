@@ -4,7 +4,9 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  background: linear-gradient(249.81deg, rgba(0, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 35%, rgba(146, 229, 255, 0) 66%, rgba(0, 240, 255, 0.4) 100%), radial-gradient(98.31% 179.05% at 0% 3.12%, #E18FFF 2.5%, #C190FF 21%, #3491FF 53%, #8690FF 78.5%, #E18FFF 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #FFFFFF;
+  background: linear-gradient(249.81deg, rgba(0, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 35%, rgba(146, 229, 255, 0) 66%, rgba(0, 240, 255, 0.4) 100%), radial-gradient(98.31% 179.05% at 0% 3.12%, #E18FFF 2.5%, #C190FF 21%, #3491FF 53%, #8690FF 78.5%, #E18FFF 100%)
+    /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
+    , #FFFFFF;
 }
 
 /* ModelField */
@@ -14,10 +16,8 @@
 }
 
 .tile-field {
-  /* position: static; */
   overflow: auto;
   height: calc(100% - 45px);
-  /* flex: 1; */
 }
 
 .DL-field {
@@ -135,7 +135,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* color: #8575FF; */
   color: #8877EB;
   padding: 5px 10px;
   border-radius: 4px;
@@ -153,7 +152,6 @@
   color: rgba(39, 203, 124, 1);
   padding: 5px 10px;
   border-radius: 4px;
-  font-weight: 600;
   font-weight: 600;
   font-size: 25px;
   pointer-events: none;
@@ -177,12 +175,15 @@
 .custom-checkbox {
   display: inline-block;
   position: relative;
-  width: 20px; /* サイズを調整 */
-  height: 20px; /* サイズを調整 */
+  width: 20px;
+  /* サイズを調整 */
+  height: 20px;
+  /* サイズを調整 */
 }
 
 .custom-checkbox input[type="checkbox"] {
-  opacity: 0; /* デフォルトのチェックボックスを非表示にする */
+  opacity: 0;
+  /* デフォルトのチェックボックスを非表示にする */
   width: 0;
   height: 0;
   position: absolute;
@@ -191,16 +192,22 @@
 
 .custom-checkbox .checkmark {
   display: inline-block;
-  width: 100%; /* 親要素の幅に合わせる */
-  height: 100%; /* 親要素の高さに合わせる */
-  background-color: #f0f0f0; /* チェックされていない時の背景色 */
-  border: 2px solid #ccc; /* ボーダーのスタイル */
-  border-radius: 4px; /* ボーダーの角を丸くする */
+  width: 100%;
+  /* 親要素の幅に合わせる */
+  height: 100%;
+  /* 親要素の高さに合わせる */
+  background-color: #f0f0f0;
+  /* チェックされていない時の背景色 */
+  border: 2px solid #ccc;
+  /* ボーダーのスタイル */
+  border-radius: 4px;
+  /* ボーダーの角を丸くする */
   cursor: pointer;
 }
 
-.custom-checkbox input[type="checkbox"]:checked + .checkmark {
-  background-color: #2196F3; /* チェックされた時の背景色 */
+.custom-checkbox input[type="checkbox"]:checked+.checkmark {
+  background-color: #2196F3;
+  /* チェックされた時の背景色 */
 }
 
 .custom-checkbox .checkmark:after {
@@ -209,18 +216,25 @@
   display: none;
 }
 
-.custom-checkbox input[type="checkbox"]:checked + .checkmark:after {
+.custom-checkbox input[type="checkbox"]:checked+.checkmark:after {
   display: block;
 }
 
 .custom-checkbox .checkmark:after {
-  left: 7px; /* チェックマークの位置を調整 */
-  top: 4px; /* チェックマークの位置を調整 */
-  width: 5px; /* チェックマークのサイズを調整 */
-  height: 10px; /* チェックマークのサイズを調整 */
-  border: solid white; /* チェックマークの色 */
-  border-width: 0 3px 3px 0; /* チェックマークのスタイル */
-  transform: rotate(45deg); /* チェックマークの回転 */
+  left: 7px;
+  /* チェックマークの位置を調整 */
+  top: 4px;
+  /* チェックマークの位置を調整 */
+  width: 5px;
+  /* チェックマークのサイズを調整 */
+  height: 10px;
+  /* チェックマークのサイズを調整 */
+  border: solid white;
+  /* チェックマークの色 */
+  border-width: 0 3px 3px 0;
+  /* チェックマークのスタイル */
+  transform: rotate(45deg);
+  /* チェックマークの回転 */
 }
 
 .model-title {
@@ -285,19 +299,26 @@
 
 .graph-field .model-picture-filed-wrapper {
   display: flex;
+  height: 300px;
 }
 
-.graph-field .model-picture-filed-wrapper .model-accuracy-picture {
-  background-color: #9AAAE2;
+.graph-field .model-picture-filed-wrapper .model-accuracy-picture,
+.graph-field .model-picture-filed-wrapper .model-loss-picture {
+  margin: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fbfbfb;
   border-radius: 20px;
   width: 54%;
   margin-right: 2%;
+  position: relative;
 }
 
-.graph-field .model-picture-filed-wrapper .model-loss-picture {
-  background-color: #9AAAE2;
-  border-radius: 20px;
-  width: 54%;
+.model-accuracy-picture canvas,
+.model-loss-picture canvas {
+  width: 95% !important;
+  height: 95% !important;
 }
 
 .model-picture-icon-wrapper {
@@ -395,6 +416,7 @@
   font-weight: 500;
   color: #676767;
 }
+
 .project-name-field .model-name-input:focus {
   outline: none;
 }
