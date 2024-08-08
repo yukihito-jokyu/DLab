@@ -119,6 +119,7 @@ def train_model(config):
     train_acc_history = []
     val_acc_history = []
     best_val_loss = float('inf')
+    best_val_acc = 0.0
     best_model = None
     print('学習スタート')
     for epoch in range(1, int(train_info["epoch"])+1):
@@ -162,7 +163,8 @@ def train_model(config):
         emit('train_image_results'+model_id, {'Epoch': epoch, 'TrainAcc': round(epoch_acc, 5), 'ValAcc': round(val_acc, 5), 'TrainLoss': round(epoch_loss, 5), 'ValLoss': round(val_loss, 5)})
         
         if val_loss < best_val_loss:
-            best_val_loss = val_loss
+            best_val_loss = round(val_loss, 5)
+            best_val_acc = round(val_acc, 5)
             best_model = model.state_dict()
 
     user_id = config["user_id"]
@@ -195,3 +197,5 @@ def train_model(config):
     plt.legend()
     plt.savefig(os.path.join(photo_dir, "loss_curve.png"))
     plt.close()
+    
+    return best_val_acc, best_val_loss
