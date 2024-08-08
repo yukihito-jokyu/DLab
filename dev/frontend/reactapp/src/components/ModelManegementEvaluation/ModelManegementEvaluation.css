@@ -288,16 +288,34 @@
 }
 
 .graph-field .model-picture-filed-wrapper .model-accuracy-picture {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #9AAAE2;
   border-radius: 20px;
   width: 54%;
   margin-right: 2%;
+  overflow: hidden;
 }
 
 .graph-field .model-picture-filed-wrapper .model-loss-picture {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #9AAAE2;
   border-radius: 20px;
   width: 54%;
+  overflow: hidden;
+}
+
+.graph-field .model-picture-filed-wrapper .model-accuracy-picture img {
+  width: 100%;
+  height: 100%;
+}
+
+.graph-field .model-picture-filed-wrapper .model-loss-picture img {
+  width: 100%;
+  height: 100%;
 }
 
 .model-picture-icon-wrapper {

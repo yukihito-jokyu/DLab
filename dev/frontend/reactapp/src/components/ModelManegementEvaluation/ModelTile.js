@@ -2,13 +2,32 @@ import React, { useCallback, useEffect, useState } from 'react';
 import './ModelManegementEvaluation.css';
 import { ReactComponent as PictureIcon } from '../../assets/svg/graph_24.svg'
 import { useNavigate, useParams } from 'react-router-dom';
+import { getImage } from '../../db/function/storage';
 
 function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkBoxChange, status  }) {
   const { projectName } = useParams()
+  const userId = JSON.parse(sessionStorage.getItem('userId'));
   const [isPicture, setIsPicture] = useState(false);
   const [tileColer, setTileColer] = useState();
   const [isHover, setIsHover] = useState();
+  const [accuracyImage, setAccuracyImage] = useState();
+  const [lossImage, setLossImage] = useState();
   const navigate = useNavigate();
+
+  // 学習曲線の取得
+  useEffect(() => {
+    const fetchImage = async () => {
+      const accuracyPath = `user/${userId}/${projectName}/${modelId}/accuracy_curve.png`
+      const accuracyImageURL = await getImage(accuracyPath);
+      const lossPath = `user/${userId}/${projectName}/${modelId}/loss_curve.png`
+      const lossImageURL = await getImage(lossPath);
+      setAccuracyImage(accuracyImageURL);
+      setLossImage(lossImageURL)
+    }
+    if (status === 'done') {
+      fetchImage()
+    }
+  }, [userId, projectName, modelId, status]);
 
   useEffect(() => {
     const initTileColer = () => {
@@ -114,8 +133,20 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
         <div className='graph-field'>
           <p>Graph</p>
           <div className='model-picture-filed-wrapper'>
-            <div className='model-accuracy-picture'></div>
-            <div className='model-loss-picture'></div>
+            <div className='model-accuracy-picture'>
+              {accuracyImage ? (
+                <img src={accuracyImage} alt='firebase Storage error' />
+              ) : (
+                <p>No Image</p>
+              )}
+            </div>
+            <div className='model-loss-picture'>
+              {lossImage ? (
+                <img src={lossImage} alt='firebase Storage error' />
+              ) : (
+                <p>No Image</p>
+              )}
+            </div>
           </div>
         </div>
       }
