@@ -10,7 +10,7 @@ import ModelCreateField from './ModelCreateField';
 import AlertModal from '../utils/AlertModal';
 import { sendEmailVerification } from 'firebase/auth';
 import { getModelId } from '../../db/function/model_management';
-import { deleteFilesInDirectory } from '../../db/function/storage';
+import { deleteFilesInDirectory, downloadDirectoryAsZip } from '../../db/function/storage';
 
 function ModelField() {
   const [models, setModels] = useState([]);
@@ -166,7 +166,14 @@ function ModelField() {
     const checkedModels = models.filter(model => model.isChecked);
     const downloadModels = checkedModels.filter(model => (model.status === 'done'));
     console.log(downloadModels);
-    
+    const downloadPromises = downloadModels.map(model => downloadDirectoryAsZip(`user/${userId}/${projectName}/${model.model_id}`))
+    try {
+      // すべてのダウンロード処理が完了するのを待つ
+      await Promise.all(downloadPromises);
+      console.log("All selected files have been download successfully.");
+    } catch (error) {
+      console.error("Error deleting files:", error);
+    }
 
   }
 
