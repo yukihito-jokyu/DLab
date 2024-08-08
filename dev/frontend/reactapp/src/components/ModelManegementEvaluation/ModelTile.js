@@ -1,14 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import './ModelManegementEvaluation.css';
-import { ReactComponent as PictureIcon } from '../../assets/svg/graph_24.svg'
+import { ReactComponent as PictureIcon } from '../../assets/svg/graph_24.svg';
 import { useNavigate, useParams } from 'react-router-dom';
+import useFetchTrainingResults from '../../hooks/useFetchTrainingResults';
 
-function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkBoxChange, status  }) {
-  const { projectName } = useParams()
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+
+function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkBoxChange, status, userId }) {
+  const { projectName } = useParams();
   const [isPicture, setIsPicture] = useState(false);
   const [tileColer, setTileColer] = useState();
   const [isHover, setIsHover] = useState();
   const navigate = useNavigate();
+
+  const { accuracyData, lossData } = useFetchTrainingResults(userId, projectName, modelId);
 
   useEffect(() => {
     const initTileColer = () => {
@@ -32,6 +39,11 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
     initTileColer();
   }, [status]);
 
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false
+  };
+
   const formatTimestamp = (timestamp) => {
     if (timestamp && timestamp.seconds) {
       const date = new Date(timestamp.seconds * 1000);
@@ -39,9 +51,11 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
     }
     return '';
   };
+
   const handleClick = () => {
     setIsPicture(!isPicture);
   };
+
   const handleNav = () => {
     sessionStorage.setItem('modelId', JSON.stringify(modelId));
     navigate(`/ModelCreateTrain/${projectName}/${modelId}`);
@@ -49,31 +63,25 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
 
   const TextDisplay = ({ text, maxLength }) => {
     const displayedText = text.length > maxLength ? `${text.slice(0, maxLength - 3)}...` : text;
-    
+
     return <div className="text-container"><p>{displayedText}</p></div>;
   };
 
-
-
   return (
-    <div className='model-tile-wrapper'
-      style={tileColer}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
-    >
+    <div className='model-tile-wrapper' style={tileColer} onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
       {isHover && (
         <div>
-          {status === 'pre' && (
+          {status === 'pre' && isPicture === false && (
             <div className='cursor-tooltip1'>
               <p>学習前</p>
             </div>
           )}
-          {status === 'doing' && (
+          {status === 'doing' && isPicture === false && (
             <div className='cursor-tooltip2'>
               <p>学習中</p>
             </div>
           )}
-          {status === 'done' && (
+          {status === 'done' && isPicture === false && (
             <div className='cursor-tooltip3'>
               <p>学習済み</p>
             </div>
@@ -82,7 +90,6 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
       )}
       <div className='model-title-field'>
         <div className='model-check-box-wrapper'>
-          {/* <div className='model-check-box'></div> */}
           <label className="custom-checkbox">
             <input
               type="checkbox"
@@ -110,18 +117,20 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
           </div>
         </div>
       </div>
-      {isPicture && 
+      {isPicture &&
         <div className='graph-field'>
-          <p>Graph</p>
           <div className='model-picture-filed-wrapper'>
-            <div className='model-accuracy-picture'></div>
-            <div className='model-loss-picture'></div>
+            <div className='model-accuracy-picture canvas-container'>
+              <Line data={accuracyData} options={options} />
+            </div>
+            <div className='model-loss-picture canvas-container'>
+              <Line data={lossData} options={options} />
+            </div>
           </div>
         </div>
       }
-      
     </div>
-  )
+  );
 }
 
-export default ModelTile
+export default ModelTile;

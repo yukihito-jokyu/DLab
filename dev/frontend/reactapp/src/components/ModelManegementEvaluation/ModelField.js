@@ -54,7 +54,7 @@ function ModelField() {
   // チェックボックスの更新
   const handleCheckboxChange = (id) => {
     const updateModels = models.map(model =>
-      model.id === id ? {...model, isChecked: !model.isChecked} : model
+      model.id === id ? { ...model, isChecked: !model.isChecked } : model
     );
     setModels(updateModels);
   };
@@ -126,7 +126,7 @@ function ModelField() {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
 
       const blob = await response.blob();
 
@@ -139,7 +139,7 @@ function ModelField() {
     } catch (e) {
       console.error('Download failed', e)
     }
-    
+
   }
 
   // DLモーダル表示非表示
@@ -164,7 +164,7 @@ function ModelField() {
         {models.length > 0 ? (
           models.map((model) => (
             <div key={model.id}>
-              <ModelTile 
+              <ModelTile
                 modelName={model.model_name}
                 accuracy={model.accuracy}
                 loss={model.loss}
@@ -173,6 +173,7 @@ function ModelField() {
                 modelId={model.id}
                 checkBoxChange={handleCheckboxChange}
                 status={model.status}
+                userId={userId}
               />
             </div>
           ))

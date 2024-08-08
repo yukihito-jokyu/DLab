@@ -9,7 +9,7 @@ const signInWithGoogle = (setUserId, setFirstSignIn) => {
   signInWithPopup(auth, provider).then(() => {
     // ここでfirebaseにユーザー情報が無かったら保存することにする
     searchUserMail(setUserId, setFirstSignIn);
-  }).then( async () => {
+  }).then(async () => {
     // ログイン中のuserIdを取得し、セットする
     const q = query(collection(db, "user"), where("mail_address", "==", auth.currentUser.email))
     const querySnapshot = await getDocs(q);
@@ -67,7 +67,7 @@ const saveData = async (setUserId) => {
 //firebaseに名前を登録
 const registName = async (user_id, name) => {
   const userRef = doc(db, 'user', user_id);
-  await updateDoc(userRef, {user_name: name});
+  await updateDoc(userRef, { user_name: name });
 };
 
 // user_idから参加projectを取得する方法
@@ -167,7 +167,7 @@ const getModelId = async (user_id, project_id) => {
 
 // モデルを新規作成
 const setModel = async (userId, projectId, modelId, modelName) => {
-  
+
   const accuracy = null;
   const loss = null;
   const date = serverTimestamp();
@@ -245,7 +245,7 @@ const addComment = async (projectId, commentId, comment, userId, userName) => {
   const docSnap = await getDoc(articleRef);
   const newComment = {
     comment: comment,
-    comment_id: docSnap.data().comments.length+1,
+    comment_id: docSnap.data().comments.length + 1,
     user_id: userId,
     user_name: userName
   };
