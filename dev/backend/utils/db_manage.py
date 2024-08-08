@@ -1,5 +1,5 @@
 from firebase_config import get_firestore_db
-from firebase_admin import storage
+from firebase_admin import storage, firestore
 
 def update_status(model_id, status):
     db = get_firestore_db()
@@ -85,3 +85,29 @@ def upload_file(local_file_path, storage_blob_path):
         return {"message": "successfully"}
     except Exception as e:
         return {"message": str(e)}
+
+# 学習結果を初期化する関数
+def initialize_training_results(user_id, project_name, model_id):
+    db = firestore.client()
+    doc_ref = db.collection('training_results').document(f"{user_id}_{project_name}_{model_id}")
+    doc_ref.set({'results': []})
+    return f"Training results document initialized for model_id: {model_id}"
+
+# 学習結果を更新する関数
+def upload_training_result(user_id, project_name, model_id, epoch_result):
+    db = get_firestore_db()
+    doc_ref = db.collection('training_results').document(f"{user_id}_{project_name}_{model_id}")
+    
+    # ドキュメントが存在するか確認
+    doc = doc_ref.get()
+    if doc.exists:
+        # 既存のドキュメントに結果を追加
+        doc_ref.update({
+            'results': firestore.ArrayUnion([epoch_result])
+        })
+    else:
+        # 新しいドキュメントを作成
+        doc_ref.set({
+            'results': [epoch_result]
+        })
+    return f"Epoch {epoch_result['Epoch']} results uploaded to Firestore for model_id: {model_id}"
