@@ -1,4 +1,5 @@
 import os
+import tempfile
 import numpy as np
 import torch
 import torch.optim as optim
@@ -9,6 +10,10 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader, TensorDataset
 from flask_socketio import emit
 from utils.get_func import get_optimizer, get_loss
+from utils.db_manage import download_file, upload_file
+
+import matplotlib
+matplotlib.use('Agg')
 
 # デバイスの設定
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -50,12 +55,33 @@ def import_model(config):
     project_name = config["project_name"]
     model_id = config["model_id"]
     
-    base_dir = os.path.abspath(os.path.join(os.getcwd(), "./user"))
-    model_path = os.path.join(base_dir, user_id, project_name, model_id, "model_config.py")
-    spec = importlib.util.spec_from_file_location("Simple_NN", model_path)
-    model_module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(model_module)
-    return model_module.Simple_NN()
+    model_blob_path = f"user/{user_id}/{project_name}/{model_id}/model_config.py"
+    
+    # 一時ファイルの作成とダウンロード
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp_file:
+        model_local_path = download_file(model_blob_path, tmp_file.name)
+        tmp_file.close()
+    
+    if model_local_path is None:
+        raise FileNotFoundError(f"Model file not found in Firebase Storage: {model_blob_path}")
+
+    # ダウンロードされたファイルの内容を確認
+    with open(model_local_path, 'r') as file:
+        content = file.read()
+        print(f"Downloaded file content:\n{content}")
+
+    # モジュールのインポートとエラーハンドリング
+    try:
+        spec = importlib.util.spec_from_file_location("Simple_NN", model_local_path)
+        if spec is None:
+            raise ImportError(f"Could not load spec from file: {model_local_path}")
+        model_module = importlib.util.module_from_spec(spec)
+        if spec.loader is None:
+            raise ImportError(f"Could not load loader from spec: {spec}")
+        spec.loader.exec_module(model_module)
+        return model_module.Simple_NN()
+    except Exception as e:
+        raise ImportError(f"Failed to import model: {e}")
 
 # データセットの読込み＆前処理を行う関数
 def load_and_split_data(config):
@@ -170,32 +196,44 @@ def train_model(config):
     user_id = config["user_id"]
     project_name = config["project_name"]
     model_id = config["model_id"]
-    base_dir = os.path.abspath(os.path.join(os.getcwd(), "./user", user_id, project_name, model_id))
-    os.makedirs(base_dir, exist_ok=True)
-    best_model_path = os.path.join(base_dir, "best_model.pth")
-    torch.save(best_model, best_model_path)
+
+    # 一時ファイルにモデルを保存
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pth") as tmp_file:
+        best_model_path = tmp_file.name
+        torch.save(best_model, best_model_path)
     
-    photo_dir = os.path.join(base_dir, "photo")
-    os.makedirs(photo_dir, exist_ok=True)
+    # Firebase Storageにモデルをアップロード
+    model_storage_path = f"user/{user_id}/{project_name}/{model_id}/best_model.pth"
+    upload_result = upload_file(best_model_path, model_storage_path)
+    print(upload_result)
     
-    plt.figure()
-    plt.title("Training Accuracy")
-    plt.plot(range(1, int(train_info["epoch"])+1), train_acc_history, label="Train Accuracy")
-    plt.plot(range(1, int(train_info["epoch"])+1), val_acc_history, label="Validation Accuracy")
-    plt.xlabel("Epoch")
-    plt.ylabel("Accuracy")
-    plt.legend()
-    plt.savefig(os.path.join(photo_dir, "accuracy_curve.png"))
-    plt.close()
+    # 画像を保存してFirebase Storageにアップロード
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_file:
+        accuracy_curve_path = tmp_file.name
+        plt.figure()
+        plt.title("Training Accuracy")
+        plt.plot(range(1, int(train_info["epoch"])+1), train_acc_history, label="Train Accuracy")
+        plt.plot(range(1, int(train_info["epoch"])+1), val_acc_history, label="Validation Accuracy")
+        plt.xlabel("Epoch")
+        plt.ylabel("Accuracy")
+        plt.legend()
+        plt.savefig(accuracy_curve_path)
+        plt.close()
+        accuracy_curve_storage_path = f"user/{user_id}/{project_name}/{model_id}/accuracy_curve.png"
+        upload_file(accuracy_curve_path, accuracy_curve_storage_path)
     
-    plt.figure()
-    plt.title('Training Loss')
-    plt.plot(range(1, int(train_info["epoch"])+1), train_loss_history, label="Train Loss")
-    plt.plot(range(1, int(train_info["epoch"])+1), val_loss_history, label="Validation Loss")
-    plt.xlabel("Epoch")
-    plt.ylabel("Loss")
-    plt.legend()
-    plt.savefig(os.path.join(photo_dir, "loss_curve.png"))
-    plt.close()
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_file:
+        loss_curve_path = tmp_file.name
+        plt.figure()
+        plt.title('Training Loss')
+        plt.plot(range(1, int(train_info["epoch"])+1), train_loss_history, label="Train Loss")
+        plt.plot(range(1, int(train_info["epoch"])+1), val_loss_history, label="Validation Loss")
+        plt.xlabel("Epoch")
+        plt.ylabel("Loss")
+        plt.legend()
+        plt.savefig(loss_curve_path)
+        plt.close()
+        loss_curve_storage_path = f"user/{user_id}/{project_name}/{model_id}/loss_curve.png"
+        upload_file(loss_curve_path, loss_curve_storage_path)
     
     return best_val_acc, best_val_loss
