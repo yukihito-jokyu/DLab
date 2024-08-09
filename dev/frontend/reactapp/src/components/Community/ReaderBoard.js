@@ -25,6 +25,11 @@ function ReaderBoard({ rank, name, accuracy, tileUserId }) {
             border: 'solid 5px #D997FF'
           }
           setTileColor(color)
+        } else {
+          const color = {
+            border: 'solid 5px #D997FF'
+          }
+          setTileColor(color)
         }
       } else {
         if (rank === 1) {

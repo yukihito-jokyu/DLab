@@ -4,6 +4,7 @@ import Header from '../../uniqueParts/component/Header'
 import BurgerButton from '../../uiParts/component/BurgerButton'
 import Logo from '../../uiParts/component/Logo'
 import RLProjectField from './RLProjectField'
+import UserIcon from '../../uiParts/component/UserIcon'
 
 function RLProjectList() { 
   return (
@@ -11,6 +12,7 @@ function RLProjectList() {
       <Header 
         burgerbutton={BurgerButton}
         logocomponent={Logo}
+        usericoncomponent={UserIcon}
         projectmodelnamecomponent={null}
       />
       <RLProjectField />
