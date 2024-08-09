@@ -5,6 +5,7 @@ import './ModelManegementEvaluation.css';
 import { ReactComponent as PictureIcon } from '../../assets/svg/graph_24.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFetchTrainingResults from '../../hooks/useFetchTrainingResults';
+import useFetchStatus from '../../hooks/useFetchStatus';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -16,28 +17,29 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   const navigate = useNavigate();
 
   const { accuracyData, lossData } = useFetchTrainingResults(userId, projectName, modelId);
+  const currentStatus = useFetchStatus(modelId);
 
   useEffect(() => {
     const initTileColer = () => {
-      if (status === 'pre') {
+      if (currentStatus === 'pre') {
         const color = {
-          backgroundColor: 'rgb(80, 166, 255, 0.15)'
-        }
+          backgroundColor: 'rgb(80, 166, 255, 0.15)',
+        };
         setTileColer(color);
-      } else if (status === 'doing') {
+      } else if (currentStatus === 'doing') {
         const color = {
-          background: 'linear-gradient(91.27deg, rgba(196, 73, 255, 0.5) 0.37%, rgba(71, 161, 255, 0.5) 99.56%)'
-        }
+          background: 'linear-gradient(91.27deg, rgba(196, 73, 255, 0.5) 0.37%, rgba(71, 161, 255, 0.5) 99.56%)',
+        };
         setTileColer(color);
-      } else if (status === 'done') {
+      } else if (currentStatus === 'done') {
         const color = {
-          backgroundColor: 'rgba(39, 203, 124, 0.5)'
-        }
+          backgroundColor: 'rgba(39, 203, 124, 0.5)',
+        };
         setTileColer(color);
       }
-    }
+    };
     initTileColer();
-  }, [status]);
+  }, [currentStatus]);
 
   const optionsAccuracy = {
     responsive: true,
@@ -146,17 +148,17 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
     <div className='model-tile-wrapper' style={tileColer} onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
       {isHover && (
         <div>
-          {status === 'pre' && isPicture === false && (
+          {currentStatus === 'pre' && isPicture === false && (
             <div className='cursor-tooltip1'>
               <p>学習前</p>
             </div>
           )}
-          {status === 'doing' && isPicture === false && (
+          {currentStatus === 'doing' && isPicture === false && (
             <div className='cursor-tooltip2'>
               <p>学習中</p>
             </div>
           )}
-          {status === 'done' && isPicture === false && (
+          {currentStatus === 'done' && isPicture === false && (
             <div className='cursor-tooltip3'>
               <p>学習済み</p>
             </div>
