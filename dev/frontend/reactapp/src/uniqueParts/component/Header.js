@@ -25,7 +25,7 @@ function Header(props) {
       {UserIconComponent && <UserIconComponent />}
       {TrainButtonsComponent && <TrainButtonsComponent changeEdit={changeEdit} changeTrain={changeTrain} />}
       {CommunityIconComponent && <CommunityIconComponent />}
-      {menu && <Menu />}
+      {menu && <Menu handleClickMenu={handleClickMenu} />}
     </div>
   )
 }

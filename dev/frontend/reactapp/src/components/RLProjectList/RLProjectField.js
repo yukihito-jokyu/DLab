@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserInfoContext } from '../../App';
 
 function RLProjectField() {
-  const { setProjectId } = useContext(UserInfoContext);
+  const userId = JSON.parse(sessionStorage.getItem('userId'));
   const style1 = {
     marginRight: '20px'
   };
@@ -18,9 +18,9 @@ function RLProjectField() {
   //   navigate('/ModelManegementEvaluation');
   // };
   const handleNav = useCallback((projectId) => {
-    navigate('/ModelManegementEvaluation')
+    navigate(`/ModelManegementEvaluation/${userId}/${projectId}`)
     sessionStorage.setItem('projectId', JSON.stringify(projectId));
-  }, [navigate])
+  }, [navigate, userId])
 
   return (
     <div className='rl-project-field-wrapper'>

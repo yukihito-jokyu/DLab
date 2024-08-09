@@ -4,6 +4,7 @@ import Header from '../../uniqueParts/component/Header';
 import BurgerButton from '../../uiParts/component/BurgerButton';
 import Logo from '../../uiParts/component/Logo';
 import ProfileField from './ProfileField';
+import UserIcon from '../../uiParts/component/UserIcon';
 
 function Profile() {
   return (
@@ -12,6 +13,7 @@ function Profile() {
         <Header
           burgerbutton={BurgerButton}
           logocomponent={Logo}
+          usericoncomponent={UserIcon}
         />
       </div>
       <div className='profile-area'>

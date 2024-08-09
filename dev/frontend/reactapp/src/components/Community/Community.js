@@ -15,6 +15,7 @@ import AlertModal from '../utils/AlertModal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getProjectDetailedInfo } from '../../db/function/project_info';
 import { updateJoinProject } from '../../db/function/users';
+import UserIcon from '../../uiParts/component/UserIcon';
 
 function Community() {
   const { projectName } = useParams();
@@ -129,6 +130,7 @@ function Community() {
         <Header 
           burgerbutton={BurgerButton}
           logocomponent={Logo}
+          usericoncomponent={UserIcon}
         />
       </div>
       <ProjectActivate projectName={projectName} shortExp={shortExp} changeJoinModal={changeJoinModal} />

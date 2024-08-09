@@ -1,4 +1,18 @@
-.menu-wrapper {
+.menu-field-wrapper {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(249.81deg, rgba(0, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 35%, rgba(146, 229, 255, 0) 66%, rgba(0, 240, 255, 0.4) 100%), radial-gradient(98.31% 179.05% at 0% 3.12%, #E18FFF 2.5%, #C190FF 21%, #3491FF 53%, #8690FF 78.5%, #E18FFF 100%), #FFFFFF;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.menu-field {
   position: absolute;
   height: 100vh;
   width: 400px;
@@ -9,7 +23,6 @@
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), linear-gradient(249.75deg, rgba(0, 255, 255, 0.4) -0.06%, rgba(255, 255, 255, 0) 34.91%, rgba(146, 229, 255, 0) 65.88%, rgba(0, 240, 255, 0.4) 99.85%), radial-gradient(98.31% 178.47% at 0% 2.87%, #E18FFF 2.5%, #C190FF 21%, #3491FF 53%, #8690FF 78.5%, #E18FFF 100%), #FFFFFF;
 }
 
-
 .menu-list-wrapper {
   overflow: auto;
   margin-top: 95px;
@@ -17,7 +30,7 @@
 }
 
 .menu-list-wrapper p {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-size: 25px;
   color: white;
   font-weight: 600;

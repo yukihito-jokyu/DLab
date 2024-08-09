@@ -14,6 +14,7 @@ import { UserInfoContext } from '../../App';
 import { auth } from '../../db/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getUserId } from '../../db/function/users';
+import UserIcon from '../../uiParts/component/UserIcon';
 
 
 
@@ -38,6 +39,7 @@ function Top() {
         <Header 
           burgerbutton={BurgerButton}
           logocomponent={Logo}
+          usericoncomponent={UserIcon}
         />
       </div>
       <Explanation setFirstSignIn={setFirstSignIn} />
