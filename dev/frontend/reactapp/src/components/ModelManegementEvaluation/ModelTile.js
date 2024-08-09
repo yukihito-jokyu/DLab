@@ -39,9 +39,84 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
     initTileColer();
   }, [status]);
 
-  const options = {
+  const optionsAccuracy = {
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Accuracy Over Epochs',
+        font: {
+          size: 22,
+          weight: 'bold',
+        },
+      },
+      legend: {
+        display: true,
+        position: 'bottom',
+        align: 'end',
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Epoch',
+          font: {
+            size: 14,
+          },
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Accuracy',
+          font: {
+            size: 14,
+          },
+        },
+      },
+    },
+  };
+
+  const optionsLoss = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Loss Over Epochs',
+        font: {
+          size: 22,
+          weight: 'bold',
+        },
+      },
+      legend: {
+        display: true,
+        position: 'bottom',
+        align: 'end',
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Epoch',
+          font: {
+            size: 14,
+          },
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Loss',
+          font: {
+            size: 14,
+          },
+        },
+      },
+    },
   };
 
   const formatTimestamp = (timestamp) => {
@@ -121,10 +196,10 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
         <div className='graph-field'>
           <div className='model-picture-filed-wrapper'>
             <div className='model-accuracy-picture canvas-container'>
-              <Line data={accuracyData} options={options} />
+              <Line data={accuracyData} options={optionsAccuracy} />
             </div>
             <div className='model-loss-picture canvas-container'>
-              <Line data={lossData} options={options} />
+              <Line data={lossData} options={optionsLoss} />
             </div>
           </div>
         </div>
