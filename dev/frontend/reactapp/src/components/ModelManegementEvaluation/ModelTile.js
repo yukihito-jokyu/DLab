@@ -5,6 +5,7 @@ import './ModelManegementEvaluation.css';
 import { ReactComponent as PictureIcon } from '../../assets/svg/graph_24.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFetchTrainingResults from '../../hooks/useFetchTrainingResults';
+import useFetchStatus from '../../hooks/useFetchStatus';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -18,32 +19,108 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   const navigate = useNavigate();
 
   const { accuracyData, lossData } = useFetchTrainingResults(userId, projectName, modelId);
+  const currentStatus = useFetchStatus(modelId);
 
   useEffect(() => {
     const initTileColer = () => {
-      if (status === 'pre') {
+      if (currentStatus === 'pre') {
         const color = {
-          backgroundColor: 'rgb(80, 166, 255, 0.15)'
-        }
+          backgroundColor: 'rgb(80, 166, 255, 0.15)',
+        };
         setTileColer(color);
-      } else if (status === 'doing') {
+      } else if (currentStatus === 'doing') {
         const color = {
-          background: 'linear-gradient(91.27deg, rgba(196, 73, 255, 0.5) 0.37%, rgba(71, 161, 255, 0.5) 99.56%)'
-        }
+          background: 'linear-gradient(91.27deg, rgba(196, 73, 255, 0.5) 0.37%, rgba(71, 161, 255, 0.5) 99.56%)',
+        };
         setTileColer(color);
-      } else if (status === 'done') {
+      } else if (currentStatus === 'done') {
         const color = {
-          backgroundColor: 'rgba(39, 203, 124, 0.5)'
-        }
+          backgroundColor: 'rgba(39, 203, 124, 0.5)',
+        };
         setTileColer(color);
       }
-    }
+    };
     initTileColer();
-  }, [status]);
+  }, [currentStatus]);
 
-  const options = {
+  const optionsAccuracy = {
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Accuracy Over Epochs',
+        font: {
+          size: 22,
+          weight: 'bold',
+        },
+      },
+      legend: {
+        display: true,
+        position: 'bottom',
+        align: 'end',
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Epoch',
+          font: {
+            size: 14,
+          },
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Accuracy',
+          font: {
+            size: 14,
+          },
+        },
+      },
+    },
+  };
+
+  const optionsLoss = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Loss Over Epochs',
+        font: {
+          size: 22,
+          weight: 'bold',
+        },
+      },
+      legend: {
+        display: true,
+        position: 'bottom',
+        align: 'end',
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Epoch',
+          font: {
+            size: 14,
+          },
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Loss',
+          font: {
+            size: 14,
+          },
+        },
+      },
+    },
   };
 
   const formatTimestamp = (timestamp) => {
@@ -55,7 +132,9 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   };
 
   const handleClick = () => {
-    setIsPicture(!isPicture);
+    if (currentStatus !== 'pre') {
+      setIsPicture(!isPicture);
+    }
   };
 
   const handleNav = () => {
@@ -73,17 +152,17 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
     <div className='model-tile-wrapper' style={tileColer} onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
       {isHover && (
         <div>
-          {status === 'pre' && isPicture === false && (
+          {currentStatus === 'pre' && isPicture === false && (
             <div className='cursor-tooltip1'>
               <p>学習前</p>
             </div>
           )}
-          {status === 'doing' && isPicture === false && (
+          {currentStatus === 'doing' && isPicture === false && (
             <div className='cursor-tooltip2'>
               <p>学習中</p>
             </div>
           )}
-          {status === 'done' && isPicture === false && (
+          {currentStatus === 'done' && isPicture === false && (
             <div className='cursor-tooltip3'>
               <p>学習済み</p>
             </div>
@@ -114,7 +193,14 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
           <p>{formatTimestamp(date)}</p>
         </div>
         <div className='model-picture'>
-          <div className='model-picture-icon-wrapper' onClick={handleClick}>
+          <div
+            className='model-picture-icon-wrapper'
+            onClick={handleClick}
+            style={{
+              cursor: currentStatus === 'pre' ? 'not-allowed' : 'pointer',
+              opacity: currentStatus === 'pre' ? 0.6 : 1
+            }}
+          >
             <PictureIcon className='picture-svg' />
           </div>
         </div>
@@ -123,10 +209,10 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
         <div className='graph-field'>
           <div className='model-picture-filed-wrapper'>
             <div className='model-accuracy-picture canvas-container'>
-              <Line data={accuracyData} options={options} />
+              <Line data={accuracyData} options={optionsAccuracy} />
             </div>
             <div className='model-loss-picture canvas-container'>
-              <Line data={lossData} options={options} />
+              <Line data={lossData} options={optionsLoss} />
             </div>
           </div>
         </div>

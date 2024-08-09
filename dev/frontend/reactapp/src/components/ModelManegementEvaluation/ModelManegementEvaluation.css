@@ -299,7 +299,7 @@
 
 .graph-field .model-picture-filed-wrapper {
   display: flex;
-  height: 300px;
+  height: 400px;
 }
 
 .graph-field .model-picture-filed-wrapper .model-accuracy-picture,
@@ -317,8 +317,8 @@
 
 .model-accuracy-picture canvas,
 .model-loss-picture canvas {
-  width: 95% !important;
-  height: 95% !important;
+  width: 98% !important;
+  height: 98% !important;
 }
 
 .model-picture-icon-wrapper {
