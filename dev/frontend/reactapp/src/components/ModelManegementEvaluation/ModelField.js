@@ -94,10 +94,15 @@ function ModelField() {
     const result = await response.json();
     console.log(result);
   };
+
   // モデル削除モーダルの表示非表示
   const changeModelDeleteModal = () => {
-    setModelDeleteModal(!modelDeleteModal);
+    const isCheckedExists = models.some(model => model.isChecked);
+    if (isCheckedExists) {
+      setModelDeleteModal(!modelDeleteModal);
+    }
   };
+
   const handleDelateModel = () => {
     handleDelate();
     setModelDeleteModal(!modelDeleteModal);
