@@ -23,7 +23,7 @@ function ModelFieldHeader({ accuracySort, lossSort, dateSort, handleDelate }) {
       <div className='model-name-div'>
         <p>Name</p>
       </div>
-      <div className='model-accuracy-div'  onClick={handleAccuracy}>
+      <div className='model-accuracy-div' onClick={handleAccuracy}>
         <p>Accuracy</p>
       </div>
       <div className='model-loss-div' onClick={handleLoss}>
