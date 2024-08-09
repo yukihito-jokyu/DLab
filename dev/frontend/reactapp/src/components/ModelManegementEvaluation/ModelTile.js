@@ -6,6 +6,8 @@ import { ReactComponent as PictureIcon } from '../../assets/svg/graph_24.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFetchTrainingResults from '../../hooks/useFetchTrainingResults';
 import useFetchStatus from '../../hooks/useFetchStatus';
+import DisplayAcc from './DisplayAcc';
+import DisplayLoss from './DisplayLoss';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -42,86 +44,6 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
     };
     initTileColer();
   }, [currentStatus]);
-
-  const optionsAccuracy = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      title: {
-        display: true,
-        text: 'Accuracy Over Epochs',
-        font: {
-          size: 22,
-          weight: 'bold',
-        },
-      },
-      legend: {
-        display: true,
-        position: 'bottom',
-        align: 'end',
-      },
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Epoch',
-          font: {
-            size: 14,
-          },
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: 'Accuracy',
-          font: {
-            size: 14,
-          },
-        },
-      },
-    },
-  };
-
-  const optionsLoss = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      title: {
-        display: true,
-        text: 'Loss Over Epochs',
-        font: {
-          size: 22,
-          weight: 'bold',
-        },
-      },
-      legend: {
-        display: true,
-        position: 'bottom',
-        align: 'end',
-      },
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Epoch',
-          font: {
-            size: 14,
-          },
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: 'Loss',
-          font: {
-            size: 14,
-          },
-        },
-      },
-    },
-  };
 
   const formatTimestamp = (timestamp) => {
     if (timestamp && timestamp.seconds) {
@@ -208,12 +130,8 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
       {isPicture &&
         <div className='graph-field'>
           <div className='model-picture-filed-wrapper'>
-            <div className='model-accuracy-picture canvas-container'>
-              <Line data={accuracyData} options={optionsAccuracy} />
-            </div>
-            <div className='model-loss-picture canvas-container'>
-              <Line data={lossData} options={optionsLoss} />
-            </div>
+            <DisplayAcc accuracyData={accuracyData} />
+            <DisplayLoss lossData={lossData} />
           </div>
         </div>
       }
