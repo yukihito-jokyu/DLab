@@ -31,7 +31,7 @@ function MiddleTileField({ tileName, layer ,setLayer, index, setNowIndex, handle
         <div className='tile-position-wrapper' onClick={handleParameter}>
           {tileName === 'Conv2d' ? (
             <Conv2dTile shape={shape} />
-          ) : tileName === 'Neuron' ? (
+          ) : tileName === 'Linear' ? (
             <NuronTile shape={shape} />
           ) : tileName === 'Box' ? (
             <TileBox droppableId={layer.box_id} snapshot={snapshot} />

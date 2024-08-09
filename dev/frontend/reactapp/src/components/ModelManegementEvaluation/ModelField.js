@@ -10,6 +10,7 @@ import ModelCreateField from './ModelCreateField';
 import AlertModal from '../utils/AlertModal';
 import { sendEmailVerification } from 'firebase/auth';
 import { getModelId } from '../../db/function/model_management';
+import { deleteFilesInDirectory, downloadDirectoryAsZip } from '../../db/function/storage';
 
 function ModelField() {
   const [models, setModels] = useState([]);
@@ -103,8 +104,26 @@ function ModelField() {
     }
   };
 
+  const handleDeleteStorage = async () => {
+    const checkedModels = models.filter(model => model.isChecked);
+    const deletePromises = checkedModels.map(async (model) => {
+      const deletePath = `user/${userId}/${projectName}/${model.model_id}`
+      await deleteFilesInDirectory(deletePath);
+    })
+    try {
+      // すべての削除処理が完了するのを待つ
+      await Promise.all(deletePromises);
+      console.log("All selected files have been deleted successfully.");
+    } catch (error) {
+      console.error("Error deleting files:", error);
+    }
+  }
+
   const handleDelateModel = () => {
+    // firebaseのdatabase内のデータ削除とバックエンドの削除
     handleDelate();
+    // fireStorage内のデータ削除
+    handleDeleteStorage();
     setModelDeleteModal(!modelDeleteModal);
   }
   const sendText2 = 'チェックしたモデルを削除しますか？'
@@ -147,6 +166,21 @@ function ModelField() {
 
   }
 
+  const handleDownloadZip = async () => {
+    const checkedModels = models.filter(model => model.isChecked);
+    const downloadModels = checkedModels.filter(model => (model.status === 'done'));
+    console.log(downloadModels);
+    const downloadPromises = downloadModels.map(model => downloadDirectoryAsZip(`user/${userId}/${projectName}/${model.model_id}`))
+    try {
+      // すべてのダウンロード処理が完了するのを待つ
+      await Promise.all(downloadPromises);
+      console.log("All selected files have been download successfully.");
+    } catch (error) {
+      console.error("Error deleting files:", error);
+    }
+
+  }
+
   // DLモーダル表示非表示
   const changeDLModal = () => {
     setDLModal(!DLModal);
@@ -154,7 +188,7 @@ function ModelField() {
   // DL関数
   const getDLItem = async () => {
     setDLModal(!DLModal);
-    await handleDownload()
+    await handleDownloadZip();
   }
   const sendText = 'チェックしたモデルをダウンロードしますか？'
   return (

@@ -70,7 +70,7 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
       const copyLayer = [...convLayer];
       copyLayer.splice(nowIndex, 0, newLayer);
       setConvLayer(copyLayer);
-    } else if (layerType === 'Neuron') {
+    } else if (layerType === 'Linear') {
       setErrorModal(!errorModal);
       setErrorField('畳み込み層');
       setErrorTile('Nuron');
@@ -105,7 +105,7 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
       const copyLayer = [...middleLayer];
       copyLayer.splice(nowIndex, 0, newLayer);
       setMiddleLayer(copyLayer);
-    } else if (layerType === 'Neuron') {
+    } else if (layerType === 'Linear') {
       const newLayer = {
         id: uuidv4(),
         layer_type: layerType,
