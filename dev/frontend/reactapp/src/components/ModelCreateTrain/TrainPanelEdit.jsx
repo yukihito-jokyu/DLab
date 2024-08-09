@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './TrainPanelEdit.css';
+import { ReactComponent as InfoIcon } from '../../assets/svg/info_24.svg';
 
-function TrainPanelEdit({ parameter, value, handleChangeParameter }) {
+function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformation, setParamName }) {
   const [selectedValue, setSelectedValue] = useState('');
   const [floatValue, setFloatValue] = useState('');
   const [testSize, setTestSize] = useState('');
@@ -63,6 +64,10 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter }) {
     setSelectedValue(e.target.value);
     handleChangeParameter(parameter, e.target.value);
   };
+  const handleInfoButton = () => {
+    setInformation(true)
+    setParamName(paramName[parameter])
+  }
   const paramName = {
     'batch': 'バッチサイズ',
     'epoch': '学習回数',
@@ -73,6 +78,11 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter }) {
   return (
     <>
     {parameter !== 'image_shape' ? (<div className='train-panel-edit-wrapper'>
+      <div className='param-information-button'>
+        <div className='button-wrapper' onClick={handleInfoButton}>
+          <InfoIcon className='info-icon' />
+        </div>
+      </div>
       <div className='train-panel-name-wrapper'>
         <p>{paramName[parameter]}</p>
       </div>

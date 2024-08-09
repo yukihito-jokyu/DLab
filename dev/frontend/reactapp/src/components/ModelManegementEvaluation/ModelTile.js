@@ -14,6 +14,8 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   const [isPicture, setIsPicture] = useState(false);
   const [tileColer, setTileColer] = useState();
   const [isHover, setIsHover] = useState();
+  const [accuracyImage, setAccuracyImage] = useState();
+  const [lossImage, setLossImage] = useState();
   const navigate = useNavigate();
 
   const { accuracyData, lossData } = useFetchTrainingResults(userId, projectName, modelId);

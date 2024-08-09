@@ -9,6 +9,7 @@ import TrainModal from './TrainModal';
 import { getModelStructure, getTrainInfo, updateStructure, updateTrainInfo } from '../../db/function/model_structure';
 import { useParams } from 'react-router-dom';
 import InformationModal from './Modal/InformationModal';
+import TrainPanel from './TrainPanel';
 
 function ScreenField({ edit, train, changeTrain }) {
   const [parameter, setParameter] = useState(null);
@@ -200,7 +201,7 @@ function ScreenField({ edit, train, changeTrain }) {
           setTrainInfo={setTrainInfo}
         />)}
       </div>
-      <div className='right-screen'>
+      {edit && (<div className='right-screen'>
         <div className='top-screen'>
           <DataScreen />
         </div>
@@ -223,7 +224,15 @@ function ScreenField({ edit, train, changeTrain }) {
             setInfoName={setInfoName}
           />
         </div>
-      </div>
+      </div>)}
+      {!edit && (
+        <div className='right-screen-param'>
+          <TrainPanel
+            trainInfo={trainInfo}
+            setTrainInfo={setTrainInfo}
+          />
+        </div>
+      )}
       {train && (
         <TrainModal changeTrain={changeTrain} flattenShape={flattenShape} />
       )}

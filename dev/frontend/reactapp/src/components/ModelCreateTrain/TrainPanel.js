@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './TrainPanel.css';
 import TrainPanelTital from './TrainPanelTital';
 import TrainPanelEdit from './TrainPanelEdit';
+import InformationModal from './Modal/InformationModal';
 
 function TrainPanel({ trainInfo, setTrainInfo }) {
   const [sortTrainInfo, setSortTrainInof] = useState(null);
+  const [information, setInformation] = useState(false);
+  const [paramName, setParamName] = useState('');
   useEffect(() => {
     const sortObject = () => {
       const sortedKeys = Object.keys(trainInfo).sort();
@@ -27,14 +30,15 @@ function TrainPanel({ trainInfo, setTrainInfo }) {
   }
   return (
     <div className='train-panel-wrapper'>
-      <TrainPanelTital />
+      <TrainPanelTital title={'学習パラメータ'} />
       <div className='panel-field'>
         {sortTrainInfo && Object.entries(sortTrainInfo).map(([key, value], index) => (
           <div key={index}>
-            <TrainPanelEdit parameter={key} value={value} handleChangeParameter={handleChangeParameter} />
+            <TrainPanelEdit parameter={key} value={value} handleChangeParameter={handleChangeParameter} setInformation={setInformation} setParamName={setParamName} />
           </div>
         ))}
       </div>
+      {information && <InformationModal infoName={paramName} handleDelete={setInformation} />}
     </div>
   )
 }
