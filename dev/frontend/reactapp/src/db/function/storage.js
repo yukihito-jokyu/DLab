@@ -57,32 +57,52 @@ const uploadUserImage = async (userId, imageFile, imageType) => {
   }
 }
 
-// モデル情報をzipファイルとしてダウンロード
-const downloadDirectoryAsZip = async (directoryPath) => {
+// 個別のZIPファイルを作成する関数
+const createZipFromDirectory = async (directoryPath) => {
+  const storage = getStorage();
   const directoryRef = ref(storage, directoryPath);
+  
   const zip = new JSZip();
-
+  
   try {
-    // ディレクトリ内の全ファイルを取得
     const result = await listAll(directoryRef);
-    const files = result.items;
-
-    // 各ファイルのURLを取得し、ZIPに追加
-    const filePromises = files.map(async (fileRef) => {
-      const url = await getDownloadURL(fileRef);
+    const downloadPromises = result.items.map(async (itemRef) => {
+      const url = await getDownloadURL(itemRef);
       const response = await fetch(url);
       const blob = await response.blob();
-      zip.file(fileRef.name, blob);
+      zip.file(itemRef.name, blob);
     });
-
-    await Promise.all(filePromises);
-
-    // ZIPファイルを生成し、ダウンロード
-    const zipBlob = await zip.generateAsync({ type: "blob" });
-    saveAs(zipBlob, "archive.zip");
+    
+    await Promise.all(downloadPromises);
+    
+    // ZIPファイルを生成してBlobとして返す
+    const content = await zip.generateAsync({ type: 'blob' });
+    return content;
   } catch (error) {
-    console.error("Error downloading or zipping files:", error);
+    console.error('Error creating ZIP from directory:', error);
+    throw error;
   }
 };
 
-export { getImage, deleteFilesInDirectory, downloadDirectoryAsZip, uploadUserImage }
+// 複数のZIPファイルをまとめる関数
+const combineZipsIntoOne = async (childZipBlobs, models) => {
+  const parentZip = new JSZip();
+
+  try {
+    // 各子ZIPファイルを親ZIPファイルに追加
+    for (let i = 0; i < childZipBlobs.length; i++) {
+      const childZipBlob = childZipBlobs[i];
+      parentZip.file(`${models[i].model_name}.zip`, childZipBlob);
+    }
+    
+    // 親ZIPファイルを生成してBlobとして返す
+    const content = await parentZip.generateAsync({ type: 'blob' });
+    return content;
+  } catch (error) {
+    console.error('Error creating parent ZIP file:', error);
+    throw error;
+  }
+};
+
+
+export { getImage, deleteFilesInDirectory, createZipFromDirectory, combineZipsIntoOne, uploadUserImage }
