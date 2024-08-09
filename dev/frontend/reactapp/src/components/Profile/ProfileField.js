@@ -5,6 +5,7 @@ import { addFavorite, getFavoriteUser, getJoinProject, getRegistrationDate, getU
 import './Profile.css';
 import { ReactComponent as CheckSVG } from '../../assets/svg/check_24.svg'; 
 import GradationButton from '../../uiParts/component/GradationButton';
+import AlertModal from '../utils/AlertModal';
 
 function ProfileField() {
   const { profileUserId } = useParams();
@@ -14,6 +15,7 @@ function ProfileField() {
   const [otherProfile, setOtherProfile] = useState();
   const [favoriteUser, setFavaoriteUser] = useState();
   const [registrationDate, setRegistrationDate] = useState();
+  const [logout, setLogout] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchFirebase = async () => {
@@ -56,6 +58,9 @@ function ProfileField() {
   const handleNav = () => {
     handlSignOut();
     navigate('/top');
+  }
+  const changeLogout = () => {
+    setLogout(!logout);
   }
   return (
     <div className='profile-field-wrapper'>
@@ -107,13 +112,14 @@ function ProfileField() {
       )}
       {!otherProfile ? (
         <div className='logout-wrapper'>
-          <div onClick={handleNav}>
+          <div onClick={changeLogout}>
             <GradationButton text={'LOGOUT'} />
           </div>
         </div>
       ) : (
         <></>
       )}
+      {logout && <AlertModal deleteModal={changeLogout} handleClick={handleNav} sendText={'ログアウトしますか？'} />}
     </div>
   )
 }

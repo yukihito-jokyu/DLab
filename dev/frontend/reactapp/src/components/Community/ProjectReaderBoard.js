@@ -64,16 +64,16 @@ function ProjectReaderBoard() {
       <div className='reader-board-field'>
         {favorite === true ? (
           readerBoard ? (
-            readerBoard.map((board) => {
+            readerBoard.map((board, index) => {
               const userData = board.data();
               return (userData.user_id === userId ? (
                 <div key={userData.user_id} ref={targetRef}>
-                  <ReaderBoard rank={userData.rank} name={userData.user_name} accuracy={userData.accuracy} />
+                  <ReaderBoard rank={index+1} name={userData.user_name} accuracy={userData.accuracy} tileUserId={userData.user_id} />
                 </div>
               ) : (
                 favoriteUser.includes(userData.user_name) ? (
                   <div key={userData.user_id}>
-                    <ReaderBoard rank={userData.rank} name={userData.user_name} accuracy={userData.accuracy} />
+                    <ReaderBoard rank={index+1} name={userData.user_name} accuracy={userData.accuracy} tileUserId={userData.user_id} />
                   </div>
                 ) : null
               ));
@@ -81,15 +81,15 @@ function ProjectReaderBoard() {
           ) : null
         ) : (
           readerBoard ? (
-            readerBoard.map((board) => {
+            readerBoard.map((board, index) => {
               const userData = board.data();
               return (userData.user_id === userId ? (
                 <div key={userData.user_id} ref={targetRef}>
-                  <ReaderBoard rank={userData.rank} name={userData.user_name} accuracy={userData.accuracy} />
+                  <ReaderBoard rank={index+1} name={userData.user_name} accuracy={userData.accuracy} tileUserId={userData.user_id} />
                 </div>
               ) : (
                 <div key={userData.user_id}>
-                  <ReaderBoard rank={userData.rank} name={userData.user_name} accuracy={userData.accuracy} />
+                  <ReaderBoard rank={index+1} name={userData.user_name} accuracy={userData.accuracy} tileUserId={userData.user_id} />
                 </div>
               ));
             })

@@ -178,7 +178,7 @@ function App() {
     <UserInfoContext.Provider value={{ userId, setUserId, firstSignIn, setFirstSignIn, projectId, setProjectId }}>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
+          {/* <Route path="/" element={<Home />} /> */}
           {/* <Route path='/Login' element={<Login />} /> */}
           <Route path="/test" element={<Test />} />
           <Route path='/Reinforcement' element={<Reinforcement handlemakeid={handleMakeId} elementid={elementId} />} />

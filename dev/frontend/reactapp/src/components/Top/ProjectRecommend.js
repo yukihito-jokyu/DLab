@@ -45,7 +45,7 @@ function ProjectRecommend({ setFirstSignIn }) {
   };
   const handleRLSignIn = () => {
     if (user) {
-      navigate(`/RLProjectLis/${userId}`);
+      navigate(`/RLProjectList`);
     } else {
       signInWithGoogle(setFirstSignIn);
     }
