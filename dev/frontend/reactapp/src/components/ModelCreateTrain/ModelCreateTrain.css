@@ -34,6 +34,14 @@
   height: calc(50% - 5px);
 }
 
+.right-screen-param {
+  margin-left: 10px;
+  width: 600px;
+  height: 100%;
+  background-color: white;
+  border-radius: 15px;
+}
+
 /* EditScreen */
 
 .edit-screen-wrapper {
