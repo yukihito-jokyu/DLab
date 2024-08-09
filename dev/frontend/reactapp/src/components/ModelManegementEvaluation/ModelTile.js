@@ -130,7 +130,9 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   };
 
   const handleClick = () => {
-    setIsPicture(!isPicture);
+    if (currentStatus !== 'pre') {
+      setIsPicture(!isPicture);
+    }
   };
 
   const handleNav = () => {
@@ -189,7 +191,14 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
           <p>{formatTimestamp(date)}</p>
         </div>
         <div className='model-picture'>
-          <div className='model-picture-icon-wrapper' onClick={handleClick}>
+          <div
+            className='model-picture-icon-wrapper'
+            onClick={handleClick}
+            style={{
+              cursor: currentStatus === 'pre' ? 'not-allowed' : 'pointer',
+              opacity: currentStatus === 'pre' ? 0.6 : 1
+            }}
+          >
             <PictureIcon className='picture-svg' />
           </div>
         </div>
