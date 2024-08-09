@@ -1,19 +1,24 @@
-import { deleteObject, getDownloadURL, getStorage, listAll, ref } from "firebase/storage"
+import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from "firebase/storage"
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { storage } from "../firebase"
 
 
-// 学習曲線の取得
+// 画像の取得
 const getImage = async (path) => {
-  const imageRef = ref(storage, path);
-  try {
-    const url = await getDownloadURL(imageRef);
-    return url;
-  } catch (error) {
-    console.log('Error getting image URL:', error);
-    return null;
+  const imagePath = await listFilesInDirectory(path);
+  console.log(imagePath.items.length)
+  if (imagePath.items.length !== 0) {
+    const imageRef = ref(storage, `${path}/${imagePath.items[0].name}`);
+    try {
+      const url = await getDownloadURL(imageRef);
+      return url;
+    } catch (error) {
+      console.log('Error getting image URL:', error);
+      return null;
+    }
   }
+  return null;
 };
 
 // ディレクトリ内の全てのファイル名を取得
@@ -21,7 +26,7 @@ const listFilesInDirectory = async (path) => {
   const directoryRef = ref(getStorage(), path);
   try {
     const result = await listAll(directoryRef);
-    return result.items; // Array of file references
+    return result; // Array of file references
   } catch (error) {
     console.error("Error listing files:", error);
     return [];
@@ -38,6 +43,19 @@ const deleteFilesInDirectory = async (path) => {
     console.error("Error deleting files:", error);
   }
 };
+
+// ユーザーの画像をアップロード
+const uploadUserImage = async (userId, imageFile, imageType) => {
+  await deleteFilesInDirectory(`images/${userId}`)
+  try {
+    const storageRef = ref(storage, `images/${userId}/profile.${imageType}`);
+    await uploadBytes(storageRef, imageFile);
+    const downloadURL = await getDownloadURL(storageRef);
+    console.log('File uploaded successfully. Download URL:', downloadURL);
+  } catch (error) {
+    console.error('Error uploading file:', error);
+  }
+}
 
 // モデル情報をzipファイルとしてダウンロード
 const downloadDirectoryAsZip = async (directoryPath) => {
@@ -67,4 +85,4 @@ const downloadDirectoryAsZip = async (directoryPath) => {
   }
 };
 
-export { getImage, deleteFilesInDirectory, downloadDirectoryAsZip }
+export { getImage, deleteFilesInDirectory, downloadDirectoryAsZip, uploadUserImage }

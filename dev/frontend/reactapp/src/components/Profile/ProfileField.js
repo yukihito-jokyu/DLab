@@ -6,6 +6,8 @@ import './Profile.css';
 import { ReactComponent as CheckSVG } from '../../assets/svg/check_24.svg'; 
 import GradationButton from '../../uiParts/component/GradationButton';
 import AlertModal from '../utils/AlertModal';
+import ImageUploadModal from './ImageUploadModal';
+import { getImage, listFilesInDirectory } from '../../db/function/storage';
 
 function ProfileField() {
   const { profileUserId } = useParams();
@@ -16,7 +18,10 @@ function ProfileField() {
   const [favoriteUser, setFavaoriteUser] = useState();
   const [registrationDate, setRegistrationDate] = useState();
   const [logout, setLogout] = useState(false);
+  const [imageUpload, setImageUpload] = useState(false);
+  const [userImage, setUserImage] = useState();
   const navigate = useNavigate();
+  // 参加プロジェクト
   useEffect(() => {
     const fetchFirebase = async () => {
       const name = await getUserName(profileUserId);
@@ -32,6 +37,14 @@ function ProfileField() {
     }
     fetchFirebase();
   }, [profileUserId, userId]);
+  // ユーザー画像
+  useEffect(() => {
+    const fetchUserImage = async () => {
+      const url = await getImage(`images/${profileUserId}`);
+      setUserImage(url)
+    }
+    fetchUserImage();
+  }, [profileUserId]);
   const formatTimestamp = (timestamp) => {
     if (timestamp && timestamp.seconds) {
       const date = new Date(timestamp.seconds * 1000);
@@ -62,6 +75,9 @@ function ProfileField() {
   const changeLogout = () => {
     setLogout(!logout);
   }
+  const changeImageUpload = () => {
+    setImageUpload(!imageUpload)
+  }
   return (
     <div className='profile-field-wrapper'>
       <div className='profile-title'>
@@ -69,7 +85,9 @@ function ProfileField() {
       </div>
       <div className='profile'>
         <div className='profile-left'>
-          <div className='picture-field' style={style1}></div>
+          <div className='picture-field' onClick={changeImageUpload} style={style1}>
+            {userImage && <img src={userImage} alt='User-Icon' />}
+          </div>
         </div>
         <div className='profile-right'>
           <div className='profile-info'>
@@ -120,6 +138,7 @@ function ProfileField() {
         <></>
       )}
       {logout && <AlertModal deleteModal={changeLogout} handleClick={handleNav} sendText={'ログアウトしますか？'} />}
+      {imageUpload && !otherProfile && <ImageUploadModal deleteModal={changeImageUpload} />}
     </div>
   )
 }

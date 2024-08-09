@@ -64,6 +64,7 @@
   height: 150px;
   border-radius: 50%;
   background-color: #D9D9D9;
+  overflow: hidden;
   /* border: 5px solid #F0B927; */
 }
 
