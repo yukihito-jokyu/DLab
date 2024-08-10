@@ -14,4 +14,20 @@ const getReaderBoardInfo = async (projectId) => {
   }
 };
 
-export { getReaderBoardInfo }
+// ユーザーidから順位を取得する方法
+const getUserRank = async (projectId, userId) => {
+  const collectionName = `${projectId}_reader_board`;
+  const q = await query(collection(db, collectionName), orderBy('accuracy', 'desc'));
+  const querySnapshot = await getDocs(q);
+  let rank = 'NaN';
+  console.log(userId)
+  querySnapshot.docs.forEach((doc, index) => {
+    console.log(doc.data().user_id)
+    if (doc.data().user_id === userId) {
+      rank = index + 1; // 1から始まる順位
+    }
+  });
+  return rank
+}
+
+export { getReaderBoardInfo, getUserRank }
