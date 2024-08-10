@@ -32,7 +32,7 @@ function FlappyFrame(props) {
 
   return (
     <div>
-      <button onClick={handleGetData}>データ取得</button>
+      <button onClick={handleGetData} style={{ cursor: 'pointer' }}>データ取得</button>
       {/* <button onClick={handleTrainFlappy}>学習開始</button> */}
       <div>
         {imagedata && <img src={`data:image/png;base64,${imagedata}`} alt="test_Image" />}

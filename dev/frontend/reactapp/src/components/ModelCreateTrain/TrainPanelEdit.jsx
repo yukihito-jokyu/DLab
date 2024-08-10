@@ -13,7 +13,7 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
   const handleNumChange = (e) => {
     const inputValue = e.target.value;
     const regex = /^[0-9]*$/; // 数字のみを許可
-  
+
     if (regex.test(inputValue)) {
       // 空入力を許可
       if (inputValue === '') {
@@ -77,17 +77,17 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
   }
   return (
     <>
-    {parameter !== 'image_shape' ? (<div className='train-panel-edit-wrapper'>
-      <div className='param-information-button'>
-        <div className='button-wrapper' onClick={handleInfoButton}>
-          <InfoIcon className='info-icon' />
+      {parameter !== 'image_shape' ? (<div className='train-panel-edit-wrapper'>
+        <div className='param-information-button'>
+          <div className='button-wrapper' onClick={handleInfoButton} style={{ cursor: 'pointer' }}>
+            <InfoIcon className='info-icon' />
+          </div>
         </div>
-      </div>
-      <div className='train-panel-name-wrapper'>
-        <p>{paramName[parameter]}</p>
-      </div>
-      <div className='train-panel-value-wrapper'>
-        {parameter === 'loss' ? (
+        <div className='train-panel-name-wrapper'>
+          <p>{paramName[parameter]}</p>
+        </div>
+        <div className='train-panel-value-wrapper'>
+          {parameter === 'loss' ? (
             <select value={selectedValue} onChange={handleChange}>
               <option value="mse_loss">mse_loss</option>
               <option value="cross_entropy">cross_entropy</option>
@@ -109,11 +109,11 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
             </select>
           ) : parameter === 'learning_rate' ? (
             <input
-            type='text'
-            value={floatValue}
-            onChange={handleFloatChange}
-            placeholder='0 以上 1 未満の数値'
-          />
+              type='text'
+              value={floatValue}
+              onChange={handleFloatChange}
+              placeholder='0 以上 1 未満の数値'
+            />
           ) : parameter === 'optimizer' ? (
             <select value={selectedValue} onChange={handleChange}>
               <option value="SGD">SGD</option>
@@ -153,10 +153,10 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
           ) : (
             <></>
           )}
-      </div>
-    </div>) : (
-      <></>
-    )}
+        </div>
+      </div>) : (
+        <></>
+      )}
     </>
   )
 }

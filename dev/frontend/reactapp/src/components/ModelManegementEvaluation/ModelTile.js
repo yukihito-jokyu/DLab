@@ -102,7 +102,7 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
             <span className="checkmark"></span>
           </label>
         </div>
-        <div className='model-title' onClick={handleNav}>
+        <div className='model-title' onClick={handleNav} style={{ cursor: 'pointer' }}>
           <TextDisplay text={modelName} maxLength={20} />
         </div>
         <div className='model-accuracy'>

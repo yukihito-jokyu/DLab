@@ -23,7 +23,7 @@ function Discussion({ handleEdit }) {
           <div className='title-box'>
             <p>記事の新規作成</p>
           </div>
-          <div className='delet-box' onClick={handleEdit}>
+          <div className='delet-box' onClick={handleEdit} style={{ cursor: 'pointer' }}>
             <DeletIcon className='delet-icon' />
           </div>
         </div>
@@ -44,7 +44,7 @@ function Discussion({ handleEdit }) {
           />
         </div>
         <div className='post-button-wrapper'>
-          <div className='post-button' onClick={handlePost}>
+          <div className='post-button' onClick={handlePost} style={{ cursor: 'pointer' }}>
             <p>投稿する</p>
             <EditIcon className='edit-icon' />
           </div>

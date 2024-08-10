@@ -9,7 +9,7 @@ function ImageProjectAdd() {
     navigate('/projectshare');
   }
   return (
-    <div className='ImageProjectAdd-wrapper' onClick={handleNav}>
+    <div className='ImageProjectAdd-wrapper' onClick={handleNav} style={{ cursor: 'pointer' }}>
       <AddIcon className='add-svg' />
     </div>
   )

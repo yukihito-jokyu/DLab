@@ -11,7 +11,7 @@ function InputField({ inputLayer, setLayerType, shape }) {
   return (
     <div className='input-field-wrapper'>
       <div className='input-tile-position'>
-        <div onClick={handleClick}>
+        <div onClick={handleClick} style={{ cursor: 'pointer' }}>
           <Tile text={text} shape={shape} />
         </div>
       </div>

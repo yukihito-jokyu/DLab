@@ -6,7 +6,7 @@ import InputLayer from '../Image/InputLayer';
 import { ReactComponent as InfoIcon } from '../../assets/svg/info_24.svg';
 
 function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, middleLayer, layerType, param, selectedindex, setInputLayer, setConvLayer, setFlattenWay, setMiddleLayer, setParam, setInfoModal, setInfoName }) {
-  const pList =["kernel_size", "activation_function", "out_channel", "padding", "strid", "dropout_p", "neuron_size", "preprocessing", "way", "change_shape"]
+  const pList = ["kernel_size", "activation_function", "out_channel", "padding", "strid", "dropout_p", "neuron_size", "preprocessing", "way", "change_shape"]
   const [keys, setKeys] = useState([]);
   useEffect(() => {
     const handleSetParameter = () => {
@@ -40,11 +40,11 @@ function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, 
     console.log(key, value)
     if (layerType === 'Conv') {
       const newConvLayer = [...convLayer];
-      newConvLayer[selectedindex] = { ...newConvLayer[selectedindex], [key]: value}
+      newConvLayer[selectedindex] = { ...newConvLayer[selectedindex], [key]: value }
       setConvLayer(newConvLayer);
     } else if (layerType === 'Middle') {
       const newMiddleLayer = [...middleLayer];
-      newMiddleLayer[selectedindex] = { ...newMiddleLayer[selectedindex], [key]: value}
+      newMiddleLayer[selectedindex] = { ...newMiddleLayer[selectedindex], [key]: value }
       setMiddleLayer(newMiddleLayer);
     } else if (layerType === 'Input') {
       const newInputLayer = { ...inputLayer };
@@ -80,13 +80,13 @@ function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, 
   return (
     <div className='edit-tile-parameter-wrapper'>
       <div className='edit-tile-field'>
-        
+
         {param && keys.map((key, index) => (
           pList.includes(String(key)) && (
             <div key={index} className='edit-wrapper'>
               <div className='edit-field'>
                 <div className='param-information-button'>
-                  <div className='button-wrapper' onClick={() => handleInfoModal(key)}>
+                  <div className='button-wrapper' onClick={() => handleInfoModal(key)} style={{ cursor: 'pointer' }}>
                     <InfoIcon className='info-icon' />
                   </div>
                 </div>

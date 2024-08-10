@@ -14,7 +14,7 @@ function ConvField({ convLayer, setConvLayer, setNowIndex, handleModal, handleDe
     if (!result.source || !result.destination) {
       return;
     };
-    
+
     const { source, destination } = result;
     // 違うカラムに移動したとき
     if (source.droppableId !== destination.droppableId) {
@@ -35,7 +35,7 @@ function ConvField({ convLayer, setConvLayer, setNowIndex, handleModal, handleDe
     <div className='middle-field-wrapper'>
       <div className='tile-add-button-over-wrapper'>
         <div className='tile-add-button-wrapper'>
-          <div onClick={(handleAddTile)}>
+          <div onClick={(handleAddTile)} style={{ cursor: 'pointer' }}>
             <TileAdd className='tile-add-button' />
           </div>
         </div>

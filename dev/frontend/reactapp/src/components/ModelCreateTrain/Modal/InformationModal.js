@@ -25,7 +25,7 @@ function InformationModal({ infoName, handleDelete }) {
               <div className='exp-field'>
                 <p>ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</p>
               </div>
-              <div className='train-modal-delet-button-field' onClick={() => handleDelete(false)}>
+              <div className='train-modal-delet-button-field' onClick={() => handleDelete(false)} style={{ cursor: 'pointer' }}>
                 <DeletIcon className='delet-svg' />
               </div>
             </div>

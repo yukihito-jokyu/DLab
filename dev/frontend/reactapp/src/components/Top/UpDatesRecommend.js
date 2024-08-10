@@ -27,7 +27,7 @@ function UpDatesRecommend({ setFirstSignIn }) {
         <p>今後のサービス向上のために何かご要望等ございましたら</p>
         <p>下記フォームへご要望下さい</p>
       </div>
-      <div className='update-button' onClick={handleSignIn}>
+      <div className='update-button' onClick={handleSignIn} style={{ cursor: 'pointer' }}>
         <GradationButton />
       </div>
       <div className='update-list'>

@@ -15,7 +15,7 @@ function CheckImage() {
   return (
     <div>
       <h1>CheckImage</h1>
-      <button onClick={handleGetImage}>Image取得</button>
+      <button onClick={handleGetImage} style={{ cursor: 'pointer' }}>Image取得</button>
       <div>
         <p>train</p>
         <div

@@ -53,21 +53,21 @@ function ModelCreateBox({ handleCreateModal }) {
           </div>
           <div>
             <div className='projecttitle-line'>
-            
+
             </div>
           </div>
         </div>
       </div>
       <div className='create-model-button-field'>
         <div className='create-model-button'>
-          <div onClick={handleMakeModel}>
+          <div onClick={handleMakeModel} style={{ cursor: 'pointer' }}>
             <GradationButton text={text2} />
           </div>
         </div>
       </div>
       <div className='delet-button-field'>
         <div className='delet-button-wrapper'>
-          <div className='delet-button-wrapper' onClick={handleCreateModal}>
+          <div className='delet-button-wrapper' onClick={handleCreateModal} style={{ cursor: 'pointer' }}>
             <DeletIcon className='delet-svg' />
           </div>
         </div>

@@ -6,10 +6,10 @@ import { ReactComponent as PlayIcon } from '../../assets/svg/play_circle_24.svg'
 function TrainButtons({ changeEdit, changeTrain }) {
   return (
     <div className='train-buttons-wrapper'>
-      <div className='terminal-wrapper' onClick={changeEdit}>
+      <div className='terminal-wrapper' onClick={changeEdit} style={{ cursor: 'pointer' }}>
         <TerminalIcon className='terminal-svg' />
       </div>
-      <div className='play-wrapper' onClick={changeTrain}>
+      <div className='play-wrapper' onClick={changeTrain} style={{ cursor: 'pointer' }}>
         <PlayIcon className='play-svg' />
       </div>
     </div>

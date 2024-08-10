@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import './ImageClassificationProjectList.css'
 import ImageProjectImages from './ImageProjectImages'
-import { ReactComponent as EditSVG } from '../../assets/svg/edit.svg' 
+import { ReactComponent as EditSVG } from '../../assets/svg/edit.svg'
 import { UserInfoContext } from '../../App'
 import { useNavigate } from 'react-router-dom'
 import CIFAR10Image1 from '../../assets/images/project_image/CIFAR10/CIFAR10_image1.png';
@@ -26,7 +26,7 @@ function ImageProjectIcon({ projectName }) {
     height: '70px'
   }
   return (
-    <div className='ImageProjectIcon-wrapper' onClick={() => {handleNav(projectName)}}>
+    <div className='ImageProjectIcon-wrapper' onClick={() => { handleNav(projectName) }} style={{ cursor: 'pointer' }}>
       <div className='titlefeild-wrapper'>
         <div className='project-title'>
           <div className='projecttitle-wrapper'>

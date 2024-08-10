@@ -37,7 +37,7 @@ function DiscussionInfo({ handleInfo, discussionId }) {
         <div className='title-wrapper'>
           <p>{title}</p>
         </div>
-        <div className='delet-box' onClick={handleInfo}>
+        <div className='delet-box' onClick={handleInfo} style={{ cursor: 'pointer' }}>
           <DeletIcon className='delet-icon' />
         </div>
       </div>
@@ -62,7 +62,7 @@ function DiscussionInfo({ handleInfo, discussionId }) {
           onChange={(e) => setComment(e.target.value)}
         />
         <div className='send-field'>
-          <div className='send-middle-wrapper' onClick={handlePosetComment}>
+          <div className='send-middle-wrapper' onClick={handlePosetComment} style={{ cursor: 'pointer' }}>
             <p>コメント</p>
             <SendIcon className='send-icon' />
           </div>

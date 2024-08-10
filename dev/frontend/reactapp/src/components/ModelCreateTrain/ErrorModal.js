@@ -21,11 +21,11 @@ function ErrorModal({ handleErrorModal, filedName, tileName }) {
         </div>
         <div className='error-comment-wrapper'>
           <div className='error-comment-field'>
-            <p>このエリアは<span>{filedName}</span>なので、<br/>レイヤー：<span>{tileName}</span>を追加することができません。</p>
+            <p>このエリアは<span>{filedName}</span>なので、<br />レイヤー：<span>{tileName}</span>を追加することができません。</p>
           </div>
         </div>
         <div className='error-model-button-field'>
-          <div onClick={handleErrorModal}>
+          <div onClick={handleErrorModal} style={{ cursor: 'pointer' }}>
             <GradationButton text={'OK'} style1={style} />
           </div>
         </div>

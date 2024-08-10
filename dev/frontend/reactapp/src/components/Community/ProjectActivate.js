@@ -29,7 +29,7 @@ function ProjectActivate({ projectName, shortExp, changeJoinModal }) {
     background: 'linear-gradient(95.34deg, #B6F862 3.35%, #00957A 100%), linear-gradient(94.22deg, #D997FF 0.86%, #50BCFF 105.96%)'
   };
   const navigate = useNavigate();
-  
+
   const handleActivate = () => {
     sessionStorage.setItem('projectId', JSON.stringify(projectName));
     navigate(`/ModelManegementEvaluation/${userId}/${projectName}`);
@@ -44,11 +44,11 @@ function ProjectActivate({ projectName, shortExp, changeJoinModal }) {
           </div>
         ) : (<></>)}
         {joined ? (
-          <div className='activate-button-wrapper' onClick={handleActivate}>
+          <div className='activate-button-wrapper' onClick={handleActivate} style={{ cursor: 'pointer' }}>
             <GradationButton text={'Activate'} style1={style1} />
           </div>
         ) : (
-          <div className='activate-button-wrapper' onClick={changeJoinModal}>
+          <div className='activate-button-wrapper' onClick={changeJoinModal} style={{ cursor: 'pointer' }}>
             <GradationButton text={'join'} style1={style1} />
           </div>
         )}

@@ -15,16 +15,16 @@ function CNNDnDFild(props) {
   // test
   let input_num = [160, 160, 1];
   const [inputList, setInputList] = useState([[160, 160, 1]]);
-  
+
 
   const onDragEnd = (result) => {
     if (!result.source || !result.destination) {
       // ドラッグが不適切な場合など、source や destination が存在しない場合は何もせずに終了
       return;
     }
-    
+
     const { source, destination } = result;
-    
+
 
     console.log(convList);
     const sourceNuron = [...convList];
@@ -56,7 +56,7 @@ function CNNDnDFild(props) {
     setConvList(prevData => prevData.filter(nuron => nuron.id !== idToDelete));
   };
 
-  
+
 
   // html追加
   const handleMakeHTML = (id, index) => {
@@ -69,12 +69,12 @@ function CNNDnDFild(props) {
   }
   return (
     <div className='dnd-fild'>
-      <button onClick={handleAdd}>+</button>
+      <button onClick={handleAdd} style={{ cursor: 'pointer' }}>+</button>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="trello">
           <Droppable droppableId='0'>
             {(provided) => (
-              <div 
+              <div
                 className='nuron-box'
                 ref={provided.innerRef}
                 {...provided.droppableProps}
