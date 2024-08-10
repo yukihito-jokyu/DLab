@@ -1,19 +1,24 @@
-import { deleteObject, getDownloadURL, getStorage, listAll, ref } from "firebase/storage"
+import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes } from "firebase/storage"
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { storage } from "../firebase"
 
 
-// 学習曲線の取得
+// 画像の取得
 const getImage = async (path) => {
-  const imageRef = ref(storage, path);
-  try {
-    const url = await getDownloadURL(imageRef);
-    return url;
-  } catch (error) {
-    console.log('Error getting image URL:', error);
-    return null;
+  const imagePath = await listFilesInDirectory(path);
+  console.log(imagePath.items.length)
+  if (imagePath.items.length !== 0) {
+    const imageRef = ref(storage, `${path}/${imagePath.items[0].name}`);
+    try {
+      const url = await getDownloadURL(imageRef);
+      return url;
+    } catch (error) {
+      console.log('Error getting image URL:', error);
+      return null;
+    }
   }
+  return null;
 };
 
 // ディレクトリ内の全てのファイル名を取得
@@ -21,7 +26,7 @@ const listFilesInDirectory = async (path) => {
   const directoryRef = ref(getStorage(), path);
   try {
     const result = await listAll(directoryRef);
-    return result.items; // Array of file references
+    return result; // Array of file references
   } catch (error) {
     console.error("Error listing files:", error);
     return [];
@@ -39,32 +44,65 @@ const deleteFilesInDirectory = async (path) => {
   }
 };
 
-// モデル情報をzipファイルとしてダウンロード
-const downloadDirectoryAsZip = async (directoryPath) => {
-  const directoryRef = ref(storage, directoryPath);
-  const zip = new JSZip();
-
+// ユーザーの画像をアップロード
+const uploadUserImage = async (userId, imageFile, imageType) => {
+  await deleteFilesInDirectory(`images/${userId}`)
   try {
-    // ディレクトリ内の全ファイルを取得
-    const result = await listAll(directoryRef);
-    const files = result.items;
+    const storageRef = ref(storage, `images/${userId}/profile.${imageType}`);
+    await uploadBytes(storageRef, imageFile);
+    const downloadURL = await getDownloadURL(storageRef);
+    console.log('File uploaded successfully. Download URL:', downloadURL);
+  } catch (error) {
+    console.error('Error uploading file:', error);
+  }
+}
 
-    // 各ファイルのURLを取得し、ZIPに追加
-    const filePromises = files.map(async (fileRef) => {
-      const url = await getDownloadURL(fileRef);
+// 個別のZIPファイルを作成する関数
+const createZipFromDirectory = async (directoryPath) => {
+  const storage = getStorage();
+  const directoryRef = ref(storage, directoryPath);
+  
+  const zip = new JSZip();
+  
+  try {
+    const result = await listAll(directoryRef);
+    const downloadPromises = result.items.map(async (itemRef) => {
+      const url = await getDownloadURL(itemRef);
       const response = await fetch(url);
       const blob = await response.blob();
-      zip.file(fileRef.name, blob);
+      zip.file(itemRef.name, blob);
     });
-
-    await Promise.all(filePromises);
-
-    // ZIPファイルを生成し、ダウンロード
-    const zipBlob = await zip.generateAsync({ type: "blob" });
-    saveAs(zipBlob, "archive.zip");
+    
+    await Promise.all(downloadPromises);
+    
+    // ZIPファイルを生成してBlobとして返す
+    const content = await zip.generateAsync({ type: 'blob' });
+    return content;
   } catch (error) {
-    console.error("Error downloading or zipping files:", error);
+    console.error('Error creating ZIP from directory:', error);
+    throw error;
   }
 };
 
-export { getImage, deleteFilesInDirectory, downloadDirectoryAsZip }
+// 複数のZIPファイルをまとめる関数
+const combineZipsIntoOne = async (childZipBlobs, models) => {
+  const parentZip = new JSZip();
+
+  try {
+    // 各子ZIPファイルを親ZIPファイルに追加
+    for (let i = 0; i < childZipBlobs.length; i++) {
+      const childZipBlob = childZipBlobs[i];
+      parentZip.file(`${models[i].model_name}.zip`, childZipBlob);
+    }
+    
+    // 親ZIPファイルを生成してBlobとして返す
+    const content = await parentZip.generateAsync({ type: 'blob' });
+    return content;
+  } catch (error) {
+    console.error('Error creating parent ZIP file:', error);
+    throw error;
+  }
+};
+
+
+export { getImage, deleteFilesInDirectory, createZipFromDirectory, combineZipsIntoOne, uploadUserImage }

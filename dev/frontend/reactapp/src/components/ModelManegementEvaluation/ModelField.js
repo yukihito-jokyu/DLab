@@ -10,7 +10,8 @@ import ModelCreateField from './ModelCreateField';
 import AlertModal from '../utils/AlertModal';
 import { sendEmailVerification } from 'firebase/auth';
 import { getModelId } from '../../db/function/model_management';
-import { deleteFilesInDirectory, downloadDirectoryAsZip } from '../../db/function/storage';
+import { saveAs } from 'file-saver';
+import { combineZipsIntoOne, createZipFromDirectory, deleteFilesInDirectory, downloadDirectory, testDownload } from '../../db/function/storage';
 
 function ModelField() {
   const [models, setModels] = useState([]);
@@ -166,20 +167,28 @@ function ModelField() {
 
   }
 
-  const handleDownloadZip = async () => {
-    const checkedModels = models.filter(model => model.isChecked);
-    const downloadModels = checkedModels.filter(model => (model.status === 'done'));
-    console.log(downloadModels);
-    const downloadPromises = downloadModels.map(model => downloadDirectoryAsZip(`user/${userId}/${projectName}/${model.model_id}`))
-    try {
-      // すべてのダウンロード処理が完了するのを待つ
-      await Promise.all(downloadPromises);
-      console.log("All selected files have been download successfully.");
-    } catch (error) {
-      console.error("Error deleting files:", error);
-    }
-
+  // ZIPファイルをダウンロードする関数
+const handleDownloadZip = async () => {
+  const checkedModels = models.filter(model => model.isChecked);
+  const downloadModels = checkedModels.filter(model => model.status === 'done');
+  // console.log(downloadModels)
+  try {
+    const zipPromises = downloadModels.map(model => createZipFromDirectory(`user/${userId}/${projectName}/${model.model_id}`));
+    
+    // すべてのZIPファイルを生成
+    const zipBlobs = await Promise.all(zipPromises);
+    
+    // すべてのZIPファイルを1つにまとめる
+    const combinedZipBlob = await combineZipsIntoOne(zipBlobs, downloadModels);
+    
+    // まとめたZIPファイルをダウンロード
+    saveAs(combinedZipBlob, 'combined_downloaded_directory.zip');
+    
+    console.log("All selected files have been combined and downloaded successfully.");
+  } catch (error) {
+    console.error("Error during ZIP creation and download:", error);
   }
+};
 
   // DLモーダル表示非表示
   const changeDLModal = () => {

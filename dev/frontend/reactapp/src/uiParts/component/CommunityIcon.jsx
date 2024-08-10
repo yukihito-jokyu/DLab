@@ -1,12 +1,13 @@
 import React from 'react';
 import '../css/CommunityIcon.css';
 import { ReactComponent as Community } from '../../assets/svg/description_24.svg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function CommunityIcon() {
+  const { projectName } = useParams()
   const navigate = useNavigate();
   const handleNave = () => {
-    navigate('/community');
+    navigate(`/community/${projectName}`);
   }
   return (
     <div className='community-icon-wrapper' onClick={handleNave}>

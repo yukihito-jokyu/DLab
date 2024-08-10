@@ -1,9 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Community.css';
 
-function ReaderBoard({ rank, name, accuracy }) {
+function ReaderBoard({ rank, name, accuracy, tileUserId }) {
+  const userId = JSON.parse(sessionStorage.getItem('userId'));
+  const [tileColor, setTileColor] = useState();
+  useEffect(() => {
+    const initColor = () => {
+      if (userId === tileUserId) {
+        if (rank === 1) {
+          const color = {
+            backgroundColor: '#ffd448df',
+            border: 'solid 5px #D997FF'
+          }
+          setTileColor(color)
+        } else if (rank === 2) {
+          const color = {
+            backgroundColor: '#E9E9E9',
+            border: 'solid 5px #D997FF'
+          }
+          setTileColor(color)
+        } else if (rank === 3) {
+          const color = {
+            backgroundColor: '#F0BA7C',
+            border: 'solid 5px #D997FF'
+          }
+          setTileColor(color)
+        }
+      } else {
+        if (rank === 1) {
+          const color = {
+            backgroundColor: '#ffd448df'
+          }
+          setTileColor(color)
+        } else if (rank === 2) {
+          const color = {
+            backgroundColor: '#E9E9E9'
+          }
+          setTileColor(color)
+        } else if (rank === 3) {
+          const color = {
+            backgroundColor: '#F0BA7C'
+          }
+          setTileColor(color)
+        }
+      }
+      
+    };
+    initColor()
+  }, [rank, userId, tileUserId])
   return (
-    <div className='reader-board-wrapper'>
+    <div className='reader-board-wrapper' style={tileColor}>
       <div className='reader-board-rank'>
         {rank === 1 ? (
           <div>

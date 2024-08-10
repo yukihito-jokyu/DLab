@@ -6,6 +6,7 @@ import Logo from '../../uiParts/component/Logo'
 import './ImageClassificationProjectList.css'
 import ContentsBackground from '../../uiParts/component/ContentsBackground'
 import { useNavigate } from 'react-router-dom'
+import UserIcon from '../../uiParts/component/UserIcon'
 
 function ImageClassificationProjectList() {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ function ImageClassificationProjectList() {
       <Header
         burgerbutton={BurgerButton}
         logocomponent={Logo}
+        usericoncomponent={UserIcon}
       />
       <ContentsBackground children={ImageProjectField} />
       {/* <div className='create-background-field'>

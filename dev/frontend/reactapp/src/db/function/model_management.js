@@ -50,6 +50,15 @@ const deleteModels = async (modelId) => {
   await deleteModelStructure(modelId);
 };
 
+// modelIdからmodelNameを取得する
+const getModelName = async (modelId) => {
+  const q = query(collection(db, 'model_management'), where('model_id', '==', modelId));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    return querySnapshot.docs[0].data().model_name;
+  } else {
+    return null
+  }
+};
 
-
-export { getModelId, initModel, deleteModels }
+export { getModelId, initModel, deleteModels, getModelName }

@@ -49,7 +49,7 @@ function ProjectHeader({ handleOverview, handlePreview, handleDiscussion, handle
           <p>Discussion</p>
         </div>
         <div className='project-header-item' onClick={handleReaderBoard} style={style4}>
-          <p>ReaderBoard</p>
+          <p>LeaderBoard</p>
         </div>
       </div>
       <div className='project-header-bottom'></div>

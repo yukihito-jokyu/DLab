@@ -8,6 +8,7 @@ import ProjectTile from './ProjectTile';
 import ProjectShareHeader from './ProjectShareHeader';
 import { getClassificationProjectInfo, getReinforcementlearningProjectInfo } from '../../db/function/project_info';
 import { getJoinProject } from '../../db/function/users';
+import UserIcon from '../../uiParts/component/UserIcon';
 
 function ProjectShare() {
   const [image, setImage] = useState(true);
@@ -63,6 +64,7 @@ function ProjectShare() {
         <Header
           burgerbutton={BurgerButton}
           logocomponent={Logo}
+          usericoncomponent={UserIcon}
         />
       </div>
       <ProjectRequest />
