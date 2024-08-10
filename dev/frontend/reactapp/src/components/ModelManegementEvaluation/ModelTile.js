@@ -14,10 +14,10 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkBoxChange, status, userId }) {
   const { projectName } = useParams();
   const [isPicture, setIsPicture] = useState(false);
+  const [isExpanding, setIsExpanding] = useState(false);
   const [tileColer, setTileColer] = useState();
+  const [tileHeight, setTileHeight] = useState('70px'); // 初期高さ
   const [isHover, setIsHover] = useState();
-  const [accuracyImage, setAccuracyImage] = useState();
-  const [lossImage, setLossImage] = useState();
   const navigate = useNavigate();
 
   const { accuracyData, lossData } = useFetchTrainingResults(userId, projectName, modelId);
@@ -45,6 +45,29 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
     initTileColer();
   }, [currentStatus]);
 
+  useEffect(() => {
+    const handleTransitionEnd = () => {
+      if (!isExpanding) {
+        setIsPicture(false); // タイルが閉じた後にグラフを非表示にする
+      }
+    };
+
+    const tileElement = document.querySelector('.model-tile-wrapper');
+    if (tileElement) {
+      tileElement.addEventListener('transitionend', handleTransitionEnd);
+    }
+
+    return () => {
+      if (tileElement) {
+        tileElement.removeEventListener('transitionend', handleTransitionEnd);
+      }
+    };
+  }, [isExpanding]);
+
+  useEffect(() => {
+    setTileHeight(isExpanding ? '500px' : '70px'); // 拡張/縮小時の高さを設定
+  }, [isExpanding]);
+
   const formatTimestamp = (timestamp) => {
     if (timestamp && timestamp.seconds) {
       const date = new Date(timestamp.seconds * 1000);
@@ -55,7 +78,14 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
 
   const handleClick = () => {
     if (currentStatus !== 'pre') {
-      setIsPicture(!isPicture);
+      if (isPicture) {
+        // グラフが表示されている場合はタイルを縮小する
+        setIsExpanding(false);
+      } else {
+        // グラフが表示されていない場合はタイルを拡張する
+        setIsPicture(true);
+        setIsExpanding(true);
+      }
     }
   };
 
@@ -71,7 +101,7 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   };
 
   return (
-    <div className='model-tile-wrapper' style={tileColer} onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
+    <div className='model-tile-wrapper' style={{ ...tileColer, height: tileHeight }} onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
       {isHover && (
         <div>
           {currentStatus === 'pre' && isPicture === false && (
@@ -138,5 +168,6 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
     </div>
   );
 }
+
 
 export default ModelTile;
