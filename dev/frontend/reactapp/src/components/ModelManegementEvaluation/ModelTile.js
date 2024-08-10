@@ -16,11 +16,11 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   const [isPicture, setIsPicture] = useState(false);
   const [isExpanding, setIsExpanding] = useState(false);
   const [tileColer, setTileColer] = useState();
-  const [tileHeight, setTileHeight] = useState('70px'); // 初期高さ
+  const [tileHeight, setTileHeight] = useState('70px');
   const [isHover, setIsHover] = useState();
   const navigate = useNavigate();
 
-  const { accuracyData, lossData } = useFetchTrainingResults(userId, projectName, modelId);
+  const { accuracyData, lossData } = useFetchTrainingResults(modelId);
   const currentStatus = useFetchStatus(modelId);
 
   useEffect(() => {

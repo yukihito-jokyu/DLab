@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../db/firebase';
 
-const useFetchTrainingResults = (userId, projectName, modelId) => {
+const useFetchTrainingResults = (modelId) => {
   const [accuracyData, setAccuracyData] = useState(null);
   const [lossData, setLossData] = useState(null);
 
@@ -85,7 +85,7 @@ const useFetchTrainingResults = (userId, projectName, modelId) => {
     });
 
     return () => unsubscribe();
-  }, [userId, projectName, modelId]);
+  }, [modelId]);
 
   return { accuracyData, lossData };
 };
