@@ -19,6 +19,29 @@ const useFetchTrainingResults = (userId, projectName, modelId) => {
         const trainLoss = results.map(result => result.TrainLoss);
         const valLoss = results.map(result => result.ValLoss);
 
+        const options = {
+          responsive: true,
+          maintainAspectRatio: false,
+          elements: {
+            point: {
+              radius: 4,
+              hoverRadius: 7,
+              backgroundColor: '#fbfbfb',
+            },
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function (tooltipItem) {
+                  const datasetLabel = tooltipItem.dataset.label || '';
+                  const value = tooltipItem.raw || '';
+                  return `${datasetLabel}: ${value}`;
+                },
+              },
+            },
+          },
+        };
+
         setAccuracyData({
           labels: epochs,
           datasets: [
@@ -27,12 +50,14 @@ const useFetchTrainingResults = (userId, projectName, modelId) => {
               data: trainAcc,
               borderColor: 'rgba(54,162,235,1)',
               fill: false,
+              ...options,
             },
             {
               label: 'Validation Accuracy',
               data: valAcc,
               borderColor: 'rgba(255,99,132,1)',
               fill: false,
+              ...options,
             },
           ],
         });
@@ -45,12 +70,14 @@ const useFetchTrainingResults = (userId, projectName, modelId) => {
               data: trainLoss,
               borderColor: 'rgba(54,162,235,1)',
               fill: false,
+              ...options,
             },
             {
               label: 'Validation Loss',
               data: valLoss,
               borderColor: 'rgba(255,99,132,1)',
               fill: false,
+              ...options,
             },
           ],
         });
