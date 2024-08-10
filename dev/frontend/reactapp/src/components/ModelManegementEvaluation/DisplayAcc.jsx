@@ -16,7 +16,7 @@ const DisplayAcc = ({ accuracyData }) => {
       },
       legend: {
         display: true,
-        position: 'bottom',
+        position: 'top',
         align: 'end',
       },
     },

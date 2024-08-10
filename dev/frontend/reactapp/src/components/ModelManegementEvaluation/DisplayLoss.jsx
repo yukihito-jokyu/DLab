@@ -16,7 +16,7 @@ const DisplayLoss = ({ lossData }) => {
       },
       legend: {
         display: true,
-        position: 'bottom',
+        position: 'top',
         align: 'end',
       },
     },
