@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './TrainLogField.css';
-import TrainPanel from './TrainPanel';
-import TrainLog from './TrainLog';
-import Accuracy from './Log/Accuracy';
-import Loss from './Log/Loss';
+import DisplayAcc from '../ModelManegementEvaluation/DisplayAcc';
+import DisplayLoss from '../ModelManegementEvaluation/DisplayLoss';
+import TrainPanelTital from './TrainPanelTital';
+import './log.css';
+import { useParams } from 'react-router-dom';
+import useFetchTrainingResults from '../../hooks/useFetchStatus';
 
-function TrainLogField({ trainInfo, setTrainInfo }) {
+function TrainLogField() {
+  // const [modelId, setModelId] = useState('');
+  // setModelId(useParams());
+  // const { accuracyData, lossData } = useFetchTrainingResults(modelId);
   return (
     <div className='train-log-field-wrapper'>
-      <Accuracy />
-      <Loss />
+      <div className='train-log-wrapper'>
+        <TrainPanelTital title={'Accuracy'} />
+        <div className='log-field'>
+          {/* <DisplayAcc accuracyData={accuracyData} /> */}
+        </div>
+      </div>
+      <div className='train-log-wrapper'>
+        <TrainPanelTital title={'Loss'} />
+        {/* <DisplayLoss lossData={lossData} /> */}
+        <div className='log-field'>
+        </div>
+      </div>
     </div>
   )
 }

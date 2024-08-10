@@ -11,7 +11,7 @@ const useFetchTrainingResults = (modelId) => {
 
     const unsubscribe = onSnapshot(docRef, (doc) => {
       if (doc.exists()) {
-        const results = doc.data().results;
+        const results = doc.data().results || [];
 
         const epochs = results.map(result => result.Epoch);
         const trainAcc = results.map(result => result.TrainAcc);

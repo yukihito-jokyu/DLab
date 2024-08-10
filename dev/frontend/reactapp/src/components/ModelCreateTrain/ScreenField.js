@@ -31,7 +31,7 @@ function ScreenField({ edit, train, changeTrain }) {
   const [infoModal, setInfoModal] = useState(false);
   const [infoName, setInfoName] = useState();
   const { projectName, modelId } = useParams();
-  
+
   // モデルの構造データ取得
   useEffect(() => {
     const fetchStructure = async () => {
@@ -108,7 +108,7 @@ function ScreenField({ edit, train, changeTrain }) {
             } else {
               newConvShape.push([H, W, C]);
             }
-            
+
           });
           setConvShape(newConvShape);
           const way = flattenWay.way;
@@ -122,7 +122,7 @@ function ScreenField({ edit, train, changeTrain }) {
           } else {
             setFlattenShape([N])
           }
-          
+
           const newMiddleShape = []
           middleLayer.forEach((middle, index) => {
             if (errorHandle) {
@@ -142,7 +142,7 @@ function ScreenField({ edit, train, changeTrain }) {
             setOutputShape([N]);
           }
         }
-        
+
       }
     }
     shapeUpdate();
@@ -168,10 +168,10 @@ function ScreenField({ edit, train, changeTrain }) {
           output_layer: outputLayer
         }
       }
-      
+
       updateStructure(modelId, structure);
     };
-    
+
     saveStructure();
   }, [projectName, modelId, inputLayer, convLayer, flattenWay, middleLayer, outputLayer]);
   return (
@@ -196,10 +196,7 @@ function ScreenField({ edit, train, changeTrain }) {
           middleShape={middleShape}
           outputShape={outputShape}
         />)}
-        {!edit && (<TrainLogField
-          trainInfo={trainInfo}
-          setTrainInfo={setTrainInfo}
-        />)}
+        {!edit && (<TrainLogField />)}
       </div>
       {edit && (<div className='right-screen'>
         <div className='top-screen'>
