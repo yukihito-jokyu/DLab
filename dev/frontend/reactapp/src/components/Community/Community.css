@@ -635,6 +635,7 @@
   /* background-color: #F0BA7C; */
   /* border: solid 3px #D997FF; */
   margin-bottom: 20px;
+  cursor: pointer;
 }
 
 .reader-board-wrapper .reader-board-rank {
