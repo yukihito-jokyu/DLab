@@ -10,7 +10,7 @@ function CommunityIcon() {
     navigate(`/community/${projectName}`);
   }
   return (
-    <div className='community-icon-wrapper' onClick={handleNave}>
+    <div className='community-icon-wrapper' onClick={handleNave} style={{ cursor: 'pointer' }}>
       <Community className='community' />
     </div>
   )

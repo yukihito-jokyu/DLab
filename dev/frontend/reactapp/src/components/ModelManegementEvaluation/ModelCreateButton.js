@@ -5,7 +5,7 @@ import ModelCreateField from './ModelCreateField';
 
 function ModelCreateButton({ handleCreateModal }) {
   return (
-    <div className='model-create-button-wrapper' onClick={handleCreateModal}>
+    <div className='model-create-button-wrapper' onClick={handleCreateModal} style={{ cursor: 'pointer' }}>
       <AddIcon className='model-add-svg' />
     </div>
   )

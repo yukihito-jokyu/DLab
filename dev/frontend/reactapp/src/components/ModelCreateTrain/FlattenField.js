@@ -12,7 +12,7 @@ function FlattenField({ flattenWay, setLayerType, flattenShape }) {
   }
   return (
     <div className='flatten-field-wrapper'>
-      <div onClick={handleClick}>
+      <div onClick={handleClick} style={{ cursor: 'pointer' }}>
         <Tile text={text} shape={flattenShape} style={style} />
       </div>
     </div>

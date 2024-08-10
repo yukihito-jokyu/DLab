@@ -26,19 +26,19 @@ function TileAddModal({ handleModal, handleAddTile }) {
               </div>
               <div className='modal-tile-field'>
                 {layerList.map((layer, index) => (
-                  <div key={index} className='modal-tile-wrapper' onClick={() => handleAddTile(layer)}>
+                  <div key={index} className='modal-tile-wrapper' onClick={() => handleAddTile(layer)} style={{ cursor: 'pointer' }}>
                     <Tile text={layer} />
                   </div>
                 ))}
               </div>
-              <div className='layer-add-modal-delet-button-field' onClick={handleModal}>
+              <div className='layer-add-modal-delet-button-field' onClick={handleModal} style={{ cursor: 'pointer' }}>
                 <DeletIcon className='delet-svg' />
               </div>
             </div>
           </div>
         </div>
       </div>
-      
+
     </div>
   )
 }

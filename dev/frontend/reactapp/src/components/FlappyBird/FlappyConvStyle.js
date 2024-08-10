@@ -157,7 +157,7 @@ function FlappyConvStyle(props) {
   return (
     <div className='conv-wrapper'>
       <div>
-        <button onClick={handledelet}>-</button>
+        <button onClick={handledelet} style={{ cursor: 'pointer' }}>-</button>
       </div>
       <div>
         <label>

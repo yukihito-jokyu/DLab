@@ -25,11 +25,11 @@ function Menu({ handleClickMenu }) {
       <div className='menu-field-wrapper' onClick={handleClickMenu}></div>
       <div className='menu-field'>
         <div className='menu-list-wrapper'>
-          <p onClick={navTop}>・Top</p>
-          <p onClick={navImage}>・Image Classification</p>
-          <p onClick={navReinforcement}>・Reinforcement Learning</p>
-          <p onClick={navProjectShare}>・Projects Share</p>
-          <p onClick={navProfile}>・Profile</p>
+          <p onClick={navTop} style={{ cursor: 'pointer' }}>・Top</p>
+          <p onClick={navImage} style={{ cursor: 'pointer' }}>・Image Classification</p>
+          <p onClick={navReinforcement} style={{ cursor: 'pointer' }}>・Reinforcement Learning</p>
+          <p onClick={navProjectShare} style={{ cursor: 'pointer' }}>・Projects Share</p>
+          <p onClick={navProfile} style={{ cursor: 'pointer' }}>・Profile</p>
         </div>
       </div>
     </div>

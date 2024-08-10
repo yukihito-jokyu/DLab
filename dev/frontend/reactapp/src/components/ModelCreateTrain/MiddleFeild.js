@@ -24,7 +24,7 @@ function MiddleFeild({ middleLayer, setMiddleLayer, setNowIndex, handleModal, ha
     <div className='middle-field-wrapper'>
       <div className='tile-add-button-over-wrapper'>
         <div className='tile-add-button-wrapper'>
-          <div onClick={(handleAddTile)}>
+          <div onClick={(handleAddTile)} style={{ cursor: 'pointer' }}>
             <TileAdd className='tile-add-button' />
           </div>
         </div>

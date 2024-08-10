@@ -11,7 +11,7 @@ function TileBox({ droppableId, snapshot }) {
     console.log(snapshot.isDragging)
     console.log(dragType)
   }
-  
+
   const [open, setOpen] = useState(false);
   const [boxLayer, setBoxLayer] = useState([0]);
   const handleClick = () => {
@@ -41,7 +41,7 @@ function TileBox({ droppableId, snapshot }) {
         setDragType('');
       }
     }
-    
+
   }, [snapshot]);
   return (
     <div>
@@ -64,7 +64,7 @@ function TileBox({ droppableId, snapshot }) {
             {open && (
               <Droppable
                 droppableId={String(droppableId)}
-                // type='ITEM'
+              // type='ITEM'
               >
                 {(provided) => (
                   <div
@@ -96,7 +96,7 @@ function TileBox({ droppableId, snapshot }) {
               </Droppable>)}
           </div>
         </div>
-        <div className='tile-box-open-button' onClick={handleClick}>
+        <div className='tile-box-open-button' onClick={handleClick} style={{ cursor: 'pointer' }}>
           <EjectIcon className='eject-icon' style={style3} />
         </div>
       </div>

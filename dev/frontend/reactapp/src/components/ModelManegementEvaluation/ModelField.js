@@ -168,27 +168,27 @@ function ModelField() {
   }
 
   // ZIPファイルをダウンロードする関数
-const handleDownloadZip = async () => {
-  const checkedModels = models.filter(model => model.isChecked);
-  const downloadModels = checkedModels.filter(model => model.status === 'done');
-  // console.log(downloadModels)
-  try {
-    const zipPromises = downloadModels.map(model => createZipFromDirectory(`user/${userId}/${projectName}/${model.model_id}`));
-    
-    // すべてのZIPファイルを生成
-    const zipBlobs = await Promise.all(zipPromises);
-    
-    // すべてのZIPファイルを1つにまとめる
-    const combinedZipBlob = await combineZipsIntoOne(zipBlobs, downloadModels);
-    
-    // まとめたZIPファイルをダウンロード
-    saveAs(combinedZipBlob, 'combined_downloaded_directory.zip');
-    
-    console.log("All selected files have been combined and downloaded successfully.");
-  } catch (error) {
-    console.error("Error during ZIP creation and download:", error);
-  }
-};
+  const handleDownloadZip = async () => {
+    const checkedModels = models.filter(model => model.isChecked);
+    const downloadModels = checkedModels.filter(model => model.status === 'done');
+    // console.log(downloadModels)
+    try {
+      const zipPromises = downloadModels.map(model => createZipFromDirectory(`user/${userId}/${projectName}/${model.model_id}`));
+
+      // すべてのZIPファイルを生成
+      const zipBlobs = await Promise.all(zipPromises);
+
+      // すべてのZIPファイルを1つにまとめる
+      const combinedZipBlob = await combineZipsIntoOne(zipBlobs, downloadModels);
+
+      // まとめたZIPファイルをダウンロード
+      saveAs(combinedZipBlob, 'combined_downloaded_directory.zip');
+
+      console.log("All selected files have been combined and downloaded successfully.");
+    } catch (error) {
+      console.error("Error during ZIP creation and download:", error);
+    }
+  };
 
   // DLモーダル表示非表示
   const changeDLModal = () => {
@@ -229,7 +229,7 @@ const handleDownloadZip = async () => {
         <ModelCreateButton handleCreateModal={handleCreateModal} />
       </div>
       {DL ? (
-        <div className='DL-field' onClick={changeDLModal}>
+        <div className='DL-field' onClick={changeDLModal} style={{ cursor: 'pointer' }}>
           <DLButton />
         </div>
       ) : (

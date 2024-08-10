@@ -9,7 +9,7 @@ function UserIcon() {
     navigate(`/profile/${userId}`);
   }
   return (
-    <div className='user-icon-wrapper' onClick={handleNav}>
+    <div className='user-icon-wrapper' onClick={handleNav} style={{ cursor: 'pointer' }}>
       <div className='user-icon'></div>
     </div>
   )

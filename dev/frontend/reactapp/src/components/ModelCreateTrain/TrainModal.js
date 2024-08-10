@@ -10,7 +10,7 @@ import { getUserName } from '../../db/function/users';
 
 function TrainModal({ changeTrain, flattenShape }) {
   const userId = JSON.parse(sessionStorage.getItem('userId'));
-  const { projectName, modelId} = useParams()
+  const { projectName, modelId } = useParams()
   const [train, setTrain] = useState(false);
   const [userName, setUserName] = useState('')
 
@@ -72,11 +72,11 @@ function TrainModal({ changeTrain, flattenShape }) {
       console.log('Response from server:', response.Epoch, response.TrainAcc, response.ValAcc, response.TrainLoss, response.ValLoss)
     }
 
-    socket.on('train_image_results'+modelId, handleTrainResults);
+    socket.on('train_image_results' + modelId, handleTrainResults);
 
     // クリーンアップ
     return () => {
-      socket.off('image_train_end'+modelId, handleTrainResults);
+      socket.off('image_train_end' + modelId, handleTrainResults);
     }
   }, [modelId])
   return (
@@ -114,10 +114,10 @@ function TrainModal({ changeTrain, flattenShape }) {
               <div className='gradation-border2-wrapper'>
                 <div className='gradation-border2'></div>
               </div>
-              <div className='train-modal' onClick={startTrain}>
+              <div className='train-modal' onClick={startTrain} style={{ cursor: 'pointer' }}>
                 <GradationButton text={text4} />
               </div>
-              <div className='train-modal-delet-button-field' onClick={changeTrain}>
+              <div className='train-modal-delet-button-field' onClick={changeTrain} style={{ cursor: 'pointer' }}>
                 <DeletIcon className='delet-svg' />
               </div>
             </div>
