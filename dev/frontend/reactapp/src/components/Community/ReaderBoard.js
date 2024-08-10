@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './Community.css';
+import { useNavigate } from 'react-router-dom';
 
 function ReaderBoard({ rank, name, accuracy, tileUserId }) {
   const userId = JSON.parse(sessionStorage.getItem('userId'));
   const [tileColor, setTileColor] = useState();
+  const navigate = useNavigate();
   useEffect(() => {
     const initColor = () => {
       if (userId === tileUserId) {
@@ -22,6 +24,11 @@ function ReaderBoard({ rank, name, accuracy, tileUserId }) {
         } else if (rank === 3) {
           const color = {
             backgroundColor: '#F0BA7C',
+            border: 'solid 5px #D997FF'
+          }
+          setTileColor(color)
+        } else {
+          const color = {
             border: 'solid 5px #D997FF'
           }
           setTileColor(color)
@@ -47,9 +54,12 @@ function ReaderBoard({ rank, name, accuracy, tileUserId }) {
       
     };
     initColor()
-  }, [rank, userId, tileUserId])
+  }, [rank, userId, tileUserId]);
+  const handleNav = () => {
+    navigate(`/profile/${tileUserId}`);
+  }
   return (
-    <div className='reader-board-wrapper' style={tileColor}>
+    <div className='reader-board-wrapper' style={tileColor} onClick={handleNav}>
       <div className='reader-board-rank'>
         {rank === 1 ? (
           <div>

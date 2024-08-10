@@ -50,9 +50,9 @@ function ProjectDiscussion({ handleEdit, handleInfo, setReportInfo, setDiscussio
         {discussions ? (
           discussions.map((discussion) => (
             <div onClick={() => handleClick(discussion.data(), discussion.id)} key={discussion.id} style={{ cursor: 'pointer' }}>
-              <DiscussionTile title={discussion.data().title} />
+              <DiscussionTile title={discussion.data().title} discussionUserId={discussion.data().user_id} commentNum={discussion.data().comments.length} />
             </div>
-            // console.log(discussion.id)
+            // console.log(discussion.data().comments.length)
           ))
         ) : (
           <></>

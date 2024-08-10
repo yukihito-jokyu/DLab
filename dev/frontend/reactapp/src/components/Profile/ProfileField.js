@@ -8,6 +8,7 @@ import GradationButton from '../../uiParts/component/GradationButton';
 import AlertModal from '../utils/AlertModal';
 import ImageUploadModal from './ImageUploadModal';
 import { getImage, listFilesInDirectory } from '../../db/function/storage';
+import { getUserRank } from '../../db/function/reader_bord';
 
 function ProfileField() {
   const { profileUserId } = useParams();
@@ -20,6 +21,7 @@ function ProfileField() {
   const [logout, setLogout] = useState(false);
   const [imageUpload, setImageUpload] = useState(false);
   const [userImage, setUserImage] = useState();
+  const [rankList, setRankList] = useState();
   const navigate = useNavigate();
   // 参加プロジェクト
   useEffect(() => {
@@ -28,9 +30,11 @@ function ProfileField() {
       const projectList = await getJoinProject(profileUserId);
       const favoriteUserList = await getFavoriteUser(userId);
       const date = await getRegistrationDate(profileUserId);
+      const getRankPromise = projectList.map(project => getUserRank(project.project_name, profileUserId));
+      const rank = await Promise.all(getRankPromise)
+      setRankList(rank);
       setUserName(name);
       setJoinProject(projectList);
-      console.log(favoriteUserList.some(id => id === profileUserId))
       setFavaoriteUser(favoriteUserList.some(id => id === profileUserId));
       setOtherProfile(profileUserId !== userId);
       setRegistrationDate(date)
@@ -111,7 +115,7 @@ function ProfileField() {
           {joinProject ? (
             joinProject.map((value, index) => (
               <div key={index}>
-                <ParticipationTile projectName={value.project_name} rank={value.rank} />
+                <ParticipationTile projectName={value.project_name} rank={rankList[index]} />
               </div>
             ))
           ) : (
