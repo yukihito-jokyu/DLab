@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, getDocs, query, serverTimestamp, setDoc, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, getDoc, query, serverTimestamp, setDoc, where } from "firebase/firestore";
 import { db } from "../firebase";
 import { deleteModelStructure, initModelStructure } from "./model_structure";
 import { v4 as uuidv4 } from 'uuid';
@@ -42,13 +42,24 @@ const initModel = async (userId, projectId, modelId, modelName) => {
 
 // モデル情報の削除
 const deleteModels = async (modelId) => {
+  // モデル情報を削除
   const q = query(collection(db, 'model_management'), where('model_id', '==', modelId));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach(async (doc) => {
     await deleteDoc(doc.ref);
   });
+
+  // 学習結果のドキュメントを削除
+  const trainingDocRef = doc(db, 'training_results', modelId);
+  const trainingDocSnapshot = await getDoc(trainingDocRef);
+  if (trainingDocSnapshot.exists()) {
+    await deleteDoc(trainingDocRef);
+  }
+
+  // モデル構造の削除
   await deleteModelStructure(modelId);
 };
+
 
 // modelIdからmodelNameを取得する
 const getModelName = async (modelId) => {

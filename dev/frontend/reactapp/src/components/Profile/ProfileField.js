@@ -3,7 +3,7 @@ import ParticipationTile from './ParticipationTile';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addFavorite, getFavoriteUser, getJoinProject, getRegistrationDate, getUserName, handlSignOut, removeFavorite } from '../../db/function/users';
 import './Profile.css';
-import { ReactComponent as CheckSVG } from '../../assets/svg/check_24.svg'; 
+import { ReactComponent as CheckSVG } from '../../assets/svg/check_24.svg';
 import GradationButton from '../../uiParts/component/GradationButton';
 import AlertModal from '../utils/AlertModal';
 import ImageUploadModal from './ImageUploadModal';
@@ -13,7 +13,7 @@ import { getUserRank } from '../../db/function/reader_bord';
 function ProfileField() {
   const { profileUserId } = useParams();
   const userId = JSON.parse(sessionStorage.getItem('userId'));
-  const [userName , setUserName] = useState();
+  const [userName, setUserName] = useState();
   const [joinProject, setJoinProject] = useState();
   const [otherProfile, setOtherProfile] = useState();
   const [favoriteUser, setFavaoriteUser] = useState();
@@ -57,10 +57,12 @@ function ProfileField() {
     return '';
   };
   const style1 = {
-    border: favoriteUser ? '5px solid #F0B927' : 'none'
+    border: favoriteUser ? '5px solid #F0B927' : 'none',
+    cursor: 'pointer'
   }
   const style2 = {
-    backgroundColor: favoriteUser ? '#D9D9D9' : '#F0B927'
+    backgroundColor: favoriteUser ? '#D9D9D9' : '#F0B927',
+    cursoor: 'pointer'
   }
   const handleFavorite = async () => {
     if (favoriteUser) {
@@ -134,7 +136,7 @@ function ProfileField() {
       )}
       {!otherProfile ? (
         <div className='logout-wrapper'>
-          <div onClick={changeLogout}>
+          <div onClick={changeLogout} style={{ cursor: 'pointer' }}>
             <GradationButton text={'LOGOUT'} />
           </div>
         </div>

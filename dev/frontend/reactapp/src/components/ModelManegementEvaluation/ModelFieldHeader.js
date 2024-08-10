@@ -23,17 +23,17 @@ function ModelFieldHeader({ accuracySort, lossSort, dateSort, handleDelate }) {
       <div className='model-name-div'>
         <p>Name</p>
       </div>
-      <div className='model-accuracy-div' onClick={handleAccuracy}>
+      <div className='model-accuracy-div' onClick={handleAccuracy} style={{ cursor: 'pointer' }}>
         <p>Accuracy</p>
       </div>
-      <div className='model-loss-div' onClick={handleLoss}>
+      <div className='model-loss-div' onClick={handleLoss} style={{ cursor: 'pointer' }}>
         <p>Loss</p>
       </div>
-      <div className='model-date-div' onClick={handleDate}>
+      <div className='model-date-div' onClick={handleDate} style={{ cursor: 'pointer' }}>
         <p>Date</p>
       </div>
       <div className='model-delet-div'>
-        <div className='model-delet-icon-wrapper' onClick={handleDelate}>
+        <div className='model-delet-icon-wrapper' onClick={handleDelate} style={{ cursor: 'pointer' }}>
           <DeleteIcon className='model-delet-svg' />
         </div>
       </div>

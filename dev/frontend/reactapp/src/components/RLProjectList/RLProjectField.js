@@ -25,12 +25,12 @@ function RLProjectField() {
   return (
     <div className='rl-project-field-wrapper'>
       <div className='field-middle'>
-        <div onClick={() => handleNav("CartPole")}>
+        <div onClick={() => handleNav("CartPole")} style={{ cursor: 'pointer' }}>
           <BorderGradationBox style1={style1}>
             <CartPoleIcon />
           </BorderGradationBox>
         </div>
-        <div onClick={() => handleNav("FlappyBird")}>
+        <div onClick={() => handleNav("FlappyBird")} style={{ cursor: 'pointer' }}>
           <BorderGradationBox style1={style1}>
             <FlappyBirdIcon />
           </BorderGradationBox>

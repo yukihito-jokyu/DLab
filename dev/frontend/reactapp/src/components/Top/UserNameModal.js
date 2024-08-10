@@ -20,8 +20,8 @@ function UserNameModal({ setFirstSignIn }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <button onClick={handleSetName}>登録</button>
-        <button onClick={() => {console.log(userId)}}>id確認</button>
+        <button onClick={handleSetName} style={{ cursor: 'pointer' }}>登録</button>
+        <button onClick={() => { console.log(userId) }} style={{ cursor: 'pointer' }}>id確認</button>
       </div>
     </div>
   );

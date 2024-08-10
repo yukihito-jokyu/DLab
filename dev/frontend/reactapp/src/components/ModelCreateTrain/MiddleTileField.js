@@ -7,9 +7,9 @@ import Tile from './Tile/Tile';
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import TileBox from './Tile/TileBox';
 
-function MiddleTileField({ tileName, layer ,setLayer, index, setNowIndex, handleModal, handleDeleteTile, setParameter, setParameterSet, setLayerType, setSelectedIndex, shape, snapshot }) {
+function MiddleTileField({ tileName, layer, setLayer, index, setNowIndex, handleModal, handleDeleteTile, setParameter, setParameterSet, setLayerType, setSelectedIndex, shape, snapshot }) {
   const handleAddTile = () => {
-    setNowIndex(index+1);
+    setNowIndex(index + 1);
     handleModal();
   };
   const handleParameter = () => {
@@ -23,12 +23,12 @@ function MiddleTileField({ tileName, layer ,setLayer, index, setNowIndex, handle
       <div className='middle-tile-field-wrapper'>
         <div className='delete-tile'>
           <div className='delete-button-wrapper'>
-            <div className='delete-button' onClick={() => handleDeleteTile(index)}>
+            <div className='delete-button' onClick={() => handleDeleteTile(index)} style={{ cursor: 'pointer' }}>
               <DeletIcon className='delet-svg' />
             </div>
           </div>
         </div>
-        <div className='tile-position-wrapper' onClick={handleParameter}>
+        <div className='tile-position-wrapper' onClick={handleParameter} style={{ cursor: 'pointer' }}>
           {tileName === 'Conv2d' ? (
             <Conv2dTile shape={shape} />
           ) : tileName === 'Linear' ? (
@@ -39,12 +39,11 @@ function MiddleTileField({ tileName, layer ,setLayer, index, setNowIndex, handle
             <Tile text={tileName} shape={shape} />
           )}
           <div className='tile-add-button-wrapper'>
-            <div onClick={(handleAddTile)}>
+            <div onClick={(handleAddTile)} style={{ cursor: 'pointer' }}>
               <TileAdd className='tile-add-button' />
             </div>
           </div>
         </div>
-        
       </div>
     </div>
   )

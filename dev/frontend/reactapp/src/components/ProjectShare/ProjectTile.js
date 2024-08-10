@@ -12,9 +12,9 @@ function ProjectTile({ title, info, style1, style2 }) {
     sessionStorage.setItem('projectId', JSON.stringify(title));
     navigate(`/community/${title}`);
   }
-  
+
   return (
-    <div className='project-tile-wrapper' onClick={handleNav}>
+    <div className='project-tile-wrapper' onClick={handleNav} style={{ cursor: 'pointer' }}>
       <div className='tile-wrapper'>
         <div className='tile-left' style={style1}>
           <p className='project-tile-title'>{title}</p>

@@ -35,10 +35,10 @@ function ProjectReaderBoard() {
   return (
     <div className='project-reader-board-wrapper'>
       <div className='reader-board-setting'>
-        <div className='my-rank-button' onClick={handleScroll}>
+        <div className='my-rank-button' onClick={handleScroll} style={{ cursor: 'pointer' }}>
           <p>自分の順位</p>
         </div>
-        <div className='favorite-button' onClick={() => setFavorite(!favorite)}>
+        <div className='favorite-button' onClick={() => setFavorite(!favorite)} style={{ cursor: 'pointer' }}>
           <p>お気に入り</p>
         </div>
         <div className='user-search'>
@@ -69,12 +69,12 @@ function ProjectReaderBoard() {
               const userData = board.data();
               return (userData.user_id === userId ? (
                 <div key={userData.user_id} ref={targetRef}>
-                  <ReaderBoard rank={index+1} name={userData.user_name} accuracy={userData.accuracy} tileUserId={userData.user_id} />
+                  <ReaderBoard rank={index + 1} name={userData.user_name} accuracy={userData.accuracy} tileUserId={userData.user_id} />
                 </div>
               ) : (
                 favoriteUser.includes(userData.user_id) ? (
                   <div key={userData.user_id}>
-                    <ReaderBoard rank={index+1} name={userData.user_name} accuracy={userData.accuracy} tileUserId={userData.user_id} />
+                    <ReaderBoard rank={index + 1} name={userData.user_name} accuracy={userData.accuracy} tileUserId={userData.user_id} />
                   </div>
                 ) : null
               ));
@@ -86,17 +86,17 @@ function ProjectReaderBoard() {
               const userData = board.data();
               return (userData.user_id === userId ? (
                 <div key={userData.user_id} ref={targetRef}>
-                  <ReaderBoard rank={index+1} name={userData.user_name} accuracy={userData.accuracy} tileUserId={userData.user_id} />
+                  <ReaderBoard rank={index + 1} name={userData.user_name} accuracy={userData.accuracy} tileUserId={userData.user_id} />
                 </div>
               ) : (
                 <div key={userData.user_id}>
-                  <ReaderBoard rank={index+1} name={userData.user_name} accuracy={userData.accuracy} tileUserId={userData.user_id} />
+                  <ReaderBoard rank={index + 1} name={userData.user_name} accuracy={userData.accuracy} tileUserId={userData.user_id} />
                 </div>
               ));
             })
           ) : null
         )}
-        
+
       </div>
     </div>
   )

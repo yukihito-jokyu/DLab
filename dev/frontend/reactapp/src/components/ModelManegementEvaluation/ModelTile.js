@@ -6,19 +6,21 @@ import { ReactComponent as PictureIcon } from '../../assets/svg/graph_24.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFetchTrainingResults from '../../hooks/useFetchTrainingResults';
 import useFetchStatus from '../../hooks/useFetchStatus';
+import DisplayAcc from './DisplayAcc';
+import DisplayLoss from './DisplayLoss';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkBoxChange, status, userId }) {
   const { projectName } = useParams();
   const [isPicture, setIsPicture] = useState(false);
+  const [isExpanding, setIsExpanding] = useState(false);
   const [tileColer, setTileColer] = useState();
+  const [tileHeight, setTileHeight] = useState('70px');
   const [isHover, setIsHover] = useState();
-  const [accuracyImage, setAccuracyImage] = useState();
-  const [lossImage, setLossImage] = useState();
   const navigate = useNavigate();
 
-  const { accuracyData, lossData } = useFetchTrainingResults(userId, projectName, modelId);
+  const { accuracyData, lossData } = useFetchTrainingResults(modelId);
   const currentStatus = useFetchStatus(modelId);
 
   useEffect(() => {
@@ -43,85 +45,28 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
     initTileColer();
   }, [currentStatus]);
 
-  const optionsAccuracy = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      title: {
-        display: true,
-        text: 'Accuracy Over Epochs',
-        font: {
-          size: 22,
-          weight: 'bold',
-        },
-      },
-      legend: {
-        display: true,
-        position: 'bottom',
-        align: 'end',
-      },
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Epoch',
-          font: {
-            size: 14,
-          },
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: 'Accuracy',
-          font: {
-            size: 14,
-          },
-        },
-      },
-    },
-  };
+  useEffect(() => {
+    const handleTransitionEnd = () => {
+      if (!isExpanding) {
+        setIsPicture(false); // タイルが閉じた後にグラフを非表示にする
+      }
+    };
 
-  const optionsLoss = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      title: {
-        display: true,
-        text: 'Loss Over Epochs',
-        font: {
-          size: 22,
-          weight: 'bold',
-        },
-      },
-      legend: {
-        display: true,
-        position: 'bottom',
-        align: 'end',
-      },
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Epoch',
-          font: {
-            size: 14,
-          },
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: 'Loss',
-          font: {
-            size: 14,
-          },
-        },
-      },
-    },
-  };
+    const tileElement = document.querySelector('.model-tile-wrapper');
+    if (tileElement) {
+      tileElement.addEventListener('transitionend', handleTransitionEnd);
+    }
+
+    return () => {
+      if (tileElement) {
+        tileElement.removeEventListener('transitionend', handleTransitionEnd);
+      }
+    };
+  }, [isExpanding]);
+
+  useEffect(() => {
+    setTileHeight(isExpanding ? '500px' : '70px'); // 拡張/縮小時の高さを設定
+  }, [isExpanding]);
 
   const formatTimestamp = (timestamp) => {
     if (timestamp && timestamp.seconds) {
@@ -133,7 +78,14 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
 
   const handleClick = () => {
     if (currentStatus !== 'pre') {
-      setIsPicture(!isPicture);
+      if (isPicture) {
+        // グラフが表示されている場合はタイルを縮小する
+        setIsExpanding(false);
+      } else {
+        // グラフが表示されていない場合はタイルを拡張する
+        setIsPicture(true);
+        setIsExpanding(true);
+      }
     }
   };
 
@@ -149,7 +101,7 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   };
 
   return (
-    <div className='model-tile-wrapper' style={tileColer} onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
+    <div className='model-tile-wrapper' style={{ ...tileColer, height: tileHeight }} onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
       {isHover && (
         <div>
           {currentStatus === 'pre' && isPicture === false && (
@@ -180,7 +132,7 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
             <span className="checkmark"></span>
           </label>
         </div>
-        <div className='model-title' onClick={handleNav}>
+        <div className='model-title' onClick={handleNav} style={{ cursor: 'pointer' }}>
           <TextDisplay text={modelName} maxLength={20} />
         </div>
         <div className='model-accuracy'>
@@ -208,17 +160,14 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
       {isPicture &&
         <div className='graph-field'>
           <div className='model-picture-filed-wrapper'>
-            <div className='model-accuracy-picture canvas-container'>
-              <Line data={accuracyData} options={optionsAccuracy} />
-            </div>
-            <div className='model-loss-picture canvas-container'>
-              <Line data={lossData} options={optionsLoss} />
-            </div>
+            <DisplayAcc accuracyData={accuracyData} />
+            <DisplayLoss lossData={lossData} />
           </div>
         </div>
       }
     </div>
   );
 }
+
 
 export default ModelTile;

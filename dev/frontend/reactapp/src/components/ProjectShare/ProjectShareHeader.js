@@ -8,7 +8,8 @@ function ProjectShareHeader({ handleClickImage, handleClickReinforcement, image,
     borderTop: image ? 'solid 4px #03B0CD' : 'none',
     borderLeft: image ? 'solid 4px #03B0CD' : 'none',
     borderRight: image ? 'solid 4px #03B0CD' : 'none',
-    color: image ? '#03B0CD' : '#868686'
+    color: image ? '#03B0CD' : '#868686',
+    cursor: 'pointer'
   }
   const style2 = {
     height: reinforcement ? '54px' : '50px',
@@ -16,7 +17,8 @@ function ProjectShareHeader({ handleClickImage, handleClickReinforcement, image,
     borderTop: reinforcement ? 'solid 4px #FF5D99' : 'none',
     borderLeft: reinforcement ? 'solid 4px #FF5D99' : 'none',
     borderRight: reinforcement ? 'solid 4px #FF5D99' : 'none',
-    color: reinforcement ? '#FF5D99' : '#868686'
+    color: reinforcement ? '#FF5D99' : '#868686',
+    cursor: 'pointer'
   }
   const style3 = {
     backgroundColor: image ? '#03B0CD' : '#FF5D99'
@@ -37,9 +39,9 @@ function ProjectShareHeader({ handleClickImage, handleClickReinforcement, image,
       </div>
       <div className='project-share-header-bottom' style={style3}></div>
       <div className='display-button-wrapper'>
-      {image && (<div className='wrapper'>
+        {image && (<div className='wrapper'>
           <p>参加済みのプロジェクトを表示</p>
-          <div className='display-button-cover' onClick={handleJoin}>
+          <div className='display-button-cover' onClick={handleJoin} style={{ cursor: 'pointer' }}>
             <div className='display-button' style={style4}></div>
           </div>
         </div>)}

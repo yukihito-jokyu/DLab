@@ -26,7 +26,7 @@ function ImageProjectIcon({ projectName }) {
     height: '70px'
   }
   return (
-    <div className='ImageProjectIcon-wrapper' onClick={() => {handleNav(projectName)}}>
+    <div className='ImageProjectIcon-wrapper' onClick={() => { handleNav(projectName) }} style={{ cursor: 'pointer' }}>
       <div className='titlefeild-wrapper'>
         <div className='project-title'>
           <div className='projecttitle-wrapper'>

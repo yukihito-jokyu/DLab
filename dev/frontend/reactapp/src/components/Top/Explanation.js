@@ -26,7 +26,7 @@ function Explanation({ setFirstSignIn }) {
           <p className='first-p'>DLab is<br />No code Deep Learning Tool !</p>
           <p className='second-p'>プログラミングの知識に影響されない良い学びにつなぐために<br />視覚的操作によるAIモデルのデザインツールを提案します</p>
         </div>
-        <div className='button-wrapper' onClick={handleSignIn}>
+        <div className='button-wrapper' onClick={handleSignIn} style={{ cursor: 'pointer' }}>
           <GradationButton text={'launch'} />
         </div>
       </div>

@@ -24,7 +24,7 @@ function ImageUploadModal({ deleteModal }) {
     const file = acceptedFiles[0];
     const fileExtension = file.name.split('.').pop().toLowerCase();
     const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-  
+
     if (!allowedExtensions.includes(fileExtension)) {
       setError('許可されていないファイル形式です。');
       return;
@@ -89,35 +89,35 @@ function ImageUploadModal({ deleteModal }) {
                   <input {...getInputProps()} />
                   <div className='drag-and-drop-comment-field'>
                     {!image &&
-                    <div>
-                      {isDragActive ? (
-                        <p>ここにドロップしてください...</p>
-                      ) : (
-                        <p>ここをクリックするか、<br/>画像をドラッグ&ドロップしてください<br/>画像サイズは400×400のみ対応</p>
-                      )}
+                      <div>
+                        {isDragActive ? (
+                          <p>ここにドロップしてください...</p>
+                        ) : (
+                          <p>ここをクリックするか、<br />画像をドラッグ&ドロップしてください<br />画像サイズは400×400のみ対応</p>
+                        )}
                       </div>
                     }
                     {image &&
-                    <div className='uploaded-image-wrapper'>
-                      <img src={image} alt="Uploaded" style={{ maxWidth: '100%', maxHeight: '300px' }} />
-                      <div className='delet-icon-wrapper'>
-                        <div onClick={() => setImage(null)} className='image-delet-svg-wrapper'>
-                          <DeletIcon className='image-delet-svg' />
+                      <div className='uploaded-image-wrapper'>
+                        <img src={image} alt="Uploaded" style={{ maxWidth: '100%', maxHeight: '300px' }} />
+                        <div className='delet-icon-wrapper'>
+                          <div onClick={() => setImage(null)} className='image-delet-svg-wrapper' style={{ cursor: 'pointer' }}>
+                            <DeletIcon className='image-delet-svg' />
+                          </div>
                         </div>
                       </div>
-                    </div>
                     }
                   </div>
                   {error && <p style={{ color: 'red' }}>{error}</p>}
-                  
+
                 </div>
               </div>
               <div className='alert-modal'>
-                {image && <div onClick={handleUpload}>
+                {image && <div onClick={handleUpload} style={{ cursor: 'pointer' }}>
                   <GradationButton text={text2} />
                 </div>}
               </div>
-              <div className='train-modal-delet-button-field' onClick={deleteModal}>
+              <div className='train-modal-delet-button-field' onClick={deleteModal} style={{ cursor: 'pointer' }}>
                 <DeletIcon className='delet-svg' />
               </div>
             </div>

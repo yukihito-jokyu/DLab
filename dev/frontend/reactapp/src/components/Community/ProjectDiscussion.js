@@ -40,7 +40,7 @@ function ProjectDiscussion({ handleEdit, handleInfo, setReportInfo, setDiscussio
               <SearchIcon />
             </div>
           </div>
-          <div className='post-button' onClick={handleEdit}>
+          <div className='post-button' onClick={handleEdit} style={{ cursor: 'pointer' }}>
             <p>投稿する</p>
             <EditIcon className='edit-icon' />
           </div>
@@ -49,7 +49,7 @@ function ProjectDiscussion({ handleEdit, handleInfo, setReportInfo, setDiscussio
       <div className='discussion-field'>
         {discussions ? (
           discussions.map((discussion) => (
-            <div onClick={() => handleClick(discussion.data(), discussion.id)} key={discussion.id}>
+            <div onClick={() => handleClick(discussion.data(), discussion.id)} key={discussion.id} style={{ cursor: 'pointer' }}>
               <DiscussionTile title={discussion.data().title} discussionUserId={discussion.data().user_id} commentNum={discussion.data().comments.length} />
             </div>
             // console.log(discussion.data().comments.length)

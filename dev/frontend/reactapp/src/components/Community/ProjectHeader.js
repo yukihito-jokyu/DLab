@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import './Community.css';
 
 function ProjectHeader({ handleOverview, handlePreview, handleDiscussion, handleReaderBoard, overview, preview, discussion, readerBoard }) {
-  
+
   const style1 = {
     height: overview ? '54px' : '50px',
     backgroundColor: overview ? 'white' : '#D9D9D9',
     borderTop: overview ? 'solid 4px #17A277' : 'none',
     borderLeft: overview ? 'solid 4px #17A277' : 'none',
     borderRight: overview ? 'solid 4px #17A277' : 'none',
-    color: overview ? '#17A277' : '#868686'
+    color: overview ? '#17A277' : '#868686',
+    cursor: 'pointer'
   }
   const style2 = {
     height: preview ? '54px' : '50px',
@@ -17,7 +18,8 @@ function ProjectHeader({ handleOverview, handlePreview, handleDiscussion, handle
     borderTop: preview ? 'solid 4px #17A277' : 'none',
     borderLeft: preview ? 'solid 4px #17A277' : 'none',
     borderRight: preview ? 'solid 4px #17A277' : 'none',
-    color: preview ? '#17A277' : '#868686'
+    color: preview ? '#17A277' : '#868686',
+    cursor: 'pointer'
   }
   const style3 = {
     height: discussion ? '54px' : '50px',
@@ -25,7 +27,8 @@ function ProjectHeader({ handleOverview, handlePreview, handleDiscussion, handle
     borderTop: discussion ? 'solid 4px #17A277' : 'none',
     borderLeft: discussion ? 'solid 4px #17A277' : 'none',
     borderRight: discussion ? 'solid 4px #17A277' : 'none',
-    color: discussion ? '#17A277' : '#868686'
+    color: discussion ? '#17A277' : '#868686',
+    cursor: 'pointer'
   }
   const style4 = {
     height: readerBoard ? '54px' : '50px',
@@ -33,9 +36,10 @@ function ProjectHeader({ handleOverview, handlePreview, handleDiscussion, handle
     borderTop: readerBoard ? 'solid 4px #17A277' : 'none',
     borderLeft: readerBoard ? 'solid 4px #17A277' : 'none',
     borderRight: readerBoard ? 'solid 4px #17A277' : 'none',
-    color: readerBoard ? '#17A277' : '#868686'
+    color: readerBoard ? '#17A277' : '#868686',
+    cursor: 'pointer'
   }
-  
+
   return (
     <div className='project-header'>
       <div className='project-header-wrapper'>
