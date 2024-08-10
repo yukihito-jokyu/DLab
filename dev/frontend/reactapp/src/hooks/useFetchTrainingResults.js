@@ -7,7 +7,7 @@ const useFetchTrainingResults = (userId, projectName, modelId) => {
   const [lossData, setLossData] = useState(null);
 
   useEffect(() => {
-    const docRef = doc(db, "training_results", `${userId}_${projectName}_${modelId}`);
+    const docRef = doc(db, "training_results", modelId);
 
     const unsubscribe = onSnapshot(docRef, (doc) => {
       if (doc.exists()) {

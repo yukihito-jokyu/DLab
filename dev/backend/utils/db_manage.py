@@ -89,14 +89,14 @@ def upload_file(local_file_path, storage_blob_path):
 # 学習結果を初期化する関数
 def initialize_training_results(user_id, project_name, model_id):
     db = firestore.client()
-    doc_ref = db.collection('training_results').document(f"{user_id}_{project_name}_{model_id}")
+    doc_ref = db.collection('training_results').document(model_id)
     doc_ref.set({'results': []})
     return f"Training results document initialized for model_id: {model_id}"
 
 # 学習結果を更新する関数
 def upload_training_result(user_id, project_name, model_id, epoch_result):
     db = get_firestore_db()
-    doc_ref = db.collection('training_results').document(f"{user_id}_{project_name}_{model_id}")
+    doc_ref = db.collection('training_results').document(model_id)
     
     # ドキュメントが存在するか確認
     doc = doc_ref.get()
