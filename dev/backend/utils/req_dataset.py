@@ -85,7 +85,6 @@ class dataset_imager:
         #   * __init__にて定義
         # return :
         #   画像データ（base64）(list)
-        
         images = []
         for img in self.x:
             if self.config['color'] == 'gray': # グレースケール(チャンネル１)

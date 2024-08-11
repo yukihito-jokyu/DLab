@@ -178,6 +178,11 @@
   background-color: #D9D9D9;
 }
 
+.preview-image-wrapper img {
+  width: 100px;
+  height: 100px;
+}
+
 /* ProjectDiscussion */
 
 .project-discussion-wrapper {
