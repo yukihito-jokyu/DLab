@@ -4,6 +4,7 @@ from flask_socketio import SocketIO
 
 from routes import setup_routes_base, setup_db
 from sockets import setup_sockets
+from apis import setup_apis
 
 
 app = Flask(__name__)
@@ -12,6 +13,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 
 setup_routes_base(app=app)
 setup_db(app=app)
+setup_apis(app=app)
 
 setup_sockets(socketio=socketio)
 
