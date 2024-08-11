@@ -19,6 +19,10 @@ function ModelField() {
   const [DLModal, setDLModal] = useState(false);
   const [modelDeleteModal, setModelDeleteModal] = useState(false);
   const [create, setCreate] = useState(false);
+  const [successDeleteModal, setSuccessDeleteModal] = useState(false);
+  const [successModelCreate, setSuccessModelCreate] = useState(false);
+  const [successModelDownload, setSuccessModelDownload] = useState(false);
+  const [sameModelName, setSameModelName] = useState(false);
   const userId = JSON.parse(sessionStorage.getItem('userId'));
   const { projectName } = useParams();
   // console.log(projectName)
@@ -115,6 +119,7 @@ function ModelField() {
       // すべての削除処理が完了するのを待つ
       await Promise.all(deletePromises);
       console.log("All selected files have been deleted successfully.");
+      setSuccessDeleteModal(true);
     } catch (error) {
       console.error("Error deleting files:", error);
     }
@@ -129,43 +134,17 @@ function ModelField() {
   }
   const sendText2 = 'チェックしたモデルを削除しますか？'
 
-  // zipファイルのダウンロード
-  const handleDownload = async () => {
-    try {
-      const checkedModels = models.filter(model => model.isChecked);
-      const modelIdList = checkedModels
-        .map(item => item.model_id);
-      const sentData = {
-        user_id: userId,
-        Project_name: projectName,
-        model_id_list: modelIdList
-      }
-      const response = await fetch('http://127.0.0.1:5000/download_zip', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(sentData),
-      });
-      console.log(response)
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+  // 日時を含むファイル名を生成する関数
+  const generateFileNameWithDateTime = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
 
-
-      const blob = await response.blob();
-
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      link.download = `models_${new Date().toISOString()}.zip`;
-      link.click();
-
-      window.URL.revokeObjectURL(link.href);
-    } catch (e) {
-      console.error('Download failed', e)
-    }
-
-  }
+    return `combined_models_${year}${month}${day}_${hours}${minutes}${seconds}.zip`;
+  };
 
   // ZIPファイルをダウンロードする関数
   const handleDownloadZip = async () => {
@@ -181,10 +160,15 @@ function ModelField() {
       // すべてのZIPファイルを1つにまとめる
       const combinedZipBlob = await combineZipsIntoOne(zipBlobs, downloadModels);
 
+      // 現在の日時を取得し、ファイル名を生成
+      const now = new Date();
+      const fileName = generateFileNameWithDateTime(now);
+
       // まとめたZIPファイルをダウンロード
-      saveAs(combinedZipBlob, 'combined_downloaded_directory.zip');
+      saveAs(combinedZipBlob, fileName);
 
       console.log("All selected files have been combined and downloaded successfully.");
+      setSuccessModelDownload(true);
     } catch (error) {
       console.error("Error during ZIP creation and download:", error);
     }
@@ -238,7 +222,7 @@ function ModelField() {
       }
       {create ? (
         <div className='create-background-field'>
-          <ModelCreateField handleCreateModal={handleCreateModal} />
+          <ModelCreateField handleCreateModal={handleCreateModal} setSuccessModelCreate={setSuccessModelCreate} setSameModelName={setSameModelName} />
         </div>
       ) : (
         <></>
@@ -257,6 +241,10 @@ function ModelField() {
       ) : (
         <></>
       )}
+      {successDeleteModal && <AlertModal deleteModal={() => setSuccessDeleteModal(false)} handleClick={() => setSuccessDeleteModal(false)} sendText={'チェックしたモデルが削除されました'} /> }
+      {successModelCreate && <AlertModal deleteModal={() => setSuccessModelCreate(false)} handleClick={() => setSuccessModelCreate(false)} sendText={'モデルが作成されました'} /> }
+      {successModelDownload && <AlertModal deleteModal={() => setSuccessModelDownload(false)} handleClick={() => setSuccessModelDownload(false)} sendText={'モデルがダウンロードされました'} /> }
+      {sameModelName && <AlertModal deleteModal={() => setSameModelName(false)} handleClick={() => setSameModelName(false)} sendText={'モデル名が重複しています'} /> }
     </div>
   )
 }

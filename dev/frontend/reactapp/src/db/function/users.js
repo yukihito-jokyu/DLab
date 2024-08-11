@@ -164,7 +164,18 @@ const getRegistrationDate = async (userId) => {
   } else {
     return null
   }
-}
+};
+
+// ユーザー名が存在するか確認
+const searchUserName = async (userName) => {
+  const q = query(collection(db, 'users'), where('user_id', '==', userName));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 
-export { signInWithGoogle, registName, handlSignOut, getUserId, getJoinProject, updateJoinProject, getUserName, getFavoriteUser, addFavorite, removeFavorite, getRegistrationDate }
+export { signInWithGoogle, registName, handlSignOut, getUserId, getJoinProject, updateJoinProject, getUserName, getFavoriteUser, addFavorite, removeFavorite, getRegistrationDate, searchUserName }

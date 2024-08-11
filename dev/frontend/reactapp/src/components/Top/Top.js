@@ -15,12 +15,14 @@ import { auth } from '../../db/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getUserId } from '../../db/function/users';
 import UserIcon from '../../uiParts/component/UserIcon';
+import AlertModal from '../utils/AlertModal';
 
 
 
 function Top() {
   // const { firstSignIn } = useContext(UserInfoContext);
   const [firstSignIn, setFirstSignIn] = useState(false);
+  const [sameName, setSameName] = useState(false);
   const [user] = useAuthState(auth);
   
   // サインインしていた時、firebaseからuserIdを取得する
@@ -48,7 +50,8 @@ function Top() {
       <YoutubeRecommend />
       <UpDatesRecommend setFirstSignIn={setFirstSignIn} />
       <Footer />
-      {firstSignIn && <UserNameModal setFirstSignIn={setFirstSignIn} />}
+      {firstSignIn && <UserNameModal setFirstSignIn={setFirstSignIn} setSameName={setSameName} />}
+      {sameName && <AlertModal deleteModal={() => setSameName(false)} handleClick={() => setSameName(false)} sendText={'その名前は既に存在します'} />}
     </div>
   )
 }
