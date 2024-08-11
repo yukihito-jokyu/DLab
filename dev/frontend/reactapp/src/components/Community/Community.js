@@ -25,7 +25,8 @@ function Community() {
   const [discussion, setDiscussion] = useState(false);
   const [readerBoard, setReaderBoard] = useState(false);
   const [discussionEdit, setDiscussionEdit] = useState(false);
-  const [discussionInfo, setDiscussionInfo] = useState(false)
+  const [discussionInfo, setDiscussionInfo] = useState(false);
+  const [joinConfirmationModal, setJoinConfirmationModal] = useState(false);
 
   const handleOverview = () => {
     setOverview(true);
@@ -78,7 +79,7 @@ function Community() {
 
   const navigate = useNavigate();
   // プロジェクト参加関数
-  const handleNav = async () => {
+  const handleJoin = async () => {
     await updateJoinProject(userId, projectName);
     const sentData = {
       "user_id": userId,
@@ -91,9 +92,14 @@ function Community() {
       },
       body: JSON.stringify(sentData),
     });
-    console.log(response)
-    navigate('/ImageClassificationProjectList');
+    console.log(response);
+    setJoinConfirmationModal(true);
+    
   };
+  const handleNav = () => {
+    setJoinConfirmationModal(false);
+    navigate('/ImageClassificationProjectList');
+  }
 
 
   // ページに訪れた時にproject_infoから情報を抜き取る
@@ -123,7 +129,7 @@ function Community() {
   const handleInfo = () => {
     setDiscussionInfo(!discussionInfo);
   }
-  const sendText = 'プロジェクトをアクティベートします。<br/>よろしいですか。'
+  const sendText = 'プロジェクトをアクティベートします。<br/>よろしいですか？'
   return (
     <div className='community-wrapper'>
       <div className='community-header-wrapper'>
@@ -148,7 +154,8 @@ function Community() {
           <></>
         )}
         {readerBoard && <ProjectReaderBoard />}
-        {joinModal && (<AlertModal deleteModal={changeJoinModal} handleClick={handleNav} sendText={sendText} />)}
+        {joinModal && (<AlertModal deleteModal={changeJoinModal} handleClick={handleJoin} sendText={sendText} />)}
+        {joinConfirmationModal && (<AlertModal deleteModal={handleNav} handleClick={handleNav} sendText={'プロジェクトに参加しました。'} />)}
     </div>
   );
 };

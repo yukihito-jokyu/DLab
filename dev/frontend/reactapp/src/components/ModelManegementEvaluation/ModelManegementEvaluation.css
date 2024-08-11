@@ -53,6 +53,12 @@
   text-align: center;
 }
 
+.model-header-svg {
+  width: 30px;
+  height: 30px;
+  /* transform: rotateX(180deg) */
+}
+
 .model-accuracy-div {
   display: flex;
   justify-content: center;

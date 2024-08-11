@@ -72,4 +72,22 @@ const getModelName = async (modelId) => {
   }
 };
 
-export { getModelId, initModel, deleteModels, getModelName }
+// project_idとuser_idを用いてデータベースからmodel_nameを取得する方法
+const getModelNames = async (user_id, project_id) => {
+  const q = query(
+    collection(db, "model_management"),
+    where("user_id", "==", user_id),
+    where("project_id", "==", project_id)
+  );
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    const dataList = [];
+    querySnapshot.docs.map((doc) => (
+      dataList.push({ model_name: doc.model_name, ...doc.data() })
+    ));
+    return dataList
+  };
+  return []
+};
+
+export { getModelId, initModel, deleteModels, getModelName, getModelNames }
