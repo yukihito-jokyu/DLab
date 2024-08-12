@@ -16,7 +16,6 @@ function ModelCreateBox({ handleCreateModal, setSuccessModelCreate, setSameModel
     const userId = JSON.parse(sessionStorage.getItem('userId'));
     const modelId = uuidv4();
     const modelNames = await getModelNames(userId, projectName)
-    console.log(modelNames[2].model_name)
     if (modelNames.some(model => model.model_name === modelName)) {
       setSameModelName(true);
     } else {
@@ -24,7 +23,7 @@ function ModelCreateBox({ handleCreateModal, setSuccessModelCreate, setSameModel
       handleCreateModal();
       setSuccessModelCreate(true);
     }
-    
+
     // const sentData = {
     //   "user_id": userId,
     //   "project_name": projectName,
@@ -37,7 +36,7 @@ function ModelCreateBox({ handleCreateModal, setSuccessModelCreate, setSameModel
     //   },
     //   body: JSON.stringify(sentData),
     // });
-    
+
   };
   const style = {
     fontSize: '23px',
