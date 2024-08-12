@@ -1,13 +1,13 @@
 import { Line } from "react-chartjs-2";
 import './ModelManegementEvaluation.css';
 
-const DisplayAcc = ({ accuracyData }) => {
+const DisplayAcc = ({ accuracyData, showTitle = true }) => {
   const optionsAccuracy = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       title: {
-        display: true,
+        display: showTitle,
         text: 'Accuracy Over Epochs',
         font: {
           size: 22,

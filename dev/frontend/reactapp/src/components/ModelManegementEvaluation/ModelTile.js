@@ -65,7 +65,7 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   }, [isExpanding]);
 
   useEffect(() => {
-    setTileHeight(isExpanding ? '500px' : '70px'); // 拡張/縮小時の高さを設定
+    setTileHeight(isExpanding ? '500px' : '70px');
   }, [isExpanding]);
 
   const formatTimestamp = (timestamp) => {
@@ -157,11 +157,11 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
           </div>
         </div>
       </div>
-      {isPicture &&
+      {isPicture && accuracyData !== null && lossData !== null &&
         <div className='graph-field'>
           <div className='model-picture-filed-wrapper'>
-            <DisplayAcc accuracyData={accuracyData} />
-            <DisplayLoss lossData={lossData} />
+            <DisplayAcc accuracyData={accuracyData} showTitle={true} />
+            <DisplayLoss lossData={lossData} showTitle={true} />
           </div>
         </div>
       }
