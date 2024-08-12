@@ -34,23 +34,23 @@ function Menu({ handleClickMenu }) {
         <div className='menu-field-inner'>
           <div className='menu-list-wrapper'>
             <div onClick={navTop} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-              <HomeIcon style={{ marginRight: '10px', width: '30px', height: '30px' }} />
+              <HomeIcon style={{ marginRight: '15px', width: '30px', height: '30px' }} />
               <p style={{ margin: 15, lineHeight: '30px' }}>ホーム</p>
             </div>
             <div onClick={navImage} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-              <ImageIcon style={{ marginRight: '10px', width: '30px', height: '30px' }} />
+              <ImageIcon style={{ marginRight: '15px', width: '30px', height: '30px' }} />
               <p style={{ margin: 15, lineHeight: '30px' }}>画像分類</p>
             </div>
             <div onClick={navReinforcement} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-              <BirdIcon style={{ marginRight: '10px', width: '30px', height: '30px' }} />
+              <BirdIcon style={{ marginRight: '15px', width: '30px', height: '30px' }} />
               <p style={{ margin: 15, lineHeight: '30px' }}>強化学習</p>
             </div>
             <div onClick={navProjectShare} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-              <ShereIcon style={{ marginRight: '10px', width: '30px', height: '30px' }} />
+              <ShereIcon style={{ marginRight: '15px', width: '30px', height: '30px' }} />
               <p style={{ margin: 15, lineHeight: '30px' }}>プロジェクト一覧</p>
             </div>
             <div onClick={navProfile} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-              <ProfileIcon style={{ marginRight: '10px', width: '30px', height: '30px' }} />
+              <ProfileIcon style={{ marginRight: '15px', width: '30px', height: '30px' }} />
               <p style={{ margin: 15, lineHeight: '30px' }}>プロフィール</p>
             </div>
           </div>
