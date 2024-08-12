@@ -1,7 +1,7 @@
 .logo-wrapper {
   position: absolute;
   width: 110px;
-  /* height: 70px; */
+  height: 65px;
   margin: 0px 0px 0px 0px;
   left: 110px;
   z-index: 20;
@@ -11,4 +11,9 @@
   font-size: 42px;
   color: white;
   font-weight: 500;
+}
+
+.logo-wrapper .logo-svg {
+  width: 100%;
+  height: 100%;
 }
