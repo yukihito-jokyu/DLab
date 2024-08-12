@@ -198,8 +198,6 @@ function ModelField() {
             <div key={model.id}>
               <ModelTile
                 modelName={model.model_name}
-                accuracy={model.accuracy}
-                loss={model.loss}
                 date={model.date}
                 isChecked={model.isChecked}
                 modelId={model.id}
@@ -241,10 +239,10 @@ function ModelField() {
       ) : (
         <></>
       )}
-      {successDeleteModal && <AlertModal deleteModal={() => setSuccessDeleteModal(false)} handleClick={() => setSuccessDeleteModal(false)} sendText={'チェックしたモデルが削除されました'} /> }
-      {successModelCreate && <AlertModal deleteModal={() => setSuccessModelCreate(false)} handleClick={() => setSuccessModelCreate(false)} sendText={'モデルが作成されました'} /> }
-      {successModelDownload && <AlertModal deleteModal={() => setSuccessModelDownload(false)} handleClick={() => setSuccessModelDownload(false)} sendText={'モデルがダウンロードされました'} /> }
-      {sameModelName && <AlertModal deleteModal={() => setSameModelName(false)} handleClick={() => setSameModelName(false)} sendText={'モデル名が重複しています'} /> }
+      {successDeleteModal && <AlertModal deleteModal={() => setSuccessDeleteModal(false)} handleClick={() => setSuccessDeleteModal(false)} sendText={'チェックしたモデルが削除されました'} />}
+      {successModelCreate && <AlertModal deleteModal={() => setSuccessModelCreate(false)} handleClick={() => setSuccessModelCreate(false)} sendText={'モデルが作成されました'} />}
+      {successModelDownload && <AlertModal deleteModal={() => setSuccessModelDownload(false)} handleClick={() => setSuccessModelDownload(false)} sendText={'モデルがダウンロードされました'} />}
+      {sameModelName && <AlertModal deleteModal={() => setSameModelName(false)} handleClick={() => setSameModelName(false)} sendText={'モデル名が重複しています'} />}
     </div>
   )
 }

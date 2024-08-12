@@ -6,12 +6,13 @@ import { ReactComponent as PictureIcon } from '../../assets/svg/graph_24.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFetchTrainingResults from '../../hooks/useFetchTrainingResults';
 import useFetchStatus from '../../hooks/useFetchStatus';
+import useFetchAccuracyAndLoss from '../../hooks/useFetchAccuracyAndLoss';
 import DisplayAcc from './DisplayAcc';
 import DisplayLoss from './DisplayLoss';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkBoxChange, status, userId }) {
+function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status, userId }) {
   const { projectName } = useParams();
   const [isPicture, setIsPicture] = useState(false);
   const [isExpanding, setIsExpanding] = useState(false);
@@ -21,6 +22,7 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   const navigate = useNavigate();
 
   const { accuracyData, lossData } = useFetchTrainingResults(modelId);
+  const { accuracy, loss } = useFetchAccuracyAndLoss(modelId);
   const currentStatus = useFetchStatus(modelId);
 
   useEffect(() => {
