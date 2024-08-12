@@ -1,13 +1,13 @@
 import { Line } from "react-chartjs-2";
 import './ModelManegementEvaluation.css';
 
-const DisplayLoss = ({ lossData }) => {
+const DisplayLoss = ({ lossData, showTitle = true }) => {
   const optionsLoss = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       title: {
-        display: true,
+        display: showTitle,
         text: 'Loss Over Epochs',
         font: {
           size: 22,
@@ -46,7 +46,7 @@ const DisplayLoss = ({ lossData }) => {
     <div className='model-loss-picture canvas-container'>
       <Line data={lossData} options={optionsLoss} />
     </div>
-  )
+  );
 }
 
 export default DisplayLoss;

@@ -6,12 +6,13 @@ import { ReactComponent as PictureIcon } from '../../assets/svg/graph_24.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFetchTrainingResults from '../../hooks/useFetchTrainingResults';
 import useFetchStatus from '../../hooks/useFetchStatus';
+import useFetchAccuracyAndLoss from '../../hooks/useFetchAccuracyAndLoss';
 import DisplayAcc from './DisplayAcc';
 import DisplayLoss from './DisplayLoss';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkBoxChange, status, userId }) {
+function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status, userId }) {
   const { projectName } = useParams();
   const [isPicture, setIsPicture] = useState(false);
   const [isExpanding, setIsExpanding] = useState(false);
@@ -21,6 +22,7 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   const navigate = useNavigate();
 
   const { accuracyData, lossData } = useFetchTrainingResults(modelId);
+  const { accuracy, loss } = useFetchAccuracyAndLoss(modelId);
   const currentStatus = useFetchStatus(modelId);
 
   useEffect(() => {
@@ -65,7 +67,7 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
   }, [isExpanding]);
 
   useEffect(() => {
-    setTileHeight(isExpanding ? '500px' : '70px'); // 拡張/縮小時の高さを設定
+    setTileHeight(isExpanding ? '500px' : '70px');
   }, [isExpanding]);
 
   const formatTimestamp = (timestamp) => {
@@ -157,11 +159,11 @@ function ModelTile({ modelName, accuracy, loss, date, isChecked, modelId, checkB
           </div>
         </div>
       </div>
-      {isPicture &&
+      {isPicture && accuracyData !== null && lossData !== null &&
         <div className='graph-field'>
           <div className='model-picture-filed-wrapper'>
-            <DisplayAcc accuracyData={accuracyData} />
-            <DisplayLoss lossData={lossData} />
+            <DisplayAcc accuracyData={accuracyData} showTitle={true} />
+            <DisplayLoss lossData={lossData} showTitle={true} />
           </div>
         </div>
       }
