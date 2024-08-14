@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import './ModelManegementEvaluation.css';
 import { ReactComponent as PictureIcon } from '../../assets/svg/graph_24.svg';
@@ -50,7 +49,7 @@ function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status
   useEffect(() => {
     const handleTransitionEnd = () => {
       if (!isExpanding) {
-        setIsPicture(false); // タイルが閉じた後にグラフを非表示にする
+        setIsPicture(false);
       }
     };
 
@@ -81,10 +80,8 @@ function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status
   const handleClick = () => {
     if (currentStatus !== 'pre') {
       if (isPicture) {
-        // グラフが表示されている場合はタイルを縮小する
         setIsExpanding(false);
       } else {
-        // グラフが表示されていない場合はタイルを拡張する
         setIsPicture(true);
         setIsExpanding(true);
       }
