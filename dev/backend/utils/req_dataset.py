@@ -4,6 +4,10 @@ import json
 import cv2
 import base64
 
+import os
+from torchvision import transforms
+from train.train_image_classification import CustomDataset, ZCAWhitening, GCN
+
 class dataset_imager:
     def __init__(self, dataset_name='MNIST', n=100, label='all'):
         self.dataset_name = dataset_name
@@ -85,7 +89,6 @@ class dataset_imager:
         #   * __init__にて定義
         # return :
         #   画像データ（base64）(list)
-        
         images = []
         for img in self.x:
             if self.config['color'] == 'gray': # グレースケール(チャンネル１)
@@ -100,4 +103,24 @@ class dataset_imager:
                 img_base64 = base64.b64encode(img_png).decode()
                 images.append(img_base64)
         return images
-    
+
+
+# 前処理後の画像の取得
+def get_images(config):
+    project_name = config['project_name']
+    dataset_dir = os.path.abspath(os.path.join(os.getcwd(), "./dataset", project_name))
+    x_train = np.load(os.path.join(dataset_dir, "x_train.npy"))
+    y_train = np.load(os.path.join(dataset_dir, "y_train.npy"))
+    image_shape = int(config['change_shape'])
+    transform_list = [
+        transforms.Resize((image_shape, image_shape)),
+        transforms.ToTensor()
+    ]
+    # if config['propres']
+
+
+if __name__ == '__main__':
+    config = {
+        'project_name': 'CIFAR10'
+    }
+    get_images(config=config)
