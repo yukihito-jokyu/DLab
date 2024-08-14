@@ -20,7 +20,7 @@ def train_flappy(config):
     user_id = config["user_id"]
     project_name = config["project_name"]
     train_info = config["Train_info"]
-    image_shape = int(config["image_shape"])
+    image_shape = int(config['input_info']["image_shape"])
     epoch = train_info["epoch"]
     sync_interval = train_info["syns"]
     print(image_shape)

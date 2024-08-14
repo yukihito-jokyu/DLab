@@ -143,7 +143,7 @@ class CustomDataset(Dataset):
 
 # データセットの読込み＆前処理を行う関数
 def load_and_split_data(config):
-    image_shape = int(config['image_shape'])
+    image_shape = int(config['input_info']['change_shape'])
     transform_list = [
         transforms.Resize((image_shape, image_shape)),
         transforms.ToTensor()
@@ -156,7 +156,7 @@ def load_and_split_data(config):
     x_test = np.load(os.path.join(dataset_dir, "x_test.npy"))
     y_test = np.load(os.path.join(dataset_dir, "y_test.npy"))
 
-    pretreatment = config.get("Pretreatment", "none")
+    pretreatment = config['input_info'].get("Pretreatment", "none")
     if pretreatment == "GCN":
         transform_list.append(gcn)
     elif pretreatment == "ZCA":
@@ -189,7 +189,6 @@ def train_model(config):
     model_id = config["model_id"]
     user_id = config["user_id"]
     project_name = config["project_name"]
-    image_shape = int(config['image_shape'])
     model = import_model(config).to(device)
 
     (x_train, y_train), (x_val, y_val), (x_test, y_test), transform = load_and_split_data(config)

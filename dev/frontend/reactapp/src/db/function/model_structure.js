@@ -125,6 +125,17 @@ const getTrainInfo = async (modelId) => {
   }
 };
 
+// モデルの訓練情報の取得
+const getModelInput = async (modelId) => {
+  const q = query(collection(db, 'model_structure'), where('model_id', '==', modelId));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    return querySnapshot.docs[0].data().structure.input_layer;
+  } else {
+    return null
+  }
+};
+
 // モデルの画像サイズの取得
 const getImageShape = async (modelId) => {
   const q = query(collection(db, 'model_structure'), where('model_id', '==', modelId));
@@ -182,4 +193,4 @@ const getOriginShape = async (modelId) => {
   }
 };
 
-export { initModelStructure, deleteModelStructure, getModelStructure, getTrainInfo, updateStructure, updateTrainInfo, getOriginShape, getImageShape, getPreprocessing }
+export { initModelStructure, deleteModelStructure, getModelStructure, getTrainInfo, updateStructure, updateTrainInfo, getOriginShape, getImageShape, getPreprocessing, getModelInput }
