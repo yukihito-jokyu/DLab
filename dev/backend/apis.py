@@ -3,7 +3,7 @@ import numpy as np
 # from flask_cors import CORS
 
 # utils
-from utils.req_dataset import dataset_imager
+from utils.req_dataset import dataset_imager, get_images
 
 def setup_apis(app):
     @app.route('/api/test', methods=['GET'])
@@ -25,3 +25,14 @@ def setup_apis(app):
         else:
             images = di.dispend_image()
             return jsonify({'images': images})
+    
+    @app.route('/api/pre_data', methods=['POST'])
+    def pre_data():
+        data = request.get_json()
+        print(data)
+        images, pre_images = get_images(data)
+        sent_data = {
+            'images': images,
+            'pre_images': pre_images
+        }
+        return jsonify(sent_data)

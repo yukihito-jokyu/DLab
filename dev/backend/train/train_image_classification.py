@@ -63,6 +63,8 @@ class ZCAWhitening():
     def __call__(self, x):
         size = x.size()
         x = x.reshape(1, -1).to(self.device)
+        print(x.shape)
+        print(self.mean.shape)
         x -= self.mean  # x - \bar{x}
         x = torch.mm(x, self.ZCA_matrix.t())
         x = x.reshape(tuple(size))
