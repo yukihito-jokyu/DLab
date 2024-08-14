@@ -156,7 +156,7 @@ def load_and_split_data(config):
     x_test = np.load(os.path.join(dataset_dir, "x_test.npy"))
     y_test = np.load(os.path.join(dataset_dir, "y_test.npy"))
 
-    pretreatment = config["Train_info"].get("Pretreatment", "none")
+    pretreatment = config.get("Pretreatment", "none")
     if pretreatment == "GCN":
         transform_list.append(gcn)
     elif pretreatment == "ZCA":

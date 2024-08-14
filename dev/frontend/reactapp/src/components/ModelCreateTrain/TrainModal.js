@@ -4,7 +4,7 @@ import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
 import { socket } from '../../socket/socket';
-import { getImageShape, getModelStructure, getTrainInfo } from '../../db/function/model_structure';
+import { getImageShape, getModelStructure, getPreprocessing, getTrainInfo } from '../../db/function/model_structure';
 import { useParams } from 'react-router-dom';
 import { getUserName } from '../../db/function/users';
 
@@ -56,12 +56,14 @@ function TrainModal({ changeTrain, flattenShape }) {
     if (socket) {
       const trainInfo = await getTrainInfo(modelId)
       const imageShape = await getImageShape(modelId)
+      const pre = await getPreprocessing(modelId)
       const sentData = {
         user_id: userId,
         user_name: userName,
         project_name: projectName,
         model_id: modelId,
         image_shape: imageShape,
+        preprocessing: pre,
         Train_info: trainInfo
       }
       if (projectName === 'FlappyBird') {
