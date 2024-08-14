@@ -281,7 +281,7 @@ def train_model(config):
         
         # Firestoreに結果をアップロード
         upload_result = upload_training_result(config["user_id"], config["project_name"], model_id, epoch_result)
-        print(upload_result)
+        # print(upload_result)
         
         print('Epoch:', epoch, 'TrainAcc:', round(epoch_acc, 5), 'ValAcc:', round(val_acc, 5), 'TrainLoss:', round(epoch_loss, 5), 'ValLoss:', round(val_loss, 5))
         emit('train_image_results'+model_id, epoch_result)
@@ -307,7 +307,7 @@ def train_model(config):
     # 一時ファイルにモデルを保存
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pth") as tmp_file:
         best_model_path = tmp_file.name
-        torch.save(best_model, best_model_path)
+        torch.save(model.state_dict(), best_model_path)
     
     # Firebase Storageにモデルをアップロード
     model_storage_path = f"user/{user_id}/{project_name}/{model_id}/best_model.pth"

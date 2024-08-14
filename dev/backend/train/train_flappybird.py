@@ -20,7 +20,7 @@ def train_flappy(config):
     user_id = config["user_id"]
     project_name = config["project_name"]
     train_info = config["Train_info"]
-    image_shape = int(config['input_info']["image_shape"])
+    image_shape = int(config['input_info']["change_shape"])
     epoch = train_info["epoch"]
     sync_interval = train_info["syns"]
     print(image_shape)
@@ -82,7 +82,7 @@ def train_flappy(config):
     # 一時ファイルにモデルを保存
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pth") as tmp_file:
         best_model_path = tmp_file.name
-        torch.save(agent.qnet, best_model_path)
+        torch.save(agent.qnet.state_dict(), best_model_path)
     
     # Firebase Storageにモデルをアップロード
     model_storage_path = f"user/{user_id}/{project_name}/{model_id}/best_model.pth"
@@ -116,4 +116,4 @@ def train_flappy(config):
         loss_curve_storage_path = f"user/{user_id}/{project_name}/{model_id}/loss_curve.png"
         upload_file(loss_curve_path, loss_curve_storage_path)
     
-    return total_reward, ave_loss
+    return round(total_reward, 5), round(ave_loss, 5)

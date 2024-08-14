@@ -106,7 +106,8 @@ class dataset_imager:
 
 
 # 前処理後の画像の取得
-def get_images(project_name, config):
+def get_images(config):
+    project_name = config['project_name']
     dataset_dir = os.path.abspath(os.path.join(os.getcwd(), "./dataset", project_name))
     x_train = np.load(os.path.join(dataset_dir, "x_train.npy"))
     y_train = np.load(os.path.join(dataset_dir, "y_train.npy"))
@@ -116,3 +117,10 @@ def get_images(project_name, config):
         transforms.ToTensor()
     ]
     # if config['propres']
+
+
+if __name__ == '__main__':
+    config = {
+        'project_name': 'CIFAR10'
+    }
+    get_images(config=config)
