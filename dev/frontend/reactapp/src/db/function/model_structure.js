@@ -36,7 +36,7 @@ const initModelStructure = async (modelId, projectId) => {
   } else if (projectId === 'FlappyBird') {
     newData = {
       model_id: modelId,
-      origin_shape: originShape,
+      origin_shape: 32,
       train_info: {
         batch: 32,
         epoch: 100,
@@ -48,8 +48,8 @@ const initModelStructure = async (modelId, projectId) => {
       },
       structure: {
         input_layer: {
-          shape: [28, 28, 1],
-          change_shape: shape,
+          shape: [32, 32, 3],
+          change_shape: 32,
           preprocessing: "none",
           type: "Input"
         },
@@ -125,6 +125,17 @@ const getTrainInfo = async (modelId) => {
   }
 };
 
+// モデルの画像サイズの取得
+const getImageShape = async (modelId) => {
+  const q = query(collection(db, 'model_structure'), where('model_id', '==', modelId));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    return querySnapshot.docs[0].data().structure.input_layer.change_shape;
+  } else {
+    return null
+  }
+};
+
 // モデルの構造の更新
 const updateStructure = async (modelId, structure) => {
   const q = query(collection(db, 'model_structure'), where('model_id', '==', modelId));
@@ -160,4 +171,4 @@ const getOriginShape = async (modelId) => {
   }
 };
 
-export { initModelStructure, deleteModelStructure, getModelStructure, getTrainInfo, updateStructure, updateTrainInfo, getOriginShape }
+export { initModelStructure, deleteModelStructure, getModelStructure, getTrainInfo, updateStructure, updateTrainInfo, getOriginShape, getImageShape }

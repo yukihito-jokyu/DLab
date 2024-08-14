@@ -7,11 +7,12 @@ import torch.nn as nn
 import importlib.util
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from torch.utils.data import DataLoader, TensorDataset
+from torch.utils.data import DataLoader, TensorDataset, Dataset
+from torchvision import transforms
 from flask_socketio import emit
 from utils.get_func import get_optimizer, get_loss
 from utils.db_manage import download_file, upload_file, initialize_training_results, upload_training_result
-
+from PIL import Image
 import matplotlib
 matplotlib.use('Agg')
 
@@ -83,6 +84,30 @@ def import_model(config):
     except Exception as e:
         raise ImportError(f"Failed to import model: {e}")
 
+
+# カスタムデータセット
+class CustomDataset(Dataset):
+    def __init__(self, x_train, t_train, transform=None):
+        data = np.transpose(x_train, (0, 2, 3, 1)).astype('float32')
+        self.x_train = []
+        for i in range(data.shape[0]):
+            self.x_train.append(Image.fromarray(np.uint8(data[i])))
+        self.t_train = t_train
+        if transform is None:
+            self.transform = transforms.ToTensor()
+        else:
+            self.transform = transform
+
+    def __len__(self):
+        return len(self.x_train)
+    
+    def __getitem__(self, idx):
+        x_train = self.transform(self.x_train[idx])
+        t_train = torch.tensor(self.t_train[idx], dtype=torch.long)
+
+        return x_train, t_train
+
+
 # データセットの読込み＆前処理を行う関数
 def load_and_split_data(config):
     project_name = config["project_name"]
@@ -127,14 +152,23 @@ def train_model(config):
     model_id = config["model_id"]
     user_id = config["user_id"]
     project_name = config["project_name"]
+    image_shape = int(config['image_shape'])
     model = import_model(config).to(device)
 
     (x_train, y_train), (x_val, y_val), (x_test, y_test) = load_and_split_data(config)
 
     train_info = config["Train_info"]
 
-    train_dataset = TensorDataset(torch.from_numpy(x_train).float(), torch.from_numpy(y_train).long())
-    val_dataset = TensorDataset(torch.from_numpy(x_val).float(), torch.from_numpy(y_val).long())
+    transform = transforms.Compose([
+        transforms.Resize((image_shape, image_shape)),
+        transforms.ToTensor()
+    ])
+
+    train_dataset = CustomDataset(x_train, y_train, transform)
+    val_dataset = CustomDataset(x_val, y_val, transform)
+
+    # train_dataset = TensorDataset(torch.from_numpy(x_train).float(), torch.from_numpy(y_train).long())
+    # val_dataset = TensorDataset(torch.from_numpy(x_val).float(), torch.from_numpy(y_val).long())
     
     train_loader = DataLoader(train_dataset, batch_size=int(train_info["batch"]), shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=int(train_info["batch"]), shuffle=False)
