@@ -21,10 +21,14 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"ImageClassification:{device}")
 
 # GCN関数
-def gcn(x):
-    mean = np.mean(x, axis=(1,2,3), keepdims=True)
-    std = np.std(x, axis=(1,2,3), keepdims=True)
-    return (x - mean) / (std + 1.E-6)
+class GCN():
+    def __init__(self):
+        pass
+
+    def __call__(self, x):
+        mean = torch.mean(x)
+        std = torch.std(x)
+        return (x - mean)/(std + 10**(-6))  # 0除算を防ぐ
 
 # ZCA白色化の実装
 class ZCAWhitening():
@@ -123,7 +127,7 @@ class CustomDataset(Dataset):
                 # グレースケール画像を2D配列として扱う
                 img = x_train[i].squeeze()  # (28, 28, 1) -> (28, 28)
                 # 0-255の範囲にスケーリング（必要な場合）
-                img = (img * 255).astype(np.uint8)
+                # img = (img * 255).astype(np.uint8)
                 self.x_train.append(Image.fromarray(img, mode='L'))
         self.t_train = t_train
         if transform is None:
@@ -156,10 +160,13 @@ def load_and_split_data(config):
     x_test = np.load(os.path.join(dataset_dir, "x_test.npy"))
     y_test = np.load(os.path.join(dataset_dir, "y_test.npy"))
 
-    pretreatment = config['input_info'].get("Pretreatment", "none")
+    pretreatment = config['input_info'].get("preprocessing")
     if pretreatment == "GCN":
+        print(f'{pretreatment}使用')
+        gcn = GCN()
         transform_list.append(gcn)
     elif pretreatment == "ZCA":
+        print(f'{pretreatment}使用')
         zca = ZCAWhitening.load(os.path.join(dataset_dir, f"{project_name}_zca.pth"))
         transform_list.append(zca)
     
