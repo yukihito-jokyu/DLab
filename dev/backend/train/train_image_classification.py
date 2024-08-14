@@ -7,11 +7,12 @@ import torch.nn as nn
 import importlib.util
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from torch.utils.data import DataLoader, TensorDataset
+from torch.utils.data import DataLoader, TensorDataset, Dataset
+from torchvision import transforms
 from flask_socketio import emit
 from utils.get_func import get_optimizer, get_loss
 from utils.db_manage import download_file, upload_file, initialize_training_results, upload_training_result
-
+from PIL import Image
 import matplotlib
 matplotlib.use('Agg')
 
@@ -20,34 +21,61 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"ImageClassification:{device}")
 
 # GCN関数
-def gcn(x):
-    mean = np.mean(x, axis=(1,2,3), keepdims=True)
-    std = np.std(x, axis=(1,2,3), keepdims=True)
-    return (x - mean) / (std + 1.E-6)
+class GCN():
+    def __init__(self):
+        pass
 
-# 新しいZCA Whiteningクラス
-class ZCA_Whitening:
-    def __init__(self, epsilon=1E-6):
+    def __call__(self, x):
+        mean = torch.mean(x)
+        std = torch.std(x)
+        return (x - mean)/(std + 10**(-6))  # 0除算を防ぐ
+
+# ZCA白色化の実装
+class ZCAWhitening():
+    def __init__(self, epsilon=1e-4, device="cuda"):  # 計算が重いのでGPUを用いる
         self.epsilon = epsilon
+        self.device = device
         self.mean = None
-        self.PCA_mat = None
-        
-    def fit(self, x):
-        x = x.astype(np.float64)
-        x = x.reshape(x.shape[0],-1)
-        self.mean = np.mean(x, axis=0)
-        x -= self.mean
-        cov_mat = np.dot(x.T, x) / x.shape[0]
-        A, L, _ = np.linalg.svd(cov_mat)
-        self.ZCA_mat = np.dot(A, np.dot(np.diag(1. / (np.sqrt(L) + self.epsilon)), A.T))
-            
-    def transform(self, x):
-        shape = x.shape
-        x = x.astype(np.float64)
-        x = x.reshape(x.shape[0],-1)
-        x -= self.mean
-        x = np.dot(x, self.ZCA_mat)
-        return x.reshape(shape)
+        self.ZCA_matrix = None
+
+    def fit(self, images):  # 変換行列と平均をデータから計算
+        """
+        Argument
+        --------
+        images : torchvision.datasets.cifar.CIFAR10
+            入力画像（訓練データ全体）．(N, C, H, W)
+        """
+        x = images[0][0].reshape(1, -1)  # 画像（1枚）を1次元化
+        self.mean = torch.zeros([1, x.size()[1]]).to(self.device)  # 平均値を格納するテンソル．xと同じ形状
+        con_matrix = torch.zeros([x.size()[1], x.size()[1]]).to(self.device)
+        for i in range(len(images)):  # 各データについての平均を取る
+            x = images[i][0].reshape(1, -1).to(self.device)
+            self.mean += x / len(images)
+            con_matrix += torch.mm(x.t(), x) / len(images)
+            if i % 10000 == 0:
+                print("{0}/{1}".format(i, len(images)))
+        con_matrix -= torch.mm(self.mean.t(), self.mean)
+        # E: 固有値 V: 固有ベクトルを並べたもの
+        E, V = torch.linalg.eigh(con_matrix)  # 固有値分解
+        self.ZCA_matrix = torch.mm(torch.mm(V, torch.diag((E.squeeze()+self.epsilon)**(-0.5))), V.t())  # A(\Lambda + \epsilon I)^{1/2}A^T
+        print("completed!")
+
+    def __call__(self, x):
+        size = x.size()
+        x = x.reshape(1, -1).to(self.device)
+        x -= self.mean  # x - \bar{x}
+        x = torch.mm(x, self.ZCA_matrix.t())
+        x = x.reshape(tuple(size))
+        x = x.to("cpu")
+        return x
+    
+    @classmethod
+    def load(cls, filepath):
+        state = torch.load(filepath)
+        instance = cls(epsilon=state['epsilon'], device=state['device'])
+        instance.mean = state['mean']
+        instance.ZCA_matrix = state['ZCA_matrix']
+        return instance
 
 # モデルをインポートする関数
 def import_model(config):
@@ -83,8 +111,47 @@ def import_model(config):
     except Exception as e:
         raise ImportError(f"Failed to import model: {e}")
 
+
+# カスタムデータセット
+class CustomDataset(Dataset):
+    def __init__(self, x_train, t_train, transform=None):
+        data = x_train.astype('float32')
+        # self.x_train = data
+        # data = np.transpose(x_train, (0, 2, 3, 1)).astype('float32')
+        self.x_train = []
+        if x_train.shape[3] == 3:
+            for i in range(data.shape[0]):
+                self.x_train.append(Image.fromarray(np.uint8(data[i])))
+        else:
+            for i in range(x_train.shape[0]):
+                # グレースケール画像を2D配列として扱う
+                img = x_train[i].squeeze()  # (28, 28, 1) -> (28, 28)
+                # 0-255の範囲にスケーリング（必要な場合）
+                # img = (img * 255).astype(np.uint8)
+                self.x_train.append(Image.fromarray(img, mode='L'))
+        self.t_train = t_train
+        if transform is None:
+            self.transform = transforms.ToTensor()
+        else:
+            self.transform = transform
+
+    def __len__(self):
+        return len(self.x_train)
+    
+    def __getitem__(self, idx):
+        x_train = self.transform(self.x_train[idx])
+        t_train = torch.tensor(self.t_train[idx], dtype=torch.long)
+
+        return x_train, t_train
+
+
 # データセットの読込み＆前処理を行う関数
 def load_and_split_data(config):
+    image_shape = int(config['input_info']['change_shape'])
+    transform_list = [
+        transforms.Resize((image_shape, image_shape)),
+        transforms.ToTensor()
+    ]
     project_name = config["project_name"]
     dataset_dir = os.path.abspath(os.path.join(os.getcwd(), "./dataset", project_name))
     
@@ -93,34 +160,36 @@ def load_and_split_data(config):
     x_test = np.load(os.path.join(dataset_dir, "x_test.npy"))
     y_test = np.load(os.path.join(dataset_dir, "y_test.npy"))
 
-    pretreatment = config["Train_info"].get("Pretreatment", "none")
+    pretreatment = config['input_info'].get("preprocessing")
     if pretreatment == "GCN":
-        x_train = gcn(x_train)
-        x_test = gcn(x_test)
+        print(f'{pretreatment}使用')
+        gcn = GCN()
+        transform_list.append(gcn)
     elif pretreatment == "ZCA":
-        zca = ZCA_Whitening()
-        zca.fit(x_train)
-        x_train = zca.transform(x_train)
-        x_test = zca.transform(x_test)
+        print(f'{pretreatment}使用')
+        zca = ZCAWhitening.load(os.path.join(dataset_dir, f"{project_name}_zca.pth"))
+        transform_list.append(zca)
     
     test_size = float(config["Train_info"]["test_size"])
     x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=test_size)
 
-    image_shape = config["Train_info"]["image_shape"]
-    if len(x_train.shape) == 2 and x_train.shape[1] == image_shape * image_shape:
-        channels = 1
-        height, width = image_shape, image_shape
-        x_train = x_train.reshape(-1, channels, height, width)
-        x_val = x_val.reshape(-1, channels, height, width)
-        x_test = x_test.reshape(-1, channels, height, width)
-    elif len(x_train.shape) == 4:
-        channels = x_train.shape[-1]
-        height, width = x_train.shape[1], x_train.shape[2]
-        x_train = x_train.transpose(0, 3, 1, 2)
-        x_val = x_val.transpose(0, 3, 1, 2)
-        x_test = x_test.transpose(0, 3, 1, 2)
+    transform = transforms.Compose(transform_list)
+
+    # image_shape = config["Train_info"]["image_shape"]
+    # if len(x_train.shape) == 2 and x_train.shape[1] == image_shape * image_shape:
+    #     channels = 1
+    #     height, width = image_shape, image_shape
+    #     x_train = x_train.reshape(-1, channels, height, width)
+    #     x_val = x_val.reshape(-1, channels, height, width)
+    #     x_test = x_test.reshape(-1, channels, height, width)
+    # elif len(x_train.shape) == 4:
+    #     channels = x_train.shape[-1]
+    #     height, width = x_train.shape[1], x_train.shape[2]
+    #     x_train = x_train.transpose(0, 3, 1, 2)
+    #     x_val = x_val.transpose(0, 3, 1, 2)
+    #     x_test = x_test.transpose(0, 3, 1, 2)
     
-    return (x_train, y_train), (x_val, y_val), (x_test, y_test)
+    return (x_train, y_train), (x_val, y_val), (x_test, y_test), transform
 
 # モデルの訓練を行う関数
 def train_model(config):
@@ -129,15 +198,25 @@ def train_model(config):
     project_name = config["project_name"]
     model = import_model(config).to(device)
 
-    (x_train, y_train), (x_val, y_val), (x_test, y_test) = load_and_split_data(config)
+    (x_train, y_train), (x_val, y_val), (x_test, y_test), transform = load_and_split_data(config)
 
     train_info = config["Train_info"]
 
-    train_dataset = TensorDataset(torch.from_numpy(x_train).float(), torch.from_numpy(y_train).long())
-    val_dataset = TensorDataset(torch.from_numpy(x_val).float(), torch.from_numpy(y_val).long())
+    # transform = transforms.Compose([
+    #     transforms.Resize((image_shape, image_shape)),
+    #     transforms.ToTensor()
+    # ])
+
+    train_dataset = CustomDataset(x_train, y_train, transform)
+    val_dataset = CustomDataset(x_val, y_val, transform)
+    test_dataset = CustomDataset(x_test, y_test, transform)
+
+    # train_dataset = TensorDataset(torch.from_numpy(x_train).float(), torch.from_numpy(y_train).long())
+    # val_dataset = TensorDataset(torch.from_numpy(x_val).float(), torch.from_numpy(y_val).long())
     
     train_loader = DataLoader(train_dataset, batch_size=int(train_info["batch"]), shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=int(train_info["batch"]), shuffle=False)
+    test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
     optimizer = get_optimizer(train_info["optimizer"], model.parameters(), float(train_info["learning_rate"]))
     loss_fn = get_loss('cross_entropy')
@@ -202,7 +281,7 @@ def train_model(config):
         
         # Firestoreに結果をアップロード
         upload_result = upload_training_result(config["user_id"], config["project_name"], model_id, epoch_result)
-        print(upload_result)
+        # print(upload_result)
         
         print('Epoch:', epoch, 'TrainAcc:', round(epoch_acc, 5), 'ValAcc:', round(val_acc, 5), 'TrainLoss:', round(epoch_loss, 5), 'ValLoss:', round(val_loss, 5))
         emit('train_image_results'+model_id, epoch_result)
@@ -211,11 +290,24 @@ def train_model(config):
             best_val_loss = round(val_loss, 5)
             best_val_acc = round(val_acc, 5)
             best_model = model.state_dict()
-
+    
+    running_test_loss = 0
+    running_test_corrects = 0
+    # テスト
+    model.eval()
+    with torch.no_grad():
+        for inputs, targets in test_loader:
+            inputs, targets = inputs.to(device), targets.to(device)
+            outputs = model(inputs)
+            loss = loss_fn(outputs, targets)
+            running_test_loss += loss.item()
+            running_test_corrects += (torch.max(outputs, 1)[1] == targets).sum().item()
+    test_loss = round(running_test_loss / len(test_loader), 5)
+    test_acc = round(running_test_corrects / len(test_loader.dataset), 5)
     # 一時ファイルにモデルを保存
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pth") as tmp_file:
         best_model_path = tmp_file.name
-        torch.save(best_model, best_model_path)
+        torch.save(model.state_dict(), best_model_path)
     
     # Firebase Storageにモデルをアップロード
     model_storage_path = f"user/{user_id}/{project_name}/{model_id}/best_model.pth"
@@ -251,4 +343,4 @@ def train_model(config):
         loss_curve_storage_path = f"user/{user_id}/{project_name}/{model_id}/loss_curve.png"
         upload_file(loss_curve_path, loss_curve_storage_path)
     
-    return best_val_acc, best_val_loss
+    return test_acc, test_loss

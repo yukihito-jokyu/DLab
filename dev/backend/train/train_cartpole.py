@@ -8,6 +8,7 @@ from collections import deque
 import random
 from flask_socketio import emit
 from utils.get_func import get_optimizer, get_loss
+from train.train_image_classification import import_model
 
 # デバイスを指定
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -37,18 +38,18 @@ class ReplayBuffer:
 
 # DQNエージェントクラスの定義
 class DQNAgent:
-    def __init__(self, train_info, QNet_model, device=device):
+    def __init__(self, train_info, config, device=device):
         self.device = device
         self.gamma = 0.9  # 割引率
         self.lr = float(train_info['learning_rate'])
-        self.epsilon = float(train_info['epsilon'])
+        self.epsilon = float(train_info['episilon'])
         self.buffer_size = int(train_info['buffer'])
         self.batch_size = int(train_info['batch'])
         self.action_size = 2
-        self.loss_func = get_loss(train_info['loss'])
+        self.loss_func = get_loss('mse_loss')
         self.replay_buffer = ReplayBuffer(self.buffer_size, self.batch_size)
-        self.qnet = QNet_model().to(device=self.device)
-        self.qnet_target = QNet_model().to(device=self.device)
+        self.qnet = import_model(config=config).to(device=self.device)
+        self.qnet_target = import_model(config=config).to(device=self.device)
         self.optimizer = get_optimizer(train_info['optimizer'], self.qnet.parameters(), self.lr)
         self.optimizer.zero_grad()
     
@@ -81,7 +82,8 @@ class DQNAgent:
         done = torch.tensor(done, dtype=torch.float32).to(self.device)
         target = reward + (1 - done) * self.gamma * next_q
         targets = self.qnet.forward(state)
-        new_targets = [ts.clone().index_fill_(0, torch.tensor([i]), t) for ts, t, i in zip(targets, target, index)]
+        # new_targets = [ts.clone().index_fill_(0, torch.tensor([i]), t) for ts, t, i in zip(targets, target, index)]
+        new_targets = [ts.clone().index_fill_(0, torch.tensor([i], device=device), t.to(device)) for ts, t, i in zip(targets, target, index)]
         targets = torch.stack(new_targets).to(self.device)
         loss = self.loss_func(q, target)
         self.optimizer.zero_grad()

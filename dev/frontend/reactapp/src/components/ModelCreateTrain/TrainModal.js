@@ -4,7 +4,7 @@ import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
 import { socket } from '../../socket/socket';
-import { getModelStructure, getTrainInfo } from '../../db/function/model_structure';
+import { getImageShape, getModelInput, getModelStructure, getPreprocessing, getTrainInfo } from '../../db/function/model_structure';
 import { useParams } from 'react-router-dom';
 import { getUserName } from '../../db/function/users';
 
@@ -55,14 +55,21 @@ function TrainModal({ changeTrain, flattenShape }) {
     changeTrain();
     if (socket) {
       const trainInfo = await getTrainInfo(modelId)
+      const inputInfo = await getModelInput(modelId);
+      console.log(inputInfo)
       const sentData = {
         user_id: userId,
         user_name: userName,
         project_name: projectName,
         model_id: modelId,
+        input_info: inputInfo,
         Train_info: trainInfo
       }
-      socket.emit('image_train_start', sentData);
+      if (projectName === 'FlappyBird') {
+        socket.emit('flappy_train_start', sentData);
+      } else {
+        socket.emit('image_train_start', sentData);
+      }
     }
   }
 
@@ -77,6 +84,7 @@ function TrainModal({ changeTrain, flattenShape }) {
     // クリーンアップ
     return () => {
       socket.off('image_train_end' + modelId, handleTrainResults);
+      socket.off('flappy_train_end' + modelId)
     }
   }, [modelId])
   return (
