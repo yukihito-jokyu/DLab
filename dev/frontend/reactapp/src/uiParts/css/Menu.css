@@ -8,7 +8,7 @@
   border-bottom-right-radius: 40px;
   padding: 0px;
   box-sizing: border-box;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.25s ease-in-out;
 }
 
 .menu-field.hidden {
