@@ -46,11 +46,11 @@ function AlertModal({ deleteModal, handleClick, sendText }) {
                   <p dangerouslySetInnerHTML={{ __html: sendText }} />
                 </div>
                 <div className='alert-modal'>
-                  <div onClick={handleClick}>
+                  <div onClick={handleClose}>
                     <GradationButton text={text2} />
                   </div>
                 </div>
-                <div className='train-modal-delet-button-field' onClick={handleClose} style={{ cursor: 'pointer' }}>
+                <div className='train-modal-delet-button-field' onClick={{ handleClick, handleClose }} style={{ cursor: 'pointer' }}>
                   <DeletIcon className='delet-svg' />
                 </div>
               </div>
