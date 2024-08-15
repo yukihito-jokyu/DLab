@@ -454,3 +454,23 @@
 .delet-svg {
   fill: #9D9EFF;
 }
+
+.create-background-wrapper {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.create-background-wrapper.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.create-background-color {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+.create-background-color.show {
+  opacity: 1;
+}
