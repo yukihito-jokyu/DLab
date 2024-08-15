@@ -3,13 +3,25 @@ import { db } from "../firebase";
 
 // モデルの構造の初期化
 const initModelStructure = async (modelId, projectId) => {
-  let shape = 24
-  let originShape = 24
-  let C = 1
+  let shape = NaN
+  let originShape = NaN
+  let C = NaN
   if (projectId === 'CIFAR10') {
     shape = 32
     originShape = 32
     C = 3
+  } else if (projectId === 'CIFAR100') {
+    shape = 32
+    originShape = 32
+    C = 3
+  } else if (projectId === 'FashionMNIST') {
+    shape = 28
+    originShape = 28
+    C = 1
+  } else if (projectId === 'MNIST') {
+    shape = 28
+    originShape = 28
+    C = 1
   }
   let newData
   if (projectId === 'CartPole') {
