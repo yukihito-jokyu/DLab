@@ -7,7 +7,7 @@ import { ReactComponent as BirdIcon } from '../../assets/svg/bird.svg';
 import { ReactComponent as ShereIcon } from '../../assets/svg/shere.svg';
 import { ReactComponent as ProfileIcon } from '../../assets/svg/profile.svg';
 
-function Menu({ handleClickMenu }) {
+function Menu({ handleClickMenu, menuOpen }) {
   const userId = JSON.parse(sessionStorage.getItem('userId'));
   const navigate = useNavigate();
 
@@ -28,9 +28,11 @@ function Menu({ handleClickMenu }) {
   };
 
   return (
-    <div className='menu-wrapper'>
-      <div className='menu-field-wrapper' onClick={handleClickMenu}></div>
-      <div className='menu-field'>
+    <>
+      {menuOpen && (
+        <div className='menu-field-wrapper' onClick={handleClickMenu}></div>
+      )}
+      <div className={`menu-field ${menuOpen ? '' : 'hidden'}`}>
         <div className='menu-field-inner'>
           <div className='menu-list-wrapper'>
             <div onClick={navTop} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
@@ -56,8 +58,9 @@ function Menu({ handleClickMenu }) {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
+
 }
 
 export default Menu;
