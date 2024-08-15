@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/Menu.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ReactComponent as HomeIcon } from '../../assets/svg/home.svg';
 import { ReactComponent as ImageIcon } from '../../assets/svg/image.svg';
 import { ReactComponent as BirdIcon } from '../../assets/svg/bird.svg';
@@ -10,22 +10,22 @@ import { ReactComponent as ProfileIcon } from '../../assets/svg/profile.svg';
 function Menu({ handleClickMenu, menuOpen }) {
   const userId = JSON.parse(sessionStorage.getItem('userId'));
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const navTop = () => {
-    navigate('/top');
+  const handleNavigation = (path) => {
+    if (location.pathname === path) {
+      handleClickMenu();
+    } else {
+      navigate(path);
+      handleClickMenu();
+    }
   };
-  const navImage = () => {
-    navigate(`/ImageClassificationProjectList/${userId}`);
-  };
-  const navReinforcement = () => {
-    navigate('/RLProjectList');
-  };
-  const navProjectShare = () => {
-    navigate('/projectshare');
-  };
-  const navProfile = () => {
-    navigate(`/profile/${userId}`);
-  };
+
+  const navTop = () => handleNavigation('/top');
+  const navImage = () => handleNavigation(`/ImageClassificationProjectList/${userId}`);
+  const navReinforcement = () => handleNavigation('/RLProjectList');
+  const navProjectShare = () => handleNavigation('/projectshare');
+  const navProfile = () => handleNavigation(`/profile/${userId}`);
 
   return (
     <>
@@ -60,7 +60,6 @@ function Menu({ handleClickMenu, menuOpen }) {
       </div>
     </>
   );
-
 }
 
 export default Menu;
