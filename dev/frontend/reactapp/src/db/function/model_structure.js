@@ -3,13 +3,30 @@ import { db } from "../firebase";
 
 // モデルの構造の初期化
 const initModelStructure = async (modelId, projectId) => {
-  let shape = 24
-  let originShape = 24
-  let C = 1
+  let shape = NaN
+  let originShape = NaN
+  let C = NaN
+  let outputShape = NaN
   if (projectId === 'CIFAR10') {
     shape = 32
     originShape = 32
     C = 3
+    outputShape = 10
+  } else if (projectId === 'CIFAR100') {
+    shape = 32
+    originShape = 32
+    C = 3
+    outputShape = 100
+  } else if (projectId === 'FashionMNIST') {
+    shape = 28
+    originShape = 28
+    C = 1
+    outputShape = 10
+  } else if (projectId === 'MNIST') {
+    shape = 28
+    originShape = 28
+    C = 1
+    outputShape = 10
   }
   let newData
   if (projectId === 'CartPole') {
@@ -87,7 +104,7 @@ const initModelStructure = async (modelId, projectId) => {
           way: "normal"
         },
         middle_layer: [],
-        output_layer: 10
+        output_layer: outputShape
       }
     }
   }

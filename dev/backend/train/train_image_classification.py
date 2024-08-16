@@ -71,7 +71,7 @@ class ZCAWhitening():
     
     @classmethod
     def load(cls, filepath):
-        state = torch.load(filepath)
+        state = torch.load(filepath, weights_only=True)
         instance = cls(epsilon=state['epsilon'], device=state['device'])
         instance.mean = state['mean']
         instance.ZCA_matrix = state['ZCA_matrix']
