@@ -45,15 +45,19 @@ class Simple_NN(nn.Module):
     def forward(self, x):
         return self.seq(x)
 '''
+    project_name = data.get('project_name')
     structure = data.get('structure')
     input_layer = structure.get('input_layer')
-    conv_layers = structure.get('conv_layer')
+    conv_layers = structure.get('conv_layer', [])
     middle_layers = structure.get('middle_layer')
     output_size = structure.get('output_layer')
-    flatten_way = structure.get('flatten_method')['way']
+    if project_name != 'CartPole':
+        flatten_way = structure.get('flatten_method')['way']
     save_dir = f'user/{data.get("user_id")}/{data.get("project_name")}/{data.get("model_id")}'
-
-    in_channels = input_layer['shape'][2]
+    if project_name != 'CartPole':
+        in_channels = input_layer['shape'][2]
+    else:
+        input_size = input_layer['shape']
     for layer in conv_layers:
         layer_type = layer.get('layer_type')
         if layer_type == 'Conv2d':
@@ -66,15 +70,14 @@ class Simple_NN(nn.Module):
             py_3 += make_dropout_layer(layer.get('dropout_p'))
         elif layer_type == 'BatchNorm':
             py_3 += make_batchnorm2d_layer(in_channels)
-
-    if flatten_way == 'GAP':
-        py_3 += '            nn.AdaptiveAvgPool2d(1),\n'
-    elif flatten_way == 'GMP':
-        py_3 += '            nn.AdaptiveMaxPool2d(1),\n'
-
-    py_3 += '            nn.Flatten(),\n'
-
-    input_size = data.get('flattenshape')[0]
+    if project_name != 'CartPole':
+        if flatten_way == 'GAP':
+            py_3 += '            nn.AdaptiveAvgPool2d(1),\n'
+        elif flatten_way == 'GMP':
+            py_3 += '            nn.AdaptiveMaxPool2d(1),\n'
+            
+        py_3 += '            nn.Flatten(),\n'
+        input_size = data.get('flattenshape')[0]
 
     for layer in middle_layers:
         layer_type = layer.get('layer_type')
