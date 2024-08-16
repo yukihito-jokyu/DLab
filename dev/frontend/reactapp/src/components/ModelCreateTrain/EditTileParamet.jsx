@@ -8,7 +8,7 @@ function EditTileParamet({ name, value, handleChangeParameter }) {
   const [selectedValue, setSelectedValue] = useState('');
   const [floatValue, setFloatValue] = useState('');
   const [originShape, setOriginShape] = useState('');
-  const { modelId } = useParams();
+  const { modelId, projectName } = useParams();
   // モデルのオリジン画像サイズを取得
   useEffect(() => {
     const fatchOriginImageShape = async () => {
@@ -118,8 +118,14 @@ function EditTileParamet({ name, value, handleChangeParameter }) {
         ) : name === 'preprocessing' ? (
           <select value={selectedValue} onChange={handleChange}>
             <option value="None">None</option>
-            <option value="GCN">GCN</option>
-            <option value="ZCA">ZCA</option>
+            {projectName === "FlappyBird" || projectName === "CartPole" ? (
+              <option value="GRAY">GRAY</option>
+            ) : (
+              <>
+                <option value="GCN">GCN</option>
+                <option value="ZCA">ZCA</option>
+              </>
+            )}
           </select>
         ) : name === 'way' ? (
           <select value={selectedValue} onChange={handleChange}>

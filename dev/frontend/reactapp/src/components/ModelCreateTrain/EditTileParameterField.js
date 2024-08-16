@@ -4,9 +4,12 @@ import EditTileParamet from './EditTileParamet';
 import { v4 as uuidv4 } from 'uuid';
 import InputLayer from '../Image/InputLayer';
 import { ReactComponent as InfoIcon } from '../../assets/svg/info_24.svg';
+import { getOriginShape } from '../../db/function/model_structure';
+import { useParams } from 'react-router-dom';
 
 function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, middleLayer, layerType, param, selectedindex, setInputLayer, setConvLayer, setFlattenWay, setMiddleLayer, setParam, setInfoModal, setInfoName }) {
   const pList = ["kernel_size", "activation_function", "out_channel", "padding", "strid", "dropout_p", "neuron_size", "preprocessing", "way", "change_shape"]
+  const { modelId } = useParams();
   const [keys, setKeys] = useState([]);
   useEffect(() => {
     const handleSetParameter = () => {
@@ -36,7 +39,7 @@ function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, 
     handleSetParameter();
   }, [parameter, inputLayer, layerType, selectedindex, setParam, convLayer, flattenWay, middleLayer]);
 
-  const handleChangeParameter = (key, value) => {
+  const handleChangeParameter = async (key, value) => {
     console.log(key, value)
     if (layerType === 'Conv') {
       const newConvLayer = [...convLayer];
@@ -48,12 +51,26 @@ function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, 
       setMiddleLayer(newMiddleLayer);
     } else if (layerType === 'Input') {
       const newInputLayer = { ...inputLayer };
-      newInputLayer[key] = value;
-      // console.log(newInputLayer['shape'][0])
-      if (key === 'change_shape') {
-        newInputLayer['shape'][0] = Number(value)
-        newInputLayer['shape'][1] = Number(value)
+      
+      // もし、keyがchange_shapeでpreprocessingがZCAの時
+      if (key === 'change_shape' && newInputLayer['preprocessing'] === 'ZCA') {
+        console.log('変更なし');
+      } else {
+        newInputLayer[key] = value;
+        if (key === 'change_shape') {
+          newInputLayer['shape'][0] = Number(value)
+          newInputLayer['shape'][1] = Number(value)
+        }
       }
+      // もしkeyがpreprocessingでvalueがZCAの時、change_shapeとshapeをorigin_shapeに変更する
+      if (key === 'preprocessing' && value === 'ZCA') {
+        const originShape = await getOriginShape(modelId);
+        newInputLayer['change_shape'] = Number(originShape);
+        newInputLayer['shape'][0] = Number(originShape);
+        newInputLayer['shape'][1] = Number(originShape);
+      }
+      // console.log(newInputLayer['shape'][0])
+      
       setInputLayer(newInputLayer);
     } else if (layerType === 'Flatten') {
       const newFlattenWay = { ...flattenWay };
@@ -83,15 +100,21 @@ function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, 
 
         {param && keys.map((key, index) => (
           pList.includes(String(key)) && (
-            <div key={index} className='edit-wrapper'>
-              <div className='edit-field'>
-                <div className='param-information-button'>
-                  <div className='button-wrapper' onClick={() => handleInfoModal(key)} style={{ cursor: 'pointer' }}>
-                    <InfoIcon className='info-icon' />
+            <div key={index} >
+              {key === 'change_shape' && inputLayer['preprocessing'] === 'ZCA' ? (
+                null
+              ) : (
+                <div className='edit-wrapper'>
+                  <div className='edit-field'>
+                    <div className='param-information-button'>
+                      <div className='button-wrapper' onClick={() => handleInfoModal(key)} style={{ cursor: 'pointer' }}>
+                        <InfoIcon className='info-icon' />
+                      </div>
+                    </div>
+                    <EditTileParamet name={key} value={param[key]} handleChangeParameter={handleChangeParameter} />
                   </div>
                 </div>
-                <EditTileParamet name={key} value={param[key]} handleChangeParameter={handleChangeParameter} />
-              </div>
+              )}
             </div>
           )
         ))}
