@@ -1,5 +1,5 @@
 from train.train_cartpole import DQNAgent
-from utils.db_manage import upload_training_result, upload_file
+from utils.db_manage import upload_training_result, upload_file, initialize_training_results
 from Flappy.test_flappy import GameState
 import torch
 from flask_socketio import emit
@@ -32,6 +32,9 @@ def train_flappy(config):
 
     env = GameState()
     agent = DQNAgent(train_info=train_info, config=config, device=device)
+    
+    init_result = initialize_training_results(model_id, "ReinforcementLearning")
+    print(init_result)
 
     for episode in range(1, int(epoch)+1):
         total_reward = 0
