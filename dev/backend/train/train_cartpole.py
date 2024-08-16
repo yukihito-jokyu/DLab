@@ -4,11 +4,15 @@ import gym
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
+import tempfile
 from collections import deque
 import random
 from flask_socketio import emit
 from utils.get_func import get_optimizer, get_loss
 from train.train_image_classification import import_model
+from utils.db_manage import upload_training_result, upload_file, initialize_training_results
+import matplotlib
+matplotlib.use('Agg')
 
 # デバイスを指定
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -94,31 +98,29 @@ class DQNAgent:
 # モデルを訓練する関数
 def train_cartpole(config, socketio):
     user_id = config["user_id"]
-    project_name = config["Project_name"]
+    project_name = config["project_name"]
     model_id = config["model_id"]
     train_info = config["Train_info"]
-
-    base_dir = "../user"
-    model_path = os.path.join(base_dir, user_id, project_name, model_id, "model_config.py")
-    spec = importlib.util.spec_from_file_location("Simple_NN", model_path)
-    model_module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(model_module)
-    Simple_NN = model_module.Simple_NN
-
-    env = gym.make('CartPole-v1')
-    agent = DQNAgent(train_info, Simple_NN, device)
-
     epoch = train_info["epoch"]
-    sync_interval = train_info["syns"]
+    sync_interval = int(train_info["syns"])
+
+    # モデルの取得
+    env = gym.make('CartPole-v1')
+    agent = DQNAgent(train_info=train_info, config=config, device=device)
+
     max_reward = 0
     rewards = []
     losses = []
 
-    for episode in range(1, epoch+1):
+    init_result = initialize_training_results(model_id, "ReinforcementLearning")
+    print(init_result)
+
+    for episode in range(1, int(epoch)+1):
         state, _ = env.reset()
         done = False
         total_reward = 0
         total_loss = 0
+        step = 0
         while not done:
             action = agent.get_action(state)
             next_state, reward, done, truncated, info = env.step(action)
@@ -127,36 +129,64 @@ def train_cartpole(config, socketio):
             state = next_state
             total_reward += reward
             total_loss += loss
+            step += 1
+        ave_loss = total_loss / step
         rewards.append(total_reward)
-        losses.append(total_loss)
+        losses.append(ave_loss)
 
         if episode % sync_interval == 0:
             agent.sync_qnet()
 
-        if max_reward < total_reward:
-            max_reward = total_reward
-            torch.save(agent.qnet.state_dict(), os.path.join(base_dir, user_id, project_name, model_id, "best_model.pth"))
+        # エポックごとの結果を辞書に格納
+        epoch_result = {
+            "Epoch": episode,
+            "TotalReward": total_reward,
+            "AverageLoss": round(ave_loss, 5)
+        }
 
-        socketio.sleep(0.15)
-        emit({'episode': episode, 'loss': round(total_loss, 5), 'Reword': total_reward})
+        # firebaseに結果を格納
+        upload_result = upload_training_result(user_id=user_id, project_name=project_name, model_id=model_id, epoch_result=epoch_result)
+        print(upload_result)
 
-    plt.figure()
-    plt.plot(rewards)
-    plt.title('Training Reward')
-    plt.xlabel('Episode')
-    plt.ylabel('Total Reward')
-    photo_dir = os.path.join(base_dir, user_id, project_name, model_id, "photo")
-    os.makedirs(photo_dir, exist_ok=True)
-    plt.savefig(os.path.join(photo_dir, "reward_curve.png"))
-    plt.close()
+        # socketio.sleep(0.15)
+        print(f'Epoch: {episode} TotalReward: {round(total_reward, 5)} AverageLoss: {round(ave_loss, 5)}')
+        emit('train_cortpole_results'+model_id, epoch_result)
 
-    plt.figure()
-    plt.plot(losses)
-    plt.title('Training Loss')
-    plt.xlabel('Episode')
-    plt.ylabel('Total Loss')
-    plt.savefig(os.path.join(photo_dir, "loss_curve.png"))
-    plt.close()
+    # 一時ファイルにモデルを保存
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pth") as tmp_file:
+        best_model_path = tmp_file.name
+        torch.save(agent.qnet.state_dict(), best_model_path)
+    
+    # Firebase Storageにモデルをアップロード
+    model_storage_path = f"user/{user_id}/{project_name}/{model_id}/best_model.pth"
+    upload_result = upload_file(best_model_path, model_storage_path)
+    print(upload_result)
 
-    env.close()
-    return {"loss": round(total_loss, 5), "location": round(state[0], 5), "radian": round(state[2], 5)}
+    # 画像を保存してFirebase Storageにアップロード
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_file:
+        reward_curve_path = tmp_file.name
+        plt.figure()
+        plt.title("Training Reward")
+        plt.plot(range(1, int(train_info["epoch"])+1), rewards, label="Train Accuracy")
+        plt.xlabel("Epoch")
+        plt.ylabel("Reward")
+        plt.legend()
+        plt.savefig(reward_curve_path)
+        plt.close()
+        reward_curve_storage_path = f"user/{user_id}/{project_name}/{model_id}/reward_curve.png"
+        upload_file(reward_curve_path, reward_curve_storage_path)
+    
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_file:
+        loss_curve_path = tmp_file.name
+        plt.figure()
+        plt.title('Training Loss')
+        plt.plot(range(1, int(train_info["epoch"])+1), losses, label="Train Loss")
+        plt.xlabel("Epoch")
+        plt.ylabel("Loss")
+        plt.legend()
+        plt.savefig(loss_curve_path)
+        plt.close()
+        loss_curve_storage_path = f"user/{user_id}/{project_name}/{model_id}/loss_curve.png"
+        upload_file(loss_curve_path, loss_curve_storage_path)
+    
+    return round(total_reward, 5), round(ave_loss, 5)

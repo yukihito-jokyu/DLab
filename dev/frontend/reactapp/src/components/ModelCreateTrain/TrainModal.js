@@ -70,6 +70,8 @@ function TrainModal({ changeTrain, flattenShape }) {
       }
       if (projectName === 'FlappyBird') {
         socket.emit('flappy_train_start', sentData);
+      } else if (projectName === 'CartPole') {
+        socket.emit('cartpole_train_start', sentData)
       } else {
         socket.emit('image_train_start', sentData);
       }
@@ -88,6 +90,7 @@ function TrainModal({ changeTrain, flattenShape }) {
     return () => {
       socket.off('image_train_end' + modelId, handleTrainResults);
       socket.off('flappy_train_end' + modelId);
+      socket.off('cartpole_train_end' + modelId);
     }
   }, [modelId]);
 
