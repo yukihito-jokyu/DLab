@@ -229,7 +229,7 @@ def train_model(config):
     best_val_acc = 0.0
     best_model = None
     
-    init_result = initialize_training_results(user_id, project_name, model_id)
+    init_result = initialize_training_results(model_id, "ImageClassification")
     print(f"DB初期化:{init_result}")
 
     print('学習スタート')
