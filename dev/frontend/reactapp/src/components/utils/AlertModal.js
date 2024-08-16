@@ -50,7 +50,7 @@ function AlertModal({ deleteModal, handleClick, sendText }) {
                     <GradationButton text={text2} />
                   </div>
                 </div>
-                <div className='train-modal-delet-button-field' onClick={() => { handleClick(); handleClose(); }} style={{ cursor: 'pointer' }}>
+                <div className='train-modal-delet-button-field' onClick={handleClose} style={{ cursor: 'pointer' }}>
                   <DeletIcon className='delet-svg' />
                 </div>
               </div>
