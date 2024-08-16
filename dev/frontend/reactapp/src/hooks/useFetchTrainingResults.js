@@ -6,8 +6,8 @@ const useFetchTrainingResults = (modelId) => {
   const [currentTask, setCurrentTask] = useState(null);
   const [accuracyData, setAccuracyData] = useState({ labels: [], datasets: [] });
   const [lossData, setLossData] = useState({ labels: [], datasets: [] });
-  const [averageLossData, setAverageLossData] = useState({ labels: [], datasets: [] });
   const [totalRewardData, setTotalRewardData] = useState({ labels: [], datasets: [] });
+  const [averageLossData, setAverageLossData] = useState({ labels: [], datasets: [] });
 
   useEffect(() => {
     const docRef = doc(db, "training_results", modelId);
@@ -129,13 +129,7 @@ const useFetchTrainingResults = (modelId) => {
     return () => unsubscribe();
   }, [modelId, currentTask]);
 
-  if (currentTask === 'ImageClassification') {
-    return { accuracyData, lossData };
-  } else if (currentTask === 'ReinforcementLearning') {
-    return { totalRewardData, averageLossData };
-  } else {
-    return {};
-  }
+  return { currentTask, accuracyData, lossData, totalRewardData, averageLossData };
 };
 
 export default useFetchTrainingResults;

@@ -43,7 +43,7 @@ const DisplayResult = ({ data, type, showTitle = true }) => {
     };
 
     return (
-        <div className={`model-${type.toLowerCase()}-picture canvas-container`}>
+        <div className={`model-accuracy-picture canvas-container`}>
             <Line data={data} options={options} />
         </div>
     );

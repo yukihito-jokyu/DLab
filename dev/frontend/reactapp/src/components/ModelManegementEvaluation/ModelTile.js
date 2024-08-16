@@ -19,7 +19,7 @@ function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status
   const [isHover, setIsHover] = useState();
   const navigate = useNavigate();
 
-  const { accuracyData, lossData } = useFetchTrainingResults(modelId);
+  const { currentTask, accuracyData, lossData, totalRewardData, averageLossData } = useFetchTrainingResults(modelId);
   const { accuracy, loss } = useFetchAccuracyAndLoss(modelId);
   const currentStatus = useFetchStatus(modelId);
 
@@ -155,14 +155,24 @@ function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status
           </div>
         </div>
       </div>
-      {isPicture && accuracyData && lossData && accuracyData.labels && lossData.labels &&
+      {isPicture && (
         <div className='graph-field'>
           <div className='model-picture-filed-wrapper'>
-            <DisplayResult data={accuracyData} type="Accuracy" showTitle={true} />
-            <DisplayResult data={lossData} type="Loss" showTitle={true} />
+            {currentTask === 'ImageClassification' && accuracyData && lossData && (
+              <>
+                <DisplayResult data={accuracyData} type="Accuracy" showTitle={true} />
+                <DisplayResult data={lossData} type="Loss" showTitle={true} />
+              </>
+            )}
+            {currentTask === 'ReinforcementLearning' && totalRewardData && averageLossData && (
+              <>
+                <DisplayResult data={totalRewardData} type="Total Reward" showTitle={true} />
+                <DisplayResult data={averageLossData} type="Average Loss" showTitle={true} />
+              </>
+            )}
           </div>
         </div>
-      }
+      )}
     </div>
   );
 }
