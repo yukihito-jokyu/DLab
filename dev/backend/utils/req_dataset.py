@@ -166,43 +166,64 @@ def deprocess(x):
 # 前処理後の画像の取得
 def get_images(config):
     project_name = config['project_name']
-    dataset_dir = os.path.abspath(os.path.join(os.getcwd(), "./dataset", project_name))
-    x_train = np.load(os.path.join(dataset_dir, "x_train.npy"))
-    image_shape = int(config['input_info']['change_shape'])
-    preprocessing = config['input_info']['preprocessing']
-    transform_list = [
-        transforms.Resize((image_shape, image_shape)),
-        transforms.ToTensor()
-    ]
-    if preprocessing == 'GCN':
-        gcn = GCN()
-        transform_list.append(gcn)
-    elif preprocessing == 'ZCA':
-        zca = ZCAWhitening.load(os.path.join(dataset_dir, f"{project_name}_zca.pth"))
-        transform_list.append(zca)
-    transform = transforms.Compose(transform_list)
-    train_dataset = PreDataset(x_train, transform)
-    train_loader = DataLoader(train_dataset, batch_size=int(1), shuffle=True)
-    i = 0
-    images = []
-    pre_images = []
-    for x, pre in train_loader:
-        numpy_x = x.numpy()
-        numpy_x = np.transpose(numpy_x[0], (1, 2, 0))
-        numpy_pre = pre.numpy()
-        numpy_pre = np.transpose(numpy_pre[0], (1, 2, 0))
-        print(x.shape)
-        print(numpy_x.shape)
-
-        _, img_png = cv2.imencode('.png', numpy_x*255)
-        img_base64 = base64.b64encode(img_png).decode()
+    if project_name == 'FlappyBird' or project_name == 'CartPole':
+        preprocessing = config['input_info']['preprocessing']
+        image_shape = int(config['input_info']['change_shape'])
+        dataset_dir = os.path.abspath(os.path.join(os.getcwd(), "./dataset", project_name))
+        origin_image = cv2.imread(os.path.join(dataset_dir, "image.png"))
+        origin_image = cv2.resize(origin_image, (image_shape, image_shape))
+        images = []
+        pre_images = []
+        _, origin_img_png = cv2.imencode('.png', origin_image)
+        img_base64 = base64.b64encode(origin_img_png).decode()
         images.append(img_base64)
-        _, pre_img_png = cv2.imencode('.png', deprocess(numpy_pre)*255)
-        pre_img_base64 = base64.b64encode(pre_img_png).decode()
-        pre_images.append(pre_img_base64)
-        i += 1
-        if i == 10:
-            break
+        if preprocessing == 'GRAY':
+            pre_image = cv2.cvtColor(origin_image, cv2.COLOR_BGR2GRAY)
+            ret, pre_image = cv2.threshold(pre_image, 1, 255, cv2.THRESH_BINARY)
+            pre_image = np.reshape(pre_image, (image_shape, image_shape, 1))
+            _, pre_img_png = cv2.imencode('.png', pre_image)
+            pre_img_base64 = base64.b64encode(pre_img_png).decode()
+            pre_images.append(pre_img_base64)
+        else:
+            pre_images.append(img_base64)
+    else:
+        dataset_dir = os.path.abspath(os.path.join(os.getcwd(), "./dataset", project_name))
+        x_train = np.load(os.path.join(dataset_dir, "x_train.npy"))
+        image_shape = int(config['input_info']['change_shape'])
+        preprocessing = config['input_info']['preprocessing']
+        transform_list = [
+            transforms.Resize((image_shape, image_shape)),
+            transforms.ToTensor()
+        ]
+        if preprocessing == 'GCN':
+            gcn = GCN()
+            transform_list.append(gcn)
+        elif preprocessing == 'ZCA':
+            zca = ZCAWhitening.load(os.path.join(dataset_dir, f"{project_name}_zca.pth"))
+            transform_list.append(zca)
+        transform = transforms.Compose(transform_list)
+        train_dataset = PreDataset(x_train, transform)
+        train_loader = DataLoader(train_dataset, batch_size=int(1), shuffle=True)
+        i = 0
+        images = []
+        pre_images = []
+        for x, pre in train_loader:
+            numpy_x = x.numpy()
+            numpy_x = np.transpose(numpy_x[0], (1, 2, 0))
+            numpy_pre = pre.numpy()
+            numpy_pre = np.transpose(numpy_pre[0], (1, 2, 0))
+            print(x.shape)
+            print(numpy_x.shape)
+
+            _, img_png = cv2.imencode('.png', numpy_x*255)
+            img_base64 = base64.b64encode(img_png).decode()
+            images.append(img_base64)
+            _, pre_img_png = cv2.imencode('.png', deprocess(numpy_pre)*255)
+            pre_img_base64 = base64.b64encode(pre_img_png).decode()
+            pre_images.append(pre_img_base64)
+            i += 1
+            if i == 10:
+                break
     return images, pre_images
 
 

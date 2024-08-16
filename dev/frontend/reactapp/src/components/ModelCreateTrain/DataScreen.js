@@ -9,6 +9,7 @@ function DataScreen() {
   const [i, setI] = useState(0);
   const [normalImage, setNormalImage] = useState(null);
   const [preImage, setPreImage] = useState(null);
+  const [imageLength, setImageLength] = useState(0);
   const style1 = {
     width: '200px',
     background: 'linear-gradient(95.34deg, #B6F862 3.35%, #00957A 100%), linear-gradient(94.22deg, #D997FF 0.86%, #50BCFF 105.96%)'
@@ -30,7 +31,9 @@ function DataScreen() {
       const result = await response.json();
       setNormalImage(result.images);
       setPreImage(result.pre_images);
+      setImageLength(result.images.length)
       console.log(result);
+      console.log(result.images.length);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -38,13 +41,13 @@ function DataScreen() {
   const increeseI = () => {
     let nextI = i - 1;
     if (nextI === -1) {
-      nextI = 9
+      nextI = imageLength - 1
     }
     setI(nextI)
   }
   const decreeseI = () => {
     let nextI = i + 1;
-    if (nextI === 10) {
+    if (nextI === imageLength) {
       nextI = 0
     }
     setI(nextI);
