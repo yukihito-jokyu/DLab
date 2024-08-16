@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
 import './TrainLogField.css';
-import DisplayAcc from '../ModelManegementEvaluation/DisplayAcc';
-import DisplayLoss from '../ModelManegementEvaluation/DisplayLoss';
+import DisplayResult from '../ModelManegementEvaluation/DisplayResult';
 import TrainPanelTital from './TrainPanelTital';
 import './log.css';
 import { useParams } from 'react-router-dom';
 import useFetchTrainingResults from '../../hooks/useFetchTrainingResults';
 
 function TrainLogField() {
-
-  const { modelId } = useParams()
+  const { modelId } = useParams();
   const { accuracyData, lossData } = useFetchTrainingResults(modelId);
+  console.log(`accuracy:${accuracyData}\nloss:${lossData}`);
 
   return (
     <div className='train-log-field-wrapper'>
       <div className='train-log-wrapper'>
         <TrainPanelTital title={'Accuracy'} />
         <div className='log-field'>
-          {accuracyData !== null ? (
-            <DisplayAcc accuracyData={accuracyData} showTitle={false} />
+          {accuracyData && accuracyData.labels ? (
+            <DisplayResult data={accuracyData} type="Accuracy" showTitle={false} />
           ) : (
             <></>
           )}
@@ -27,15 +26,15 @@ function TrainLogField() {
       <div className='train-log-wrapper'>
         <TrainPanelTital title={'Loss'} />
         <div className='log-field'>
-          {lossData !== null ? (
-            <DisplayLoss lossData={lossData} showTitle={false} />
+          {lossData && lossData.labels ? (
+            <DisplayResult data={lossData} type="Loss" showTitle={false} />
           ) : (
             <></>
           )}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default TrainLogField
+export default TrainLogField;

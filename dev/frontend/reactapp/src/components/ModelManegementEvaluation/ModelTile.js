@@ -6,8 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useFetchTrainingResults from '../../hooks/useFetchTrainingResults';
 import useFetchStatus from '../../hooks/useFetchStatus';
 import useFetchAccuracyAndLoss from '../../hooks/useFetchAccuracyAndLoss';
-import DisplayAcc from './DisplayAcc';
-import DisplayLoss from './DisplayLoss';
+import DisplayResult from './DisplayResult';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -156,17 +155,16 @@ function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status
           </div>
         </div>
       </div>
-      {isPicture && accuracyData !== null && lossData !== null &&
+      {isPicture && accuracyData && lossData && accuracyData.labels && lossData.labels &&
         <div className='graph-field'>
           <div className='model-picture-filed-wrapper'>
-            <DisplayAcc accuracyData={accuracyData} showTitle={true} />
-            <DisplayLoss lossData={lossData} showTitle={true} />
+            <DisplayResult data={accuracyData} type="Accuracy" showTitle={true} />
+            <DisplayResult data={lossData} type="Loss" showTitle={true} />
           </div>
         </div>
       }
     </div>
   );
 }
-
 
 export default ModelTile;

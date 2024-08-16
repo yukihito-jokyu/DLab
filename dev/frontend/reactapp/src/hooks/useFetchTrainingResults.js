@@ -3,21 +3,20 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../db/firebase';
 
 const useFetchTrainingResults = (modelId) => {
-  const [accuracyData, setAccuracyData] = useState(null);
-  const [lossData, setLossData] = useState(null);
+  const [currentTask, setCurrentTask] = useState(null);
+  const [accuracyData, setAccuracyData] = useState({ labels: [], datasets: [] });
+  const [lossData, setLossData] = useState({ labels: [], datasets: [] });
+  const [averageLossData, setAverageLossData] = useState({ labels: [], datasets: [] });
+  const [totalRewardData, setTotalRewardData] = useState({ labels: [], datasets: [] });
 
   useEffect(() => {
     const docRef = doc(db, "training_results", modelId);
 
     const unsubscribe = onSnapshot(docRef, (doc) => {
       if (doc.exists()) {
-        const results = doc.data().results || [];
-
-        const epochs = results.map(result => result.Epoch);
-        const trainAcc = results.map(result => result.TrainAcc);
-        const valAcc = results.map(result => result.ValAcc);
-        const trainLoss = results.map(result => result.TrainLoss);
-        const valLoss = results.map(result => result.ValLoss);
+        const data = doc.data();
+        const task = data.task;
+        setCurrentTask(task);
 
         const options = {
           responsive: true,
@@ -42,52 +41,101 @@ const useFetchTrainingResults = (modelId) => {
           },
         };
 
-        setAccuracyData({
-          labels: epochs,
-          datasets: [
-            {
-              label: 'Train Accuracy',
-              data: trainAcc,
-              borderColor: 'rgba(54,162,235,1)',
-              fill: false,
-              ...options,
-            },
-            {
-              label: 'Validation Accuracy',
-              data: valAcc,
-              borderColor: 'rgba(255,99,132,1)',
-              fill: false,
-              ...options,
-            },
-          ],
-        });
+        if (currentTask === 'ImageClassification') {
+          const results = data.results || [];
 
-        setLossData({
-          labels: epochs,
-          datasets: [
-            {
-              label: 'Train Loss',
-              data: trainLoss,
-              borderColor: 'rgba(54,162,235,1)',
-              fill: false,
-              ...options,
-            },
-            {
-              label: 'Validation Loss',
-              data: valLoss,
-              borderColor: 'rgba(255,99,132,1)',
-              fill: false,
-              ...options,
-            },
-          ],
-        });
+          const epochs = results.map(result => result.Epoch);
+          const trainAcc = results.map(result => result.TrainAcc);
+          const valAcc = results.map(result => result.ValAcc);
+          const trainLoss = results.map(result => result.TrainLoss);
+          const valLoss = results.map(result => result.ValLoss);
+
+          setAccuracyData({
+            labels: epochs,
+            datasets: [
+              {
+                label: 'Train Accuracy',
+                data: trainAcc,
+                borderColor: 'rgba(54,162,235,1)',
+                fill: false,
+                ...options,
+              },
+              {
+                label: 'Validation Accuracy',
+                data: valAcc,
+                borderColor: 'rgba(255,99,132,1)',
+                fill: false,
+                ...options,
+              },
+            ],
+          });
+
+          setLossData({
+            labels: epochs,
+            datasets: [
+              {
+                label: 'Train Loss',
+                data: trainLoss,
+                borderColor: 'rgba(54,162,235,1)',
+                fill: false,
+                ...options,
+              },
+              {
+                label: 'Validation Loss',
+                data: valLoss,
+                borderColor: 'rgba(255,99,132,1)',
+                fill: false,
+                ...options,
+              },
+            ],
+          });
+
+        } else if (currentTask === 'ReinforcementLearning') {
+          const results = data.results || [];
+
+          const epochs = results.map(result => result.Epoch);
+          const totalReward = results.map(result => result.TotalReward);
+          const avgLoss = results.map(result => result.AverageLoss);
+
+          setTotalRewardData({
+            labels: epochs,
+            datasets: [
+              {
+                label: 'Total Reward',
+                data: totalReward,
+                borderColor: 'rgba(54,162,235,1)',
+                fill: false,
+                ...options,
+              },
+            ],
+          });
+
+          setAverageLossData({
+            labels: epochs,
+            datasets: [
+              {
+                label: 'Average Loss',
+                data: avgLoss,
+                borderColor: 'rgba(255,99,132,1)',
+                fill: false,
+                ...options,
+              },
+            ],
+          });
+        }
       }
     });
 
     return () => unsubscribe();
-  }, [modelId]);
+  }, [modelId, currentTask]);
 
-  return { accuracyData, lossData };
+  if (currentTask === 'ImageClassification') {
+    return { accuracyData, lossData };
+  } else if (currentTask === 'ReinforcementLearning') {
+    return { totalRewardData, averageLossData };
+  } else {
+    return {};
+  }
 };
 
 export default useFetchTrainingResults;
