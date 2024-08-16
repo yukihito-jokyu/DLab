@@ -12,13 +12,25 @@
   z-index: 100;
 }
 
+.alert-modal-wrapper.hide {
+  opacity: 0;
+}
+
 .alert-modal-field-wrapper {
   position: fixed;
   z-index: 200;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
+
+.modal-container.show .alert-modal-field-wrapper {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
 
 .alert-comment {
   margin: 10px;

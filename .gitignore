@@ -1,3 +1,4 @@
 div/backend/Image/*
 dev/api/node_modules/*
 .venv
+dev.bat
