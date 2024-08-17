@@ -1,14 +1,41 @@
 .train-buttons-wrapper {
   position: absolute;
   display: flex;
+  align-items: center;
   width: 100px;
   height: 35px;
   margin-top: 15px;
-  right: 620px;
+  right: 660px;
+}
+
+.image-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 22px;
 }
 
 .terminal-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   margin-right: 15px;
+}
+
+.play-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 0;
+}
+
+.image-wrapper .image-svg {
+  width: 26px !important;
+  height: 26px !important;
+  fill: white;
 }
 
 .terminal-wrapper .terminal-svg {

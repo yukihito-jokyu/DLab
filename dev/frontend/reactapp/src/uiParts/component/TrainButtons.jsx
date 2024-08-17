@@ -4,6 +4,7 @@ import useFetchStatus from '../../hooks/useFetchStatus';
 import '../css/TrainButtons.css';
 import { ReactComponent as TerminalIcon } from '../../assets/svg/terminal_24.svg'
 import { ReactComponent as PlayIcon } from '../../assets/svg/play_circle_24.svg'
+import { ReactComponent as ImageIcon } from '../../assets/svg/image.svg';
 
 function TrainButtons({ changeEdit, changeTrain }) {
   const { modelId } = useParams();
@@ -11,6 +12,9 @@ function TrainButtons({ changeEdit, changeTrain }) {
 
   return (
     <div className='train-buttons-wrapper'>
+      <div className='image-wrapper' style={{ cursor: 'pointer' }}>
+        <ImageIcon className='image-svg' />
+      </div>
       <div className='terminal-wrapper' onClick={changeEdit} style={{ cursor: 'pointer' }}>
         <TerminalIcon className='terminal-svg' />
       </div>
