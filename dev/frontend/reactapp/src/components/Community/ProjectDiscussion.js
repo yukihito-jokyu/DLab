@@ -65,7 +65,7 @@ function ProjectDiscussion({ handleEdit, handleInfo, setReportInfo, setDiscussio
         </div>
       </div>
       <div className='discussion-field'>
-        {filteredDiscussions.length > 0 ? (
+        {filteredDiscussions && filteredDiscussions.length > 0 ? (
           filteredDiscussions.map((discussion) => (
             <div onClick={() => handleClick(discussion.data(), discussion.id)} key={discussion.id} style={{ cursor: 'pointer' }}>
               <DiscussionTile

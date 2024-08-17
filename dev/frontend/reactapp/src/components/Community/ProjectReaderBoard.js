@@ -84,7 +84,7 @@ function ProjectReaderBoard() {
       </div>
       <div className='reader-board-field'>
         {favorite === true ? (
-          filteredReaderBoard.length > 0 ? (
+          filteredReaderBoard && filteredReaderBoard.length > 0 ? (
             filteredReaderBoard.map((board, index) => {
               const userData = board.data();
               return (userData.user_id === userId ? (
@@ -101,7 +101,7 @@ function ProjectReaderBoard() {
             })
           ) : <p className='none-text'>該当するユーザーが見つかりませんでした。</p>
         ) : (
-          filteredReaderBoard.length > 0 ? (
+          filteredReaderBoard && filteredReaderBoard.length > 0 ? (
             filteredReaderBoard.map((board, index) => {
               const userData = board.data();
               return (userData.user_id === userId ? (
