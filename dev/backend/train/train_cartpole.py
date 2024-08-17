@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import tempfile
 from collections import deque
 import random
+import cv2
 from flask_socketio import emit
 from utils.get_func import get_optimizer, get_loss
 from train.train_image_classification import import_model
@@ -103,6 +104,9 @@ def train_cartpole(config, socketio):
     train_info = config["Train_info"]
     epoch = train_info["epoch"]
     sync_interval = int(train_info["syns"])
+    input_info = config['input_info']
+    preprocessing = input_info['preprocessing']
+    shape = input_info['change_shape']
 
     # モデルの取得
     env = gym.make('CartPole-v1')
@@ -117,6 +121,11 @@ def train_cartpole(config, socketio):
 
     for episode in range(1, int(epoch)+1):
         state, _ = env.reset()
+        state = cv2.resize(state, (shape, shape))
+        if preprocessing == 'GRAY':
+            state = cv2.cvtColor(state, cv2.COLOR_BGR2GRAY)
+            ret, state = cv2.threshold(state, 1, 255, cv2.THRESH_BINARY)
+            state = np.reshape(state, (shape, shape, 1))
         done = False
         total_reward = 0
         total_loss = 0
@@ -124,6 +133,11 @@ def train_cartpole(config, socketio):
         while not done:
             action = agent.get_action(state)
             next_state, reward, done, truncated, info = env.step(action)
+            next_state = cv2.resize(next_state, (shape, shape))
+            if preprocessing == 'GRAY':
+                next_state = cv2.cvtColor(next_state, cv2.COLOR_BGR2GRAY)
+                ret, next_state = cv2.threshold(next_state, 1, 255, cv2.THRESH_BINARY)
+                next_state = np.reshape(next_state, (shape, shape, 1))
             done = done or truncated
             loss = agent.update(state, action, reward, next_state, done)
             state = next_state
