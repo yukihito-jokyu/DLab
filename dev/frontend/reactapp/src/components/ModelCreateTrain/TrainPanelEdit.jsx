@@ -4,9 +4,9 @@ import { ReactComponent as InfoIcon } from '../../assets/svg/info_24.svg';
 
 function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformation, setParamName }) {
   const [selectedValue, setSelectedValue] = useState('');
-  const [floatValue, setFloatValue] = useState('');
+  const [floatValue, setFloatValue] = useState(value);
   const [testSize, setTestSize] = useState('');
-  const [numValue, setNumValue] = useState('');
+  const [numValue, setNumValue] = useState(value);
   useEffect(() => {
     setSelectedValue(value);
   }, [value]);
@@ -26,6 +26,10 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
         }
       }
     }
+    handleChangeParameter(parameter, e.target.value);
+    if (e.target.value === '') {
+      handleChangeParameter(parameter, '1');
+    }
   };
   const handleFloatChange = (e) => {
     const inputValue = e.target.value;
@@ -42,6 +46,9 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
     }
     setSelectedValue(e.target.value);
     handleChangeParameter(parameter, e.target.value);
+    if (e.target.value === '') {
+      handleChangeParameter(parameter, '0');
+    }
   };
   // test_size
   const handleTestSizeChange = (e) => {
@@ -59,6 +66,9 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
     }
     setSelectedValue(e.target.value);
     handleChangeParameter(parameter, e.target.value);
+    if (e.target.value === '') {
+      handleChangeParameter(parameter, '0');
+    }
   };
   const handleChange = (e) => {
     setSelectedValue(e.target.value);
@@ -73,8 +83,12 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
     'epoch': '学習回数',
     'learning_rate': '学習率',
     'optimizer': '最適化手法',
-    'test_size': '検証データの割合'
+    'test_size': '検証データの割合',
+    'buffer': '経験再生バッファ数',
+    'episilon': '探索率',
+    'syns': '同期間隔'
   }
+  console.log(parameter)
   return (
     <>
       {parameter !== 'image_shape' ? (<div className='train-panel-edit-wrapper'>

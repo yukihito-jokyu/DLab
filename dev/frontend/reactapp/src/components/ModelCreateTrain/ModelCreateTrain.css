@@ -422,8 +422,8 @@
   height: 24px;
   fill: #3FA6ED;
   cursor: pointer;
-  visibility: hidden;
-  opacity: 0;
+  /* visibility: hidden; */
+  opacity: 0.2;
   transition: visibility 0s, opacity 0.5s linear;
 }
 
