@@ -22,10 +22,19 @@ function ImageProjectIcon({ projectName }) {
   const userId = JSON.parse(sessionStorage.getItem('userId'));
   const navigate = useNavigate();
   const handleNav = (projectName) => {
-    // setProjectId(projectName);
+    let task;
+    if (projectName === "CartPole" || projectName === "FlappyBird") {
+      task = "ReinforcementLearning";
+    } else {
+      task = "ImageClassification";
+    }
+    // projectNameをセッションに保存
     sessionStorage.setItem('projectId', JSON.stringify(projectName));
-    navigate(`/ModelManegementEvaluation/${userId}/${projectName}`);
-  }
+
+    // navigateで遷移先を指定
+    navigate(`/ModelManegementEvaluation/${userId}/${task}/${projectName}`);
+  };
+
   const style1 = {
     width: '150px',
     height: '150px'
@@ -33,9 +42,10 @@ function ImageProjectIcon({ projectName }) {
   const style2 = {
     width: '70px',
     height: '70px'
-  }
+  };
+
   return (
-    <div className='ImageProjectIcon-wrapper' onClick={() => { handleNav(projectName) }} style={{ cursor: 'pointer' }}>
+    <div className='ImageProjectIcon-wrapper' onClick={() => handleNav(projectName)} style={{ cursor: 'pointer' }}>
       <div className='titlefeild-wrapper'>
         <div className='project-title'>
           <div className='projecttitle-wrapper'>
@@ -97,7 +107,7 @@ function ImageProjectIcon({ projectName }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default ImageProjectIcon
+export default ImageProjectIcon;
