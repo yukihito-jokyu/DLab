@@ -7,7 +7,7 @@ import { ReactComponent as PlayIcon } from '../../assets/svg/play_circle_24.svg'
 import { ReactComponent as ImageIcon } from '../../assets/svg/image.svg';
 import { ReactComponent as RobotIcon } from '../../assets/svg/robot.svg';
 
-function TrainButtons({ changeEdit, changeTrain }) {
+function TrainButtons({ changeEdit, changeTrain, changeVisImageModal, changeVisTrainModal }) {
   const { modelId, task } = useParams();
   const currentStatus = useFetchStatus(modelId);
 
@@ -15,7 +15,7 @@ function TrainButtons({ changeEdit, changeTrain }) {
     <div className='train-buttons-wrapper'>
       {task === 'ImageClassification' && (
         <div className='image-wrapper'
-          // onClick={currentStatus === 'doing' ? changeVisImageModal : null}
+          onClick={currentStatus === 'doing' ? changeVisImageModal : null}
           style={{
             cursor: currentStatus === 'doing' ? 'pointer' : 'not-allowed',
             opacity: currentStatus === 'doing' ? 1 : 0.7,
@@ -26,7 +26,7 @@ function TrainButtons({ changeEdit, changeTrain }) {
       )}
       {task === 'ReinforcementLearning' && (
         <div className='robot-wrapper'
-          // onClick={currentStatus === 'doing' ? changeVisTrainModal : null}
+          onClick={currentStatus === 'doing' ? changeVisTrainModal : null}
           style={{
             cursor: currentStatus === 'doing' ? 'pointer' : 'not-allowed',
             opacity: currentStatus === 'doing' ? 1 : 0.7,

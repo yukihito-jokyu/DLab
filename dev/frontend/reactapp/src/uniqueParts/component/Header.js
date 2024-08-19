@@ -13,6 +13,8 @@ function Header(props) {
   // 引数として関数を受け取る
   const changeEdit = props.changeedit;
   const changeTrain = props.changeTrain;
+  const changeVisImageModal = props.changeVisImageModal;
+  const changeVisTrainModal = props.changeVisTrainModal;
 
   const handleClickMenu = () => {
     setMenuOpen(!menuOpen);
@@ -24,7 +26,7 @@ function Header(props) {
       {LogoComponent && <LogoComponent />}
       {ProjectModelNameComponent && <ProjectModelNameComponent />}
       {UserIconComponent && <UserIconComponent />}
-      {TrainButtonsComponent && <TrainButtonsComponent changeEdit={changeEdit} changeTrain={changeTrain} />}
+      {TrainButtonsComponent && <TrainButtonsComponent changeEdit={changeEdit} changeTrain={changeTrain} changeVisImageModal={changeVisImageModal} changeVisTrainModal={changeVisTrainModal} />}
       {CommunityIconComponent && <CommunityIconComponent />}
       <Menu handleClickMenu={handleClickMenu} menuOpen={menuOpen} />
     </div>

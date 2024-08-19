@@ -10,8 +10,10 @@ import { getModelStructure, getTrainInfo, updateStructure, updateTrainInfo } fro
 import { useParams } from 'react-router-dom';
 import InformationModal from './Modal/InformationModal';
 import TrainPanel from './TrainPanel';
+import VisImageModal from './VisImageModal';
+import VisTrainModal from './VisTrainModal';
 
-function ScreenField({ edit, train, changeTrain }) {
+function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, changeVisImageModal, changeVisTrainModal }) {
   const [parameter, setParameter] = useState(null);
   const [param, setParam] = useState(null);
   const [parameterSet, setParameterSet] = useState(null);
@@ -236,8 +238,14 @@ function ScreenField({ edit, train, changeTrain }) {
       {infoModal && (
         <InformationModal infoName={infoName} handleDelete={setInfoModal} />
       )}
+      {visImageModal && (
+        <VisImageModal changeVisImageModal={changeVisImageModal} />
+      )}
+      {visTrainModal && (
+        <VisTrainModal changeVisTrainModal={changeVisTrainModal} />
+      )}
     </div>
   )
 }
 
-export default ScreenField
+export default ScreenField;
