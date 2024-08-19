@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import './ModelManegementEvaluation.css';
 import { ReactComponent as DeleteIcon } from '../../assets/svg/delete_24.svg'
 import { ReactComponent as TriangleSVG } from '../../assets/svg/arrow_drop_down_24.svg';
 import { ReactComponent as RemoveSVG } from '../../assets/svg/remove_24.svg';
 
 function ModelFieldHeader({ accuracySort, lossSort, dateSort, handleDelate }) {
+  const { task } = useParams();
   const [isAccuracyAcending, setIsAccuracyAcending] = useState(true);
   const [isLossAcending, setIsLossAcending] = useState(true);
   const [isDateAcending, setIsDateAcending] = useState(true);
@@ -49,7 +51,9 @@ function ModelFieldHeader({ accuracySort, lossSort, dateSort, handleDelate }) {
       <div className='model-accuracy-div' onClick={handleAccuracy} style={{ cursor: 'pointer' }}>
         {isAccuracy && <TriangleSVG className='model-header-svg' style={accuracyStyle} />}
         {!isAccuracy && <RemoveSVG className='model-header-svg' />}
-        <p>Accuracy</p>
+        {
+          task === 'ImageClassification' ? <p>Accuracy</p> : <p>Reward</p>
+        }
       </div>
       <div className='model-loss-div' onClick={handleLoss} style={{ cursor: 'pointer' }}>
         {isLoss && <TriangleSVG className='model-header-svg' style={lossStyle} />}

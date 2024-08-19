@@ -98,7 +98,7 @@ const useFetchTrainingResults = (modelId, task) => {
             labels: epochs,
             datasets: [
               {
-                label: 'Total Reward',
+                label: 'Reward',
                 data: totalReward,
                 borderColor: 'rgba(54,162,235,1)',
                 fill: false,
@@ -111,7 +111,7 @@ const useFetchTrainingResults = (modelId, task) => {
             labels: epochs,
             datasets: [
               {
-                label: 'Average Loss',
+                label: 'Loss',
                 data: avgLoss,
                 borderColor: 'rgba(255,99,132,1)',
                 fill: false,

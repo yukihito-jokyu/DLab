@@ -175,8 +175,8 @@ function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status
             )}
             {task === 'ReinforcementLearning' && totalRewardData && averageLossData && (
               <>
-                <DisplayResult data={totalRewardData} type="Total Reward" showTitle={true} />
-                <DisplayResult data={averageLossData} type="Average Loss" showTitle={true} />
+                <DisplayResult data={totalRewardData} type="Reward" showTitle={true} />
+                <DisplayResult data={averageLossData} type="Loss" showTitle={true} />
               </>
             )}
           </div>

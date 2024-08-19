@@ -39,20 +39,20 @@ function TrainLogField() {
       {task === 'ReinforcementLearning' && (
         <>
           <div className='train-log-wrapper'>
-            <TrainPanelTital title={'Total Reward'} />
+            <TrainPanelTital title={'Reward'} />
             <div className='log-field'>
               {totalRewardData && totalRewardData.labels ? (
-                <DisplayResult data={totalRewardData} type="Total Reward" showTitle={false} />
+                <DisplayResult data={totalRewardData} type="Reward" showTitle={false} />
               ) : (
                 <></>
               )}
             </div>
           </div>
           <div className='train-log-wrapper'>
-            <TrainPanelTital title={'Average Loss'} />
+            <TrainPanelTital title={'Loss'} />
             <div className='log-field'>
               {averageLossData && averageLossData.labels ? (
-                <DisplayResult data={averageLossData} type="Average Loss" showTitle={false} />
+                <DisplayResult data={averageLossData} type="Loss" showTitle={false} />
               ) : (
                 <></>
               )}
