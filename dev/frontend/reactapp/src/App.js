@@ -192,7 +192,7 @@ function App() {
           <Route path='/top' element={<Top />} />
           <Route path="/ImageClassificationProjectList/:userId" element={<ImageClassificationProjectList />} />
           <Route path="/ModelManegementEvaluation/:userId/:projectName" element={<ModelManegementEvaluation />} />
-          <Route path="/ModelCreateTrain/:projectName/:modelId" element={<ModelCreateTrain />} />
+          <Route path="/ModelCreateTrain/:task/:projectName/:modelId" element={<ModelCreateTrain />} />
           <Route path="/RLProjectList" element={<RLProjectList />} />
           <Route path="/testfirebase" element={<TestFirebase />} />
           <Route path="/testdjango" element={<DjangoTest />} />

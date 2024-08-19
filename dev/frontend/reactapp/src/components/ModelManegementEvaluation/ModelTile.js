@@ -12,12 +12,21 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status, userId }) {
   const { projectName } = useParams();
+  const [task, setTask] = useState();
   const [isPicture, setIsPicture] = useState(false);
   const [isExpanding, setIsExpanding] = useState(false);
   const [tileColer, setTileColer] = useState();
   const [tileHeight, setTileHeight] = useState('70px');
   const [isHover, setIsHover] = useState();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (projectName === 'CartPole' || projectName === 'FlappyBird') {
+      setTask('ReinforcementLearning');
+    } else {
+      setTask('ImageClassification');
+    }
+  }, [projectName]);
 
   const { currentTask, accuracyData, lossData, totalRewardData, averageLossData } = useFetchTrainingResults(modelId);
   const { accuracy, loss } = useFetchAccuracyAndLoss(modelId);
@@ -89,7 +98,7 @@ function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status
 
   const handleNav = () => {
     sessionStorage.setItem('modelId', JSON.stringify(modelId));
-    navigate(`/ModelCreateTrain/${projectName}/${modelId}`);
+    navigate(`/ModelCreateTrain/${task}/${projectName}/${modelId}`);
   };
 
   const TextDisplay = ({ text, maxLength }) => {
