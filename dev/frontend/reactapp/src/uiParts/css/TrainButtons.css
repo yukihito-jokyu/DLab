@@ -16,6 +16,15 @@
   margin-right: 22px;
 }
 
+.robot-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 22px;
+  margin-bottom: 2px;
+}
+
 .terminal-wrapper {
   display: flex;
   align-items: center;
@@ -36,6 +45,12 @@
   width: 26px !important;
   height: 26px !important;
   fill: white;
+}
+
+.robot-wrapper .robot-svg {
+  width: 35px !important;
+  height: 35px !important;
+  fill: white !important;
 }
 
 .terminal-wrapper .terminal-svg {
