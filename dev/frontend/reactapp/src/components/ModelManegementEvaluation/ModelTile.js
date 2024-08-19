@@ -28,7 +28,7 @@ function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status
     }
   }, [projectName]);
 
-  const { currentTask, accuracyData, lossData, totalRewardData, averageLossData } = useFetchTrainingResults(modelId);
+  const { accuracyData, lossData, totalRewardData, averageLossData } = useFetchTrainingResults(modelId, task);
   const { accuracy, loss } = useFetchAccuracyAndLoss(modelId);
   const currentStatus = useFetchStatus(modelId);
 
@@ -167,13 +167,13 @@ function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status
       {isPicture && (
         <div className='graph-field'>
           <div className='model-picture-filed-wrapper'>
-            {currentTask === 'ImageClassification' && accuracyData && lossData && (
+            {task === 'ImageClassification' && accuracyData && lossData && (
               <>
                 <DisplayResult data={accuracyData} type="Accuracy" showTitle={true} />
                 <DisplayResult data={lossData} type="Loss" showTitle={true} />
               </>
             )}
-            {currentTask === 'ReinforcementLearning' && totalRewardData && averageLossData && (
+            {task === 'ReinforcementLearning' && totalRewardData && averageLossData && (
               <>
                 <DisplayResult data={totalRewardData} type="Total Reward" showTitle={true} />
                 <DisplayResult data={averageLossData} type="Average Loss" showTitle={true} />

@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../db/firebase';
 
-const useFetchTrainingResults = (modelId) => {
-  const [currentTask, setCurrentTask] = useState(null);
+const useFetchTrainingResults = (modelId, task) => {
   const [accuracyData, setAccuracyData] = useState({ labels: [], datasets: [] });
   const [lossData, setLossData] = useState({ labels: [], datasets: [] });
   const [totalRewardData, setTotalRewardData] = useState({ labels: [], datasets: [] });
@@ -15,8 +14,6 @@ const useFetchTrainingResults = (modelId) => {
     const unsubscribe = onSnapshot(docRef, (doc) => {
       if (doc.exists()) {
         const data = doc.data();
-        const task = data.task;
-        setCurrentTask(task);
 
         const options = {
           responsive: true,
@@ -41,7 +38,7 @@ const useFetchTrainingResults = (modelId) => {
           },
         };
 
-        if (currentTask === 'ImageClassification') {
+        if (task === 'ImageClassification') {
           const results = data.results || [];
 
           const epochs = results.map(result => result.Epoch);
@@ -90,7 +87,7 @@ const useFetchTrainingResults = (modelId) => {
             ],
           });
 
-        } else if (currentTask === 'ReinforcementLearning') {
+        } else if (task === 'ReinforcementLearning') {
           const results = data.results || [];
 
           const epochs = results.map(result => result.Epoch);
@@ -127,9 +124,9 @@ const useFetchTrainingResults = (modelId) => {
     });
 
     return () => unsubscribe();
-  }, [modelId, currentTask]);
+  }, [modelId, task]);
 
-  return { currentTask, accuracyData, lossData, totalRewardData, averageLossData };
+  return { accuracyData, lossData, totalRewardData, averageLossData };
 };
 
 export default useFetchTrainingResults;
