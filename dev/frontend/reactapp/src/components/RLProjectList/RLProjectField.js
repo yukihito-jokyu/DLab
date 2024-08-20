@@ -1,11 +1,10 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import './RLProjectList.css';
 import CartPoleIcon from './CartPoleIcon';
 import BorderGradationBox from '../../uiParts/component/BorderGradationBox';
 import FlappyBirdIcon from './FlappyBirdIcon';
 import RLRequestIcon from './RLRequestIcon';
 import { useNavigate } from 'react-router-dom';
-import { UserInfoContext } from '../../App';
 
 function RLProjectField() {
   const userId = JSON.parse(sessionStorage.getItem('userId'));
@@ -14,13 +13,20 @@ function RLProjectField() {
   };
   const navigate = useNavigate();
 
-  // const handlenav = () => {
-  //   navigate('/ModelManegementEvaluation');
-  // };
   const handleNav = useCallback((projectId) => {
-    navigate(`/ModelManegementEvaluation/${userId}/${projectId}`)
+    let task;
+    if (projectId === "CartPole" || projectId === "FlappyBird") {
+      task = "ReinforcementLearning";
+    } else {
+      task = "ImageClassification";
+    }
+
+    // navigateで遷移先を指定
+    navigate(`/ModelManegementEvaluation/${userId}/${task}/${projectId}`);
+
+    // projectIdをセッションに保存
     sessionStorage.setItem('projectId', JSON.stringify(projectId));
-  }, [navigate, userId])
+  }, [navigate, userId]);
 
   return (
     <div className='rl-project-field-wrapper'>

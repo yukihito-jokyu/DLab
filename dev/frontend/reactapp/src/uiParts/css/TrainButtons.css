@@ -1,14 +1,74 @@
+.status-and-icon-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.status-text {
+  margin-right: 30px;
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  white-space: nowrap;
+  writing-mode: horizontal-tb;
+  padding: 4px 18px;
+  border-radius: 20px;
+  pointer-events: none;
+}
+
 .train-buttons-wrapper {
   position: absolute;
   display: flex;
+  align-items: center;
   width: 100px;
   height: 35px;
   margin-top: 15px;
-  right: 620px;
+  right: 780px;
+}
+
+.image-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 22px;
+}
+
+.robot-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 22px;
+  margin-bottom: 2px;
 }
 
 .terminal-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   margin-right: 15px;
+}
+
+.play-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 0;
+}
+
+.image-wrapper .image-svg {
+  width: 26px !important;
+  height: 26px !important;
+  fill: white;
+}
+
+.robot-wrapper .robot-svg {
+  width: 35px !important;
+  height: 35px !important;
+  fill: white !important;
 }
 
 .terminal-wrapper .terminal-svg {

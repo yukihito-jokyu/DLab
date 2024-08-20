@@ -32,7 +32,13 @@ function ProjectActivate({ projectName, shortExp, changeJoinModal }) {
 
   const handleActivate = () => {
     sessionStorage.setItem('projectId', JSON.stringify(projectName));
-    navigate(`/ModelManegementEvaluation/${userId}/${projectName}`);
+    let task;
+    if (projectName === "CartPole" || projectName === "FlappyBird") {
+      task = "ReinforcementLearning";
+    } else {
+      task = "ImageClassification";
+    }
+    navigate(`/ModelManegementEvaluation/${userId}/${task}/${projectName}`);
   }
   return (
     <div className='project-activate-wrapper'>
