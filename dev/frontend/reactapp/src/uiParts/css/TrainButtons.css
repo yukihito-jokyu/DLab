@@ -1,3 +1,21 @@
+.status-and-icon-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.status-text {
+  margin-right: 30px;
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  white-space: nowrap;
+  writing-mode: horizontal-tb;
+  padding: 4px 18px;
+  border-radius: 20px;
+  pointer-events: none;
+}
+
 .train-buttons-wrapper {
   position: absolute;
   display: flex;
@@ -5,7 +23,7 @@
   width: 100px;
   height: 35px;
   margin-top: 15px;
-  right: 660px;
+  right: 780px;
 }
 
 .image-wrapper {
