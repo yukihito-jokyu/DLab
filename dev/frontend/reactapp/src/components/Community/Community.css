@@ -49,6 +49,11 @@
   width: 50%;
 }
 
+.activate-project-image {
+  width: 2000px;
+  height: auto;
+}
+
 /* ProjectHeader */
 
 .project-header {
