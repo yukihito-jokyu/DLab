@@ -65,9 +65,10 @@ function Community() {
 
   // const [projectName, setProjectName] = useState('');
   const [shortExp, setShortExp] = useState('');
-  const [source, setSource] = useState('');
   const [sourceLink, setSourceLink] = useState('');
   const [summary, setSummary] = useState('');
+  const [dataFormat, setDataFormat] = useState('');
+  const [source, setSource] = useState('');
   const [labelList, setLabelList] = useState([]);
 
   // 参加モーダル表示・非表示
@@ -94,7 +95,7 @@ function Community() {
     });
     console.log(response);
     setJoinConfirmationModal(true);
-    
+
   };
   const handleNav = () => {
     setJoinConfirmationModal(false);
@@ -109,9 +110,10 @@ function Community() {
       if (projectsInfo) {
         // setProjectName(projectsInfo.name);
         setShortExp(projectsInfo.short_explanation);
-        setSource(projectsInfo.source);
         setSourceLink(projectsInfo.source_link);
         setSummary(projectsInfo.summary);
+        setDataFormat(projectsInfo.data_format);
+        setSource(projectsInfo.source);
         setLabelList(projectsInfo.label_list);
       }
     };
@@ -121,7 +123,7 @@ function Community() {
   // 記事のid
   const [reportInfo, setReportInfo] = useState('');
   const [discussionId, setDiscussionId] = useState('');
-  
+
 
   const handleEdit = () => {
     setDiscussionEdit(!discussionEdit);
@@ -133,7 +135,7 @@ function Community() {
   return (
     <div className='community-wrapper'>
       <div className='community-header-wrapper'>
-        <Header 
+        <Header
           burgerbutton={BurgerButton}
           logocomponent={Logo}
           usericoncomponent={UserIcon}
@@ -141,7 +143,7 @@ function Community() {
       </div>
       <ProjectActivate projectName={projectName} shortExp={shortExp} changeJoinModal={changeJoinModal} />
       <ProjectHeader {...props} />
-      {overview && <ProjectOverview summary={summary} source={source} sourceLink={sourceLink} />}
+      {overview && <ProjectOverview summary={summary} dataFormat={dataFormat} source={source} />}
       {preview && <ProjectPreview labelList={labelList} />}
       {discussion ? (
         discussionEdit ? (
@@ -151,11 +153,11 @@ function Community() {
         ) : (
           <ProjectDiscussion handleEdit={handleEdit} handleInfo={handleInfo} setReportInfo={setReportInfo} setDiscussionId={setDiscussionId} />
         )) : (
-          <></>
-        )}
-        {readerBoard && <ProjectReaderBoard />}
-        {joinModal && (<AlertModal deleteModal={changeJoinModal} handleClick={handleJoin} sendText={sendText} />)}
-        {joinConfirmationModal && (<AlertModal deleteModal={handleNav} handleClick={handleNav} sendText={'プロジェクトに参加しました。'} />)}
+        <></>
+      )}
+      {readerBoard && <ProjectReaderBoard />}
+      {joinModal && (<AlertModal deleteModal={changeJoinModal} handleClick={handleJoin} sendText={sendText} />)}
+      {joinConfirmationModal && (<AlertModal deleteModal={handleNav} handleClick={handleNav} sendText={'プロジェクトに参加しました。'} />)}
     </div>
   );
 };
