@@ -6,19 +6,18 @@ function ProjectOverview({ summary, dataFormat, source }) {
     <div className='project-overview-wrapper'>
       <div className='overview-wrapper'>
         <p className='overview-title'>1. Summary</p>
-        <p className='overview-info'>{summary}</p>
+        <p className='overview-info' dangerouslySetInnerHTML={{ __html: summary }}></p>
       </div>
       <div className='overview-wrapper'>
         <p className='overview-title'>2. Data format</p>
-        <p className='overview-info'>{dataFormat}</p>
-        <div></div>
+        <p className='overview-info' dangerouslySetInnerHTML={{ __html: dataFormat }}></p>
       </div>
       <div className='overview-wrapper'>
         <p className='overview-title'>3. Source</p>
-        <p className='overview-info'>{source}</p>
+        <p className='overview-info' dangerouslySetInnerHTML={{ __html: source }}></p>
       </div>
     </div>
   );
 };
 
-export default ProjectOverview
+export default ProjectOverview;
