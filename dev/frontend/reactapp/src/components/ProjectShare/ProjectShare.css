@@ -19,8 +19,8 @@
   display: flex;
   width: 100%;
   margin-top: 70px;
-  margin-bottom: 100px;
-  padding: 10px 60px;
+  margin-bottom: 30px;
+  padding: 10px 0px 10px 60px;
 }
 
 .project-request-wrapper .request-left {
@@ -71,6 +71,10 @@
 
 .project-request-wrapper .request-right {
   width: 50%;
+}
+
+.project-share-image {
+  width: 640px;
 }
 
 /* ProjectTile */
