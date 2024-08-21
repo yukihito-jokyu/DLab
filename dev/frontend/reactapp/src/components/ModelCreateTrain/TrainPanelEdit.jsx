@@ -88,7 +88,6 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
     'episilon': '探索率',
     'syns': '同期間隔'
   }
-  console.log(parameter)
   return (
     <>
       {parameter !== 'image_shape' ? (<div className='train-panel-edit-wrapper'>

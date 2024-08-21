@@ -542,6 +542,14 @@
   width: 800px;
 }
 
+.vis-train-images-wrapper {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .train-modal {
   margin: 10px;
   margin-top: 20px;
