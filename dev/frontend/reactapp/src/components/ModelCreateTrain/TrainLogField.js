@@ -7,12 +7,12 @@ import { useParams } from 'react-router-dom';
 import useFetchTrainingResults from '../../hooks/useFetchTrainingResults';
 
 function TrainLogField() {
-  const { modelId } = useParams();
-  const { currentTask, accuracyData, lossData, totalRewardData, averageLossData } = useFetchTrainingResults(modelId);
+  const { modelId, task } = useParams();
+  const { accuracyData, lossData, totalRewardData, averageLossData } = useFetchTrainingResults(modelId, task);
 
   return (
     <div className='train-log-field-wrapper'>
-      {currentTask === 'ImageClassification' && (
+      {task === 'ImageClassification' && (
         <>
           <div className='train-log-wrapper'>
             <TrainPanelTital title={'Accuracy'} />
@@ -36,23 +36,23 @@ function TrainLogField() {
           </div>
         </>
       )}
-      {currentTask === 'ReinforcementLearning' && (
+      {task === 'ReinforcementLearning' && (
         <>
           <div className='train-log-wrapper'>
-            <TrainPanelTital title={'Total Reward'} />
+            <TrainPanelTital title={'Reward'} />
             <div className='log-field'>
               {totalRewardData && totalRewardData.labels ? (
-                <DisplayResult data={totalRewardData} type="Total Reward" showTitle={false} />
+                <DisplayResult data={totalRewardData} type="Reward" showTitle={false} />
               ) : (
                 <></>
               )}
             </div>
           </div>
           <div className='train-log-wrapper'>
-            <TrainPanelTital title={'Average Loss'} />
+            <TrainPanelTital title={'Loss'} />
             <div className='log-field'>
               {averageLossData && averageLossData.labels ? (
-                <DisplayResult data={averageLossData} type="Average Loss" showTitle={false} />
+                <DisplayResult data={averageLossData} type="Loss" showTitle={false} />
               ) : (
                 <></>
               )}

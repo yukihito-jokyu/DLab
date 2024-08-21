@@ -62,3 +62,21 @@
   color: black;
   font-weight: 600;
 }
+
+.menu-item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.menu-icon {
+  fill: #4B4B4B;
+  margin-right: 15px;
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.menu-text {
+  margin: 15px;
+  line-height: 30px;
+}

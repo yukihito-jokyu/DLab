@@ -12,6 +12,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status, userId }) {
   const { projectName } = useParams();
+  const [task, setTask] = useState();
   const [isPicture, setIsPicture] = useState(false);
   const [isExpanding, setIsExpanding] = useState(false);
   const [tileColer, setTileColer] = useState();
@@ -19,7 +20,15 @@ function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status
   const [isHover, setIsHover] = useState();
   const navigate = useNavigate();
 
-  const { currentTask, accuracyData, lossData, totalRewardData, averageLossData } = useFetchTrainingResults(modelId);
+  useEffect(() => {
+    if (projectName === 'CartPole' || projectName === 'FlappyBird') {
+      setTask('ReinforcementLearning');
+    } else {
+      setTask('ImageClassification');
+    }
+  }, [projectName]);
+
+  const { accuracyData, lossData, totalRewardData, averageLossData } = useFetchTrainingResults(modelId, task);
   const { accuracy, loss } = useFetchAccuracyAndLoss(modelId);
   const currentStatus = useFetchStatus(modelId);
 
@@ -89,7 +98,7 @@ function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status
 
   const handleNav = () => {
     sessionStorage.setItem('modelId', JSON.stringify(modelId));
-    navigate(`/ModelCreateTrain/${projectName}/${modelId}`);
+    navigate(`/ModelCreateTrain/${task}/${projectName}/${modelId}`);
   };
 
   const TextDisplay = ({ text, maxLength }) => {
@@ -158,16 +167,16 @@ function ModelTile({ modelName, date, isChecked, modelId, checkBoxChange, status
       {isPicture && (
         <div className='graph-field'>
           <div className='model-picture-filed-wrapper'>
-            {currentTask === 'ImageClassification' && accuracyData && lossData && (
+            {task === 'ImageClassification' && accuracyData && lossData && (
               <>
                 <DisplayResult data={accuracyData} type="Accuracy" showTitle={true} />
                 <DisplayResult data={lossData} type="Loss" showTitle={true} />
               </>
             )}
-            {currentTask === 'ReinforcementLearning' && totalRewardData && averageLossData && (
+            {task === 'ReinforcementLearning' && totalRewardData && averageLossData && (
               <>
-                <DisplayResult data={totalRewardData} type="Total Reward" showTitle={true} />
-                <DisplayResult data={averageLossData} type="Average Loss" showTitle={true} />
+                <DisplayResult data={totalRewardData} type="Reward" showTitle={true} />
+                <DisplayResult data={averageLossData} type="Loss" showTitle={true} />
               </>
             )}
           </div>

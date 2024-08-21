@@ -10,16 +10,20 @@ function ProjectReaderBoard() {
   const [readerBoard, setReaderBoard] = useState([]);
   const [favorite, setFavorite] = useState(false);
   const [favoriteUser, setFavoriteUser] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredReaderBoard, setFilteredReaderBoard] = useState([]);
   const targetRef = useRef(null);
   const userId = JSON.parse(sessionStorage.getItem('userId'));
-  const { projectName } = useParams()
+  const { projectName } = useParams();
+
   useEffect(() => {
     const fetchReaderBoard = async () => {
       const readerBoardData = await getReaderBoardInfo(projectName);
       const favoriteUser = await getFavoriteUser(userId);
-      console.log(favoriteUser)
+      console.log(favoriteUser);
       setReaderBoard(readerBoardData);
       setFavoriteUser(favoriteUser);
+      setFilteredReaderBoard(readerBoardData);
     };
 
     fetchReaderBoard();
@@ -27,11 +31,24 @@ function ProjectReaderBoard() {
   }, [userId, projectName]);
 
   const handleScroll = () => {
-    // targetRef.currentが存在する場合にスクロール
     if (targetRef.current) {
       targetRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const handleSearch = () => {
+    const filtered = readerBoard.filter(board =>
+      board.data().user_name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredReaderBoard(filtered);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <div className='project-reader-board-wrapper'>
       <div className='reader-board-setting'>
@@ -45,8 +62,11 @@ function ProjectReaderBoard() {
           <input
             type='text'
             placeholder='ユーザー検索'
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
-          <div className='search-wrapper'>
+          <div className='search-wrapper' onClick={handleSearch} style={{ cursor: 'pointer' }}>
             <SearchIcon className='search-icon' />
           </div>
         </div>
@@ -64,8 +84,8 @@ function ProjectReaderBoard() {
       </div>
       <div className='reader-board-field'>
         {favorite === true ? (
-          readerBoard ? (
-            readerBoard.map((board, index) => {
+          filteredReaderBoard && filteredReaderBoard.length > 0 ? (
+            filteredReaderBoard.map((board, index) => {
               const userData = board.data();
               return (userData.user_id === userId ? (
                 <div key={userData.user_id} ref={targetRef}>
@@ -79,10 +99,10 @@ function ProjectReaderBoard() {
                 ) : null
               ));
             })
-          ) : null
+          ) : <p className='none-text'>該当するユーザーが見つかりませんでした。</p>
         ) : (
-          readerBoard ? (
-            readerBoard.map((board, index) => {
+          filteredReaderBoard && filteredReaderBoard.length > 0 ? (
+            filteredReaderBoard.map((board, index) => {
               const userData = board.data();
               return (userData.user_id === userId ? (
                 <div key={userData.user_id} ref={targetRef}>
@@ -94,12 +114,11 @@ function ProjectReaderBoard() {
                 </div>
               ));
             })
-          ) : null
+          ) : <p className='none-text'>該当するユーザーが見つかりませんでした。</p>
         )}
-
       </div>
     </div>
-  )
+  );
 }
 
 export default ProjectReaderBoard;

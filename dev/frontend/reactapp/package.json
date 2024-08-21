@@ -24,6 +24,7 @@
     "react-firebase-hooks": "^5.1.1",
     "react-router-dom": "^6.22.1",
     "react-scripts": "^5.0.1",
+    "react-spinners": "^0.14.1",
     "socket.io-client": "^4.7.4",
     "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
