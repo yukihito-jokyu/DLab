@@ -5,8 +5,8 @@ import CIFAR10Image from '../../assets/images/CIFAR10Image.png';
 import CIFAR100Image from '../../assets/images/CIFAR100Image.png';
 import MNISTImage from '../../assets/images/MNISTImage.png';
 import FashionMNISTImage from '../../assets/images/FashionMNISTImage.png';
-import CartPoleTile from '../../assets/images/CartPoleTile.png';
-import FlappyBirdTile from '../../assets/images/FlappyBirdTile.png';
+import CartPoleImage from '../../assets/images/CartPoleImage.png';
+import FlappyBirdImage from '../../assets/images/FlappyBirdImage.png';
 
 import { useNavigate } from 'react-router-dom';
 import { getJoinProject } from '../../db/function/users';
@@ -52,15 +52,15 @@ function ProjectActivate({ projectName, shortExp, changeJoinModal }) {
       altText = 'FashionMNIST Image';
       break;
     case 'CartPole':
-      imageSrc = CartPoleTile;
+      imageSrc = CartPoleImage;
       altText = 'CartPole Image';
       break;
     case 'FlappyBird':
-      imageSrc = FlappyBirdTile;
+      imageSrc = FlappyBirdImage;
       altText = 'FlappyBird Image';
       break;
     default:
-      imageSrc = CIFAR10Image; // デフォルトの画像
+      imageSrc = CIFAR10Image;
       altText = 'Default Project Image';
   }
 
