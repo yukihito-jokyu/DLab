@@ -4,6 +4,7 @@ import numpy as np
 import torch
 import torch.optim as optim
 import torch.nn as nn
+import torch.functional as F
 import importlib.util
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
@@ -15,6 +16,10 @@ from utils.db_manage import download_file, upload_file, initialize_training_resu
 from PIL import Image
 import matplotlib
 matplotlib.use('Agg')
+import json
+import math
+import cv2
+import base64
 
 # デバイスの設定
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -191,12 +196,97 @@ def load_and_split_data(config):
     
     return (x_train, y_train), (x_val, y_val), (x_test, y_test), transform
 
+
+# grad-camの実装
+class GradCAM:
+    def __init__(self, model, target_layer_name):
+        self.model = model
+        self.target_layer_name = target_layer_name
+        self.gradients = []
+        self.activations = None
+
+        self.hooks = []
+        self._register_hooks()
+
+    def _register_hooks(self):
+        def forward_hook(module, input, output):
+            self.activations = output
+
+        def backward_hook(module, grad_input, grad_output):
+            self.gradients.append(grad_output[0])
+
+        # Register hooks only for the specified target layer
+        for name, module in self.model.named_modules():
+            if name == self.target_layer_name:
+                self.hooks.append(module.register_forward_hook(forward_hook))
+                self.hooks.append(module.register_backward_hook(backward_hook))
+
+    def generate_cam(self, input_image, class_idx):
+        self.gradients = []
+        self.model.eval()
+
+        # Forward pass
+        output = self.model(input_image)
+        print(output)
+        self.model.zero_grad()
+
+        # Backward pass
+        target = torch.zeros_like(output)
+        target[0][class_idx] = 1
+        output.backward(gradient=target)
+
+        # Compute weights
+        gradients = self.gradients[0]
+        activations = self.activations
+
+        weights = torch.mean(gradients, dim=(2, 3), keepdim=True)
+        cam = torch.sum(weights * activations, dim=1)
+        cam = F.relu(cam)
+        cam = cam - cam.min()
+        cam = cam / cam.max()
+        cam = cam.squeeze().cpu().detach().numpy()
+        return cam
+
+    def __del__(self):
+        for hook in self.hooks:
+            hook.remove()
+
+def to_heatmap(x, height, width):
+    x = (x * 255).astype(np.uint8).reshape(-1)
+    cm = plt.get_cmap('jet')
+    x = np.array([cm(int(np.round(xi)))[:3] for xi in x])
+    print(int(math.sqrt(x.shape[0])))
+    return np.resize(x.reshape(int(math.sqrt(x.shape[0])), int(math.sqrt(x.shape[0])), 3), (height, width, 3))
+
+
+def visualize_cam(cam, original_image, alpha=0.5, title='Grad-CAM'):
+    # Determine the height and width from the original image
+    _, height, width = original_image.squeeze(0).shape
+
+    # Convert the CAM to a heatmap
+    heatmap = to_heatmap(cam, height, width)
+
+    # Convert original image tensor to numpy for visualization
+    original_image_np = original_image.squeeze(0).permute(1, 2, 0).cpu().numpy()
+
+    # Combine original image with heatmap
+    grad_cam_image = original_image_np * alpha + heatmap * (1 - alpha)
+
+    # Normalize for display
+    grad_cam_image = grad_cam_image / grad_cam_image.max()
+
+    return grad_cam_image
+
+
 # モデルの訓練を行う関数
 def train_model(config):
     model_id = config["model_id"]
     user_id = config["user_id"]
     project_name = config["project_name"]
     model = import_model(config).to(device)
+    with open(f'./dataset/{project_name}/config.json', 'r') as jsonfile:
+        json_data = json.load(jsonfile)
+        id2label = json_data['id2label']
 
     (x_train, y_train), (x_val, y_val), (x_test, y_test), transform = load_and_split_data(config)
 
@@ -216,7 +306,7 @@ def train_model(config):
     
     train_loader = DataLoader(train_dataset, batch_size=int(train_info["batch"]), shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=int(train_info["batch"]), shuffle=False)
-    test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
+    test_loader = DataLoader(test_dataset, batch_size=1, shuffle=True)
 
     optimizer = get_optimizer(train_info["optimizer"], model.parameters(), float(train_info["learning_rate"]))
     loss_fn = get_loss('cross_entropy')
@@ -278,7 +368,42 @@ def train_model(config):
             'TrainLoss': round(epoch_loss, 5),
             'ValLoss': round(val_loss, 5)
         }
-        
+
+        # 5epochごとの検証
+        origin_image_list = []
+        label_list = []
+        pre_label_list = []
+        if epoch % 1 == 0:
+            with torch.no_grad():
+                c = 0
+                for image, label in test_loader:
+                    c += 1
+                    np_image = image.squeeze(0).permute(1, 2, 0).numpy()
+                    _, origin_img_png = cv2.imencode('.png', (np_image * 255).astype(np.uint8))
+                    img_base64 = base64.b64encode(origin_img_png).decode()
+                    # データを入れる
+                    origin_image_list.append(img_base64)
+                    label_str = id2label.get(str(label.cpu().item()))
+                    label_list.append(label_str)
+                    # 予測
+                    image, label = image.to(device), label.to(device)
+                    outputs = model(image)
+                    # 予測結果の確認
+                    output_label = torch.max(outputs, 1)[1]
+                    pre_label = id2label.get(str(output_label.cpu().item()))
+                    pre_label_list.append(pre_label)
+                    if c == 10:
+                        break
+                    
+            # emitでデータを渡す
+            sent_data = {
+                'Images': origin_image_list,
+                'Labels': label_list,
+                'PreLabels': pre_label_list
+            }
+            # print(sent_data)
+            emit('image_valid'+str(model_id), sent_data)
+
         # Firestoreに結果をアップロード
         upload_result = upload_training_result(config["user_id"], config["project_name"], model_id, epoch_result)
         # print(upload_result)

@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import cv2
 import matplotlib
 import numpy as np
+import base64
 matplotlib.use('Agg')
 
 # デバイスの設定
@@ -21,8 +22,8 @@ def train_flappy(config):
     project_name = config["project_name"]
     train_info = config["Train_info"]
     image_shape = int(config['input_info']["change_shape"])
-    epoch = train_info["epoch"]
-    sync_interval = train_info["syns"]
+    epoch = int(train_info["epoch"])
+    sync_interval = int(train_info["syns"])
     print(image_shape)
     print(type(image_shape))
 
@@ -81,11 +82,38 @@ def train_flappy(config):
 
         print(f'Epoch: {episode} TotalReward: {total_reward} AverageLoss: {round(ave_loss, 5)}')
         emit('train_flappy_results'+model_id, epoch_result)
-    
+
+        # 検証(10epochごと)
+        if episode % 10 == 0:
+            print(f'検証: {episode}')
+            image_list = []
+            with torch.no_grad():
+                image, reward, done = env.frame_step(init_action)
+                state = np.transpose(cv2.resize(image, (image_shape, image_shape)), (2, 0, 1))
+                # 画像をバイナリデータへ変換
+                _, origin_img_png = cv2.imencode('.png', image)
+                img_base64 = base64.b64encode(origin_img_png).decode()
+                image_list.append(img_base64)
+                while not done:
+                    action = agent.get_action(state=state)
+                    action_list = np.zeros(2)
+                    action_list[action] = 1
+                    image, reward, done = env.frame_step(action_list)
+                    state = np.transpose(cv2.resize(image, (image_shape, image_shape)), (2, 0, 1))
+                    # 画像をバイナリデータへ変換
+                    _, origin_img_png = cv2.imencode('.png', image)
+                    img_base64 = base64.b64encode(origin_img_png).decode()
+                    image_list.append(img_base64)
+            # emitで画像を渡す
+            images_data = {
+                "Images": image_list
+            }
+            emit('flappy_valid'+str(model_id), images_data)
     # 一時ファイルにモデルを保存
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pth") as tmp_file:
         best_model_path = tmp_file.name
         torch.save(agent.qnet.state_dict(), best_model_path)
+        
     
     # Firebase Storageにモデルをアップロード
     model_storage_path = f"user/{user_id}/{project_name}/{model_id}/best_model.pth"

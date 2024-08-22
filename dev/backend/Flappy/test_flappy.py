@@ -11,9 +11,6 @@ class GameState:
         self.uPipe_image = cv2.cvtColor(cv2.rotate(self.lPipe_image, cv2.ROTATE_180), cv2.COLOR_BGRA2BGR)
         self.player_down_image = cv2.cvtColor(cv2.imread('Flappy/assets/redbird-downflap.png', cv2.IMREAD_UNCHANGED), cv2.COLOR_BGRA2BGR)
         self.player_up_image = cv2.cvtColor(cv2.imread('Flappy/assets/redbird-upflap.png', cv2.IMREAD_UNCHANGED), cv2.COLOR_BGRA2BGR)
-        print(f'写真{self.lPipe_image.shape}')
-        print(f'写真{self.uPipe_image.shape}')
-        print(self.uPipe_image[320-30:320, :].shape)
         self.PIPEGAPSIZE = 100 
         self.BASEY = 512 * 0.79
         self.playerx = int(512*0.2)
