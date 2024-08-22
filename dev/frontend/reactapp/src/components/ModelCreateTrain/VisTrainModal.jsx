@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom';
 
 function VisTrainModal({ changeVisTrainModal, image }) {
   const { modelId } = useParams();
-  console.log('modelId:', modelId);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react'
 import './ModelCreateTrain.css'
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
+import { ReactComponent as EastIcon } from '../../assets/svg/east_24.svg';
 
-function VisImageModal({ changeVisImageModal }) {
+
+function VisImageModal({ changeVisImageModal, image, label, preLabel }) {
+  console.log(image)
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -36,9 +39,23 @@ function VisImageModal({ changeVisImageModal }) {
               <div className='gradation-border2-wrapper'>
                 <div className='gradation-border2'></div>
               </div>
+              <div className='vis-image-images-wrapper'>
+                <div className='image-label-wraper'>
+                  <div className='label-wrapper'>
+                    <p>{label}</p>
+                  </div>
+                  <img src={`data:image/png;base64,${image}`} alt='test_image' />
+                  
+                  
+                </div>
+                <div className='svg-wrapper'>
+                  <EastIcon className='east-svg' />
+                </div>
+                <div className='prelabel-wrapper'>
+                  <p>{preLabel}</p>
+                </div>
+              </div>
 
-
-              ここに表示したいことを記述
 
 
               <div className='vis-image-modal-delet-button-field' onClick={handleClose}>
