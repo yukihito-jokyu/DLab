@@ -32,7 +32,6 @@ function ProjectActivate({ projectName, shortExp, changeJoinModal }) {
     fetchJoinProject();
   }, [userId, projectName]);
 
-  // projectNameに応じて画像とaltタグを設定
   let imageSrc, altText;
   switch (projectName) {
     case 'CIFAR10':
