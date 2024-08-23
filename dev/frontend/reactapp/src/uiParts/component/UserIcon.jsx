@@ -10,11 +10,17 @@ function UserIcon() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserImage = async () => {
-      const url = await getImage(`images/${userId}`);
-      setUserImage(url);
-    };
-    fetchUserImage();
+    const storedImage = sessionStorage.getItem(`userImage_${userId}`);
+    if (storedImage) {
+      setUserImage(storedImage);
+    } else {
+      const fetchUserImage = async () => {
+        const url = await getImage(`images/${userId}`);
+        setUserImage(url);
+        sessionStorage.setItem(`userImage_${userId}`, url);
+      };
+      fetchUserImage();
+    }
   }, [userId]);
 
   const handleNav = () => {
