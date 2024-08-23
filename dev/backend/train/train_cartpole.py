@@ -7,12 +7,15 @@ import matplotlib.pyplot as plt
 import tempfile
 from collections import deque
 import random
+import cv2
 from flask_socketio import emit
 from utils.get_func import get_optimizer, get_loss
 from train.train_image_classification import import_model
 from utils.db_manage import upload_training_result, upload_file, initialize_training_results
 import matplotlib
 matplotlib.use('Agg')
+import base64
+import math
 
 # デバイスを指定
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -94,6 +97,43 @@ class DQNAgent:
         loss.backward()
         self.optimizer.step()
         return loss.item()
+    
+# カートポールの描画
+def view_cartpole(state):
+    position = state[0]
+    angle = state[0]
+    image = np.zeros((400, 400, 3), dtype="uint8")
+    # 下の線
+    cv2.line(img=image, pt1=(0, 300), pt2=(500, 300), color=(255, 255, 255), thickness=1)
+    # ボックス
+    start_x = int(170 + position * 41)
+    end_x = int(230 + position * 41)
+    cv2.rectangle(img=image, pt1=(start_x, 280), pt2=(end_x, 310), color=(213, 224, 234), thickness=-1)
+    # ポール
+    length = 110
+    if angle < 0:
+        degree = 90 + math.degrees(angle)
+    else:
+        degree = 90 - math.degrees(angle)
+    pulas_x = length * math.cos(math.radians(degree))
+    pulas_y = length - length * math.sin(math.radians(degree))
+    end_point = (
+        int(200 + position * 41),
+        290
+    )
+    if angle < 0:
+        start_point = (
+            int(200 + position * 41 + pulas_x),
+            int(180 + pulas_y)
+        )
+    else:
+        start_point = (
+            int(200 + position * 41 - pulas_x),
+            int(180 + pulas_y)
+        )
+    cv2.line(image, start_point, end_point, (88, 148, 215), 10)
+    
+    return image
 
 # モデルを訓練する関数
 def train_cartpole(config, socketio):
@@ -103,6 +143,7 @@ def train_cartpole(config, socketio):
     train_info = config["Train_info"]
     epoch = train_info["epoch"]
     sync_interval = int(train_info["syns"])
+    input_info = config['input_info']
 
     # モデルの取得
     env = gym.make('CartPole-v1')
@@ -117,6 +158,11 @@ def train_cartpole(config, socketio):
 
     for episode in range(1, int(epoch)+1):
         state, _ = env.reset()
+        # state = cv2.resize(state, (shape, shape))
+        # if preprocessing == 'GRAY':
+        #     state = cv2.cvtColor(state, cv2.COLOR_BGR2GRAY)
+        #     ret, state = cv2.threshold(state, 1, 255, cv2.THRESH_BINARY)
+        #     state = np.reshape(state, (shape, shape, 1))
         done = False
         total_reward = 0
         total_loss = 0
@@ -124,6 +170,11 @@ def train_cartpole(config, socketio):
         while not done:
             action = agent.get_action(state)
             next_state, reward, done, truncated, info = env.step(action)
+            # next_state = cv2.resize(next_state, (shape, shape))
+            # if preprocessing == 'GRAY':
+            #     next_state = cv2.cvtColor(next_state, cv2.COLOR_BGR2GRAY)
+            #     ret, next_state = cv2.threshold(next_state, 1, 255, cv2.THRESH_BINARY)
+            #     next_state = np.reshape(next_state, (shape, shape, 1))
             done = done or truncated
             loss = agent.update(state, action, reward, next_state, done)
             state = next_state
@@ -151,6 +202,33 @@ def train_cartpole(config, socketio):
         # socketio.sleep(0.15)
         print(f'Epoch: {episode} TotalReward: {round(total_reward, 5)} AverageLoss: {round(ave_loss, 5)}')
         emit('train_cortpole_results'+model_id, epoch_result)
+
+        # 検証
+        if episode % 50 == 0:
+            print(f'検証: {episode}')
+            image_list = []
+            with torch.no_grad():
+                done = False
+                state, _ = env.reset()
+                image = view_cartpole(state)
+                # 画像をバイナリデータへ変換
+                _, origin_img_png = cv2.imencode('.png', image)
+                img_base64 = base64.b64encode(origin_img_png).decode()
+                image_list.append(img_base64)
+                while not done:
+                    action = agent.get_action(state)
+                    next_state, reward, done, info, info = env.step(action)
+                    image = view_cartpole(next_state)
+                    # 画像をバイナリデータへ変換
+                    _, origin_img_png = cv2.imencode('.png', image)
+                    img_base64 = base64.b64encode(origin_img_png).decode()
+                    image_list.append(img_base64)
+            print(len(image_list))
+            # emitで画像を渡す
+            images_data = {
+                "Images": image_list
+            }
+            emit('cartpole_valid'+str(model_id), images_data)
 
     # 一時ファイルにモデルを保存
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pth") as tmp_file:

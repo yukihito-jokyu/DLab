@@ -12,6 +12,7 @@ import InformationModal from './Modal/InformationModal';
 import TrainPanel from './TrainPanel';
 import VisImageModal from './VisImageModal';
 import VisTrainModal from './VisTrainModal';
+import { socket } from '../../socket/socket';
 
 function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, changeVisImageModal, changeVisTrainModal }) {
   const [parameter, setParameter] = useState(null);
@@ -33,6 +34,12 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
   const [infoModal, setInfoModal] = useState(false);
   const [infoName, setInfoName] = useState();
   const { projectName, modelId } = useParams();
+  const [images, setImages] = useState([]);   // 学習結果の保管場所 
+  const [originImages, setOriginImages] = useState([]);   // 画像分類の学習結果保管場所
+  const [labels, setLabels] = useState([]);
+  const [preLabels, setPreLabels] = useState([]);
+  const [j, setJ] = useState(0);
+  const [i, setI] = useState(0);
 
   // モデルの構造データ取得
   useEffect(() => {
@@ -176,6 +183,87 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
 
     saveStructure();
   }, [projectName, modelId, inputLayer, convLayer, flattenWay, middleLayer, outputLayer]);
+
+
+  // 学習結果の取得
+  useEffect(() => {
+    const handleSetImage = (response) => {
+      setImages(response.Images)
+      setI(0)
+      console.log(response.Images)
+    }
+
+    const handleOriginImage = (response) => {
+      console.log(response)
+      setOriginImages(response.Images);
+      setLabels(response.Labels);
+      setPreLabels(response.PreLabels);
+      setJ(0)
+    }
+
+    const handleCleaner = (respose) => {
+      setImages([]);
+      setOriginImages([]);
+      setLabels([]);
+      setPreLabels([]);
+      setI(0);
+      setJ(0);
+      changeVisImageModal();
+      changeVisTrainModal();
+    }
+
+    // イベントの発火
+    socket.on('flappy_valid' + modelId, handleSetImage);
+    socket.on('cartpole_valid' + modelId, handleSetImage);
+    socket.on('image_valid' + modelId, handleOriginImage);
+
+    socket.on('flappy_train_end' + modelId, handleCleaner);
+    socket.on('cartpole_train_end' + modelId, handleCleaner);
+    socket.on('image_train_end' + modelId, handleCleaner);
+
+    // クリーンアップ関数を返す
+    return () => {
+      socket.off('flappy_valid' + modelId, handleSetImage);
+      socket.off('cartpole_valid' + modelId, handleSetImage);
+      socket.off('image_valid' + modelId, handleOriginImage);
+
+      socket.off('flappy_train_end' + modelId, handleCleaner);
+      socket.off('cartpole_train_end' + modelId, handleCleaner);
+      socket.off('image_train_end' + modelId, handleCleaner);
+    };
+
+  }, [modelId, changeVisImageModal, changeVisTrainModal]);
+
+  // 0.1秒ごとにiをインクリメントする
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setI((PrevI) => {
+        if (PrevI >= images.length - 1) {
+          return 0
+        }
+        return PrevI + 1;
+      });
+    }, 100) // 100ms = 0.1秒
+    
+    // クリーンアップ関数でインターバルをクリア
+    return () => clearInterval(interval)
+  }, [images]);
+
+  // 0.1秒ごとにiをインクリメントする
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setJ((PrevI) => {
+        if (PrevI >= originImages.length - 1) {
+          return 0
+        }
+        return PrevI + 1;
+      });
+    }, 3000) // 3000ms = 3秒
+    
+    // クリーンアップ関数でインターバルをクリア
+    return () => clearInterval(interval)
+  }, [originImages]);
+
   return (
     <div className='screen-field-wrapper'>
       <div className='left-screen'>
@@ -239,10 +327,10 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
         <InformationModal infoName={infoName} handleDelete={setInfoModal} />
       )}
       {visImageModal && (
-        <VisImageModal changeVisImageModal={changeVisImageModal} />
+        <VisImageModal changeVisImageModal={changeVisImageModal} image={originImages[j]} label={labels[j]} preLabel={preLabels[j]} />
       )}
       {visTrainModal && (
-        <VisTrainModal changeVisTrainModal={changeVisTrainModal} />
+        <VisTrainModal changeVisTrainModal={changeVisTrainModal} image={images[i]} />
       )}
     </div>
   )
