@@ -68,6 +68,7 @@ function Community() {
   const [sourceLink, setSourceLink] = useState('');
   const [summary, setSummary] = useState('');
   const [dataFormat, setDataFormat] = useState('');
+  const [environment, setEnvironment] = useState('');
   const [source, setSource] = useState('');
   const [labelList, setLabelList] = useState([]);
 
@@ -113,6 +114,7 @@ function Community() {
         setSourceLink(projectsInfo.source_link);
         setSummary(projectsInfo.summary);
         setDataFormat(projectsInfo.data_format);
+        setEnvironment(projectsInfo.environment);
         setSource(projectsInfo.source);
         setLabelList(projectsInfo.label_list);
       }
@@ -143,7 +145,7 @@ function Community() {
       </div>
       <ProjectActivate projectName={projectName} shortExp={shortExp} changeJoinModal={changeJoinModal} />
       <ProjectHeader {...props} />
-      {overview && <ProjectOverview summary={summary} dataFormat={dataFormat} source={source} />}
+      {overview && <ProjectOverview summary={summary} dataFormat={dataFormat} environment={environment} source={source} />}
       {preview && <ProjectPreview labelList={labelList} />}
       {discussion ? (
         discussionEdit ? (

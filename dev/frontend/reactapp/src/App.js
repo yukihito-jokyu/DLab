@@ -197,7 +197,7 @@ function App() {
           <Route path="/testfirebase" element={<TestFirebase />} />
           <Route path="/testdjango" element={<DjangoTest />} />
           <Route path='/projectshare' element={<ProjectShare />} />
-          <Route path='/community/:projectName' element={<Community />} />
+          <Route path='/community/:task/:projectName' element={<Community />} />
           <Route path='/profile/:profileUserId' element={<Profile />} />
           <Route path="*" element={<Navigate to="/top" replace />} />
         </Routes>
