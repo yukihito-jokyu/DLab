@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import FlappyBirdImage from '../../assets/images/project_image/FlappyBird/FlappyBird_image2.png';
 
 function FlappyBirdIcon() {
   return (
@@ -9,11 +10,13 @@ function FlappyBirdIcon() {
         </div>
       </div>
       <div className='project-image-wrapper'>
-        <div className='project-image'></div>
+        <div className='project-image'>
+          <img src={FlappyBirdImage} alt='' />
+        </div>
       </div>
       <div className='project-info-wrapper'>
         <div className='project-info'>
-          <p>text</p>
+          <p>Flappy Birdは、鳥（Flappy Bird）がパイプの間をぶつからないように飛び続けることが目的です。<br/>鳥がパイプにぶつかったり、地面に落ちたりするとゲームオーバーになります。</p>
         </div>
       </div>
     </div>

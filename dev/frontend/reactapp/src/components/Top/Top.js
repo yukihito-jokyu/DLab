@@ -45,7 +45,7 @@ function Top() {
         />
       </div>
       <Explanation setFirstSignIn={setFirstSignIn} />
-      <Recommend />
+      {/* <Recommend /> */}
       <ProjectRecommend setFirstSignIn={setFirstSignIn} />
       <YoutubeRecommend />
       <UpDatesRecommend setFirstSignIn={setFirstSignIn} />
