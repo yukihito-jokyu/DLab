@@ -6,6 +6,8 @@ import { auth } from '../../db/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 import { signInWithGoogle } from '../../db/function/users';
+import ICImage from '../../assets/images/IC_image1.jpg';
+import RLImage from '../../assets/images/RL_image1.jpg';
 
 function ProjectRecommend({ setFirstSignIn }) {
   const userId = JSON.parse(sessionStorage.getItem('userId'));
@@ -59,19 +61,23 @@ function ProjectRecommend({ setFirstSignIn }) {
         <div className='project-info-wrapper'>
           <p className='project-title'>Image Classification</p>
           <p className='project-title-ja'>画像分類</p>
-          <p className='project-exp'>説明</p>
+          <p className='project-exp'>画像分類とは、画像に含まれる物体を特定のカテゴリーやクラスに分類するタスクです。<br/>DLabでは、「MNIST」「FashionMNIST」「CIFAR10」「CIFAR100」の画像分類を体験することができます。<br/>高い精度を目指して頑張ってください！</p>
           <div className='project-button' onClick={handleICSignIn} style={{ cursor: 'pointer' }}>
             <GradationButton text={'画像分類へ'} style1={imageClassificationStyle} />
           </div>
         </div>
-        <div className='project-image' id='project-image-width' style={imageStyle}></div>
+        <div className='project-image' id='project-image-width' style={imageStyle}>
+          <img src={ICImage} alt='' />
+        </div>
       </div>
       <div className='reinforcement-wrapper'>
-        <div className='project-image' style={imageStyle}></div>
+        <div className='project-image' style={imageStyle}>
+          <img src={RLImage} alt='' />
+        </div>
         <div className='project-info-wrapper'>
           <p className='project-title'>Reinforcement Learning</p>
           <p className='project-title-ja'>強化学習モデル</p>
-          <p className='project-exp'>説明</p>
+          <p className='project-exp'>強化学習とは、AIが環境と相互作用を通じて、行動の選択しを学ぶ手法です。<br/>DLabでは、「CartPole」「FlappyBird」の強化学習を体験することができます。</p>
           <div className='project-button' onClick={handleRLSignIn} style={{ cursor: 'pointer' }}>
             <GradationButton text={'強化学習へ'} style1={reinforcementStyle} />
           </div>

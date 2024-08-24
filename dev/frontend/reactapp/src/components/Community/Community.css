@@ -49,6 +49,11 @@
   width: 50%;
 }
 
+.activate-project-image {
+  width: 2000px;
+  height: auto;
+}
+
 /* ProjectHeader */
 
 .project-header {
@@ -105,8 +110,11 @@
 
 .overview-wrapper .overview-info {
   padding-left: 40px;
+  padding-right: 40px;
   padding-top: 13px;
+  font-size: 20px;
   font-weight: 600;
+  line-height: 1.8;
 }
 
 /* ProjectPreview */

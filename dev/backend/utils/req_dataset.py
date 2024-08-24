@@ -113,8 +113,9 @@ class dataset_imager:
 
 # カスタムデータセット
 class PreDataset(Dataset):
-    def __init__(self, x_train, transform=None):
+    def __init__(self, x_train, y_train, transform=None):
         data = x_train.astype('float32')
+        self.label = y_train
         # self.x_train = data
         # data = np.transpose(x_train, (0, 2, 3, 1)).astype('float32')
         self.x_train = []
@@ -189,6 +190,7 @@ def get_images(config):
     else:
         dataset_dir = os.path.abspath(os.path.join(os.getcwd(), "./dataset", project_name))
         x_train = np.load(os.path.join(dataset_dir, "x_train.npy"))
+        y_train = np.load(os.path.join(dataset_dir, "y_train.npy"))
         image_shape = int(config['input_info']['change_shape'])
         preprocessing = config['input_info']['preprocessing']
         transform_list = [
@@ -202,7 +204,7 @@ def get_images(config):
             zca = ZCAWhitening.load(os.path.join(dataset_dir, f"{project_name}_zca.pth"))
             transform_list.append(zca)
         transform = transforms.Compose(transform_list)
-        train_dataset = PreDataset(x_train, transform)
+        train_dataset = PreDataset(x_train, y_train, transform)
         train_loader = DataLoader(train_dataset, batch_size=int(1), shuffle=True)
         i = 0
         images = []
