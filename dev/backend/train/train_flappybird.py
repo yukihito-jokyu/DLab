@@ -84,7 +84,7 @@ def train_flappy(config):
         emit('train_flappy_results'+model_id, epoch_result)
 
         # 検証(10epochごと)
-        if episode % 10 == 0:
+        if episode % 1 == 0:
             print(f'検証: {episode}')
             image_list = []
             with torch.no_grad():

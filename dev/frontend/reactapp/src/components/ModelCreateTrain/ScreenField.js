@@ -208,8 +208,6 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
       setPreLabels([]);
       setI(0);
       setJ(0);
-      changeVisImageModal();
-      changeVisTrainModal();
     }
 
     // イベントの発火
