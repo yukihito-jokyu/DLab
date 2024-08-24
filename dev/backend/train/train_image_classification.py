@@ -397,6 +397,7 @@ def train_model(config):
                     
             # emitでデータを渡す
             sent_data = {
+                'Epoch': epoch,
                 'Images': origin_image_list,
                 'Labels': label_list,
                 'PreLabels': pre_label_list

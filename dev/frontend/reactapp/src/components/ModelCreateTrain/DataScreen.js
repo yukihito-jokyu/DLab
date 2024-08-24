@@ -3,6 +3,7 @@ import './ModelCreateTrain.css';
 import GradationButton from '../../uiParts/component/GradationButton';
 import { useParams } from 'react-router-dom';
 import { getModelInput } from '../../db/function/model_structure';
+import CartPoleImage from '../../assets/images/project_image/CartPole/CartPole_image1.png';
 
 function DataScreen() {
   const { projectName, modelId } = useParams();
@@ -54,45 +55,53 @@ function DataScreen() {
   }
   return (
     <div className='data-screen-wrapper'>
-      <div className='image-title-wrapper'>
-        <p>Image A</p>
-      </div>
-      <div className='image-data-wrapper'>
-        <div className='image-before-data'>
-          {normalImage && <img src={`data:image/png;base64,${normalImage[i]}`} alt='normal_image' />}
+      {projectName === 'CartPole' ? (
+        <div className='cartpole-image-wrapper'>
+          <img src={CartPoleImage} alt='' />
         </div>
-        <div className='image-arrow'>
-          <p>▶</p>
-        </div>
-        <div className='image-after-data'>
-          {preImage && <img src={`data:image/png;base64,${preImage[i]}`} alt='pre_image' />}
-        </div>
-      </div>
-      <div className='image-status-wrapper'>
-        <div className='image-before'>
-          <p>Before</p>
-        </div>
-        <div className='image-after'>
-          <p>After</p>
-        </div>
-      </div>
-      <div className='change-button-wrapper'>
-        <div className='left-button'>
-          <div onClick={decreeseI} style={{'cursor': 'pointer'}}>
-            <p>◀</p>
+      ) : (
+        <div>
+          <div className='image-title-wrapper'>
+            <p>Image A</p>
+          </div>
+          <div className='image-data-wrapper'>
+            <div className='image-before-data'>
+              {normalImage && <img src={`data:image/png;base64,${normalImage[i]}`} alt='normal_image' />}
+            </div>
+            <div className='image-arrow'>
+              <p>▶</p>
+            </div>
+            <div className='image-after-data'>
+              {preImage && <img src={`data:image/png;base64,${preImage[i]}`} alt='pre_image' />}
+            </div>
+          </div>
+          <div className='image-status-wrapper'>
+            <div className='image-before'>
+              <p>Before</p>
+            </div>
+            <div className='image-after'>
+              <p>After</p>
+            </div>
+          </div>
+          <div className='change-button-wrapper'>
+            <div className='left-button'>
+              <div onClick={decreeseI} style={{'cursor': 'pointer'}}>
+                <p>◀</p>
+              </div>
+            </div>
+            <div className='right-button'>
+              <div onClick={increeseI} style={{'cursor': 'pointer'}}>
+                <p>▶</p>
+              </div>
+            </div>
+          </div>
+          <div className='confirm-button-wrapper'>
+            <div onClick={handleClick}>
+              <GradationButton text={'check'} style1={style1} />
+            </div>
           </div>
         </div>
-        <div className='right-button'>
-          <div onClick={increeseI} style={{'cursor': 'pointer'}}>
-            <p>▶</p>
-          </div>
-        </div>
-      </div>
-      <div className='confirm-button-wrapper'>
-        <div onClick={handleClick}>
-          <GradationButton text={'check'} style1={style1} />
-        </div>
-      </div>
+      )}
     </div>
   )
 }
