@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './ProjectShare.css';
 import CIFAR10Tile from '../../assets/images/CIFAR10Tile.png';
 import CIFAR100Tile from '../../assets/images/CIFAR100Tile.png'
@@ -11,7 +11,16 @@ import { useNavigate } from 'react-router-dom';
 
 function ProjectTile({ title, info, style1, style2 }) {
   const { setProjectId } = useContext(UserInfoContext);
+  const [task, setTask] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (title === 'CartPole' || title === 'FlappyBird') {
+      setTask('ReinforcementLearning');
+    } else {
+      setTask('ImageClassification');
+    }
+  }, [title]);
 
   let imageSrc, altText;
   switch (title) {
@@ -47,7 +56,7 @@ function ProjectTile({ title, info, style1, style2 }) {
   const handleNav = () => {
     setProjectId(title);
     sessionStorage.setItem('projectId', JSON.stringify(title));
-    navigate(`/community/${title}`);
+    navigate(`/community/${task}/${title}`);
   }
 
   return (

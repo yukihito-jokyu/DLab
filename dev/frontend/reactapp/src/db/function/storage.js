@@ -4,12 +4,11 @@ import { saveAs } from "file-saver";
 import { storage } from "../firebase"
 
 
-// 画像の取得
 const getImage = async (path) => {
   const imagePath = await listFilesInDirectory(path);
-  console.log(imagePath.items.length)
-  if (imagePath.items.length !== 0) {
-    const imageRef = ref(storage, `${path}/${imagePath.items[0].name}`);
+  console.log(imagePath.length);
+  if (imagePath.length !== 0) { // ここを修正
+    const imageRef = ref(storage, `${path}/${imagePath[0].name}`); // ここも修正
     try {
       const url = await getDownloadURL(imageRef);
       return url;
@@ -21,12 +20,12 @@ const getImage = async (path) => {
   return null;
 };
 
-// ディレクトリ内の全てのファイル名を取得
 const listFilesInDirectory = async (path) => {
   const directoryRef = ref(getStorage(), path);
   try {
     const result = await listAll(directoryRef);
-    return result; // Array of file references
+    console.log("Files in directory:", result.items);
+    return result.items;
   } catch (error) {
     console.error("Error listing files:", error);
     return [];
@@ -61,9 +60,9 @@ const uploadUserImage = async (userId, imageFile, imageType) => {
 const createZipFromDirectory = async (directoryPath) => {
   const storage = getStorage();
   const directoryRef = ref(storage, directoryPath);
-  
+
   const zip = new JSZip();
-  
+
   try {
     const result = await listAll(directoryRef);
     const downloadPromises = result.items.map(async (itemRef) => {
@@ -72,9 +71,9 @@ const createZipFromDirectory = async (directoryPath) => {
       const blob = await response.blob();
       zip.file(itemRef.name, blob);
     });
-    
+
     await Promise.all(downloadPromises);
-    
+
     // ZIPファイルを生成してBlobとして返す
     const content = await zip.generateAsync({ type: 'blob' });
     return content;
@@ -94,7 +93,7 @@ const combineZipsIntoOne = async (childZipBlobs, models) => {
       const childZipBlob = childZipBlobs[i];
       parentZip.file(`${models[i].model_name}.zip`, childZipBlob);
     }
-    
+
     // 親ZIPファイルを生成してBlobとして返す
     const content = await parentZip.generateAsync({ type: 'blob' });
     return content;

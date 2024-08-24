@@ -14,3 +14,7 @@
   overflow: hidden;
   cursor: pointer;
 }
+
+.default-icon-background {
+  background: linear-gradient(91.27deg, #C49EFF 0.37%, #47A1FF 99.56%);
+}

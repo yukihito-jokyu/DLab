@@ -98,7 +98,7 @@ function ModelField() {
       body: JSON.stringify(sentData),
     });
     const result = await response.json();
-    console.log(result);
+    // console.log(result);
   };
 
   // モデル削除モーダルの表示非表示

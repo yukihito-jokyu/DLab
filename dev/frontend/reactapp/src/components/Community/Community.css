@@ -75,6 +75,10 @@
   border-bottom: none;
 }
 
+.project-header-item.reinforcement {
+  width: 33%;
+}
+
 .project-header-item p {
   font-size: 30px;
   font-weight: 600;
