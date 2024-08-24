@@ -10,15 +10,22 @@ function UserIcon() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedImage = sessionStorage.getItem(`userImage_${userId}`);
-    if (storedImage) {
-      setUserImage(storedImage);
-    } else {
-      const fetchUserImage = async () => {
+    const fetchUserImage = async () => {
+      const storedImage = sessionStorage.getItem(`userImage_${userId}`);
+      if (storedImage) {
+        setUserImage(storedImage);
+      } else {
         const url = await getImage(`images/${userId}`);
-        setUserImage(url);
-        sessionStorage.setItem(`userImage_${userId}`, url);
-      };
+        if (url) {
+          setUserImage(url);
+          sessionStorage.setItem(`userImage_${userId}`, url);
+        } else {
+          console.log('No image found or failed to fetch image.');
+        }
+      }
+    };
+
+    if (userId) {
       fetchUserImage();
     }
   }, [userId]);
