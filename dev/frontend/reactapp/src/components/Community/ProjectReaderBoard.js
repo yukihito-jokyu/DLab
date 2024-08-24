@@ -14,7 +14,7 @@ function ProjectReaderBoard() {
   const [filteredReaderBoard, setFilteredReaderBoard] = useState([]);
   const targetRef = useRef(null);
   const userId = JSON.parse(sessionStorage.getItem('userId'));
-  const { projectName } = useParams();
+  const { projectName, task } = useParams();
 
   useEffect(() => {
     const fetchReaderBoard = async () => {
@@ -79,7 +79,7 @@ function ProjectReaderBoard() {
           <p>User Name</p>
         </div>
         <div className='reader-board-eval'>
-          <p>Accuracy</p>
+          {task === 'ImageClassification' ? <p>Accuracy</p> : <p>Reward</p>}
         </div>
       </div>
       <div className='reader-board-field'>
