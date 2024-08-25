@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react'
 import './ModelCreateTrain.css'
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
-import { socket } from '../../socket/socket';
-import { useParams } from 'react-router-dom';
 
 function VisTrainModal({ changeVisTrainModal, image, epoch }) {
-  const { modelId } = useParams();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {

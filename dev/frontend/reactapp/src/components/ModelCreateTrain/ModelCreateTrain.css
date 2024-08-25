@@ -9,6 +9,44 @@
     , #FFFFFF;
 }
 
+/* InputTile */
+.input-tile-wrapper {
+  display: flex;
+  width: 350px;
+  height: 80px;
+  background-color: #AEAEAE;
+  border-radius: 10px;
+}
+
+.tile-title-wrapper {
+  height: 100%;
+  margin-left: 20px;
+}
+
+.tile-title {
+  color: white;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.tile-title::first-letter {
+  font-size: 50px;
+}
+
+.output-dim-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.output-dim-wrapper p {
+  position: absolute;
+  font-size: 25px;
+  color: white;
+  font-weight: 500;
+  bottom: 0px;
+  right: 15px;
+}
+
 /* ScreenField */
 
 .screen-field-wrapper {

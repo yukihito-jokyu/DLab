@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import './ProjectShare.css';
 
 function ProjectShareHeader({ handleClickImage, handleClickReinforcement, image, reinforcement, joinProject, handleJoin }) {

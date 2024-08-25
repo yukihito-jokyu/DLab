@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './ImageClassificationProjectList.css'
 import ImageProjectIcon from './ImageProjectIcon'
 import ImageProjectAdd from './ImageProjectAdd'
 import BorderGradationBox from '../../uiParts/component/BorderGradationBox'
-import { UserInfoContext } from '../../App'
 import { getJoinProject } from '../../db/function/users'
 
 
 function ImageProjectField() {
-  // const { userId } = useContext(UserInfoContext);
   const [participationProjects, setParticipationProjects] = useState(null);
   const style1 = {
     margin: '0px 40px 40px 0',

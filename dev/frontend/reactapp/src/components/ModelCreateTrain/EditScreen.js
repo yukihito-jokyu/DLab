@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './ModelCreateTrain.css';
 import InputField from './InputField';
 import OutputField from './OutputField';
@@ -8,8 +8,6 @@ import FlattenField from './FlattenField';
 import TileAddModal from './TileAddModal';
 import { v4 as uuidv4 } from 'uuid';
 import ErrorModal from './ErrorModal';
-import InfoModal from './InfoModal';
-import TileBox from './Tile/TileBox';
 
 function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLayer, outputLayer, setConvLayer, setMiddleLayer, setParameterSet, setLayerType, setSelectedIndex, setParam, inputShape, convShape, flattenShape, middleShape, outputShape }) {
   const [convAdd, setConvAdd] = useState(false);
@@ -143,7 +141,6 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
         setLayerType={setLayerType}
         shape={inputShape}
       />
-      {/* <TileBox /> */}
       {convLayer && <ConvField
         convLayer={convLayer}
         setConvLayer={setConvLayer}
@@ -151,7 +148,6 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
         handleModal={handleConvModal}
         handleDeleteConvTile={handleDeleteConvTile}
         setParameter={setParameter}
-        setParameterSet={setParameterSet}
         setLayerType={setLayerType}
         setSelectedIndex={setSelectedIndex}
         convShape={convShape}
@@ -168,7 +164,6 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
         handleModal={handleMiddleModal}
         handleDeleteMiddleTile={handleDeleteMiddleTile}
         setParameter={setParameter}
-        setParameterSet={setParameterSet}
         setLayerType={setLayerType}
         setSelectedIndex={setSelectedIndex}
         middleShape={middleShape}
@@ -193,7 +188,6 @@ function EditScreen({ setParameter, inputLayer, convLayer, flattenWay, middleLay
         filedName={errorField}
         tileName={errorTile}
       />}
-      {/* <InfoModal /> */}
     </div>
   )
 }

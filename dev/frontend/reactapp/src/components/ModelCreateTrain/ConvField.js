@@ -3,7 +3,6 @@ import './ModelCreateTrain.css';
 import MiddleTileField from './MiddleTileField';
 import { ReactComponent as TileAdd } from '../../assets/svg/tile_add.svg'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { provider } from '../../db/firebase';
 
 function ConvField({ convLayer, setConvLayer, setNowIndex, handleModal, handleDeleteConvTile, setParameter, setParameterSet, setLayerType, setSelectedIndex, convShape }) {
   const handleAddTile = () => {
@@ -64,13 +63,11 @@ function ConvField({ convLayer, setConvLayer, setNowIndex, handleModal, handleDe
                           key={index}
                           tileName={conv.layer_type}
                           layer={conv}
-                          setLayer={setConvLayer}
                           index={index}
                           setNowIndex={setNowIndex}
                           handleModal={handleModal}
                           handleDeleteTile={handleDeleteConvTile}
                           setParameter={setParameter}
-                          setParameterSet={setParameterSet}
                           setLayerType={setLayerType}
                           setSelectedIndex={setSelectedIndex}
                           shape={convShape[index]}
@@ -86,10 +83,6 @@ function ConvField({ convLayer, setConvLayer, setNowIndex, handleModal, handleDe
           </Droppable>
         </div>
       </DragDropContext>
-      {/* {convLayer.map((conv, index) => (
-        <MiddleTileField key={index} tileName={conv.layer_type} layer={convLayer} setLayer={setConvLayer} index={index} setNowIndex={setNowIndex} handleModal={handleModal} handleDeleteTile={handleDeleteConvTile} />
-        // console.log(index)
-      ))} */}
     </div>
   )
 }

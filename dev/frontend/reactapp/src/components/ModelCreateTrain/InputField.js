@@ -1,6 +1,5 @@
 import React from 'react';
 import './ModelCreateTrain.css';
-import InputTile from './Tile/InputTile';
 import Tile from './Tile/Tile';
 
 function InputField({ inputLayer, setLayerType, shape }) {

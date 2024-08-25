@@ -1,23 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './Top.css'
 import GradationButton from '../../uiParts/component/GradationButton';
-import { UserInfoContext } from '../../App';
-import { auth } from '../../db/firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useNavigate } from 'react-router-dom';
-import { signInWithGoogle } from '../../db/function/users';
 
 function UpDatesRecommend({ setFirstSignIn }) {
-  // const { setUserId, setFirstSignIn } = useContext(UserInfoContext);
-  const [user] = useAuthState(auth);
-  const navigate = useNavigate();
-  const handleSignIn = () => {
-    if (user) {
-      navigate('/testfirebase');
-    } else {
-      signInWithGoogle(setFirstSignIn);
-    }
-  };
   return (
     <div className='update-wrapper'>
       <div className='update-title'>
@@ -27,14 +12,10 @@ function UpDatesRecommend({ setFirstSignIn }) {
         <p>今後のサービス向上のために何かご要望等ございましたら</p>
         <p>下記フォームへご要望下さい</p>
       </div>
-      <div className='update-button' onClick={handleSignIn} style={{ cursor: 'pointer' }}>
-        <GradationButton />
+      <div className='update-button' style={{ cursor: 'pointer' }}>
+        <GradationButton text={'form'} />
       </div>
       <div className='update-list'>
-        <div className='update-tile'></div>
-        <div className='update-tile'></div>
-        <div className='update-tile'></div>
-        <div className='update-tile'></div>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './ModelCreateTrain.css';
-import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
 
 function ErrorModal({ handleErrorModal, filedName, tileName }) {
@@ -35,9 +34,7 @@ function ErrorModal({ handleErrorModal, filedName, tileName }) {
 
   return (
     <div>
-      {/* バックグラウンドにアニメーションを適用 */}
       <div className='error-modal-wrapper' style={backgroundStyle}></div>
-      {/* モーダルにアニメーションを適用 */}
       <div className='error-field-wrapper' style={modalStyle}>
         <div className='modal-title'>
           <p>不正な操作</p>

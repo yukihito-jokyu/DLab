@@ -10,7 +10,7 @@ function RLRequestIcon() {
     <div className='rl-request-icon-wrapper'>
       <div className='request-wrapper'>
         <p className='request'>Comming soon ...</p>
-        <div className='button-wrapper'>
+        <div className='button-wrapper2'>
           <GradationButton text={'Request'} style1={style1} />
         </div>
       </div>
