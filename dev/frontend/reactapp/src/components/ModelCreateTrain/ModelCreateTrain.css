@@ -290,7 +290,7 @@
 }
 
 .image-title-wrapper p {
-  font-size: 25px;
+  font-size: 35px;
   font-weight: 600;
   color: #828282;
 }
@@ -540,13 +540,23 @@
   height: 200px;
 }
 
+.epoch-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  font-size: 30px;
+  font-weight: 600;
+}
+
 .vis-image-modal-field {
   height: 600px;
   width: 1000px;
 }
 
 .vis-train-modal-field {
-  height: 600px;
+  height: 650px;
   width: 800px;
 }
 
@@ -559,7 +569,7 @@
 }
 
 .vis-image-images-wrapper {
-  margin-top: 57px;
+  margin-top: 27px;
   width: 100%;
   display: flex;
   justify-content: center;

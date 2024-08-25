@@ -204,7 +204,7 @@ def train_cartpole(config, socketio):
         emit('train_cortpole_results'+model_id, epoch_result)
 
         # 検証
-        if episode % 50 == 0:
+        if episode % 50 == 1:
             print(f'検証: {episode}')
             image_list = []
             with torch.no_grad():

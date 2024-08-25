@@ -5,7 +5,7 @@ import GradationFonts from '../../uiParts/component/GradationFonts';
 import { socket } from '../../socket/socket';
 import { useParams } from 'react-router-dom';
 
-function VisTrainModal({ changeVisTrainModal, image }) {
+function VisTrainModal({ changeVisTrainModal, image, epoch }) {
   const { modelId } = useParams();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -40,8 +40,11 @@ function VisTrainModal({ changeVisTrainModal, image }) {
               <div className='gradation-border2-wrapper'>
                 <div className='gradation-border2'></div>
               </div>
+              <div className='epoch-wrapper'>
+                {epoch && <p>{epoch} epoch</p>}
+              </div>
               <div className='vis-train-images-wrapper'>
-                <img src={`data:image/png;base64,${image}`} alt='test_image' />
+                {image && <img src={`data:image/png;base64,${image}`} alt='test_image' />}
               </div>
               <div className='vis-image-modal-delet-button-field' onClick={handleClose}>
                 <DeletIcon className='vis-delet-svg' />

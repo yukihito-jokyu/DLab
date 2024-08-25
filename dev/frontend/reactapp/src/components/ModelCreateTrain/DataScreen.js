@@ -11,6 +11,7 @@ function DataScreen() {
   const [normalImage, setNormalImage] = useState(null);
   const [preImage, setPreImage] = useState(null);
   const [imageLength, setImageLength] = useState(0);
+  const [labels, setLabels] = useState([]);
   const style1 = {
     width: '200px',
     background: 'linear-gradient(95.34deg, #B6F862 3.35%, #00957A 100%), linear-gradient(94.22deg, #D997FF 0.86%, #50BCFF 105.96%)'
@@ -32,6 +33,7 @@ function DataScreen() {
       const result = await response.json();
       setNormalImage(result.images);
       setPreImage(result.pre_images);
+      setLabels(result.label_list)
       setImageLength(result.images.length)
       console.log(result);
       console.log(result.images.length);
@@ -62,7 +64,7 @@ function DataScreen() {
       ) : (
         <div>
           <div className='image-title-wrapper'>
-            <p>Image A</p>
+            {labels && <p>{labels[i]}</p>}
           </div>
           <div className='image-data-wrapper'>
             <div className='image-before-data'>
