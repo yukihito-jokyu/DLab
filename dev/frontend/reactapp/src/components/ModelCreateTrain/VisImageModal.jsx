@@ -1,22 +1,43 @@
-import React, { useEffect, useState } from 'react'
-import './ModelCreateTrain.css'
+import React, { useEffect, useState } from 'react';
+import './ModelCreateTrain.css';
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
 import { ReactComponent as EastIcon } from '../../assets/svg/east_24.svg';
 
-
 function VisImageModal({ changeVisImageModal, image, label, preLabel }) {
-  console.log(image)
+  console.log(image);
 
   const [isVisible, setIsVisible] = useState(false);
+  const [opacity, setOpacity] = useState(0.8);
+  const isMatch = label === preLabel;
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
+  useEffect(() => {
+    setOpacity(0.8);
+    const timeout = setTimeout(() => {
+      setOpacity(0);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [label, preLabel]);
+
   const modalStyle = {
     opacity: isVisible ? 1 : 0,
     transition: 'opacity 0.5s ease, transform 0.3s ease',
+  };
+
+  const indicatorStyle = {
+    fontSize: '500px',
+    color: isMatch ? '#FF0000' : '#128DF2',
+    opacity: opacity,
+    transition: 'opacity 1s ease',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
   };
 
   const handleClose = () => {
@@ -33,6 +54,9 @@ function VisImageModal({ changeVisImageModal, image, label, preLabel }) {
         <div className='gradation-border' style={modalStyle}>
           <div className='gradation-wrapper'>
             <div className='vis-image-modal-field'>
+              <p style={indicatorStyle}>
+                {isMatch ? '○' : '✕'}
+              </p>
               <div className='modal-title'>
                 <GradationFonts text={"画像分類結果"} style={{ fontSize: "30px", fontWeight: 600 }} />
               </div>
@@ -45,8 +69,6 @@ function VisImageModal({ changeVisImageModal, image, label, preLabel }) {
                     <p>{label}</p>
                   </div>
                   <img src={`data:image/png;base64,${image}`} alt='test_image' />
-                  
-                  
                 </div>
                 <div className='svg-wrapper'>
                   <EastIcon className='east-svg' />
@@ -55,9 +77,6 @@ function VisImageModal({ changeVisImageModal, image, label, preLabel }) {
                   <p>{preLabel}</p>
                 </div>
               </div>
-
-
-
               <div className='vis-image-modal-delet-button-field' onClick={handleClose}>
                 <DeletIcon className='vis-delet-svg' />
               </div>
@@ -66,7 +85,7 @@ function VisImageModal({ changeVisImageModal, image, label, preLabel }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default VisImageModal;

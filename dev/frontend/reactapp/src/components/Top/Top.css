@@ -24,6 +24,7 @@
   margin-top: 65px;
   padding: 10px 60px;
 }
+
 .exp-left {
   position: relative;
 }
@@ -48,6 +49,8 @@
 .exp-right .DL-image {
   width: 600px;
   height: 550px;
+  margin-left: 200px;
+  margin-top: 50px;
 }
 
 /* Recommend */
@@ -114,7 +117,7 @@
 .classification-wrapper {
   margin-top: 50px;
   display: flex;
-  
+
 }
 
 .project-info-wrapper {
