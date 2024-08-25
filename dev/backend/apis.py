@@ -30,9 +30,10 @@ def setup_apis(app):
     def pre_data():
         data = request.get_json()
         print(data)
-        images, pre_images = get_images(data)
+        images, pre_images, label_list = get_images(data)
         sent_data = {
             'images': images,
-            'pre_images': pre_images
+            'pre_images': pre_images,
+            'label_list': label_list
         }
         return jsonify(sent_data)

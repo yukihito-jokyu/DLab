@@ -45,14 +45,14 @@
   font-weight: 900;
 }
 
-.project-request-wrapper .request-left .button-wrapper {
+.project-request-wrapper .request-left .button-wrapper-req {
   position: absolute;
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
 }
 
-.project-request-wrapper .request-left .button-wrapper .button {
+.project-request-wrapper .request-left .button-wrapper-req .button {
   width: 100%;
   display: flex;
   justify-content: center;

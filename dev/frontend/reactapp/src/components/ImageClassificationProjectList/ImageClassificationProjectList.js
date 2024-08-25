@@ -29,9 +29,6 @@ function ImageClassificationProjectList() {
         usericoncomponent={UserIcon}
       />
       <ContentsBackground children={ImageProjectField} />
-      {/* <div className='create-background-field'>
-        <CreateBackground />
-      </div> */}
     </div>
   )
 }

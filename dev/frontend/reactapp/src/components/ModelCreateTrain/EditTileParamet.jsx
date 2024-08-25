@@ -4,7 +4,6 @@ import { getOriginShape } from '../../db/function/model_structure';
 import { useParams } from 'react-router-dom';
 
 function EditTileParamet({ name, value, handleChangeParameter }) {
-  // console.log(typeof(value))
   const [selectedValue, setSelectedValue] = useState('');
   const [floatValue, setFloatValue] = useState('');
   const [originShape, setOriginShape] = useState('');
@@ -14,9 +13,7 @@ function EditTileParamet({ name, value, handleChangeParameter }) {
     const fatchOriginImageShape = async () => {
       
       const shape = await getOriginShape(modelId);
-      // console.log(typeof(shape))
       setOriginShape(shape);
-      // setOriginShape('5');
     };
     fatchOriginImageShape();
   }, [modelId]);

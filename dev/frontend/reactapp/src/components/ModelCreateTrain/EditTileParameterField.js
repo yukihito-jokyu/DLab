@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './ModelCreateTrain.css';
 import EditTileParamet from './EditTileParamet';
-import { v4 as uuidv4 } from 'uuid';
-import InputLayer from '../Image/InputLayer';
 import { ReactComponent as InfoIcon } from '../../assets/svg/info_24.svg';
 import { getOriginShape } from '../../db/function/model_structure';
 import { useParams } from 'react-router-dom';

@@ -1,8 +1,4 @@
-import React, { useContext } from 'react'
 import './ImageClassificationProjectList.css'
-import ImageProjectImages from './ImageProjectImages'
-import { ReactComponent as EditSVG } from '../../assets/svg/edit.svg';
-import { UserInfoContext } from '../../App'
 import { useNavigate } from 'react-router-dom'
 import CIFAR10Image1 from '../../assets/images/project_image/CIFAR10/CIFAR10_image1.png';
 import CIFAR10Image2 from '../../assets/images/project_image/CIFAR10/CIFAR10_image2.png';
@@ -18,7 +14,6 @@ import MNISTImage2 from '../../assets/images/project_image/MNIST/MNIST_image2.pn
 import MNISTImage3 from '../../assets/images/project_image/MNIST/MNIST_image3.png';
 
 function ImageProjectIcon({ projectName }) {
-  // const { setProjectId } = useContext(UserInfoContext);
   const userId = JSON.parse(sessionStorage.getItem('userId'));
   const navigate = useNavigate();
   const handleNav = (projectName) => {
@@ -51,9 +46,6 @@ function ImageProjectIcon({ projectName }) {
           <div className='projecttitle-wrapper'>
             <p>{projectName}</p>
           </div>
-          {/* <div className='rename-icon'>
-            <EditSVG className='edit-svg' />
-          </div> */}
         </div>
         <div className='projecttitle-line'></div>
       </div>

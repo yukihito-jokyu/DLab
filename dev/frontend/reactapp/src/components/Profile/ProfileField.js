@@ -7,7 +7,7 @@ import { ReactComponent as CheckSVG } from '../../assets/svg/check_24.svg';
 import GradationButton from '../../uiParts/component/GradationButton';
 import AlertModal from '../utils/AlertModal';
 import ImageUploadModal from './ImageUploadModal';
-import { getImage, listFilesInDirectory } from '../../db/function/storage';
+import { getImage } from '../../db/function/storage';
 import { getUserRank } from '../../db/function/reader_bord';
 
 function ProfileField() {

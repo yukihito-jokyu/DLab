@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react'
 import './ModelCreateTrain.css'
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
-import { socket } from '../../socket/socket';
-import { useParams } from 'react-router-dom';
 
-function VisTrainModal({ changeVisTrainModal, image }) {
-  const { modelId } = useParams();
+function VisTrainModal({ changeVisTrainModal, image, epoch }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -40,8 +37,11 @@ function VisTrainModal({ changeVisTrainModal, image }) {
               <div className='gradation-border2-wrapper'>
                 <div className='gradation-border2'></div>
               </div>
+              <div className='epoch-wrapper'>
+                {epoch && <p>{epoch} epoch</p>}
+              </div>
               <div className='vis-train-images-wrapper'>
-                <img src={`data:image/png;base64,${image}`} alt='test_image' />
+                {image && <img src={`data:image/png;base64,${image}`} alt='test_image' />}
               </div>
               <div className='vis-image-modal-delet-button-field' onClick={handleClose}>
                 <DeletIcon className='vis-delet-svg' />

@@ -83,20 +83,7 @@ function Community() {
   // プロジェクト参加関数
   const handleJoin = async () => {
     await updateJoinProject(userId, projectName);
-    const sentData = {
-      "user_id": userId,
-      "project_name": projectName
-    }
-    const response = await fetch('http://127.0.0.1:5000/mkdir/project', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(sentData),
-    });
-    console.log(response);
     setJoinConfirmationModal(true);
-
   };
   const handleNav = () => {
     setJoinConfirmationModal(false);
@@ -109,7 +96,6 @@ function Community() {
     const fatchProjects = async () => {
       const projectsInfo = await getProjectDetailedInfo(projectName);
       if (projectsInfo) {
-        // setProjectName(projectsInfo.name);
         setShortExp(projectsInfo.short_explanation);
         setSourceLink(projectsInfo.source_link);
         setSummary(projectsInfo.summary);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './ModelCreateTrain.css';
 import NuronTile from './Tile/NuronTile';
 import { ReactComponent as TileAdd } from '../../assets/svg/tile_add.svg'
@@ -7,7 +7,7 @@ import Tile from './Tile/Tile';
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import TileBox from './Tile/TileBox';
 
-function MiddleTileField({ tileName, layer, setLayer, index, setNowIndex, handleModal, handleDeleteTile, setParameter, setParameterSet, setLayerType, setSelectedIndex, shape, snapshot }) {
+function MiddleTileField({ tileName, layer, index, setNowIndex, handleModal, handleDeleteTile, setParameter, setLayerType, setSelectedIndex, shape, snapshot }) {
   const handleAddTile = () => {
     setNowIndex(index + 1);
     handleModal();
@@ -16,7 +16,6 @@ function MiddleTileField({ tileName, layer, setLayer, index, setNowIndex, handle
     setParameter(layer);
     setLayerType(layer.type);
     setSelectedIndex(index);
-    // setParameterSet(setLayer);
   };
   return (
     <div className='over-wrapper'>

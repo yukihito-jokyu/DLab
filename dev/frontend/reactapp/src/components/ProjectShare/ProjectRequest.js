@@ -14,7 +14,7 @@ function ProjectRequest() {
         <p className='title'>Projects</p>
         <p className='info-1'>DeepLearningに用いるデータセットを</p>
         <p className='info-2'>このページからインポートすることができます。</p>
-        <div className='button-wrapper'>
+        <div className='button-wrapper-req'>
           <div className='button'>
             <GradationButton text={'Request Project'} style1={style1} />
           </div>

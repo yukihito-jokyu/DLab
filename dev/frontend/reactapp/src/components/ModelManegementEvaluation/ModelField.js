@@ -4,14 +4,13 @@ import ModelFieldHeader from './ModelFieldHeader';
 import ModelTile from './ModelTile';
 import ModelCreateButton from './ModelCreateButton';
 import DLButton from './DLButton';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { deleteModels } from '../../db/function/model_management';
 import ModelCreateField from './ModelCreateField';
 import AlertModal from '../utils/AlertModal';
-import { sendEmailVerification } from 'firebase/auth';
 import { getModelId } from '../../db/function/model_management';
 import { saveAs } from 'file-saver';
-import { combineZipsIntoOne, createZipFromDirectory, deleteFilesInDirectory, downloadDirectory, testDownload } from '../../db/function/storage';
+import { combineZipsIntoOne, createZipFromDirectory, deleteFilesInDirectory } from '../../db/function/storage';
 
 function ModelField() {
   const [models, setModels] = useState([]);
@@ -25,7 +24,6 @@ function ModelField() {
   const [sameModelName, setSameModelName] = useState(false);
   const userId = JSON.parse(sessionStorage.getItem('userId'));
   const { projectName } = useParams();
-  // console.log(projectName)
   useEffect(() => {
     const fetchProjects = async () => {
       const dataList = await getModelId(userId, projectName);
@@ -83,22 +81,6 @@ function ModelField() {
     await Promise.all(deletePromises);
     const remainingModels = models.filter(model => !model.isChecked);
     setModels(remainingModels);
-    const modelIdList = checkedModels
-      .map(item => item.model_id);
-    const sentData = {
-      user_id: userId,
-      Project_name: projectName,
-      model_id_list: modelIdList
-    }
-    const response = await fetch('http://127.0.0.1:5000/del_dir/model', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(sentData),
-    });
-    const result = await response.json();
-    // console.log(result);
   };
 
   // モデル削除モーダルの表示非表示
@@ -150,7 +132,6 @@ function ModelField() {
   const handleDownloadZip = async () => {
     const checkedModels = models.filter(model => model.isChecked);
     const downloadModels = checkedModels.filter(model => model.status === 'done');
-    // console.log(downloadModels)
     try {
       const zipPromises = downloadModels.map(model => createZipFromDirectory(`user/${userId}/${projectName}/${model.model_id}`));
 

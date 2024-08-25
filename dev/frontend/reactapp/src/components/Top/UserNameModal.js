@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import { UserInfoContext } from '../../App';
+import React, {  useState } from 'react';
 import { registName, searchUserName } from '../../db/function/users';
 import './Top.css';
 import GradationButton from '../../uiParts/component/GradationButton';
@@ -8,7 +7,7 @@ import GradationFonts from '../../uiParts/component/GradationFonts';
 function UserNameModal({ setFirstSignIn, setSameName }) {
   const [name, setName] = useState("");
   const userId = JSON.parse(sessionStorage.getItem('userId'));
-  // const { userId, setFirstSignIn } = useContext(UserInfoContext);
+
   const handleSetName = async () => {
     const sameName = await searchUserName(name);
     if (sameName) {
@@ -39,16 +38,13 @@ function UserNameModal({ setFirstSignIn, setSameName }) {
               <div className='set-username-field'>
                 <div className='set-username-wapper'>
                   <div className='user-name'>
-                    {/* <p>Project Name</p> */}
                     <GradationFonts text={'ユーザー名'} style={style} />
                   </div>
                   <div className='project-name-field'>
-                    {/* <p>Project Name</p> */}
                     <input type='text' placeholder='ユーザー名を記入' value={name} onChange={handleChange} className='model-name-input' />
                   </div>
                   <div>
                     <div className='projecttitle-line'>
-
                     </div>
                   </div>
                 </div>

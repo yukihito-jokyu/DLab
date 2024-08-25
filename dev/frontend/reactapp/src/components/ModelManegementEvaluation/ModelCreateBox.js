@@ -24,19 +24,6 @@ function ModelCreateBox({ handleCreateModal, setSuccessModelCreate, setSameModel
       setSuccessModelCreate(true);
     }
 
-    // const sentData = {
-    //   "user_id": userId,
-    //   "project_name": projectName,
-    //   "model_id": modelId
-    // }
-    // const response = await fetch('http://127.0.0.1:5000/mkdir/model', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(sentData),
-    // });
-
   };
   const style = {
     fontSize: '23px',
@@ -52,16 +39,13 @@ function ModelCreateBox({ handleCreateModal, setSuccessModelCreate, setSameModel
       <div className='create-name-field'>
         <div className='create-name-wapper'>
           <div className='project-name'>
-            {/* <p>Project Name</p> */}
             <GradationFonts text={text1} style={style} />
           </div>
           <div className='project-name-field'>
-            {/* <p>Project Name</p> */}
             <input type='text' value={modelName} onChange={handleChange} className='model-name-input' />
           </div>
           <div>
             <div className='projecttitle-line'>
-
             </div>
           </div>
         </div>

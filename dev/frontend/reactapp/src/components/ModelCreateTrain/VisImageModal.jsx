@@ -4,9 +4,8 @@ import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
 import { ReactComponent as EastIcon } from '../../assets/svg/east_24.svg';
 
-function VisImageModal({ changeVisImageModal, image, label, preLabel }) {
-  console.log(image);
-
+function VisImageModal({ changeVisImageModal, image, label, preLabel, epoch }) {
+  console.log(epoch)
   const [isVisible, setIsVisible] = useState(false);
   const [opacity, setOpacity] = useState(0.8);
   const isMatch = label === preLabel;
@@ -54,27 +53,31 @@ function VisImageModal({ changeVisImageModal, image, label, preLabel }) {
         <div className='gradation-border' style={modalStyle}>
           <div className='gradation-wrapper'>
             <div className='vis-image-modal-field'>
-              <p style={indicatorStyle}>
+              {image && <p style={indicatorStyle}>
                 {isMatch ? '○' : '✕'}
-              </p>
+              </p>}
               <div className='modal-title'>
                 <GradationFonts text={"画像分類結果"} style={{ fontSize: "30px", fontWeight: 600 }} />
               </div>
               <div className='gradation-border2-wrapper'>
                 <div className='gradation-border2'></div>
               </div>
+              <div className='epoch-wrapper'>
+                  {epoch && <p>{epoch} epoch</p>}
+              </div>
               <div className='vis-image-images-wrapper'>
+                
                 <div className='image-label-wraper'>
                   <div className='label-wrapper'>
                     <p>{label}</p>
                   </div>
-                  <img src={`data:image/png;base64,${image}`} alt='test_image' />
+                  {image && <img src={`data:image/png;base64,${image}`} alt='test_image' />}
                 </div>
                 <div className='svg-wrapper'>
-                  <EastIcon className='east-svg' />
+                  {image && <EastIcon className='east-svg' />}
                 </div>
                 <div className='prelabel-wrapper'>
-                  <p>{preLabel}</p>
+                  {preLabel && <p>{preLabel}</p>}
                 </div>
               </div>
               <div className='vis-image-modal-delet-button-field' onClick={handleClose}>

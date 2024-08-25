@@ -113,7 +113,7 @@ class dataset_imager:
 
 # カスタムデータセット
 class PreDataset(Dataset):
-    def __init__(self, x_train, y_train, transform=None):
+    def __init__(self, x_train, y_train, dataset_name, transform=None):
         data = x_train.astype('float32')
         self.label = y_train
         # self.x_train = data
@@ -136,6 +136,9 @@ class PreDataset(Dataset):
         self.normal_transform = transforms.Compose([
             transforms.ToTensor()
         ])
+        self.dataset_path = f'./dataset/{dataset_name}/'
+        with open(self.dataset_path + 'config.json' , 'r') as f:
+            self.config = json.load(f)
 
     def __len__(self):
         return len(self.x_train)
@@ -143,8 +146,10 @@ class PreDataset(Dataset):
     def __getitem__(self, idx):
         normal_x = self.normal_transform(self.x_train[idx])
         pre_x = self.transform(self.x_train[idx])
+        label_id = self.label[idx]
+        label = self.config['id2label'][str(label_id)]
 
-        return normal_x, pre_x
+        return normal_x, pre_x, label
 
 # 標準化後の画像を[0, 1]に正規化する
 def deprocess(x):
@@ -204,12 +209,14 @@ def get_images(config):
             zca = ZCAWhitening.load(os.path.join(dataset_dir, f"{project_name}_zca.pth"))
             transform_list.append(zca)
         transform = transforms.Compose(transform_list)
-        train_dataset = PreDataset(x_train, y_train, transform)
+        train_dataset = PreDataset(x_train, y_train, project_name, transform)
         train_loader = DataLoader(train_dataset, batch_size=int(1), shuffle=True)
         i = 0
         images = []
         pre_images = []
-        for x, pre in train_loader:
+        label_list = []
+        for x, pre, label in train_loader:
+            label_list.append(label[0])
             numpy_x = x.numpy()
             numpy_x = np.transpose(numpy_x[0], (1, 2, 0))
             numpy_pre = pre.numpy()
@@ -226,7 +233,7 @@ def get_images(config):
             i += 1
             if i == 10:
                 break
-    return images, pre_images
+    return images, pre_images, label_list
 
 
 if __name__ == '__main__':

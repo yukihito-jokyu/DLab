@@ -9,6 +9,44 @@
     , #FFFFFF;
 }
 
+/* InputTile */
+.input-tile-wrapper {
+  display: flex;
+  width: 350px;
+  height: 80px;
+  background-color: #AEAEAE;
+  border-radius: 10px;
+}
+
+.tile-title-wrapper {
+  height: 100%;
+  margin-left: 20px;
+}
+
+.tile-title {
+  color: white;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.tile-title::first-letter {
+  font-size: 50px;
+}
+
+.output-dim-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.output-dim-wrapper p {
+  position: absolute;
+  font-size: 25px;
+  color: white;
+  font-weight: 500;
+  bottom: 0px;
+  right: 15px;
+}
+
 /* ScreenField */
 
 .screen-field-wrapper {
@@ -290,7 +328,7 @@
 }
 
 .image-title-wrapper p {
-  font-size: 25px;
+  font-size: 35px;
   font-weight: 600;
   color: #828282;
 }
@@ -540,13 +578,23 @@
   height: 200px;
 }
 
+.epoch-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  font-size: 30px;
+  font-weight: 600;
+}
+
 .vis-image-modal-field {
   height: 600px;
   width: 1000px;
 }
 
 .vis-train-modal-field {
-  height: 600px;
+  height: 650px;
   width: 800px;
 }
 
@@ -559,7 +607,7 @@
 }
 
 .vis-image-images-wrapper {
-  margin-top: 57px;
+  margin-top: 27px;
   width: 100%;
   display: flex;
   justify-content: center;

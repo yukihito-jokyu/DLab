@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './Top.css'
 import GradationButton from '../../uiParts/component/GradationButton';
 import DLImage from '../../assets/images/DLImage.png';
@@ -6,10 +6,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../db/firebase';
 import { useNavigate } from 'react-router-dom';
 import { signInWithGoogle } from '../../db/function/users';
-import { UserInfoContext } from '../../App';
 
 function Explanation({ setFirstSignIn }) {
-  // const { setUserId, setFirstSignIn } = useContext(UserInfoContext);
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const handleSignIn = () => {
@@ -26,7 +24,7 @@ function Explanation({ setFirstSignIn }) {
           <p className='first-p'>DLab is<br />No code Deep Learning Tool !</p>
           <p className='second-p'>プログラミングの知識に影響されない良い学びにつなぐために<br />視覚的操作によるAIモデルのデザインツールを提案します</p>
         </div>
-        <div className='button-wrapper' onClick={handleSignIn} style={{ cursor: 'pointer' }}>
+        <div className='button-wrapper-top' onClick={handleSignIn} style={{ cursor: 'pointer' }}>
           <GradationButton text={'launch'} />
         </div>
       </div>

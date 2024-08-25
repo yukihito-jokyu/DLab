@@ -38,6 +38,7 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
   const [originImages, setOriginImages] = useState([]);   // 画像分類の学習結果保管場所
   const [labels, setLabels] = useState([]);
   const [preLabels, setPreLabels] = useState([]);
+  const [epoch, setEpoch] = useState();
   const [j, setJ] = useState(0);
   const [i, setI] = useState(0);
 
@@ -188,8 +189,9 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
   // 学習結果の取得
   useEffect(() => {
     const handleSetImage = (response) => {
-      setImages(response.Images)
-      setI(0)
+      setImages(response.Images);
+      setEpoch(response.Epoch);
+      setI(0);
       console.log(response.Images)
     }
 
@@ -198,6 +200,7 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
       setOriginImages(response.Images);
       setLabels(response.Labels);
       setPreLabels(response.PreLabels);
+      setEpoch(response.Epoch);
       setJ(0)
     }
 
@@ -208,6 +211,7 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
       setPreLabels([]);
       setI(0);
       setJ(0);
+      setEpoch();
     }
 
     // イベントの発火
@@ -325,10 +329,10 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
         <InformationModal infoName={infoName} handleDelete={setInfoModal} />
       )}
       {visImageModal && (
-        <VisImageModal changeVisImageModal={changeVisImageModal} image={originImages[j]} label={labels[j]} preLabel={preLabels[j]} />
+        <VisImageModal changeVisImageModal={changeVisImageModal} image={originImages[j]} label={labels[j]} preLabel={preLabels[j]} epoch={epoch} />
       )}
       {visTrainModal && (
-        <VisTrainModal changeVisTrainModal={changeVisTrainModal} image={images[i]} />
+        <VisTrainModal changeVisTrainModal={changeVisTrainModal} image={images[i]} epoch={epoch} />
       )}
     </div>
   )
