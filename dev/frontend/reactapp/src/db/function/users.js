@@ -45,18 +45,6 @@ const initUsers = async () => {
     favorite_user: [],
     join_project: []
   };
-  const sentData = {
-    user_id: user_id
-  };
-  const response = await fetch('http://127.0.0.1:5000/mkdir/user', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(sentData),
-  });
-  console.log(response);
-  // setUserId(user_id);
   sessionStorage.setItem('userId', JSON.stringify(user_id));
   await setDoc(doc(db, "users", user_id), userData);
 };

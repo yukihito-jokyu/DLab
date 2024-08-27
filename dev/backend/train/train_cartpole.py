@@ -226,7 +226,7 @@ def train_cartpole(config, socketio):
             print(len(image_list))
             # emitで画像を渡す
             images_data = {
-                "Epoch": epoch,
+                "Epoch": episode,
                 "Images": image_list
             }
             emit('cartpole_valid'+str(model_id), images_data)
