@@ -106,7 +106,7 @@ def train_flappy(config):
                     image_list.append(img_base64)
             # emitで画像を渡す
             images_data = {
-                "Epoch": epoch,
+                "Epoch": episode,
                 "Images": image_list
             }
             emit('flappy_valid'+str(model_id), images_data)
