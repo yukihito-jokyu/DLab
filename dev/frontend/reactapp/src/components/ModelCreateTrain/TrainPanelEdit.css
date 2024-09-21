@@ -2,12 +2,12 @@
   display: flex;
   width: 550px;
   height: 50px;
-  margin-left: 20px;
+  margin-left: 10px;
   margin-top: 20px;
 }
 
 .train-panel-name-wrapper {
-  width: 240px;
+  width: 320px;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -35,8 +35,10 @@
   right: 15px;
   /* transform: translate(-100%, -100%); */
   position: absolute;
-  border-left: 8px solid transparent; /* 左側のボーダー */
-  border-right: 8px solid transparent; /* 右側のボーダー */
+  border-left: 8px solid transparent;
+  /* 左側のボーダー */
+  border-right: 8px solid transparent;
+  /* 右側のボーダー */
   border-bottom: 16px solid #70B4FF;
   transform: rotate(180deg);
 }
@@ -49,9 +51,11 @@
   text-align-last: center;
   font-size: 20px;
   font-weight: 600;
-  -webkit-appearance: none;  /* Safari and Chrome */
-  -moz-appearance: none;     /* Firefox */
-  appearance: none;  
+  -webkit-appearance: none;
+  /* Safari and Chrome */
+  -moz-appearance: none;
+  /* Firefox */
+  appearance: none;
 }
 
 .train-panel-value-wrapper input {
