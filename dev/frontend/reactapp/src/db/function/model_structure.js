@@ -118,6 +118,7 @@ const initModelStructure = async (modelId, projectId) => {
         hue_factor: 0.0,
         sharpness_factor: 0.0,
         noise_factor: 0.0,
+        shear_angle: 0,
         grayscale_p: 0.0,
         do_flipping: false,
         do_vertical_flipping: false

@@ -65,6 +65,7 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
     'saturation_factor': '彩度係数',
     'hue_factor': '色相係数',
     'sharpness_factor': 'シャープネス係数',
+    'shear_angle': 'せん断角度',
     'noise_factor': 'ノイズ倍率',
     'do_flipping': '水平反転',
     'do_vertical_flipping': '垂直反転',

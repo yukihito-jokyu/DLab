@@ -266,6 +266,16 @@ def create_augmentation_transform(augmentation_params, base_transform):
     if "sharpness_factor" in augmentation_params and augmentation_params["sharpness_factor"] > 0:
         sharpness = augmentation_params["sharpness_factor"]
         augmentation_transforms.append(transforms.RandomAdjustSharpness(sharpness_factor=sharpness, p=0.5))
+        
+    # せん断（shear）
+    if "shear_angle" in augmentation_params and int(augmentation_params["shear_angle"]) > 0:
+        shear_angle = int(augmentation_params["shear_angle"])
+        augmentation_transforms.append(
+            transforms.RandomAffine(
+                degrees=0,
+                shear=shear_angle
+            )
+        )
     
     # ノイズ追加
     if "noise_factor" in augmentation_params and augmentation_params["noise_factor"] > 0:
