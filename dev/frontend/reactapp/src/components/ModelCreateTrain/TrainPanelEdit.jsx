@@ -185,6 +185,15 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
                 <option value="true">True</option>
                 <option value="false">False</option>
               </select>
+            ) : parameter === 'shear_angle' ? (
+              <input
+                type='number'
+                value={inputValue}
+                onChange={(e) => handleNumChange(e, 0, 180)}
+                step='1'
+                min='0'
+                max='180'
+              />
             ) : (
               <input
                 type='text'
