@@ -41,35 +41,35 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
 
   const handleInfoButton = () => {
     setInformation(true);
-    setParamName(paramName[parameter]);
+    setParamName(parameters[parameter]?.name || parameter);
   };
 
-  const paramName = {
+  const parameters = {
     // 学習のパラメータ
-    'batch': 'バッチサイズ',
-    'epoch': '学習回数',
-    'learning_rate': '学習率',
-    'optimizer': '最適化手法',
-    'test_size': '検証データの割合',
-    'buffer': '経験再生バッファ数',
-    'episilon': '探索率',
-    'syns': '同期間隔',
+    'batch': { name: 'バッチサイズ', range: '1 〜 200' },
+    'epoch': { name: '学習回数', range: '1 〜 200' },
+    'learning_rate': { name: '学習率', range: '0 〜 1' },
+    'optimizer': { name: '最適化手法', range: '選択肢に応じた手法' },
+    'test_size': { name: '検証データの割合', range: '0 〜 1' },
+    'buffer': { name: '経験再生バッファ数', range: '0 〜 100000' },
+    'episilon': { name: '探索率', range: '0 〜 1' },
+    'syns': { name: '同期間隔', range: '1 〜 200' },
     // データ拡張
-    'rotation_degrees': '回転角度',
-    'vertical_translation_factor': '上下平行移動係数',
-    'horizontal_translation_factor': '左右平行移動係数',
-    'scaling_factor': 'スケーリング係数',
-    'zoom_factor': 'ズーム係数',
-    'brightness_factor': '明るさ係数',
-    'contrast_factor': 'コントラスト係数',
-    'saturation_factor': '彩度係数',
-    'hue_factor': '色相係数',
-    'sharpness_factor': 'シャープネス係数',
-    'shear_angle': 'せん断角度',
-    'noise_factor': 'ノイズ倍率',
-    'do_flipping': '水平反転',
-    'do_vertical_flipping': '垂直反転',
-    'grayscale_p': 'グレースケール適用確率'
+    'rotation_degrees': { name: '回転角度', range: '0 〜 180' },
+    'vertical_translation_factor': { name: '上下平行移動係数', range: '0 〜 1' },
+    'horizontal_translation_factor': { name: '左右平行移動係数', range: '0 〜 1' },
+    'scaling_factor': { name: 'スケーリング係数', range: '0 〜 1' },
+    'zoom_factor': { name: 'ズーム係数', range: '0 〜 1' },
+    'brightness_factor': { name: '明るさ係数', range: '0 〜 1' },
+    'contrast_factor': { name: 'コントラスト係数', range: '0 〜 1' },
+    'saturation_factor': { name: '彩度係数', range: '0 〜 1' },
+    'hue_factor': { name: '色相係数', range: '0 〜 1' },
+    'sharpness_factor': { name: 'シャープネス係数', range: '0 〜 1' },
+    'shear_angle': { name: 'せん断角度', range: '0 〜 180' },
+    'noise_factor': { name: 'ノイズ倍率', range: '0 〜 1' },
+    'do_flipping': { name: '水平反転', range: 'True または False' },
+    'do_vertical_flipping': { name: '垂直反転', range: 'True または False' },
+    'grayscale_p': { name: 'グレースケール適用確率', range: '0 〜 1' }
   };
 
   return (
@@ -77,12 +77,19 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
       {parameter !== 'image_shape' ? (
         <div className='train-panel-edit-wrapper'>
           <div className='param-information-button'>
-            <div className='button-wrapper' onClick={handleInfoButton} style={{ cursor: 'pointer' }}>
+            <div
+              className='button-wrapper'
+              onClick={handleInfoButton}
+              style={{ cursor: 'pointer' }}
+            >
               <InfoIcon className='info-icon' />
+              <div className='tooltip'>
+                {parameters[parameter]?.range || '範囲情報がありません'}
+              </div>
             </div>
           </div>
           <div className='train-panel-name-wrapper'>
-            <p>{paramName[parameter]}</p>
+            <p>{parameters[parameter]?.name || parameter}</p>
           </div>
           <div className='train-panel-value-wrapper'>
             {parameter === 'loss' ? (
@@ -129,9 +136,9 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
               <input
                 type='number'
                 value={inputValue}
-                onChange={(e) => handleNumChange(e, 0, 360)}
+                onChange={(e) => handleNumChange(e, 0, 180)}
                 min='0'
-                max='360'
+                max='180'
               />
             ) : parameter === 'vertical_translation_factor' ? (
               <input

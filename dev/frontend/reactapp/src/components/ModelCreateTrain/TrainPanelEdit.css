@@ -69,3 +69,29 @@
   border: none;
   outline: none;
 }
+
+.button-wrapper {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  top: 50%;
+  left: 120%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, left 0.3s ease;
+}
+
+.button-wrapper:hover .tooltip {
+  opacity: 1;
+  left: 120%;
+}
