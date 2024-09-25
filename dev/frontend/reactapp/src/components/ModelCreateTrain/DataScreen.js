@@ -16,6 +16,7 @@ function DataScreen() {
     width: '200px',
     background: 'linear-gradient(95.34deg, #B6F862 3.35%, #00957A 100%), linear-gradient(94.22deg, #D997FF 0.86%, #50BCFF 105.96%)'
   };
+
   const handleClick = async () => {
     try {
       const InputInfo = await getModelInput(modelId);
@@ -41,6 +42,7 @@ function DataScreen() {
       console.error('Error fetching data:', error);
     }
   }
+
   const increeseI = () => {
     let nextI = i - 1;
     if (nextI === -1) {
@@ -48,6 +50,7 @@ function DataScreen() {
     }
     setI(nextI)
   }
+
   const decreeseI = () => {
     let nextI = i + 1;
     if (nextI === imageLength) {
@@ -55,16 +58,17 @@ function DataScreen() {
     }
     setI(nextI);
   }
+
   return (
     <div className='data-screen-wrapper'>
       {projectName === 'CartPole' ? (
         <div className='cartpole-image-wrapper'>
-          <img src={CartPoleImage} alt='' />
+          <img src={CartPoleImage} alt='CartPole' />
         </div>
       ) : (
         <div>
           <div className='image-title-wrapper'>
-            {labels && <p>{labels[i]}</p>}
+            {labels && labels[i] ? <p>{labels[i]}</p> : <p>Target</p>}
           </div>
           <div className='image-data-wrapper'>
             <div className='image-before-data'>
@@ -78,28 +82,24 @@ function DataScreen() {
             </div>
           </div>
           <div className='image-status-wrapper'>
-            <div className='image-before'>
-              <p>Before</p>
-            </div>
-            <div className='image-after'>
-              <p>After</p>
-            </div>
+            <div className='image-before'><p>Before</p></div>
+            <div className='image-after'><p>After</p></div>
           </div>
-          <div className='change-button-wrapper'>
+          <div className='navigation-wrapper'>
             <div className='left-button'>
-              <div onClick={decreeseI} style={{'cursor': 'pointer'}}>
+              <div onClick={decreeseI} style={{ cursor: 'pointer' }}>
                 <p>◀</p>
               </div>
             </div>
-            <div className='right-button'>
-              <div onClick={increeseI} style={{'cursor': 'pointer'}}>
-                <p>▶</p>
+            <div className='confirm-button'>
+              <div onClick={handleClick}>
+                <GradationButton text={'check'} style1={style1} />
               </div>
             </div>
-          </div>
-          <div className='confirm-button-wrapper'>
-            <div onClick={handleClick}>
-              <GradationButton text={'check'} style1={style1} />
+            <div className='right-button'>
+              <div onClick={increeseI} style={{ cursor: 'pointer' }}>
+                <p>▶</p>
+              </div>
             </div>
           </div>
         </div>
