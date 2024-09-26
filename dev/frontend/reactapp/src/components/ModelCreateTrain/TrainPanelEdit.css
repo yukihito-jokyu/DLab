@@ -2,12 +2,12 @@
   display: flex;
   width: 550px;
   height: 50px;
-  margin-left: 10px;
+  margin-left: 20px;
   margin-top: 20px;
 }
 
 .train-panel-name-wrapper {
-  width: 320px;
+  width: 240px;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -35,10 +35,8 @@
   right: 15px;
   /* transform: translate(-100%, -100%); */
   position: absolute;
-  border-left: 8px solid transparent;
-  /* 左側のボーダー */
-  border-right: 8px solid transparent;
-  /* 右側のボーダー */
+  border-left: 8px solid transparent; /* 左側のボーダー */
+  border-right: 8px solid transparent; /* 右側のボーダー */
   border-bottom: 16px solid #70B4FF;
   transform: rotate(180deg);
 }
@@ -51,11 +49,9 @@
   text-align-last: center;
   font-size: 20px;
   font-weight: 600;
-  -webkit-appearance: none;
-  /* Safari and Chrome */
-  -moz-appearance: none;
-  /* Firefox */
-  appearance: none;
+  -webkit-appearance: none;  /* Safari and Chrome */
+  -moz-appearance: none;     /* Firefox */
+  appearance: none;  
 }
 
 .train-panel-value-wrapper input {
@@ -68,30 +64,4 @@
   font-weight: 600;
   border: none;
   outline: none;
-}
-
-.button-wrapper {
-  position: relative;
-}
-
-.tooltip {
-  position: absolute;
-  top: 50%;
-  left: 120%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.75);
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  white-space: nowrap;
-  z-index: 1000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease, left 0.3s ease;
-}
-
-.button-wrapper:hover .tooltip {
-  opacity: 1;
-  left: 120%;
 }

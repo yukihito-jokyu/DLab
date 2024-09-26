@@ -105,23 +105,6 @@ const initModelStructure = async (modelId, projectId) => {
         },
         middle_layer: [],
         output_layer: outputShape
-      },
-      augmentation_params: {
-        rotation_degrees: 0,
-        vertical_translation_factor: 0.0,
-        horizontal_translation_factor: 0.0,
-        scaling_factor: 0.0,
-        zoom_factor: 0.0,
-        brightness_factor: 0.0,
-        contrast_factor: 0.0,
-        saturation_factor: 0.0,
-        hue_factor: 0.0,
-        sharpness_factor: 0.0,
-        noise_factor: 0.0,
-        shear_angle: 0,
-        grayscale_p: 0.0,
-        do_flipping: false,
-        do_vertical_flipping: false
       }
     }
   }
@@ -227,27 +210,4 @@ const getOriginShape = async (modelId) => {
   }
 };
 
-// データ拡張パラメータの取得
-const getAugmentationParams = async (modelId) => {
-  const q = query(collection(db, 'model_structure'), where('model_id', '==', modelId));
-  const querySnapshot = await getDocs(q);
-  if (!querySnapshot.empty) {
-    return querySnapshot.docs[0].data().augmentation_params;
-  } else {
-    return null;
-  }
-};
-
-// データ拡張パラメータの更新
-const updateAugmentationParams = async (modelId, augmentationParams) => {
-  const q = query(collection(db, 'model_structure'), where('model_id', '==', modelId));
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach(async (document) => {
-    const docRef = doc(db, 'model_structure', document.id);
-    await updateDoc(docRef, {
-      augmentation_params: augmentationParams
-    });
-  });
-};
-
-export { initModelStructure, deleteModelStructure, getModelStructure, getTrainInfo, updateStructure, updateTrainInfo, getOriginShape, getImageShape, getPreprocessing, getModelInput, getAugmentationParams, updateAugmentationParams }
+export { initModelStructure, deleteModelStructure, getModelStructure, getTrainInfo, updateStructure, updateTrainInfo, getOriginShape, getImageShape, getPreprocessing, getModelInput }
