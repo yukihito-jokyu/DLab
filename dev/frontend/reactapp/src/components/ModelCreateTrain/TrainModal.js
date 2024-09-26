@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import './ModelCreateTrain.css';
+import React, { useEffect, useState } from 'react'
+import './ModelCreateTrain.css'
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
 import GradationButton from '../../uiParts/component/GradationButton';
 import { socket } from '../../socket/socket';
-import { getModelInput, getModelStructure, getTrainInfo, getAugmentationParams } from '../../db/function/model_structure';
+import { getModelInput, getModelStructure, getTrainInfo } from '../../db/function/model_structure';
 import { useParams } from 'react-router-dom';
 import { getUserName } from '../../db/function/users';
 
@@ -29,8 +29,8 @@ function TrainModal({ changeTrain, flattenShape }) {
   const text3 = '学習が可能になりました';
   const text4 = '学習する';
   const style = {
-    fontSize: '26px',
-    fontWeight: '600',
+    fontSize: "26px",
+    fontWeight: "600"
   };
 
   const handleMakeConfig = async () => {
@@ -41,7 +41,7 @@ function TrainModal({ changeTrain, flattenShape }) {
       project_name: projectName,
       model_id: modelId,
       structure: structure,
-      flattenshape: flattenShape,
+      flattenshape: flattenShape
     };
     const response = await fetch('http://127.0.0.1:5000/ImageClassification/make/config', {
       method: 'POST',
@@ -57,34 +57,32 @@ function TrainModal({ changeTrain, flattenShape }) {
   const startTrain = async () => {
     changeTrain();
     if (socket) {
-      const trainInfo = await getTrainInfo(modelId);
+      const trainInfo = await getTrainInfo(modelId)
       const inputInfo = await getModelInput(modelId);
+      console.log(inputInfo)
       const sentData = {
         user_id: userId,
         user_name: userName,
         project_name: projectName,
         model_id: modelId,
         input_info: inputInfo,
-        Train_info: trainInfo,
-      };
-
+        Train_info: trainInfo
+      }
       if (projectName === 'FlappyBird') {
         socket.emit('flappy_train_start', sentData);
       } else if (projectName === 'CartPole') {
-        socket.emit('cartpole_train_start', sentData);
+        socket.emit('cartpole_train_start', sentData)
       } else {
-        const augmentationParams = await getAugmentationParams(modelId);
-        sentData.augmentation_params = augmentationParams;
         socket.emit('image_train_start', sentData);
       }
     }
-  };
+  }
 
   // socket通信にて
   useEffect(() => {
     const handleTrainResults = (response) => {
-      console.log('Response from server:', response.Epoch, response.TrainAcc, response.ValAcc, response.TrainLoss, response.ValLoss);
-    };
+      console.log('Response from server:', response.Epoch, response.TrainAcc, response.ValAcc, response.TrainLoss, response.ValLoss)
+    }
 
     socket.on('train_image_results' + modelId, handleTrainResults);
 
@@ -93,7 +91,7 @@ function TrainModal({ changeTrain, flattenShape }) {
       socket.off('image_train_end' + modelId, handleTrainResults);
       socket.off('flappy_train_end' + modelId);
       socket.off('cartpole_train_end' + modelId);
-    };
+    }
   }, [modelId]);
 
   const handleClose = () => {
@@ -158,7 +156,7 @@ function TrainModal({ changeTrain, flattenShape }) {
         </div>
       )}
     </div>
-  );
+  )
 }
 
 export default TrainModal;
