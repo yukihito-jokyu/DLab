@@ -61,7 +61,7 @@ function ProfileField() {
     cursor: 'pointer'
   }
   const style2 = {
-    backgroundColor: favoriteUser ? '#D9D9D9' : '#F0B927',
+    backgroundColor: favoriteUser ? '#F0B927' : '#D9D9D9',
     cursoor: 'pointer'
   }
   const handleFavorite = async () => {
@@ -126,9 +126,9 @@ function ProfileField() {
       {otherProfile ? (
         <div className='favorite-button-wrapper' style={style2} onClick={handleFavorite}>
           {favoriteUser ? (
-            <CheckSVG className='check-svg' />
-          ) : (
             <p>★</p>
+          ) : (
+            <CheckSVG className='check-svg' />
           )}
         </div>
       ) : (
