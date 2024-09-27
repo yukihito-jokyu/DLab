@@ -63,10 +63,9 @@ function VisImageModal({ changeVisImageModal, image, label, preLabel, epoch }) {
                 <div className='gradation-border2'></div>
               </div>
               <div className='epoch-wrapper'>
-                  {epoch && <p>{epoch} epoch</p>}
+                {epoch && <p>{epoch} epoch</p>}
               </div>
               <div className='vis-image-images-wrapper'>
-                
                 <div className='image-label-wraper'>
                   <div className='label-wrapper'>
                     <p>{label}</p>
