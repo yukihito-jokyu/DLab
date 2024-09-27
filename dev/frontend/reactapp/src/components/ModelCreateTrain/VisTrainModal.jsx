@@ -48,7 +48,7 @@ function VisTrainModal({ changeVisTrainModal, image, epoch }) {
                 <div className='gradation-border2'></div>
               </div>
               <div className='epoch-wrapper'>
-                {epoch && <p>{epoch} epoch</p>}
+                {epoch ? <p>{epoch} epoch</p> : <p>epoch number</p>}
               </div>
               <div className='vis-train-images-wrapper'>
                 {image && <img src={`data:image/png;base64,${image}`} alt='test_image' />}
