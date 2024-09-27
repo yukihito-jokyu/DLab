@@ -236,6 +236,18 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
 
   }, [modelId, changeVisImageModal, changeVisTrainModal]);
 
+  useEffect(() => {
+    const socketFire = (data) => {
+      console.log(data);
+    }
+    
+    socket.on("test_event", socketFire);
+    
+    return () => {
+      socket.off("test_event", socketFire);
+    };
+  }, [])
+
   // 0.1秒ごとにiをインクリメントする
   useEffect(() => {
     const interval = setInterval(() => {
