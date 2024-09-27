@@ -6,7 +6,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { UserInfoContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 
-import { socket } from '../socket/socket';
 
 
 function TestFirebase() {
@@ -14,9 +13,6 @@ function TestFirebase() {
   const [user] = useAuthState(auth);
   const { userId, setUserId, setFirstSignIn } = useContext(UserInfoContext);
   const navigate = useNavigate();
-
-  // ソケット通信のてすと
-  const [data, setData] = useState(null);
 
   // useEffect(() => {
   //   const postData = collection(db, 'user');
@@ -45,35 +41,6 @@ function TestFirebase() {
     console.log(userId);
   };
 
-  // ソケット通信のテスト
-  const handleStartSocket = () => {
-    console.log("起動")
-    socket.emit('test', {})
-  }
-
-  useEffect(() => {
-    const socketFire = (data) => {
-      console.log(data);
-      setData(data.response);
-    }
-    
-    socket.on("test_event", socketFire);
-    
-    return () => {
-      socket.off("test_event", socketFire);
-    };
-  }, [])
-
-  // ストリーミング
-  const handleStartStreem = () => {
-    const eventSource = new EventSource('http://localhost:5000/stream');
-    eventSource.onmessage = (event) => {
-      console.log("発火")
-      console.log(event);
-      setData(event);
-    };
-  }
-
   return (
     <div>
       <div>
@@ -97,18 +64,6 @@ function TestFirebase() {
       <button onClick={checkUserId}><p>ユーザーid取得</p></button>
       <button onClick={() => navigate('/top')}>ページ遷移</button>
       <button onClick={getProjectInfo}>プロジェクト情報取得</button>
-      <div>
-        <button onClick={handleStartSocket}>ソケット通信</button>
-      </div>
-      <div>
-        {data}
-      </div>
-      <div>
-        <button onClick={handleStartStreem}>ストリーミング</button>
-      </div>
-      <div>
-        {data}
-      </div>
     </div>
   )
 }
