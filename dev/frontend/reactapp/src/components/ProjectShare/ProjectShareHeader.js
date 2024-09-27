@@ -24,8 +24,12 @@ function ProjectShareHeader({ handleClickImage, handleClickReinforcement, image,
     backgroundColor: image ? '#03B0CD' : '#FF5D99'
   }
   const style4 = {
+    backgroundColor: !joinProject ? '#D9D9D9' : '#c6f6ff',
+    cursor: 'pointer'
+  }
+  const style5 = {
     backgroundColor: image ? '#03B0CD' : '#FF5D99',
-    left: joinProject ? '0' : 'calc(100% - 30px)'
+    left: joinProject ? 'calc(100% - 30px)' : '0'
   }
   return (
     <div className='project-share-header'>
@@ -41,8 +45,8 @@ function ProjectShareHeader({ handleClickImage, handleClickReinforcement, image,
       <div className='display-button-wrapper'>
         {image && (<div className='wrapper'>
           <p>参加済みのプロジェクトを表示</p>
-          <div className='display-button-cover' onClick={handleJoin} style={{ cursor: 'pointer' }}>
-            <div className='display-button' style={style4}></div>
+          <div className='display-button-cover' onClick={handleJoin} style={style4}>
+            <div className='display-button' style={style5}></div>
           </div>
         </div>)}
       </div>
@@ -50,4 +54,4 @@ function ProjectShareHeader({ handleClickImage, handleClickReinforcement, image,
   )
 }
 
-export default ProjectShareHeader
+export default ProjectShareHeader;
