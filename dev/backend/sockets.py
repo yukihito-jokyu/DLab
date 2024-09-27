@@ -11,14 +11,10 @@ def setup_sockets(socketio):
     @socketio.on('test')
     def test(data):
         print('test data:', data)
-        for i in range(10):
-            socketio.sleep(1)
-            socketio.emit('test_event', {'response': i})
-            print(i)
+        socketio.emit('test_event', {'response': 'Data received'})
     
     @socketio.on('cartpole_train_start')
     def train_CartPole(datas):
-        socketio.sleep(0.5)
         print(datas)
         model_id = datas['model_id']
         project_name = datas["project_name"]
@@ -33,14 +29,13 @@ def setup_sockets(socketio):
     
     @socketio.on('flappy_train_start')
     def flappy_train(datas):
-        socketio.sleep(0.5)
         print(f"\ndatas:{datas}\n")
         model_id = datas['model_id']
         project_name = datas["project_name"]
         user_id = datas["user_id"] 
         user_name = datas["user_name"]
         update_status(model_id, 'doing')
-        total_reward, loss = train_flappy(datas, socketio)
+        total_reward, loss = train_flappy(datas)
         save_result_manegement(model_id, total_reward, loss)
         save_result_readarboard(project_name, user_id, user_name, total_reward)
         update_status(model_id, 'done')
@@ -48,7 +43,6 @@ def setup_sockets(socketio):
 
     @socketio.on('image_train_start')
     def train(datas):
-        socketio.sleep(0.5)
         print(datas)
         model_id = datas['model_id']
         project_name = datas["project_name"]
@@ -56,7 +50,7 @@ def setup_sockets(socketio):
         print(f"\ndatas:{datas}\n")
         user_name = datas["user_name"]
         update_status(model_id, 'doing')
-        accuracy, loss = train_model(datas, socketio)
+        accuracy, loss = train_model(datas)
         save_result_manegement(model_id, accuracy, loss)
         save_result_readarboard(project_name, user_id, user_name, accuracy)
         update_status(model_id, 'done')

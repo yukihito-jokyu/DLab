@@ -10,8 +10,6 @@ import ProjectShare from './components/ProjectShare/ProjectShare';
 import Community from './components/Community/Community';
 import Profile from './components/Profile/Profile';
 
-import TestFirebase from './db/TestFirebase';
-
 
 export const UserInfoContext = createContext()
 
@@ -32,7 +30,6 @@ function App() {
           <Route path='/projectshare' element={<ProjectShare />} />
           <Route path='/community/:task/:projectName' element={<Community />} />
           <Route path='/profile/:profileUserId' element={<Profile />} />
-          <Route path='/testfirebase' element={<TestFirebase />} />
           <Route path="*" element={<Navigate to="/top" replace />} />
         </Routes>
       </Router>

@@ -279,7 +279,7 @@ def visualize_cam(cam, original_image, alpha=0.5, title='Grad-CAM'):
 
 
 # モデルの訓練を行う関数
-def train_model(config, socketio):
+def train_model(config):
     model_id = config["model_id"]
     user_id = config["user_id"]
     project_name = config["project_name"]
@@ -402,12 +402,8 @@ def train_model(config, socketio):
                 'Labels': label_list,
                 'PreLabels': pre_label_list
             }
-
-            socketio.sleep(1)
+            # print(sent_data)
             emit('image_valid'+str(model_id), sent_data)
-            socketio.sleep(1)
-
-            # sleep(1)
 
         # Firestoreに結果をアップロード
         upload_result = upload_training_result(config["user_id"], config["project_name"], model_id, epoch_result)
