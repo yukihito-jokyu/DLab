@@ -613,6 +613,20 @@
   height: 350px;
 }
 
+.image-placeholder {
+  width: 350px;
+  height: 350px;
+  background-color: #C8C9DD;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.image-placeholder p {
+  font-size: 50px;
+}
+
 .vis-image-images-wrapper .label-wrapper {
   display: flex;
   justify-content: center;

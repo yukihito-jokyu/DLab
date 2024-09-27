@@ -73,20 +73,26 @@ function VisImageModal({ changeVisImageModal, image, label, preLabel, epoch }) {
                 <div className='gradation-border2'></div>
               </div>
               <div className='epoch-wrapper'>
-                {epoch && <p>{epoch} epoch</p>}
+                {epoch ? <p>{epoch} epoch</p> : <p>epoch number</p>}
               </div>
               <div className='vis-image-images-wrapper'>
                 <div className='image-label-wraper'>
                   <div className='label-wrapper'>
-                    <p>{label}</p>
+                    {label ? <p>{label}</p> : <p>True Label</p>}
                   </div>
-                  {image && <img src={`data:image/png;base64,${image}`} alt='test_image' />}
+                  {image ? (
+                    <img src={`data:image/png;base64,${image}`} alt='test_image' />
+                  ) : (
+                    <div className="image-placeholder">
+                      <p>image</p>
+                    </div>
+                  )}
                 </div>
                 <div className='svg-wrapper'>
-                  {image && <EastIcon className='east-svg' />}
+                  <EastIcon className='east-svg' />
                 </div>
                 <div className='prelabel-wrapper'>
-                  {preLabel && <p>{preLabel}</p>}
+                  {preLabel ? <p>{preLabel}</p> : <p>Pre Label</p>}
                 </div>
               </div>
               <div className='vis-image-modal-delet-button-field' onClick={handleClose}>
