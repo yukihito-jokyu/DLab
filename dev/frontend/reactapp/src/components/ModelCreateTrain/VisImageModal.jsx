@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import useFetchStatus from '../../hooks/useFetchStatus';
 import './ModelCreateTrain.css';
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
@@ -6,13 +8,21 @@ import { ReactComponent as EastIcon } from '../../assets/svg/east_24.svg';
 
 function VisImageModal({ changeVisImageModal, image, label, preLabel, epoch }) {
   console.log(epoch)
+  const { modelId } = useParams();
   const [isVisible, setIsVisible] = useState(false);
   const [opacity, setOpacity] = useState(0.8);
   const isMatch = label === preLabel;
+  const currentStatus = useFetchStatus(modelId);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  useEffect(() => {
+    if (currentStatus === 'done') {
+      changeVisImageModal();
+    }
+  }, [currentStatus, changeVisImageModal]);
 
   useEffect(() => {
     setOpacity(0.8);

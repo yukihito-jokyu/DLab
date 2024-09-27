@@ -1,14 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import useFetchStatus from '../../hooks/useFetchStatus';
+import { useParams } from 'react-router-dom';
 import './ModelCreateTrain.css'
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
 
 function VisTrainModal({ changeVisTrainModal, image, epoch }) {
+  const { modelId } = useParams();
   const [isVisible, setIsVisible] = useState(false);
+  const currentStatus = useFetchStatus(modelId);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  useEffect(() => {
+    if (currentStatus === 'done') {
+      changeVisTrainModal();
+    }
+  }, [currentStatus, changeVisTrainModal]);
 
   const modalStyle = {
     opacity: isVisible ? 1 : 0,
@@ -22,7 +32,7 @@ function VisTrainModal({ changeVisTrainModal, image, epoch }) {
     }, 200);
   };
 
-  
+
 
   return (
     <div>
