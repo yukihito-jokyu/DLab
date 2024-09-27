@@ -16,7 +16,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"FlappyBird:{device}")
 
 
-def train_flappy(config):
+def train_flappy(config, socketio):
     model_id = config["model_id"]
     user_id = config["user_id"]
     project_name = config["project_name"]
@@ -109,7 +109,9 @@ def train_flappy(config):
                 "Epoch": episode,
                 "Images": image_list
             }
+            socketio.sleep(0.5)
             emit('flappy_valid'+str(model_id), images_data)
+            socketio.sleep(0.5)
     # 一時ファイルにモデルを保存
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pth") as tmp_file:
         best_model_path = tmp_file.name
