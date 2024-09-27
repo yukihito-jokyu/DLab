@@ -72,13 +72,13 @@ function DataScreen() {
           </div>
           <div className='image-data-wrapper'>
             <div className='image-before-data'>
-              {normalImage && <img src={`data:image/png;base64,${normalImage[i]}`} alt='normal_image' />}
+              {normalImage ? <img src={`data:image/png;base64,${normalImage[i]}`} alt='normal_image' /> : <p className='image-text'>image</p>}
             </div>
             <div className='image-arrow'>
               <p>▶</p>
             </div>
             <div className='image-after-data'>
-              {preImage && <img src={`data:image/png;base64,${preImage[i]}`} alt='pre_image' />}
+              {preImage ? <img src={`data:image/png;base64,${preImage[i]}`} alt='pre_image' /> : <p className='image-text'>image</p>}
             </div>
           </div>
           <div className='image-status-wrapper'>

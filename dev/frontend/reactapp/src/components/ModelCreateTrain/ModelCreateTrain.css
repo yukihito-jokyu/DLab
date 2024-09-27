@@ -368,6 +368,11 @@
   height: 100%;
 }
 
+.image-text {
+  color: #828282;
+  font-size: 30px;
+}
+
 .image-data-wrapper .image-arrow {
   width: 60px;
   height: 200px;
