@@ -229,7 +229,9 @@ def train_cartpole(config, socketio):
                 "Epoch": episode,
                 "Images": image_list
             }
+            socketio.sleep(0.5)
             emit('cartpole_valid'+str(model_id), images_data)
+            socketio.sleep(0.5)
 
     # 一時ファイルにモデルを保存
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pth") as tmp_file:
