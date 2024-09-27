@@ -323,8 +323,8 @@
 }
 
 .cartpole-image-wrapper img {
-  width: 200px;
-  height: 200px;
+  width: auto;
+  height: 90%;
 }
 
 .image-title-wrapper {
