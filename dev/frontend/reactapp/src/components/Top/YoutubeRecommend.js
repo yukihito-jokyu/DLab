@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import GradationButton from '../../uiParts/component/GradationButton';
 
+import ReactPlayer from 'react-player';
+
 function YoutubeRecommend() {
   const [height, setHeight] = useState(0);
   useEffect(() => {
@@ -23,18 +25,27 @@ function YoutubeRecommend() {
   return (
     <div className='youtube-wrapper'>
       <div className='youtube-title'>
-        <p>HOW TO USE</p>
+        <p>WHAT IS THIS</p>
       </div>
       <div className='youtube-info-wrapper'>
         <div className='youtube-info' style={youtubeFieldStyle}>
           <div className='youtube-middle'>
-            <p className='info-p'>下記リンクより利用方法等を<br />確認することができます</p>
+            <p className='info-p'>下記リンクよりアプリケーションの<br />概要を知ることができます。</p>
             <div className='youtube-button'>
-              <GradationButton text={'Youtube'} style1={youtubeStyle} />
+              <a href='https://youtu.be/7jI3Msmk9HI'>
+                <GradationButton text={'Youtube'} style1={youtubeStyle} />
+              </a>
             </div>
           </div>
         </div>
-        <div className='youtube-field' id='youtube-field-width' style={youtubeFieldStyle}></div>
+        <div className='youtube-field' id='youtube-field-width' style={youtubeFieldStyle}>
+          <ReactPlayer
+            url={"https://youtu.be/7jI3Msmk9HI"}
+            width={"100%"}
+            height={"100%"}
+            controls={true}
+          />
+        </div>
       </div>
     </div>
   );

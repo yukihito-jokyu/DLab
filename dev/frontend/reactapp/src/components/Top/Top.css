@@ -229,7 +229,14 @@
   margin-top: 40px;
 }
 
+.youtube-button a {
+  text-decoration: none;
+  color: inherit;
+  cursor: default;
+}
+
 .youtube-field {
+  border: 1px solid black;
   width: 50%;
   background-color: #D9D9D9;
 }
