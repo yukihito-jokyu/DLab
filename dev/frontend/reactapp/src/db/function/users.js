@@ -43,7 +43,16 @@ const initUsers = async () => {
     user_name: user_name,
     registration_date: date,
     favorite_user: [],
-    join_project: []
+    join_project: [
+      {
+        "project_name": "CartPole",
+        "rank": NaN
+      },
+      {
+        "project_name": "FlappyBird",
+        "rank": NaN
+      }
+    ]
   };
   sessionStorage.setItem('userId', JSON.stringify(user_id));
   await setDoc(doc(db, "users", user_id), userData);
