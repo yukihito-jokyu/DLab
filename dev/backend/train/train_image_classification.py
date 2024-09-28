@@ -62,7 +62,7 @@ class ZCAWhitening():
         con_matrix -= torch.mm(self.mean.t(), self.mean)
         # E: 固有値 V: 固有ベクトルを並べたもの
         E, V = torch.linalg.eigh(con_matrix)  # 固有値分解
-        self.ZCA_matrix = torch.mm(torch.mm(V, torch.diag((E.squeeze()+self.epsilon)**(-0.5))), V.t())  # A(\Lambda + \epsilon I)^{1/2}A^T
+        self.ZCA_matrix = torch.mm(torch.mm(V, torch.diag((E.squeeze()+self.epsilon)**(-0.5))), V.t())  # A(\Lambda + \epsilon I)^{-1/2}A^T
         print("completed!")
 
     def __call__(self, x):
@@ -116,7 +116,6 @@ def import_model(config):
     except Exception as e:
         raise ImportError(f"Failed to import model: {e}")
 
-
 # カスタムデータセット
 class CustomDataset(Dataset):
     def __init__(self, x_train, t_train, transform=None):
@@ -149,7 +148,6 @@ class CustomDataset(Dataset):
 
         return x_train, t_train
 
-
 # データセットの読込み＆前処理を行う関数
 def load_and_split_data(config):
     image_shape = int(config['input_info']['change_shape'])
@@ -178,7 +176,7 @@ def load_and_split_data(config):
     test_size = float(config["Train_info"]["test_size"])
     x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=test_size)
 
-    transform = transforms.Compose(transform_list)
+    base_transform = transforms.Compose(transform_list)
 
     # image_shape = config["Train_info"]["image_shape"]
     # if len(x_train.shape) == 2 and x_train.shape[1] == image_shape * image_shape:
@@ -194,8 +192,111 @@ def load_and_split_data(config):
     #     x_val = x_val.transpose(0, 3, 1, 2)
     #     x_test = x_test.transpose(0, 3, 1, 2)
     
-    return (x_train, y_train), (x_val, y_val), (x_test, y_test), transform
+    return (x_train, y_train), (x_val, y_val), (x_test, y_test), base_transform
 
+# データ拡張のtransformを生成する関数
+def create_augmentation_transform(augmentation_params, base_transform):
+    # base_transformを先に適用
+    augmentation_transforms = base_transform.transforms.copy()
+    
+    # データ拡張のトランスフォームを追加
+    # 回転
+    if "rotation_degrees" in augmentation_params and augmentation_params["rotation_degrees"] > 0:
+        degrees = augmentation_params["rotation_degrees"]
+        augmentation_transforms.append(transforms.RandomRotation(degrees=(-degrees, degrees)))
+    
+    # 平行移動
+    if "vertical_translation_factor" in augmentation_params and "horizontal_translation_factor" in augmentation_params:
+        h_trans = augmentation_params["horizontal_translation_factor"]
+        v_trans = augmentation_params["vertical_translation_factor"]
+        if h_trans > 0 or v_trans > 0:
+            augmentation_transforms.append(
+                transforms.RandomAffine(
+                    degrees=0,
+                    translate=(h_trans, v_trans)
+                )
+            )
+    
+    # スケーリング
+    if "scaling_factor" in augmentation_params and augmentation_params["scaling_factor"] > 0:
+        scale_factor = augmentation_params["scaling_factor"]
+        min_scale = max(0.1, 1.0 - scale_factor)
+        max_scale = 1.0 + scale_factor
+        augmentation_transforms.append(
+            transforms.RandomAffine(
+                degrees=0,
+                scale=(min_scale, max_scale)
+            )
+        )
+    
+    # ズーム
+    if "zoom_factor" in augmentation_params and augmentation_params["zoom_factor"] > 0:
+        zoom_factor = augmentation_params["zoom_factor"]
+        min_zoom = max(0.1, 1.0 - zoom_factor)
+        max_zoom = 1.0 + zoom_factor
+        augmentation_transforms.append(
+            transforms.RandomResizedCrop(
+                size=base_transform.transforms[0].size,
+                scale=(min_zoom, max_zoom)
+            )
+        )
+    
+    # 明るさ
+    color_jitter_params = {}
+    if "brightness_factor" in augmentation_params and augmentation_params["brightness_factor"] > 0:
+        brightness = augmentation_params["brightness_factor"]
+        color_jitter_params["brightness"] = (max(0, 1.0 - brightness), 1.0 + brightness)
+    # コントラスト
+    if "contrast_factor" in augmentation_params and augmentation_params["contrast_factor"] > 0:
+        contrast = augmentation_params["contrast_factor"]
+        color_jitter_params["contrast"] = (max(0, 1.0 - contrast), 1.0 + contrast)
+    # 彩度
+    if "saturation_factor" in augmentation_params and augmentation_params["saturation_factor"] > 0:
+        saturation = augmentation_params["saturation_factor"]
+        color_jitter_params["saturation"] = (max(0, 1.0 - saturation), 1.0 + saturation)
+    # 色相
+    if "hue_factor" in augmentation_params and augmentation_params["hue_factor"] > 0:
+        hue = augmentation_params["hue_factor"]
+        color_jitter_params["hue"] = (-hue, hue)
+    if color_jitter_params:
+        augmentation_transforms.append(transforms.ColorJitter(**color_jitter_params))
+    
+    # シャープネス
+    if "sharpness_factor" in augmentation_params and augmentation_params["sharpness_factor"] > 0:
+        sharpness = augmentation_params["sharpness_factor"]
+        augmentation_transforms.append(transforms.RandomAdjustSharpness(sharpness_factor=sharpness, p=0.5))
+        
+    # せん断（shear）
+    if "shear_angle" in augmentation_params and int(augmentation_params["shear_angle"]) > 0:
+        shear_angle = int(augmentation_params["shear_angle"])
+        augmentation_transforms.append(
+            transforms.RandomAffine(
+                degrees=0,
+                shear=shear_angle
+            )
+        )
+    
+    # ノイズ追加
+    if "noise_factor" in augmentation_params and augmentation_params["noise_factor"] > 0:
+        noise_factor = augmentation_params["noise_factor"]
+        augmentation_transforms.append(transforms.Lambda(lambda img: img + torch.randn_like(img) * noise_factor))
+    
+    # 水平反転
+    if augmentation_params.get("do_flipping", False):
+        augmentation_transforms.append(transforms.RandomHorizontalFlip(p=0.5))
+    
+    # 垂直反転
+    if augmentation_params.get("do_vertical_flipping", False):
+        augmentation_transforms.append(transforms.RandomVerticalFlip(p=0.5))
+    
+    # グレースケール
+    if "grayscale_p" in augmentation_params and augmentation_params["grayscale_p"] > 0:
+        grayscale_p = augmentation_params["grayscale_p"]
+        augmentation_transforms.append(transforms.RandomGrayscale(p=grayscale_p))
+    
+    # Augmentationを適用したtransformを作成
+    transform = transforms.Compose(augmentation_transforms)
+    return transform
 
 # grad-camの実装
 class GradCAM:
@@ -258,7 +359,6 @@ def to_heatmap(x, height, width):
     print(int(math.sqrt(x.shape[0])))
     return np.resize(x.reshape(int(math.sqrt(x.shape[0])), int(math.sqrt(x.shape[0])), 3), (height, width, 3))
 
-
 def visualize_cam(cam, original_image, alpha=0.5, title='Grad-CAM'):
     # Determine the height and width from the original image
     _, height, width = original_image.squeeze(0).shape
@@ -277,33 +377,30 @@ def visualize_cam(cam, original_image, alpha=0.5, title='Grad-CAM'):
 
     return grad_cam_image
 
-
 # モデルの訓練を行う関数
 def train_model(config, socketio):
     model_id = config["model_id"]
     user_id = config["user_id"]
     project_name = config["project_name"]
+    augmentation_params = config["augmentation_params"]
     model = import_model(config).to(device)
     with open(f'./dataset/{project_name}/config.json', 'r') as jsonfile:
         json_data = json.load(jsonfile)
         id2label = json_data['id2label']
 
-    (x_train, y_train), (x_val, y_val), (x_test, y_test), transform = load_and_split_data(config)
+    # データセットのロードと分割
+    (x_train, y_train), (x_val, y_val), (x_test, y_test), base_transform = load_and_split_data(config)
 
     train_info = config["Train_info"]
 
-    # transform = transforms.Compose([
-    #     transforms.Resize((image_shape, image_shape)),
-    #     transforms.ToTensor()
-    # ])
+    # データ拡張のtransformを生成
+    train_transform = create_augmentation_transform(augmentation_params, base_transform)
 
-    train_dataset = CustomDataset(x_train, y_train, transform)
-    val_dataset = CustomDataset(x_val, y_val, transform)
-    test_dataset = CustomDataset(x_test, y_test, transform)
+    # データセットの作成
+    train_dataset = CustomDataset(x_train, y_train, train_transform)
+    val_dataset = CustomDataset(x_val, y_val, base_transform)       # 検証データにはデータ拡張は適用しない
+    test_dataset = CustomDataset(x_test, y_test, base_transform)    # テストデータにもデータ拡張は適用しない
 
-    # train_dataset = TensorDataset(torch.from_numpy(x_train).float(), torch.from_numpy(y_train).long())
-    # val_dataset = TensorDataset(torch.from_numpy(x_val).float(), torch.from_numpy(y_val).long())
-    
     train_loader = DataLoader(train_dataset, batch_size=int(train_info["batch"]), shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=int(train_info["batch"]), shuffle=False)
     test_loader = DataLoader(test_dataset, batch_size=1, shuffle=True)

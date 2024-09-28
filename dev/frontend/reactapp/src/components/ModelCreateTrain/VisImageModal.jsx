@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import useFetchStatus from '../../hooks/useFetchStatus';
 import './ModelCreateTrain.css';
 import { ReactComponent as DeletIcon } from '../../assets/svg/delet_48.svg';
 import GradationFonts from '../../uiParts/component/GradationFonts';
@@ -6,13 +8,21 @@ import { ReactComponent as EastIcon } from '../../assets/svg/east_24.svg';
 
 function VisImageModal({ changeVisImageModal, image, label, preLabel, epoch }) {
   console.log(epoch)
+  const { modelId } = useParams();
   const [isVisible, setIsVisible] = useState(false);
   const [opacity, setOpacity] = useState(0.8);
   const isMatch = label === preLabel;
+  const currentStatus = useFetchStatus(modelId);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  useEffect(() => {
+    if (currentStatus === 'done') {
+      changeVisImageModal();
+    }
+  }, [currentStatus, changeVisImageModal]);
 
   useEffect(() => {
     setOpacity(0.8);
@@ -63,21 +73,26 @@ function VisImageModal({ changeVisImageModal, image, label, preLabel, epoch }) {
                 <div className='gradation-border2'></div>
               </div>
               <div className='epoch-wrapper'>
-                  {epoch && <p>{epoch} epoch</p>}
+                {epoch ? <p>{epoch} epoch</p> : <p>epoch number</p>}
               </div>
               <div className='vis-image-images-wrapper'>
-                
                 <div className='image-label-wraper'>
                   <div className='label-wrapper'>
-                    <p>{label}</p>
+                    {label ? <p>{label}</p> : <p>True Label</p>}
                   </div>
-                  {image && <img src={`data:image/png;base64,${image}`} alt='test_image' />}
+                  {image ? (
+                    <img src={`data:image/png;base64,${image}`} alt='test_image' />
+                  ) : (
+                    <div className="image-placeholder">
+                      <p>image</p>
+                    </div>
+                  )}
                 </div>
                 <div className='svg-wrapper'>
-                  {image && <EastIcon className='east-svg' />}
+                  <EastIcon className='east-svg' />
                 </div>
                 <div className='prelabel-wrapper'>
-                  {preLabel && <p>{preLabel}</p>}
+                  {preLabel ? <p>{preLabel}</p> : <p>Pre Label</p>}
                 </div>
               </div>
               <div className='vis-image-modal-delet-button-field' onClick={handleClose}>

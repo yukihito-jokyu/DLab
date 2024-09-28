@@ -6,7 +6,7 @@ import EditTileParameterField from './EditTileParameterField';
 import TrainLogField from './TrainLogField';
 import MiddleLayer from '../Image/MiddleLayer';
 import TrainModal from './TrainModal';
-import { getModelStructure, getTrainInfo, updateStructure, updateTrainInfo } from '../../db/function/model_structure';
+import { getModelStructure, getTrainInfo, updateStructure, updateTrainInfo, getAugmentationParams, updateAugmentationParams } from '../../db/function/model_structure';
 import { useParams } from 'react-router-dom';
 import InformationModal from './Modal/InformationModal';
 import TrainPanel from './TrainPanel';
@@ -31,6 +31,7 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
   const [middleShape, setMiddleShape] = useState([]);
   const [outputShape, setOutputShape] = useState([]);
   const [trainInfo, setTrainInfo] = useState(null);
+  const [augmentationParams, setAugmentationParams] = useState(null);
   const [infoModal, setInfoModal] = useState(false);
   const [infoName, setInfoName] = useState();
   const { projectName, modelId } = useParams();
@@ -64,6 +65,15 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
     fetchTrainInfo();
   }, [modelId]);
 
+  // データ拡張パラメータの取得
+  useEffect(() => {
+    const fetchAugmentationParams = async () => {
+      const params = await getAugmentationParams(modelId);
+      setAugmentationParams(params);
+    };
+    fetchAugmentationParams();
+  }, [modelId]);
+
   // モデルの訓練情報の更新
   useEffect(() => {
     const saveTrainInfo = async () => {
@@ -72,6 +82,15 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
     saveTrainInfo();
   }, [modelId, trainInfo]);
 
+  // データ拡張パラメータの更新
+  useEffect(() => {
+    const saveAugmentationParams = async () => {
+      if (augmentationParams) {
+        await updateAugmentationParams(modelId, augmentationParams);
+      }
+    };
+    saveAugmentationParams();
+  }, [modelId, augmentationParams]);
 
   useEffect(() => {
     // 形状の計算
@@ -204,7 +223,7 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
       setJ(0)
     }
 
-    const handleCleaner = (respose) => {
+    const handleCleaner = (response) => {
       setImages([]);
       setOriginImages([]);
       setLabels([]);
@@ -240,9 +259,9 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
     const socketFire = (data) => {
       console.log(data);
     }
-    
+
     socket.on("test_event", socketFire);
-    
+
     return () => {
       socket.off("test_event", socketFire);
     };
@@ -258,12 +277,12 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
         return PrevI + 1;
       });
     }, 100) // 100ms = 0.1秒
-    
+
     // クリーンアップ関数でインターバルをクリア
     return () => clearInterval(interval)
   }, [images]);
 
-  // 0.1秒ごとにiをインクリメントする
+  // 3秒ごとにjをインクリメントする
   useEffect(() => {
     const interval = setInterval(() => {
       setJ((PrevI) => {
@@ -273,7 +292,7 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
         return PrevI + 1;
       });
     }, 3000) // 3000ms = 3秒
-    
+
     // クリーンアップ関数でインターバルをクリア
     return () => clearInterval(interval)
   }, [originImages]);
@@ -302,35 +321,39 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
         />)}
         {!edit && (<TrainLogField />)}
       </div>
-      {edit && (<div className='right-screen'>
-        <div className='top-screen'>
-          <DataScreen />
+      {edit && (
+        <div className='right-screen'>
+          <div className='top-screen'>
+            <DataScreen />
+          </div>
+          <div className='bottom-screen'>
+            <EditTileParameterField
+              parameter={parameter}
+              inputLayer={inputLayer}
+              convLayer={convLayer}
+              flattenWay={flattenWay}
+              middleLayer={middleLayer}
+              layerType={layerType}
+              param={param}
+              selectedindex={selectedindex}
+              setInputLayer={setInputLayer}
+              setConvLayer={setConvLayer}
+              setFlattenWay={setFlattenWay}
+              setMiddleLayer={setMiddleLayer}
+              setParam={setParam}
+              setInfoModal={setInfoModal}
+              setInfoName={setInfoName}
+            />
+          </div>
         </div>
-        <div className='bottom-screen'>
-          <EditTileParameterField
-            parameter={parameter}
-            inputLayer={inputLayer}
-            convLayer={convLayer}
-            flattenWay={flattenWay}
-            middleLayer={middleLayer}
-            layerType={layerType}
-            param={param}
-            selectedindex={selectedindex}
-            setInputLayer={setInputLayer}
-            setConvLayer={setConvLayer}
-            setFlattenWay={setFlattenWay}
-            setMiddleLayer={setMiddleLayer}
-            setParam={setParam}
-            setInfoModal={setInfoModal}
-            setInfoName={setInfoName}
-          />
-        </div>
-      </div>)}
+      )}
       {!edit && (
         <div className='right-screen-param'>
           <TrainPanel
             trainInfo={trainInfo}
             setTrainInfo={setTrainInfo}
+            augmentationParams={augmentationParams}
+            setAugmentationParams={setAugmentationParams}
           />
         </div>
       )}
