@@ -21,6 +21,7 @@ import math
 import cv2
 import base64
 
+
 # デバイスの設定
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"ImageClassification:{device}")
@@ -81,6 +82,24 @@ class ZCAWhitening():
         instance.mean = state['mean']
         instance.ZCA_matrix = state['ZCA_matrix']
         return instance
+
+# 標準化後の画像を[0, 1]に正規化する
+def deprocess(x):
+    """
+    Argument
+    --------
+    x : np.ndarray
+        入力画像．(H, W, C)
+
+    Return
+    ------
+    _x : np.ndarray
+        [0, 1]で正規化した画像．(H, W, C)
+    """
+    _min = np.min(x)
+    _max = np.max(x)
+    _x = (x - _min)/(_max - _min)
+    return _x
 
 # モデルをインポートする関数
 def import_model(config):
@@ -383,6 +402,7 @@ def train_model(config, socketio):
     user_id = config["user_id"]
     project_name = config["project_name"]
     augmentation_params = config["augmentation_params"]
+    preprocessing = config["input_info"]["preprocessing"]
     model = import_model(config).to(device)
     with open(f'./dataset/{project_name}/config.json', 'r') as jsonfile:
         json_data = json.load(jsonfile)
@@ -475,9 +495,20 @@ def train_model(config, socketio):
                 c = 0
                 for image, label in test_loader:
                     c += 1
-                    np_image = image.squeeze(0).permute(1, 2, 0).numpy()
-                    _, origin_img_png = cv2.imencode('.png', (np_image * 255).astype(np.uint8))
-                    img_base64 = base64.b64encode(origin_img_png).decode()
+                    if preprocessing == "GCN":
+                        numpy_x = image.numpy()
+                        numpy_x = np.transpose(numpy_x[0], (1, 2, 0))
+                        _, pre_img_png = cv2.imencode('.png', deprocess(numpy_x)*255)
+                        img_base64 = base64.b64encode(pre_img_png).decode()
+                    elif preprocessing == "ZCA":
+                        numpy_x = image.numpy()
+                        numpy_x = np.transpose(numpy_x[0], (1, 2, 0))
+                        _, pre_img_png = cv2.imencode('.png', deprocess(numpy_x)*255)
+                        img_base64 = base64.b64encode(pre_img_png).decode()
+                    else:
+                        np_image = image.squeeze(0).permute(1, 2, 0).numpy()
+                        _, origin_img_png = cv2.imencode('.png', (np_image * 255).astype(np.uint8))
+                        img_base64 = base64.b64encode(origin_img_png).decode()
                     # データを入れる
                     origin_image_list.append(img_base64)
                     label_str = id2label.get(str(label.cpu().item()))
