@@ -180,6 +180,7 @@ def get_images(config):
         origin_image = cv2.resize(origin_image, (image_shape, image_shape))
         images = []
         pre_images = []
+        label_list = ["Flappy Bird"]
         _, origin_img_png = cv2.imencode('.png', origin_image)
         img_base64 = base64.b64encode(origin_img_png).decode()
         images.append(img_base64)
