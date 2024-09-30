@@ -170,6 +170,17 @@ const getModelInput = async (modelId) => {
   }
 };
 
+// モデルのデータ拡張情報の取得
+const getModelAugmentation = async (modelId) => {
+  const q = query(collection(db, 'model_structure'), where('model_id', '==', modelId));
+  const querySnapshot = await getDocs(q);
+  if (!querySnapshot.empty) {
+    return querySnapshot.docs[0].data().augmentation_params;
+  } else {
+    return null
+  }
+};
+
 // モデルの画像サイズの取得
 const getImageShape = async (modelId) => {
   const q = query(collection(db, 'model_structure'), where('model_id', '==', modelId));
@@ -250,4 +261,4 @@ const updateAugmentationParams = async (modelId, augmentationParams) => {
   });
 };
 
-export { initModelStructure, deleteModelStructure, getModelStructure, getTrainInfo, updateStructure, updateTrainInfo, getOriginShape, getImageShape, getPreprocessing, getModelInput, getAugmentationParams, updateAugmentationParams }
+export { initModelStructure, deleteModelStructure, getModelStructure, getTrainInfo, updateStructure, updateTrainInfo, getOriginShape, getImageShape, getPreprocessing, getModelInput, getAugmentationParams, updateAugmentationParams, getModelAugmentation }

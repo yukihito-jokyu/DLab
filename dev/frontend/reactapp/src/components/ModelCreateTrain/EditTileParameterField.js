@@ -4,10 +4,13 @@ import EditTileParamet from './EditTileParamet';
 import { ReactComponent as InfoIcon } from '../../assets/svg/info_24.svg';
 import { getOriginShape } from '../../db/function/model_structure';
 import { useParams } from 'react-router-dom';
+import TrainPanelTital from './TrainPanelTital';
+import TrainPanelEdit from './TrainPanelEdit';
+import InformationModal from './Modal/InformationModal';
 
-function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, middleLayer, layerType, param, selectedindex, setInputLayer, setConvLayer, setFlattenWay, setMiddleLayer, setParam, setInfoModal, setInfoName }) {
+function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, middleLayer, layerType, param, selectedindex, setInputLayer, setConvLayer, setFlattenWay, setMiddleLayer, setParam, setInfoModal, setInfoName, trainInfo, setTrainInfo, augmentationParams, setAugmentationParams }) {
   const pList = ["kernel_size", "activation_function", "out_channel", "padding", "strid", "dropout_p", "neuron_size", "preprocessing", "way", "change_shape"]
-  const { modelId } = useParams();
+  const { modelId, task } = useParams();
   const [keys, setKeys] = useState([]);
   useEffect(() => {
     const handleSetParameter = () => {
@@ -67,9 +70,8 @@ function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, 
         newInputLayer['shape'][0] = Number(originShape);
         newInputLayer['shape'][1] = Number(originShape);
       }
-      // console.log(newInputLayer['shape'][0])
-      
       setInputLayer(newInputLayer);
+
     } else if (layerType === 'Flatten') {
       const newFlattenWay = { ...flattenWay };
       newFlattenWay[key] = value;
@@ -92,6 +94,51 @@ function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, 
     setInfoModal(true)
     setInfoName(paramName[key])
   }
+
+
+  // データ拡張パラメータ
+  const [sortTrainInfo, setSortTrainInfo] = useState(null);
+  const [sortAugmentationParams, setSortAugmentationParams] = useState(null);
+  const [information, setInformation] = useState(false);
+  const [paramNames, setParamNames] = useState('');
+
+  // 学習パラメータのソート
+  useEffect(() => {
+    const sortObject = () => {
+      const sortedKeys = Object.keys(trainInfo).sort();
+      const sortedObj = {};
+      for (const key of sortedKeys) {
+        sortedObj[key] = trainInfo[key];
+      }
+      setSortTrainInfo(sortedObj);
+    };
+    if (trainInfo) {
+      sortObject();
+    }
+  }, [trainInfo]);
+
+
+  // データ拡張パラメータのソート
+  useEffect(() => {
+    const sortObject = () => {
+      const sortedKeys = Object.keys(augmentationParams).sort();
+      const sortedObj = {};
+      for (const key of sortedKeys) {
+        sortedObj[key] = augmentationParams[key];
+      }
+      setSortAugmentationParams(sortedObj);
+    };
+    if (augmentationParams) {
+      sortObject();
+    }
+  }, [augmentationParams]);
+
+  const handleChangeAugmentationParameter = (key, value) => {
+    const newParams = { ...augmentationParams };
+    newParams[key] = value;
+    setAugmentationParams(newParams);
+  };
+
   return (
     <div className='edit-tile-parameter-wrapper'>
       <div className='edit-tile-field'>
@@ -116,6 +163,26 @@ function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, 
             </div>
           )
         ))}
+
+        {task === 'ImageClassification' && layerType === 'Input' && (
+          <div className='train-panel-wrapper'>
+            <TrainPanelTital title={'データ拡張パラメータ'} />
+            <div className='panel-field'>
+              {sortAugmentationParams && Object.entries(sortAugmentationParams).map(([key, value], index) => (
+                <div key={index}>
+                  <TrainPanelEdit
+                    parameter={key}
+                    value={value}
+                    handleChangeParameter={handleChangeAugmentationParameter}
+                    setInformation={setInformation}
+                    setParamNames={setParamNames}
+                  />
+                </div>
+              ))}
+            </div>
+            {information && <InformationModal infoName={paramNames} handleDelete={setInformation} />}
+          </div>
+        )}
       </div>
     </div>
   )

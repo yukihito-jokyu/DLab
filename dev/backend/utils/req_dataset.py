@@ -11,6 +11,8 @@ from torch.utils.data import DataLoader, Dataset
 import torch
 from PIL import Image
 
+from train.train_image_classification import create_augmentation_transform
+
 class dataset_imager:
     def __init__(self, dataset_name='MNIST', n=100, label='all'):
         self.dataset_name = dataset_name
@@ -198,6 +200,7 @@ def get_images(config):
         y_train = np.load(os.path.join(dataset_dir, "y_train.npy"))
         image_shape = int(config['input_info']['change_shape'])
         preprocessing = config['input_info']['preprocessing']
+        augmentation_params = config["augmentation"]
         transform_list = [
             transforms.Resize((image_shape, image_shape)),
             transforms.ToTensor()
@@ -208,7 +211,9 @@ def get_images(config):
         elif preprocessing == 'ZCA':
             zca = ZCAWhitening.load(os.path.join(dataset_dir, f"{project_name}_zca.pth"))
             transform_list.append(zca)
-        transform = transforms.Compose(transform_list)
+        base_transform = transforms.Compose(transform_list)
+        # データ拡張のtransformを生成
+        transform = create_augmentation_transform(augmentation_params, base_transform)
         train_dataset = PreDataset(x_train, y_train, project_name, transform)
         train_loader = DataLoader(train_dataset, batch_size=int(1), shuffle=True)
         i = 0
