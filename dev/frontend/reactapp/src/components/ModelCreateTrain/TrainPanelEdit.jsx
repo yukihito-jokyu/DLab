@@ -63,7 +63,7 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
     'brightness_factor': { name: '明るさ係数', range: '0 〜 1' },
     'contrast_factor': { name: 'コントラスト係数', range: '0 〜 1' },
     'saturation_factor': { name: '彩度係数', range: '0 〜 1' },
-    'hue_factor': { name: '色相係数', range: '0 〜 1' },
+    'hue_factor': { name: '色相係数', range: '0 〜 0.5' },
     'sharpness_factor': { name: 'シャープネス係数', range: '0 〜 1' },
     'shear_angle': { name: 'せん断角度', range: '0 〜 180' },
     'noise_factor': { name: 'ノイズ倍率', range: '0 〜 1' },
@@ -160,11 +160,20 @@ function TrainPanelEdit({ parameter, value, handleChangeParameter, setInformatio
               />
             ) : parameter === 'scaling_factor' || parameter === 'zoom_factor' || parameter === 'sharpness_factor' ||
               parameter === 'contrast_factor' || parameter === 'brightness_factor' || parameter === 'saturation_factor' ||
-              parameter === 'hue_factor' || parameter === 'cutout_scale_factor' || parameter === 'noise_factor' ? (
+              parameter === 'cutout_scale_factor' || parameter === 'noise_factor' ? (
               <input
                 type='number'
                 value={inputValue}
                 onChange={(e) => handleFloatChange(e, 0, 1)}
+                step='0.01'
+                min='0'
+                max='1'
+              />
+            ) : parameter === 'hue_factor' ? (
+              <input
+                type='number'
+                value={inputValue}
+                onChange={(e) => handleFloatChange(e, 0, 0.5)}
                 step='0.01'
                 min='0'
                 max='1'

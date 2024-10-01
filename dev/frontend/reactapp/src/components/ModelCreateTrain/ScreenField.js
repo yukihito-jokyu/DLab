@@ -343,6 +343,10 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
               setParam={setParam}
               setInfoModal={setInfoModal}
               setInfoName={setInfoName}
+              trainInfo={trainInfo}
+              setTrainInfo={setTrainInfo}
+              augmentationParams={augmentationParams}
+              setAugmentationParams={setAugmentationParams}
             />
           </div>
         </div>
@@ -352,8 +356,6 @@ function ScreenField({ edit, train, visImageModal, visTrainModal, changeTrain, c
           <TrainPanel
             trainInfo={trainInfo}
             setTrainInfo={setTrainInfo}
-            augmentationParams={augmentationParams}
-            setAugmentationParams={setAugmentationParams}
           />
         </div>
       )}

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import './ModelCreateTrain.css';
 import GradationButton from '../../uiParts/component/GradationButton';
 import { useParams } from 'react-router-dom';
-import { getModelInput } from '../../db/function/model_structure';
+import { getModelAugmentation, getModelInput } from '../../db/function/model_structure';
 import CartPoleImage from '../../assets/images/project_image/CartPole/CartPole_image1.png';
 
 function DataScreen() {
-  const { projectName, modelId } = useParams();
+  const { projectName, modelId, task } = useParams();
   const [i, setI] = useState(0);
   const [normalImage, setNormalImage] = useState(null);
   const [preImage, setPreImage] = useState(null);
@@ -20,10 +20,24 @@ function DataScreen() {
   const handleClick = async () => {
     try {
       const InputInfo = await getModelInput(modelId);
-      const data = {
-        project_name: projectName,
-        input_info: InputInfo
+      let data = {}
+      console.log(task)
+      if (task === "ImageClassification") {
+        console.log(task)
+        const augmentation = await getModelAugmentation(modelId)
+        data = {
+          augmentation: augmentation,
+          project_name: projectName,
+          input_info: InputInfo
+        }
+        console.log(data)
+      } else {
+        data = {
+          project_name: projectName,
+          input_info: InputInfo
+        }
       }
+      
       const response = await fetch('http://127.0.0.1:5000/api/pre_data', {
         method: 'POST',
         headers: {
