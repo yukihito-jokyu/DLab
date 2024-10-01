@@ -175,7 +175,7 @@ function EditTileParameterField({ parameter, inputLayer, convLayer, flattenWay, 
                     value={value}
                     handleChangeParameter={handleChangeAugmentationParameter}
                     setInformation={setInformation}
-                    setParamNames={setParamNames}
+                    setParamName={setParamNames}
                   />
                 </div>
               ))}
